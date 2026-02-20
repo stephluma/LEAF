@@ -1,8 +1,18 @@
-document.querySelector('[name="8"]')
-<input type=​"text" id=​"8" name=​"8" value=​"LEAF-105" trim=​"true" style=​"width:​ 50%;​ font-size:​ 1.3em;​ font-family:​ monospace">​
-document.querySelector('[name="8"]').closest('.response')
-<div class=​"response blockIndicator_8">​…​</div>​
-document.querySelector('[name="30"]')
-<input type=​"text" id=​"30" name=​"30" value trim=​"true" style=​"width:​ 50%;​ font-size:​ 1.3em;​ font-family:​ monospace">​
-document.querySelector('[name="30"]').closest('.response')
-<div class=​"response blockIndicator_30">​…​</div>​
+index.php?a=view&recordID=109:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+index.php?a=view&recordID=109:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+// Check all three fields are findable
+console.log("ind 8:", document.querySelector('[name="8"]')?.value);
+console.log("ind 30:", document.querySelector('[name="30"]'));
+console.log("ind 39:", document.querySelector('[name="39"]'));
+console.log("pkWrap30:", document.getElementById("pkWrap30"));
+console.log("response blocks:", document.querySelectorAll(".response").length);
+VM2918:2 ind 8: LEAF-105
+VM2918:3 ind 30: <input type=​"text" id=​"30" name=​"30" value trim=​"true" style=​"width:​ 50%;​ font-size:​ 1.3em;​ font-family:​ monospace">​
+VM2918:4 ind 39: <input type=​"text" id=​"39" name=​"39" value trim=​"true" style=​"width:​ 50%;​ font-size:​ 1.3em;​ font-family:​ monospace">​
+VM2918:5 pkWrap30: <div id=​"pkWrap30" style=​"max-width:​ 820px;​">​…​</div>​
+VM2918:6 response blocks: 14
+undefined
+// Check what .response contains pkWrap30
+document.getElementById("pkWrap30")?.closest(".response")?.className;
+'response blockIndicator_30'
