@@ -1,0 +1,308 @@
+<link rel="stylesheet" href="./files/ideaportal.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<div class="ip-wrap">
+  <div class="ip-header">
+    <h2 class="ip-title">LEAF Idea Portal - Concept</h2>
+  </div>
+
+  <div class="ip-tabsRow">
+    <div class="ip-tabs" role="tablist" aria-label="Idea views">
+      <button
+        class="ip-tab is-active"
+        id="all-tab"
+        data-ip-tab="all"
+        role="tab"
+        aria-controls="panel-all"
+        aria-selected="true"
+        type="button"
+      >
+        All Ideas
+      </button>
+      <button
+        class="ip-tab"
+        id="top-tab"
+        data-ip-tab="top"
+        role="tab"
+        aria-controls="panel-top"
+        aria-selected="false"
+        type="button"
+      >
+        Top 10 Ideas
+      </button>
+      <button
+        class="ip-tab"
+        id="my-tab"
+        data-ip-tab="my"
+        role="tab"
+        aria-controls="panel-my"
+        aria-selected="false"
+        type="button"
+      >
+        My Ideas
+      </button>
+    </div>
+    <div class="ip-tabsActions">
+      <button
+        class="ip-btn ip-btn--primary"
+        data-ip-open="addIdeaModal"
+        id="addIdeaButton"
+      >
+        Add Idea
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="ip-panel is-active"
+    id="panel-all"
+    role="tabpanel"
+    aria-labelledby="all-tab"
+  >
+    <div class="ip-tableWrap">
+      <div class="ip-tableTitle">All Ideas</div>
+      <div class="ip-search" id="ipSearchSection">
+        <div class="ip-searchField">
+          <input
+            type="text"
+            class="ip-input"
+            id="searchInput"
+            placeholder="Search ideas..."
+          />
+        </div>
+      </div>
+      <table id="tblIdeas" class="ip-table">
+        <thead>
+          <tr>
+            <th class="ip-sortable" data-sort="id">ID</th>
+            <th class="ip-sortable" data-sort="title">Title</th>
+            <th class="ip-sortable" data-sort="category">Category</th>
+            <th class="ip-sortable" data-sort="status">Status</th>
+            <th class="ip-sortable" data-sort="votes">Votes</th>
+            <th class="ip-col-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="results"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div
+    class="ip-panel"
+    id="panel-top"
+    role="tabpanel"
+    aria-labelledby="top-tab"
+  >
+    <div class="ip-tableWrap">
+      <div class="ip-tableTitle">Top 10 Ideas</div>
+      <table id="tblTopIdeas" class="ip-table">
+        <thead>
+          <tr>
+            <th class="ip-sortable" data-sort="id">ID</th>
+            <th class="ip-sortable" data-sort="title">Title</th>
+            <th class="ip-sortable" data-sort="category">Category</th>
+            <th class="ip-sortable" data-sort="status">Status</th>
+            <th class="ip-sortable" data-sort="votes">Votes</th>
+            <th class="ip-col-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="topResults"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="ip-panel" id="panel-my" role="tabpanel" aria-labelledby="my-tab">
+    <div class="ip-tableWrap">
+      <div class="ip-tableTitle">My Ideas</div>
+      <table id="tblMyIdeas" class="ip-table">
+        <thead>
+          <tr>
+            <th class="ip-sortable" data-sort="id">ID</th>
+            <th class="ip-sortable" data-sort="title">Title</th>
+            <th class="ip-sortable" data-sort="category">Category</th>
+            <th class="ip-sortable" data-sort="status">Status</th>
+            <th class="ip-sortable" data-sort="votes">Votes</th>
+            <th class="ip-col-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="myResults"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div
+  class="ip-modal"
+  id="addIdeaModal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="addIdeaModalLabel"
+  aria-hidden="true"
+>
+  <div class="ip-modal__overlay" data-ip-close="addIdeaModal"></div>
+  <div class="ip-modal__content" role="document">
+    <div class="ip-modal__header">
+      <h3 class="ip-modal__title" id="addIdeaModalLabel">Add Idea</h3>
+      <button
+        type="button"
+        class="ip-btn ip-btn--icon"
+        aria-label="Close"
+        data-ip-close="addIdeaModal"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="ip-modal__body">
+      <form id="ideaForm" class="ip-form needs-validation" novalidate>
+        <div id="submissionAlert" class="ip-alert" role="alert" hidden>
+          Your idea has been submitted successfully.
+        </div>
+        <div class="ip-field">
+          <label for="inpTitle" class="ip-label">Idea Title</label>
+          <input type="text" class="ip-input" id="inpTitle" required />
+          <div class="ip-error">Please provide a title for your idea.</div>
+        </div>
+        <div class="ip-field">
+          <label for="inpDescription" class="ip-label">Idea Description</label>
+          <textarea
+            class="ip-input ip-textarea"
+            id="inpDescription"
+            rows="3"
+            required
+          ></textarea>
+          <div class="ip-error">Please provide a description of your idea.</div>
+        </div>
+        <div class="ip-field">
+          <label for="inpBenefit" class="ip-label">Idea Benefit(s)</label>
+          <textarea
+            class="ip-input ip-textarea"
+            id="inpBenefit"
+            rows="3"
+            required
+          ></textarea>
+          <div class="ip-error">Briefly describe the benefit of your idea.</div>
+        </div>
+        <div class="ip-field">
+          <label for="inpCategory" class="ip-label">Idea Category</label>
+          <select class="ip-input" id="inpCategory" required>
+            <option selected disabled value="">
+              Click here to select a category
+            </option>
+            <option value="Email Template">Email Template</option>
+            <option value="Forms">Forms</option>
+            <option value="Inbox">Inbox</option>
+            <option value="Nexus">Nexus</option>
+            <option value="Print to PDF">Print to PDF</option>
+            <option value="Report Builder">Report Builder</option>
+            <option value="Support">Support</option>
+            <option value="Training">Training</option>
+            <option value="User Access Groups">User Access Groups</option>
+            <option value="User Interface">User Interface</option>
+            <option value="Workflow">Workflow</option>
+            <option value="Other">Other</option>
+          </select>
+          <div class="ip-error">Please select a category.</div>
+        </div>
+        <div class="ip-field">
+          <label for="inpImpact" class="ip-label">Idea Impact</label>
+          <select class="ip-input" id="inpImpact" required>
+            <option selected disabled value="">
+              Click here to select the impact
+            </option>
+            <option value="Impacts National">Impacts National</option>
+            <option value="Impacts Regional">Impacts Regional</option>
+            <option value="Impacts Local Facility">
+              Impacts Local Facility
+            </option>
+            <option value="Impact is one or more, but not all users">
+              Impact is one or more, but not all users
+            </option>
+          </select>
+          <div class="ip-error">Please select an impact level.</div>
+        </div>
+        <div class="ip-field">
+          <label for="fileInput" class="ip-label">
+            Upload Images (e.g. Concepts/Screenshots To Support Your Idea)
+          </label>
+          <input
+            id="fileInput"
+            name="fileInput"
+            type="file"
+            aria-labelledby="format_label_18"
+            onchange="addFile_XXXXX_18_1(this.id, 1, 'image')"
+            accept="image/*"
+            class="ip-fileInput"
+          />
+          <ul id="fileList" class="ip-fileList"></ul>
+        </div>
+        <div class="ip-actions">
+          <button
+            type="submit"
+            class="ip-btn ip-btn--primary"
+            id="submitButton"
+          >
+            Submit Your Idea
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="ip-recordModal" id="ipRecordModal" aria-hidden="true">
+  <div class="ip-recordModal__backdrop" data-ip-record-close="1"></div>
+  <div
+    class="ip-recordModal__dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Idea details"
+  >
+    <div class="ip-recordModal__header">
+      <div class="ip-recordModal__title" id="ipRecordModalTitle">
+        Idea Details
+      </div>
+      <div class="ip-recordModal__actions">
+        <button
+          type="button"
+          class="ip-btn ip-btn--ghost ip-recordModal__openTab"
+          id="ipRecordModalOpenTabBtn"
+          aria-label="Open in new tab"
+        >
+          Open in new tab
+        </button>
+        <button
+          type="button"
+          class="ip-btn ip-btn--ghost ip-btn--icon ip-recordModal__close"
+          id="ipRecordModalCloseBtn"
+          aria-label="Close"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+    <div class="ip-recordModal__body">
+      <iframe
+        id="ipRecordModalFrame"
+        class="ip-recordModal__frame"
+        title="LEAF content"
+      ></iframe>
+    </div>
+  </div>
+</div>
+
+<button
+  type="button"
+  class="ip-jumpTop"
+  id="ipJumpTopBtn"
+  aria-label="Jump to top"
+>
+  ↑
+</button>
+
+<script>
+  window.leafIdeaPortal = {
+    userID: "<!--{$userID|unescape|escape:'quotes'}-->",
+    csrfToken: "<!--{$CSRFToken|unescape|escape:'quotes'}-->",
+  };
+</script>
+<script src="./files/ideaportal.js"></script>
