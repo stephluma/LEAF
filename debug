@@ -1,5 +1,8 @@
-META | name: viewport | id:  | value: undefined
-VM499:2 INPUT | name: userID | id:  | value: oitauslumags
-VM499:2 INPUT | name: note | id: note | value: 
-
-<input type="text" id="8" name="8" value="LEAF-105" trim="true" style="width: 50%; font-size: 1.3em; font-family: monospace">
+document.querySelector('[name="8"]')
+<input type=​"text" id=​"8" name=​"8" value=​"LEAF-105" trim=​"true" style=​"width:​ 50%;​ font-size:​ 1.3em;​ font-family:​ monospace">​
+document.querySelector('[name="8"]').closest('.response')
+<div class=​"response blockIndicator_8">​…​</div>​
+document.querySelector('[name="30"]')
+<input type=​"text" id=​"30" name=​"30" value trim=​"true" style=​"width:​ 50%;​ font-size:​ 1.3em;​ font-family:​ monospace">​
+document.querySelector('[name="30"]').closest('.response')
+<div class=​"response blockIndicator_30">​…​</div>​
