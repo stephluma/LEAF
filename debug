@@ -1,10 +1,5 @@
-INPUT | name:  | id: pmSearchInput | class: pm-input
-VM2454:3 SELECT | name:  | id: pmProjectFiscalYearSelect | class: pm-select
-VM2454:3 SELECT | name:  | id: pmProjectKeySelect | class: pm-select
-VM2454:3 SELECT | name:  | id: pmStatusSelect | class: pm-select
-VM2454:3 SELECT | name:  | id: pmAssigneeSelect | class: pm-select
-VM2454:3 SELECT | name:  | id: pmCategorySelect | class: pm-select
-VM2454:3 SELECT | name:  | id: pmPrioritySelect | class: pm-select
-VM2454:3 SELECT | name:  | id: pmAnalyticsGeneralYearSelect | class: pm-select
-VM2454:3 SELECT | name:  | id: pmAnalyticsGeneralQuarterSelect | class: pm-select
-VM2454:3 SELECT | name:  | id: pmOkrFiscalYearSelect | class: pm-select
+META | name: viewport | id:  | value: undefined
+VM499:2 INPUT | name: userID | id:  | value: oitauslumags
+VM499:2 INPUT | name: note | id: note | value: 
+
+<input type="text" id="8" name="8" value="LEAF-105" trim="true" style="width: 50%; font-size: 1.3em; font-family: monospace">
