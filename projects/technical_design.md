@@ -102,12 +102,6 @@ Projects and tasks logic:
   - Projects referenced by tasks for that KR that can be resolved in the project map.
 - Tasks are deduped by stable task identifiers to prevent double counting.
 
-“Other contributing items”:
-
-- Includes tasks that match OKR+KR but have missing or unresolvable project keys.
-- Hidden entirely when count = 0.
-- Sorted: incomplete first, then alphabetical by task name.
-
 Percent completion:
 
 - KR percent = completed tasks / total tasks for the KR.
