@@ -1,10 +1,12 @@
 projects/:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
     at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
 projects/:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-project_v7.js:4833  Failed to load data. ReferenceError: projectsToRender is not defined
-    at project_v7.js:1494:27
+project_v7.js:4833  Failed to load data. ReferenceError: tasksByProjectKey is not defined
+    at project_v7.js:1598:41
     at Array.map (<anonymous>)
-    at project_v7.js:1455:14
+    at project_v7.js:1575:26
+    at Array.map (<anonymous>)
+    at project_v7.js:1562:18
     at Array.map (<anonymous>)
     at renderOkrsRollup (project_v7.js:1443:10)
     at applySearchAndFilters (project_v7.js:3464:11)
