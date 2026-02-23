@@ -11,38 +11,3 @@ project_v7.js:4833  Failed to load data. ReferenceError: projectsToRender is not
     at setActiveTab (project_v7.js:2925:5)
     at HTMLDocument.main (project_v7.js:4826:7)
 main @ project_v7.js:4833
-project_v7.js:1494  Uncaught ReferenceError: projectsToRender is not defined
-    at project_v7.js:1494:27
-    at Array.map (<anonymous>)
-    at project_v7.js:1455:14
-    at Array.map (<anonymous>)
-    at renderOkrsRollup (project_v7.js:1443:10)
-    at applySearchAndFilters (project_v7.js:3464:11)
-    at setView (project_v7.js:3036:7)
-    at HTMLButtonElement.<anonymous> (project_v7.js:3043:7)
-project_v7.js:1494  Uncaught ReferenceError: projectsToRender is not defined
-    at project_v7.js:1494:27
-    at Array.map (<anonymous>)
-    at project_v7.js:1455:14
-    at Array.map (<anonymous>)
-    at renderOkrsRollup (project_v7.js:1443:10)
-    at applySearchAndFilters (project_v7.js:3464:11)
-    at setActiveTab (project_v7.js:2925:5)
-    at HTMLButtonElement.<anonymous> (project_v7.js:2888:9)
-project_v7.js:1494  Uncaught ReferenceError: projectsToRender is not defined
-    at project_v7.js:1494:27
-    at Array.map (<anonymous>)
-    at project_v7.js:1455:14
-    at Array.map (<anonymous>)
-    at renderOkrsRollup (project_v7.js:1443:10)
-    at applySearchAndFilters (project_v7.js:3464:11)
-    at HTMLButtonElement.<anonymous> (project_v7.js:3534:9)
-project_v7.js:1494  Uncaught ReferenceError: projectsToRender is not defined
-    at project_v7.js:1494:27
-    at Array.map (<anonymous>)
-    at project_v7.js:1455:14
-    at Array.map (<anonymous>)
-    at renderOkrsRollup (project_v7.js:1443:10)
-    at applySearchAndFilters (project_v7.js:3464:11)
-    at setActiveTab (project_v7.js:2925:5)
-    at HTMLButtonElement.<anonymous> (project_v7.js:2888:9)
