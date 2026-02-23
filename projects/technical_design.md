@@ -14,7 +14,7 @@ Version reference: v7.
 
 ## 2) File Structure and Versioning
 
-- `project_v7.html`
+- `project_v7.html (view_homepage.tpl)`
   - Page structure, layout scaffolding, tab containers, and modal plumbing.
   - OKR Analytics containers (filters, quick view, index, roll-up).
 - `project_v7.css`
