@@ -63,7 +63,7 @@ Normalization:
 
 ## 4) OKR Analytics View (v7 Behavior)
 
-### O and KR Health Quick View
+### OKR Health Quick View
 
 Displays compact metrics for the selected Fiscal Year:
 
