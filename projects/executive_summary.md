@@ -1,4 +1,4 @@
-# LEAF Project Dashboard v6 Executive Summary
+# LEAF Project Dashboard - Executive Summary
 
 ## Overview
 
