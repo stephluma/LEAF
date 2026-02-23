@@ -92,7 +92,6 @@ All values use the same OKR aggregation as the cards and update when the FY filt
 Nested content:
 
 - Projects list with tasks nested under each project
-- “Other contributing items” bucket
 
 Projects and tasks logic:
 
