@@ -1,12 +1,48 @@
-project_v7.js:2215 [OKR DEBUG UI] OKR: OKR-22 KR: Conduct one full usability testing cycle per qtr with focus groups
-project_v7.js:2216 [OKR DEBUG UI] Classification: {tasksForKR: 1, uniqueTaskProjectKeys: 1, resolvedProjectCount: 0, projectsToRender: 0, exceptions: 1, …}
-
-Tasks for KR: 1
-Unique task project keys: 1
-Resolved project count: 0
-Projects to render: 0
-Exceptions: 1
-Unresolved project keys:
-Raw: LEAF-105 | Normalized: LEAF-105
-Project map keys (sample):
-None
+projects/:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+projects/:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+project_v7.js:4833  Failed to load data. ReferenceError: projectsToRender is not defined
+    at project_v7.js:1494:27
+    at Array.map (<anonymous>)
+    at project_v7.js:1455:14
+    at Array.map (<anonymous>)
+    at renderOkrsRollup (project_v7.js:1443:10)
+    at applySearchAndFilters (project_v7.js:3464:11)
+    at setActiveTab (project_v7.js:2925:5)
+    at HTMLDocument.main (project_v7.js:4826:7)
+main @ project_v7.js:4833
+project_v7.js:1494  Uncaught ReferenceError: projectsToRender is not defined
+    at project_v7.js:1494:27
+    at Array.map (<anonymous>)
+    at project_v7.js:1455:14
+    at Array.map (<anonymous>)
+    at renderOkrsRollup (project_v7.js:1443:10)
+    at applySearchAndFilters (project_v7.js:3464:11)
+    at setView (project_v7.js:3036:7)
+    at HTMLButtonElement.<anonymous> (project_v7.js:3043:7)
+project_v7.js:1494  Uncaught ReferenceError: projectsToRender is not defined
+    at project_v7.js:1494:27
+    at Array.map (<anonymous>)
+    at project_v7.js:1455:14
+    at Array.map (<anonymous>)
+    at renderOkrsRollup (project_v7.js:1443:10)
+    at applySearchAndFilters (project_v7.js:3464:11)
+    at setActiveTab (project_v7.js:2925:5)
+    at HTMLButtonElement.<anonymous> (project_v7.js:2888:9)
+project_v7.js:1494  Uncaught ReferenceError: projectsToRender is not defined
+    at project_v7.js:1494:27
+    at Array.map (<anonymous>)
+    at project_v7.js:1455:14
+    at Array.map (<anonymous>)
+    at renderOkrsRollup (project_v7.js:1443:10)
+    at applySearchAndFilters (project_v7.js:3464:11)
+    at HTMLButtonElement.<anonymous> (project_v7.js:3534:9)
+project_v7.js:1494  Uncaught ReferenceError: projectsToRender is not defined
+    at project_v7.js:1494:27
+    at Array.map (<anonymous>)
+    at project_v7.js:1455:14
+    at Array.map (<anonymous>)
+    at renderOkrsRollup (project_v7.js:1443:10)
+    at applySearchAndFilters (project_v7.js:3464:11)
+    at setActiveTab (project_v7.js:2925:5)
+    at HTMLButtonElement.<anonymous> (project_v7.js:2888:9)
