@@ -96,9 +96,3 @@ Single source of truth that reduces duplicate reporting and inconsistent metrics
 ### Operational clarity at scale
 
 Scalable reporting structure for portfolio-level decision-making.
-
-## Future Evolution
-
-### Future versions (v7+)
-
-Version tracking continues beginning with v6, with v7 and beyond explicitly tracked.
