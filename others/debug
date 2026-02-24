@@ -1,15 +1,11 @@
-projects/:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+report.php?a=v9:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
     at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-projects/:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-project_v7.js:4833  Failed to load data. ReferenceError: tasksByProjectKey is not defined
-    at project_v7.js:1598:41
-    at Array.map (<anonymous>)
-    at project_v7.js:1575:26
-    at Array.map (<anonymous>)
-    at project_v7.js:1562:18
-    at Array.map (<anonymous>)
-    at renderOkrsRollup (project_v7.js:1443:10)
-    at applySearchAndFilters (project_v7.js:3464:11)
-    at setActiveTab (project_v7.js:2925:5)
-    at HTMLDocument.main (project_v7.js:4826:7)
-main @ project_v7.js:4833
+report.php?a=v9:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+project_v9.js:3163  Uncaught ReferenceError: KANBAN_RENDER_LIMIT is not defined
+    at project_v9.js:3163:30
+    at Array.forEach (<anonymous>)
+    at getKanbanCacheEntry (project_v9.js:3161:13)
+    at renderKanban (project_v9.js:3325:17)
+    at renderTasksView (project_v9.js:5154:7)
+    at setView (project_v9.js:4021:9)
+    at HTMLButtonElement.<anonymous> (project_v9.js:4032:7)
