@@ -1,14 +1,16 @@
-const footer = document.getElementById("footer");
-console.log("footer parent:", footer.parentElement.outerHTML.substring(0, 300));
-console.log(
-  "smarty-root parent:",
-  document.querySelector(".smarty-root").parentElement.tagName,
-);
-console.log(
-  "are siblings:",
-  footer.parentElement === document.querySelector(".smarty-root").parentElement,
-);
-VM815:2 footer parent: <body class="smarty page-ideaportal"><a href="#bodyarea" id="nav-skip-link">Skip to main content</a><header id="header"><div style="float: left;"><div id="qrcode-js" style="width: 72px; display: none;" title="https%3A%2F%2Fleaf.va.gov%2Fplatform%2Fideas%2Freport.php%3Fa%3D1_test"><canvas width="72" 
-VM815:3 smarty-root parent: DIV
-VM815:7 are siblings: false
+const f = document.getElementById("footer");
+const r = f.getBoundingClientRect();
+const s = window.getComputedStyle(f);
+console.log("height:", r.height);
+console.log("padding:", s.padding);
+console.log("font-size:", s.fontSize);
+console.log("bottom distance:", window.innerHeight - r.bottom);
+console.log("background:", s.backgroundColor);
+console.log("color:", s.color);
+VM822:4 height: 56
+VM822:5 padding: 4px
+VM822:6 font-size: 10px
+VM822:7 bottom distance: -451.59375
+VM822:8 background: rgba(0, 0, 0, 0)
+VM822:9 color: rgb(0, 0, 0)
 undefined
