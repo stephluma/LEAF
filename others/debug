@@ -1,18 +1,1 @@
-report.php?a=1_test:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-report.php?a=1_test:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-ideas_1.js:1540  IdeaPortal:  is loaded but no longer required.
-(anonymous) @ ideas_1.js:1540
-/platform/ideas/api/form/indicator/8/:1   Failed to load resource: the server responded with a status of 400 (Bad Request)
-ideas_1.js:126  IdeaPortal API error Object
-(anonymous) @ ideas_1.js:126
-/platform/ideas/api/form/indicator/9/:1   Failed to load resource: the server responded with a status of 400 (Bad Request)
-ideas_1.js:126  IdeaPortal API error Object
-(anonymous) @ ideas_1.js:126
-ideas_1.js:938 [IdeaVotes] payload Object
-ideas_1.js:942 [IdeaVotes] raw response Forms associated with this request are unpublished.  Please check the New Request page or contact an administrator about possible form updates.
-ideas_1.js:957  [IdeaVotes] failed response: Forms associated with this request are unpublished.  Please check the New Request page or contact an administrator about possible form updates.
-(anonymous) @ ideas_1.js:957
-index.php?a=printview&recordID=4:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-index.php?a=printview&recordID=4:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+OK(OA)|name=ruxitagentjs|featureHash=ICA7NVfhqrux|version=|buildNumber=10323250822043923|lastModification=1772212468716
