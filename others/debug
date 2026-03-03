@@ -1,5 +1,7 @@
- position: static
- margin-top: 0px
- height: 56px
- actions cell scrollWidth: 139
- actions cell clientWidth: 139
+VM396:3 table offsetWidth: 872
+VM396:4 wrap clientWidth: 912
+VM396:5 table minWidth: 840px
+VM396:9 th6 width: 160px
+VM396:10 td6 width: 144.698px
+VM396:11 td6 scrollWidth: 143
+undefined
