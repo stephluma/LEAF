@@ -1,30 +1,57 @@
-// Get the full form structure for the ideas form (form_ae642)
-fetch('/platform/ideas/api/form/ae642/', {credentials: 'same-origin'})
-  .then(r => r.text()).then(console.log)
+index.php?a=printview&recordID=5:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+index.php?a=printview&recordID=5:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+fetch(
+  "/platform/ideas/api/form/query/?q=%7B%22terms%22%3A%5B%5D%7D&x-filterData=10",
+  { credentials: "same-origin" },
+)
+  .then((r) => r.text())
+  .then(console.log);
 Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   GET https://leaf.va.gov/platform/ideas/api/form/ae642/ 400 (Bad Request)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
-fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
-ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
-(anonymous) @ VM1595:2
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 "Controller is undefined."
-// Try getting indicator definition directly by ID
-fetch('/platform/ideas/api/form/ae642/indicator/8/', {credentials: 'same-origin'})
-  .then(r => r.text()).then(console.log)
-Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   GET https://leaf.va.gov/platform/ideas/api/form/ae642/indicator/8/ 400 (Bad Request)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
-fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
-ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
-(anonymous) @ VM1611:2
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 "Controller is undefined."
-// Try theNestedForms/subform approach
-fetch('/platform/ideas/api/form/1/indicator/8/', {credentials: 'same-origin'})
-  .then(r => r.text()).then(console.log)
-Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   GET https://leaf.va.gov/platform/ideas/api/form/1/indicator/8/ 400 (Bad Request)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
-fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
-ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
-(anonymous) @ VM1624:2
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 "Controller is undefined."
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 {"1":[],"2":[],"3":[],"4":[],"5":[]}
+
+//
+
+fetch("https://leaf.va.gov/platform/ideas/ajaxIndex.php?a=getsubmitcontrol&recordID=5&_=1772572940997", {
+  "headers": {
+    "accept": "text/plain, */*; q=0.01",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
+    "x-dtpc": "52$172940854_381h4vFLEGCMURIMAABJSHMKUOQVUFPKUEMMIF-0e0",
+    "x-requested-with": "XMLHttpRequest"
+  },
+  "referrer": "https://leaf.va.gov/platform/ideas/index.php?a=printview&recordID=5",
+  "body": null,
+  "method": "GET",
+  "mode": "cors",
+  "credentials": "include"
+});
+
+//
+
+fetch("https://leaf.va.gov/platform/ideas/api/form/query/?q=%7B%22terms%22%3A%5B%5D%7D&x-filterData=10", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin"
+  },
+  "referrer": "https://leaf.va.gov/platform/ideas/index.php?a=printview&recordID=5",
+  "body": null,
+  "method": "GET",
+  "mode": "cors",
+  "credentials": "include"
+});
