@@ -1,1 +1,19 @@
-<footer class="noprint" id="footer"><br><br><a id="versionID" href="?a=about">VA Light Electronic Action Framework<br>Version 1.0.5 rPUBLIC</a></footer>
+report.php?a=1_test:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+report.php?a=1_test:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+ideas_1.js:1493  IdeaPortal:  is loaded but no longer required.
+(anonymous) @ ideas_1.js:1493
+const footer = document.getElementById("footer");
+console.log("footer parent:", footer.parentElement.outerHTML.substring(0, 300));
+console.log(
+  "smarty-root parent:",
+  document.querySelector(".smarty-root").parentElement.tagName,
+);
+console.log(
+  "are siblings:",
+  footer.parentElement === document.querySelector(".smarty-root").parentElement,
+);
+VM810:2 footer parent: <body class="smarty page-ideaportal"><a href="#bodyarea" id="nav-skip-link">Skip to main content</a><header id="header"><div style="float: left;"><div id="qrcode-js" style="width: 72px; display: none;" title="https%3A%2F%2Fleaf.va.gov%2Fplatform%2Fideas%2Freport.php%3Fa%3D1_test"><canvas width="72" 
+VM810:3 smarty-root parent: DIV
+VM810:7 are siblings: false
+undefined
