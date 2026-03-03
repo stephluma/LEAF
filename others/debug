@@ -1,17 +1,5 @@
-// Check what's winning on the footer
-const f = document.querySelector(".lp-credit-footer");
-const s = window.getComputedStyle(f);
-console.log("position:", s.position);
-console.log("margin-top:", s.marginTop);
-console.log("height:", s.height);
-
-// Check actual rendered width of the actions cell content
-const btn = document.querySelector("#results tr:first-child td:last-child");
-console.log("actions cell scrollWidth:", btn.scrollWidth);
-console.log("actions cell clientWidth:", btn.clientWidth);
-VM119:4 position: static
-VM119:5 margin-top: 0px
-VM119:6 height: 56px
-VM119:10 actions cell scrollWidth: 139
-VM119:11 actions cell clientWidth: 139
-undefined
+ position: static
+ margin-top: 0px
+ height: 56px
+ actions cell scrollWidth: 139
+ actions cell clientWidth: 139
