@@ -1,60 +1,25 @@
 report.php?a=1_test:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
     at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
 report.php?a=1_test:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-ideas_1.js:1482  IdeaPortal:  is loaded but no longer required.
-(anonymous) @ ideas_1.js:1482
-// Manually test the second-step upload against a known recordID
-// Replace 5 with whatever the latest recordID is
-const formData = new FormData();
-const fileInput = document.getElementById("fileInput");
-
-if (fileInput.files.length > 0) {
-  formData.append("10", fileInput.files[0]);
-  fetch("./api/?a=form/5", {
-    method: "POST",
-    credentials: "same-origin",
-    body: formData,
-  })
-    .then((r) => r.text())
-    .then(console.log)
-    .catch(console.error);
-} else {
-  console.log(
-    "No file selected — select a file in the Add Idea form first without submitting",
-  );
-}
-Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   POST https://leaf.va.gov/platform/ideas/api/?a=form/5 401 (Unauthorized)
+report.php?a=1_test:1 [Intervention] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/s/materialsymbolsoutlined/v317/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDCvHOejbdhzrA.woff2
+ideas_1.js:1492  IdeaPortal:  is loaded but no longer required.
+(anonymous) @ ideas_1.js:1492
+ideas_1.js:1219 [IdeaUpload] uploading 1 file(s) to record 7
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   POST https://leaf.va.gov/platform/ideas/api/?a=form/7 401 (Unauthorized)
 dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
 fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
 ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
-(anonymous) @ VM60:8
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 "Invalid Token."
-
-
-//
-// Manually test the second-step upload against a known recordID
-// Replace 5 with whatever the latest recordID is
-const formData = new FormData();
-const fileInput = document.getElementById("fileInput");
-
-if (fileInput.files.length > 0) {
-  formData.append("10", fileInput.files[0]);
-  fetch("./api/?a=form/6", {
-    method: "POST",
-    credentials: "same-origin",
-    body: formData,
-  })
-    .then((r) => r.text())
-    .then(console.log)
-    .catch(console.error);
-} else {
-  console.log(
-    "No file selected — select a file in the Add Idea form first without submitting",
-  );
-}
-VM295:6 Uncaught TypeError: Cannot read properties of null (reading 'files')
-    at <anonymous>:6:15
-(anonymous) @ VM295:6
-
-VM509:21 Uncaught SyntaxError: Unexpected identifier 'Uncaught'
+(anonymous) @ ideas_1.js:1220
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+Gb @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+cb.<computed> @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+then @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
+NewIdea @ ideas_1.js:1207
+(anonymous) @ ideas_1.js:1480
+ideas_1.js:1227 [IdeaUpload] response "Invalid Token."
+index.php?a=printview&recordID=7:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+index.php?a=printview&recordID=7:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
