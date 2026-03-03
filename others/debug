@@ -1,7 +1,6 @@
-VM396:3 table offsetWidth: 872
-VM396:4 wrap clientWidth: 912
-VM396:5 table minWidth: 840px
-VM396:9 th6 width: 160px
-VM396:10 td6 width: 144.698px
-VM396:11 td6 scrollWidth: 143
+VM474:3 position: static
+VM474:4 bottom: auto
+VM474:5 left: auto
+VM474:6 background: rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box
+VM474:7 border-radius: 0px
 undefined
