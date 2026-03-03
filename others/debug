@@ -1,16 +1,1 @@
-const f = document.getElementById("footer");
-const r = f.getBoundingClientRect();
-const s = window.getComputedStyle(f);
-console.log("height:", r.height);
-console.log("padding:", s.padding);
-console.log("font-size:", s.fontSize);
-console.log("bottom distance:", window.innerHeight - r.bottom);
-console.log("background:", s.backgroundColor);
-console.log("color:", s.color);
-VM822:4 height: 56
-VM822:5 padding: 4px
-VM822:6 font-size: 10px
-VM822:7 bottom distance: -451.59375
-VM822:8 background: rgba(0, 0, 0, 0)
-VM822:9 color: rgb(0, 0, 0)
-undefined
+const f = document.getElementById("footer"); const r = f.getBoundingClientRect(); const s = window.getComputedStyle(f); console.log("height:", r.height); console.log("padding:", s.padding); console.log("font-size:", s.fontSize); console.log("bottom distance:", window.innerHeight - r.bottom); console.log("background:", s.backgroundColor); console.log("color:", s.color); VM822:4 height: 56 VM822:5 padding: 4px VM822:6 font-size: 10px VM822:7 bottom distance: -451.59375 VM822:8 background: rgba(0, 0, 0, 0) VM822:9 color: rgb(0, 0, 0) undefined
