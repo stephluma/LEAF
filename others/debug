@@ -1,1 +1,35 @@
-const f = document.getElementById("footer"); const r = f.getBoundingClientRect(); const s = window.getComputedStyle(f); console.log("height:", r.height); console.log("padding:", s.padding); console.log("font-size:", s.fontSize); console.log("bottom distance:", window.innerHeight - r.bottom); console.log("background:", s.backgroundColor); console.log("color:", s.color); VM822:4 height: 56 VM822:5 padding: 4px VM822:6 font-size: 10px VM822:7 bottom distance: -451.59375 VM822:8 background: rgba(0, 0, 0, 0) VM822:9 color: rgb(0, 0, 0) undefined
+report.php?a=1_test:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+report.php?a=1_test:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+report.php?a=1_test:620 [Intervention] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/s/materialsymbolsoutlined/v317/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDCvHOej.woff2
+ideas_1.js:1493  IdeaPortal:  is loaded but no longer required.
+(anonymous) @ ideas_1.js:1493
+// Get the actual class names on the table, wrapper, and badge
+console.log("table classes:", document.querySelector("#tblIdeas").className);
+console.log(
+  "table wrap classes:",
+  document.querySelector("#tblIdeas").parentElement.className,
+);
+console.log(
+  "first badge classes:",
+  document.querySelector("#results .ip-badge")?.className,
+);
+console.log(
+  "lp-credit-footer classes:",
+  document.querySelector(".lp-credit-footer")?.className,
+);
+VM109:2 table classes: ip-table
+VM109:3 table wrap classes: ip-tableWrap
+VM109:7 first badge classes: ip-badge ip-badge--new
+VM109:11 lp-credit-footer classes: lp-credit-footer
+undefined
+// Check which stylesheet is actually winning for the table width
+const td = document.querySelector("#results tr:first-child td:last-child");
+const s = window.getComputedStyle(td);
+console.log("last td width:", s.width);
+console.log("last td overflow:", s.overflow);
+console.log("last td padding-right:", s.paddingRight);
+VM113:4 last td width: 140px
+VM113:5 last td overflow: visible
+VM113:6 last td padding-right: 10px
+undefined
