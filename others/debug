@@ -1,11 +1,15 @@
-fetch('/platform/ideas/api/form/indicator/8/', {credentials: 'same-origin'})
-  .then(r => r.text())
-  .then(console.log)
-  .catch(console.error)
+// Option A — query the form definition directly
+fetch('/platform/ideas/api/form/', {credentials: 'same-origin'})
+  .then(r => r.text()).then(console.log)
 Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   GET https://leaf.va.gov/platform/ideas/api/form/indicator/8/ 400 (Bad Request)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
-fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
-ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
-(anonymous) @ VM1336:1
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 "Controller is undefined."
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 null
+// Option B — query a specific known record to see field structure
+fetch('/platform/ideas/api/form/1/', {credentials: 'same-origin'})
+  .then(r => r.text()).then(console.log)
+Promise {<pending>, then: ƒ}
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 {"label":"name","identifier":"jsonIdx","items":[{"name":"Idea Submission","type":"form","jsonIdx":-2,"series":1,"children":[{"name":"1.1: Idea Summary","desc":"Idea Summary","type":"form_ae642","jsonIdx":"4.1","series":1,"format":"","indicatorID":4}]}]}
+// Option C — query existing ideas and see what values field 8 actually contains
+fetch('/platform/ideas/api/form/query/?q=%7B%22terms%22%3A%5B%5D%7D&x-filterData=8,9', {credentials: 'same-origin'})
+  .then(r => r.text()).then(console.log)
+Promise {<pending>, then: ƒ}
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 {"1":[],"2":[],"3":[],"4":[]}
