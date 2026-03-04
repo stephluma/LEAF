@@ -1,23 +1,24 @@
-report.php?a=2_test:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-report.php?a=2_test:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-report.php?a=2_test:1 [Intervention] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/s/materialsymbolsoutlined/v317/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDCvHOejbdhzrA.woff2
-ideas_2.js:1714  IdeaPortal:  is loaded but no longer required.
-(anonymous) @ ideas_2.js:1714
-ideas_2.js:1512 [Workflow] steps: Array(1)
-fetch('/platform/ideas/api/form/query/?q=' + encodeURIComponent(JSON.stringify({
-  terms: [
-    { id: "userID", operator: "=", match: window.leafIdeaPortal.userID, gate: "AND" },
-    { id: "categoryID", operator: "=", match: "form_ae642", gate: "AND" },
-    { id: "deleted", operator: "=", match: 0, gate: "AND" }
-  ],
-  joins: [],
-  sort: {},
-  getData: ["5", "8", "9", "13", "stepID"]
-})) + '&x-filterData=recordID,title,created_date,userID', {
-  credentials: 'same-origin'
-})
-.then(r => r.text())
-.then(console.log)
+fetch(
+  "/platform/ideas/api/form/query/?q=" +
+    encodeURIComponent(
+      JSON.stringify({
+        terms: [{ id: "deleted", operator: "=", match: 0, gate: "AND" }],
+        joins: [],
+        sort: {},
+        getData: ["5"],
+      }),
+    ) +
+    "&x-filterData=recordID,title,created_date,userID",
+  {
+    credentials: "same-origin",
+  },
+)
+  .then((r) => r.text())
+  .then(console.log);
 Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 ""
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 {"1":{"recordID":1,"userID":"oitauslumags","title":"Test","s1":{"id5":"Test Idea"}},"2":{"recordID":2,"userID":"oitauslumags","title":"test","s1":{"id5":"test"}},"3":{"recordID":3,"userID":"oitauslumags","title":"test","s1":{"id5":"test"}},"4":{"recordID":4,"userID":"oitauslumags","title":"test","s1":{"id5":"Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi."}},"5":{"recordID":5,"userID":"oitauslumags","title":"Image test","s1":{"id5":"Image test"}},"6":{"recordID":6,"userID":"oitauslumags","title":"Test","s1":{"id5":""}},"7":{"recordID":7,"userID":"oitauslumags","title":"test","s1":{"id5":"test"}},"8":{"recordID":8,"userID":"oitauslumags","title":"test","s1":{"id5":"test"}},"9":{"recordID":9,"userID":"oitauslumags","title":"Idea #5","s1":{"id5":null}},"10":{"recordID":10,"userID":"oitauslumags","title":"test","s1":{"id5":"test"}}}
+fetch("/platform/ideas/api/form/", { credentials: "same-origin" })
+  .then((r) => r.text())
+  .then(console.log);
+Promise {<pending>, then: ƒ}
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 null
