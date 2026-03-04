@@ -1,18 +1,6 @@
 fetch(
-  'https://leaf.va.gov/platform/ideas/api/form/query/?q={"terms":[{"id":"categoryID","operator":"=","match":"ae642","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["5"]}&x-filterData=recordID,title,userID',
-  {
-    credentials: "same-origin",
-  },
-)
-  .then((r) => r.text())
-  .then(console.log);
-Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 []
-fetch(
-  'https://leaf.va.gov/platform/ideas/api/form/query/?q={"terms":[{"id":"categoryID","operator":"LIKE","match":"ae642","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["5"]}&x-filterData=recordID,title,userID',
-  {
-    credentials: "same-origin",
-  },
+  'https://leaf.va.gov/platform/ideas/api/form/query/?q={"terms":[{"id":"categoryID","operator":"=","match":"ae642","gate":"AND"}],"joins":[],"sort":{},"getData":["5"]}&x-filterData=recordID,title,userID',
+  { credentials: "same-origin" },
 )
   .then((r) => r.text())
   .then(console.log);
