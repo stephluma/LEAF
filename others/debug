@@ -1,15 +1,20 @@
-fetch("https://leaf.va.gov/platform/ideas/api/form/10/", {
-  credentials: "same-origin",
-})
-  .then((r) => r.text())
-  .then(console.log);
-
-Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 {"label":"name","identifier":"jsonIdx","items":[{"name":"Idea Submission","type":"form","jsonIdx":-2,"series":1,"children":[{"name":"1.1: Idea Summary","desc":"Idea Summary","type":"form_ae642","jsonIdx":"4.1","series":1,"format":"","indicatorID":4}]}]}
-fetch("https://leaf.va.gov/platform/ideas/api/form/1/", {
-  credentials: "same-origin",
-})
+fetch(
+  'https://leaf.va.gov/platform/ideas/api/form/query/?q={"terms":[{"id":"categoryID","operator":"=","match":"ae642","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["5"]}&x-filterData=recordID,title,userID',
+  {
+    credentials: "same-origin",
+  },
+)
   .then((r) => r.text())
   .then(console.log);
 Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 {"label":"name","identifier":"jsonIdx","items":[{"name":"Idea Submission","type":"form","jsonIdx":-2,"series":1,"children":[{"name":"1.1: Idea Summary","desc":"Idea Summary","type":"form_ae642","jsonIdx":"4.1","series":1,"format":"","indicatorID":4}]}]}
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 []
+fetch(
+  'https://leaf.va.gov/platform/ideas/api/form/query/?q={"terms":[{"id":"categoryID","operator":"LIKE","match":"ae642","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["5"]}&x-filterData=recordID,title,userID',
+  {
+    credentials: "same-origin",
+  },
+)
+  .then((r) => r.text())
+  .then(console.log);
+Promise {<pending>, then: ƒ}
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 []
