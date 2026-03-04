@@ -1,18 +1,15 @@
-// Check what userID the portal thinks you are
-console.log("portal userID:", window.leafIdeaPortal.userID);
-
-// Check what userID is on existing records
 fetch(
   "https://leaf.va.gov/platform/ideas/api/form/query/?q=" +
     encodeURIComponent(
       JSON.stringify({
         terms: [
+          { id: "userID", operator: "=", match: "oitauslumags", gate: "AND" },
           { id: "categoryID", operator: "=", match: "form_ae642", gate: "AND" },
           { id: "deleted", operator: "=", match: 0, gate: "AND" },
         ],
         joins: [],
-        sort: { id: "created_date", direction: "desc" },
-        getData: ["5"],
+        sort: {},
+        getData: ["5", "stepID"],
       }),
     ) +
     "&x-filterData=recordID,title,created_date,userID",
@@ -20,20 +17,7 @@ fetch(
     credentials: "same-origin",
   },
 )
-  .then((r) => r.json())
-  .then((data) => {
-    Object.values(data).forEach((r) => {
-      console.log("recordID:", r.recordID, "userID:", r.userID);
-    });
-  });
-VM164:2 portal userID: oitauslumags
+  .then((r) => r.text())
+  .then(console.log);
 Promise {<pending>, then: ƒ}
-VM164:26 recordID: 1 userID: oitauslumags
-VM164:26 recordID: 2 userID: oitauslumags
-VM164:26 recordID: 3 userID: oitauslumags
-VM164:26 recordID: 4 userID: oitauslumags
-VM164:26 recordID: 5 userID: oitauslumags
-VM164:26 recordID: 6 userID: oitauslumags
-VM164:26 recordID: 7 userID: oitauslumags
-VM164:26 recordID: 8 userID: oitauslumags
-VM164:26 recordID: 10 userID: oitauslumags
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 ""
