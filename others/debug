@@ -18,3 +18,4 @@ fetch(
   .then(console.log);
 Promise {<pending>, then: ƒ}
 ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 ""
+
