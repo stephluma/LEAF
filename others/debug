@@ -1,5 +1,19 @@
-fetch("./api/workflow/1/", { credentials: "same-origin" })
+fetch("./api/formWorkflow/X/apply", {
+  method: "POST",
+  credentials: "same-origin",
+  headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  body: new URLSearchParams({
+    CSRFToken: window.leafIdeaPortal.csrfToken,
+    actionType: "submit",
+    dependencyID: 1,
+  }),
+})
   .then((r) => r.text())
   .then(console.log);
 Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 {"1":{"stepID":1,"workflowID":1,"stepTitle":"LEAF Team Review","stepBgColor":"#fffdcd","stepFontColor":"black","stepBorder":"1px solid black","jsSrc":"","posX":469,"posY":139,"indicatorID_for_assigned_empUID":null,"indicatorID_for_assigned_groupID":null,"requiresDigitalSignature":null,"stepData":null,"initialStepID":1,"description":"Ideas"}}
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   POST https://leaf.va.gov/platform/ideas/api/formWorkflow/X/apply 400 (Bad Request)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
+(anonymous) @ VM180:1
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 "Controller is undefined."
