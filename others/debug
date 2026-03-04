@@ -1,10 +1,16 @@
-fetch(
-  'https://leaf.va.gov/platform/ideas/api/form/query/?q={"terms":[{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["5"]}&x-filterData=recordID,title,categoryID,userID',
-  {
-    credentials: "same-origin",
-  },
-)
+etch("https://leaf.va.gov/platform/ideas/api/form/10/", {
+  credentials: "same-origin",
+})
+  .then((r) => r.text())
+  .then(console.log);
+VM289:1 Uncaught ReferenceError: etch is not defined
+    at <anonymous>:1:1
+(anonymous) @ VM289:1
+fetch("https://leaf.va.gov/platform/ideas/api/form/1/", {
+  credentials: "same-origin",
+})
   .then((r) => r.text())
   .then(console.log);
 Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 {"1":{"recordID":1,"userID":"oitauslumags","title":"Test","s1":{"id5":"Test Idea"}},"2":{"recordID":2,"userID":"oitauslumags","title":"test","s1":{"id5":"test"}},"3":{"recordID":3,"userID":"oitauslumags","title":"test","s1":{"id5":"test"}},"4":{"recordID":4,"userID":"oitauslumags","title":"test","s1":{"id5":"Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi."}},"5":{"recordID":5,"userID":"oitauslumags","title":"Image test","s1":{"id5":"Image test"}},"6":{"recordID":6,"userID":"oitauslumags","title":"Test","s1":{"id5":""}},"7":{"recordID":7,"userID":"oitauslumags","title":"test","s1":{"id5":"test"}},"8":{"recordID":8,"userID":"oitauslumags","title":"test","s1":{"id5":"test"}},"9":{"recordID":9,"userID":"oitauslumags","title":"Idea #5","s1":{"id5":null}},"10":{"recordID":10,"userID":"oitauslumags","title":"test","s1":{"id5":"test"}}}
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 {"label":"name","identifier":"jsonIdx","items":[{"name":"Idea Submission","type":"form","jsonIdx":-2,"series":1,"children":[{"name":"1.1: Idea Summary","desc":"Idea Summary","type":"form_ae642","jsonIdx":"4.1","series":1,"format":"","indicatorID":4}]}]}
+
