@@ -1,5 +1,22 @@
-VM93:3 category options: 13
-VM93:4 impact options: 5
-VM93:5 first category: Email Template
-VM93:6 first impact: Impacts National
-undefined
+report.php?a=1_test:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+report.php?a=1_test:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+ideas_1.js:1526  IdeaPortal:  is loaded but no longer required.
+(anonymous) @ ideas_1.js:1526
+fetch("./ajaxIndex.php?a=getindicator&indicatorID=8&series=1&recordID=0", {
+  credentials: "same-origin",
+})
+  .then((r) => r.json())
+  .then((data) => console.log(JSON.stringify(data, null, 2)))
+  .catch((err) => console.error("failed:", err));
+Promise {<pending>, then: ƒ}
+VM86:6  failed: SyntaxError: Unexpected token '<', "<input nam"... is not valid JSON
+(anonymous) @ VM86:6
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+Hb @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+cb.<computed> @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+then @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
+(anonymous) @ VM86:6
