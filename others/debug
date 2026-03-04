@@ -1,11 +1,9 @@
+// Try without userID filter - does this return anything?
 fetch(
   "https://leaf.va.gov/platform/ideas/api/form/query/?q=" +
     encodeURIComponent(
       JSON.stringify({
-        terms: [
-          { id: "userID", operator: "=", match: "oitauslumags", gate: "AND" },
-          { id: "deleted", operator: "=", match: 0, gate: "AND" },
-        ],
+        terms: [{ id: "deleted", operator: "=", match: 0, gate: "AND" }],
         joins: [],
         sort: {},
         getData: ["5", "stepID"],
@@ -17,10 +15,6 @@ fetch(
   },
 )
   .then((r) => r.text())
-  .then(console.log); 
+  .then(console.log);
 Promise {<pending>, then: ƒ}
 ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 ""
-// In browser console on the ideaportal page
-console.log("FORM_IDS:", JSON.stringify(window.FORM_IDS || "not exposed"));
-VM196:2 FORM_IDS: "not exposed"
-undefined
