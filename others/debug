@@ -1,3 +1,10 @@
+report.php?a=2_test:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+report.php?a=2_test:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+report.php?a=2_test:1 [Intervention] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/s/materialsymbolsoutlined/v317/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDCvHOejbdhzrA.woff2
+ideas_2.js:1714  IdeaPortal:  is loaded but no longer required.
+(anonymous) @ ideas_2.js:1714
+ideas_2.js:1512 [Workflow] steps: Array(1)
 // Also try this exact format that mirrors what worked earlier
 fetch(
   'https://leaf.va.gov/platform/ideas/api/form/query/?q={"terms":[{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["5"]}&x-filterData=recordID,title,created_date,userID',
