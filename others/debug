@@ -1,27 +1,5 @@
-fetchWorkflowSteps().then((steps) =>
-  console.log(JSON.stringify(steps, null, 2)),
-);
-Promise {<pending>}
-ideas_2.js:1493 [Workflow] steps: [Array(2)]
-VM172:2 [
-  [
-    "1",
-    {
-      "stepID": 1,
-      "workflowID": 1,
-      "stepTitle": "LEAF Team Review",
-      "stepBgColor": "#fffdcd",
-      "stepFontColor": "black",
-      "stepBorder": "1px solid black",
-      "jsSrc": "",
-      "posX": 469,
-      "posY": 139,
-      "indicatorID_for_assigned_empUID": null,
-      "indicatorID_for_assigned_groupID": null,
-      "requiresDigitalSignature": null,
-      "stepData": null,
-      "initialStepID": 1,
-      "description": "Ideas"
-    }
-  ]
-]
+fetch("./api/workflow/1/", { credentials: "same-origin" })
+  .then((r) => r.text())
+  .then(console.log);
+Promise {<pending>, then: ƒ}
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 {"1":{"stepID":1,"workflowID":1,"stepTitle":"LEAF Team Review","stepBgColor":"#fffdcd","stepFontColor":"black","stepBorder":"1px solid black","jsSrc":"","posX":469,"posY":139,"indicatorID_for_assigned_empUID":null,"indicatorID_for_assigned_groupID":null,"requiresDigitalSignature":null,"stepData":null,"initialStepID":1,"description":"Ideas"}}
