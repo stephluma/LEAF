@@ -1,9 +1,27 @@
-report.php?a=2_test:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-report.php?a=2_test:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-ideas_2.js:1681  IdeaPortal:  is loaded but no longer required.
-(anonymous) @ ideas_2.js:1681
-ideas_2.js:1493 [Workflow] steps: Array(1)0: (2) ['1', {…}]length: 1[[Prototype]]: Array(0)
-fetchWorkflowSteps()
+fetchWorkflowSteps().then((steps) =>
+  console.log(JSON.stringify(steps, null, 2)),
+);
 Promise {<pending>}
 ideas_2.js:1493 [Workflow] steps: [Array(2)]
+VM172:2 [
+  [
+    "1",
+    {
+      "stepID": 1,
+      "workflowID": 1,
+      "stepTitle": "LEAF Team Review",
+      "stepBgColor": "#fffdcd",
+      "stepFontColor": "black",
+      "stepBorder": "1px solid black",
+      "jsSrc": "",
+      "posX": 469,
+      "posY": 139,
+      "indicatorID_for_assigned_empUID": null,
+      "indicatorID_for_assigned_groupID": null,
+      "requiresDigitalSignature": null,
+      "stepData": null,
+      "initialStepID": 1,
+      "description": "Ideas"
+    }
+  ]
+]
