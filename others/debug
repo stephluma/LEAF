@@ -1,4 +1,4 @@
-fetch("./api/formWorkflow/X/apply", {
+fetch("./api/formWorkflow/2/apply", {
   method: "POST",
   credentials: "same-origin",
   headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -17,3 +17,5 @@ fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
 ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
 (anonymous) @ VM180:1
 ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 "Controller is undefined."
+
+VM190:13 Uncaught SyntaxError: Unexpected token '{'
