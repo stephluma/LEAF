@@ -1,8 +1,9 @@
-fetch(
-  'https://leaf.va.gov/platform/ideas/api/form/query/?q={"terms":[{"id":"categoryID","operator":"LIKE","match":"ae642","gate":"AND"}],"joins":[],"sort":{},"getData":["5"]}&x-filterData=recordID,title,userID',
-  { credentials: "same-origin" },
-)
-  .then((r) => r.text())
-  .then(console.log);
-Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250 []
+I'd recommend taking a look at the APIs and techniques in here as a starting point: https://github.com/department-of-veterans-affairs/LEAF-Developer-Examples/blob/master/utility/massAction_Copy_Data.tpl
+ 
+We don't have a copy API (we technically have one for files, but we should not be using it and will migrate away from it), and instead we should use existing Read/Write APIs to "Copy" records.
+ 
+The starting point is an example of copying data from one record ID to another, but the core components can be used to implement a better "Copy Request" function.
+ 
+The key Read API you'll need is: ./form/[recordID]/data (Example: https://leaf.va.gov/Academy/Demo1/api/form/1/data). This outputs all data associated with a record. Note that it's based on the latest version of the Form. Therefore if a field is removed from the form, the related data field will not show up. You can alternately use the query API, but you'd need to manually define the data fields you need with this: https://github.com/department-of-veterans-affairs/LEAF-Developer-Examples/tree/master/forms#read-one-or-more-records
+
+The standard Read/Write APIs are listed here: https://github.com/department-of-veterans-affairs/LEAF-Developer-Examples/blob/master/forms/README.md
