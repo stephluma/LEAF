@@ -1,3 +1,3 @@
 $('.sublabel.blockIndicator_45').hide();
 $('.response.blockIndicator_45').hide();
-S.fn.init {length: 0, prevObject: S.fn.init}
+S.fn.init {0: div.response.blockIndicator_45, length: 1, prevObject: S.fn.init}
