@@ -1,44 +1,20 @@
-fetch('/platform/projects/report.php?a=LEAF_Start_Request&id=form_9b302&title=Task', {
-  credentials: 'include'
-})
-.then(r => r.text())
-.then(html => {
-  var appendMatch = html.match(/formData\.append\(\s*['"]CSRFToken['"]\s*,\s*['"]([a-f0-9]+)['"]\s*\)/i);
-  var token = appendMatch ? appendMatch[1] : null;
-  console.log('token:', token);
-
-  var body = new URLSearchParams();
-  body.append('CSRFToken', token);
-  body.append('dependencyID', '0');
-  body.append('actionType', 'Submit');
-  body.append('comment', 'Auto-submitted by recurring task copy.');
-
-  return fetch('/platform/projects/api/formWorkflow/139/apply', {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      'x-requested-with': 'XMLHttpRequest',
-      'x-csrf-token': token
-    },
-    body: body.toString()
-  })
-  .then(r => r.text())
-  .then(d => console.log('apply response:', d));
-});
-Promise {<pending>, then: ƒ}
-VM6054:8 token: fa2863704c6dbe8c6583ad3784822afe68ff4dbd720f51a92fc10f77f7617736
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   POST https://leaf.va.gov/platform/projects/api/formWorkflow/139/apply 409 (Conflict)
+report.php?a=dashboard:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+report.php?a=dashboard:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+project_v10.js:928 CSRF token fetched via formData.append match.
+project_v10.js:402 Recurring task copied: source=137 → new=143
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   POST https://leaf.va.gov/platform/projects/api/formWorkflow/143/apply 409 (Conflict)
 dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
 fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
 ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
-(anonymous) @ VM6054:16
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
-Gb @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
-cb.<computed> @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
-then @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
-(anonymous) @ VM6054:5
-VM6054:27 apply response: "This page is out of date. Please refresh for the latest status."
+copyRecurringTask @ project_v10.js:427
+await in copyRecurringTask
+checkAndCopyResolvedRecurringTasks @ project_v10.js:330
+await in checkAndCopyResolvedRecurringTasks
+main @ project_v10.js:7348
+project_v10.js:332  Failed to copy recurring task 137 Error: Workflow submit failed HTTP 409
+    at copyRecurringTask (project_v10.js:439:13)
+    at async checkAndCopyResolvedRecurringTasks (project_v10.js:330:11)
+checkAndCopyResolvedRecurringTasks @ project_v10.js:332
+await in checkAndCopyResolvedRecurringTasks
+main @ project_v10.js:7348
