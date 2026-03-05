@@ -1,35 +1,11 @@
-created new blank task record to see what an unsubmitted record looks like = console log message:
-fetch('/platform/projects/api/form/new', {
-  method: 'POST',
-  credentials: 'include',
-  headers: {'x-requested-with': 'XMLHttpRequest'},
-  body: (() => { var fd = new FormData(); fd.append('numform_9b302', '1'); fd.append('title', 'test'); return fd; })()
+most recently copied record: 
+/platform/projects/index.php?a=printview&recordID=132:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+/platform/projects/index.php?a=printview&recordID=132:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+fetch('https://leaf.va.gov/platform/projects/api/formWorkflow/128/currentStep', {
+  credentials: 'include'
 })
 .then(r => r.json())
-.then(newID => {
-  console.log('new record ID:', newID);
-  return fetch('/platform/projects/api/formWorkflow/' + newID + '/currentStep', {credentials: 'include'})
-    .then(r => r.json())
-    .then(d => console.log('current step:', JSON.stringify(d, null, 2)));
-});
+.then(d => console.log(JSON.stringify(d, null, 2)));
 Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   POST https://leaf.va.gov/platform/projects/api/form/new 401 (Unauthorized)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
-fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
-ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
-(anonymous) @ VM4764:1
-VM4764:9 new record ID: Invalid Token.
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   GET https://leaf.va.gov/platform/projects/api/formWorkflow/Invalid%20Token./currentStep 400 (Bad Request)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
-fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
-ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
-(anonymous) @ VM4764:10
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
-Gb @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
-cb.<computed> @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
-then @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
-(anonymous) @ VM4764:8
-VM4764:12 current step: "Controller is undefined."
+VM5280:5 null
