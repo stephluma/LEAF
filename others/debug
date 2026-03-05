@@ -1,49 +1,7 @@
-console.log(
-  document.querySelector('input[name="45"]')?.closest("tr")?.outerHTML ||
-    document.querySelector('input[name="45"]')?.closest("div")?.outerHTML ||
-    document.querySelector("#45_")?.closest("tr")?.outerHTML ||
-    "not found",
-);
-VM390:1 <div class="response blockIndicator_45">
-        
-                                                                                                                                <span id="parentID_">
-                    <input type="hidden" name="45" value="no">
-                                                <label class="checkable leaf_check" for="45_">
-                    <input type="checkbox" class="icheck45 leaf_check" id="45_" name="45" value="Yes" checked="checked" aria-describedby="format_label_45">
-                    <span class="leaf_check"></span> Yes</label>
-                                            </span>
-                <script>
-                                </script>
-                <script>
-$(function() {
-    // Hide and disable on regular form view
-    $('#45').closest('tr').hide();
-    $('.sublabel.blockIndicator_45').hide();
-    $('#45').attr('disabled', true);
-
-    // Handle print view - different DOM structure
-    // Disable the field
-    $('#45').attr('disabled', true).css({
-        'pointer-events': 'none',
-        'opacity': '0.6'
-    });
-
-    // Check if we are in print view
-    if (window.location.href.indexOf('printview') !== -1 ||
-        window.location.href.indexOf('a=print') !== -1) {
-
-        // In print view - don't hide, just disable and show as read-only
-        $('#45').attr('disabled', true);
-        $('#45').closest('tr').find('td').css('color', '#999');
-
-    } else {
-        // Regular form view - hide everything
-        $('#45').closest('tr').hide();
-        $('.sublabel.blockIndicator_45').hide();
-    }
-});
-</script>
-                                                                            
-            
-                    </div>
-undefined
+report.php?a=dashboard:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+report.php?a=dashboard:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+project_v10.js:279  checkAndCopyResolvedRecurringTasks: could not obtain CSRF token, skipping.
+checkAndCopyResolvedRecurringTasks @ project_v10.js:279
+await in checkAndCopyResolvedRecurringTasks
+main @ project_v10.js:7283
