@@ -1,14 +1,23 @@
-fetch('/platform/projects/project_v10.js')
-  .then(r => r.text())
-  .then(js => {
-    var idx = js.indexOf('_pmCheckRecurring');
-    console.log('found at index:', idx);
-    if (idx !== -1) console.log('context:', js.substring(idx - 50, idx + 100));
-  });
-Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   GET https://leaf.va.gov/platform/projects/project_v10.js 404 (Not Found)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
-fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
-ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
-(anonymous) @ VM2184:1
-VM2184:5 found at index: -1
+// Search all script tags on the page
+document.querySelectorAll('script[src]').forEach(function(s) {
+    if (s.src.indexOf('project') !== -1 || s.src.indexOf('v10') !== -1 || s.src.indexOf('v9') !== -1) {
+        console.log(s.src);
+    }
+});
+
+// Also check all iframes
+document.querySelectorAll('iframe').forEach(function(f) {
+    console.log('iframe src:', f.src);
+});
+VM2333:4 https://leaf.va.gov/platform/projects/js/dialogController.js
+VM2333:4 https://leaf.va.gov/platform/projects/js/form.js
+VM2333:4 https://leaf.va.gov/platform/projects/js/gridInput.js
+VM2333:4 https://leaf.va.gov/platform/projects/js/workflow.js
+VM2333:4 https://leaf.va.gov/platform/projects/js/formGrid.js
+VM2333:4 https://leaf.va.gov/platform/projects/js/formQuery.js
+VM2333:4 https://leaf.va.gov/platform/projects/js/formPrint.js
+VM2333:4 https://leaf.va.gov/platform/projects/js/portalHelpers.js
+VM2333:4 https://leaf.va.gov/platform/projects/js/jsdiff.js
+VM2333:4 https://leaf.va.gov/platform/projects/js/titleValidator.js
+VM2333:4 https://leaf.va.gov/platform/projects/js/functions/toggleZoom.js
+undefined
