@@ -1,11 +1,14 @@
-// Replace XXX with the new record ID shown in "Recurring task copied: source=119 → new=XXX"
-fetch('/platform/projects/api/form/143/data', {
+fetch('/platform/projects/api/form/119/data', {
   credentials: 'include'
 })
 .then(r => r.json())
 .then(d => console.log(JSON.stringify(d, null, 2)));
+
+
+
+
 Promise {<pending>, then: ƒ}
-VM303:6 {
+VM400:5 {
   "7": {
     "1": {
       "indicatorID": 7,
@@ -20,11 +23,11 @@ VM303:6 {
       "conditions": null,
       "required": 0,
       "is_sensitive": 0,
-      "isEmpty": false,
-      "value": "[object Object]",
+      "isEmpty": true,
+      "value": "",
       "displayedValue": "",
-      "timestamp": 1772737220,
-      "userID": "oitauslumags",
+      "timestamp": 0,
+      "userID": null,
       "isWritable": 1,
       "isMasked": 0,
       "sort": -128,
@@ -39,11 +42,58 @@ VM303:6 {
       "name": "Project",
       "default": "",
       "description": "",
-      "html": "<div id=\"pkWrap8\" style=\"max-width: 820px;\">\n  <div id=\"pkSummary8\" class=\"pm-picker-summary\" style=\"display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap;\">\n    <div id=\"pkSummaryVal8\" class=\"pm-picker-summary-value\" style=\"flex:1; min-width:200px; padding:0.25rem 0;\">None selected</div>\n    <button type=\"button\" id=\"pkToggle8\" class=\"buttonNorm pm-picker-change\" aria-expanded=\"false\" aria-controls=\"pkPanel8\" style=\"white-space:nowrap;\">Change</button>\n  </div>\n\n  <div id=\"pkPanel8\" class=\"pm-picker-panel\" style=\"display:none; margin-top:0.6rem;\">\n    <div class=\"pm-picker-search-row\" style=\"display:flex; gap:0.75rem; align-items:flex-end; flex-wrap:wrap;\">\n      <div style=\"flex:1; min-width: 260px;\">\n        <input id=\"pkSearch8\" class=\"pm-picker-search\" type=\"text\" autocomplete=\"off\" placeholder=\"Search...\" aria-label=\"Search projects\"\n          style=\"width:100%; padding:0.45rem 0.55rem; border:1px solid #c9c9c9; border-radius:0.5rem;\">\n      </div>\n\n      <div style=\"display:flex; gap:0.5rem; align-items:center;\">\n        <button type=\"button\" id=\"pkSearchClear8\" class=\"pm-picker-search-clear\" hidden>Clear search</button>\n        <button type=\"button\" id=\"pkClear8\" class=\"buttonNorm\" style=\"white-space:nowrap;\">Clear</button>\n        <button type=\"button\" id=\"pkClose8\" class=\"buttonNorm\" style=\"white-space:nowrap;\">Close</button>\n      </div>\n    </div>\n\n    <div id=\"pkMsg8\" style=\"margin-top:0.5rem; font-size:0.9rem;\"></div>\n\n    <div style=\"margin-top:0.6rem;\">\n      <div style=\"font-weight:600; margin-bottom:0.35rem;\">Available projects</div>\n      <div id=\"pkList8\" class=\"pm-picker-list\"\n        style=\"border:1px solid #d9d9d9; border-radius:0.6rem; padding:0.6rem; min-height: 140px; max-height: 320px; overflow:auto; background:#fff;\">\n      </div>\n    </div>\n  </div>\n</div>\n\n<style>\n  /* Hide only the real LEAF-bound field for indicator 8 (keeps custom UI visible) */\n  .response.blockIndicator_8 [name=\"8\"] { display:none !important; }\n  .response.blockIndicator_8 textarea[name=\"8\"],\n  .response.blockIndicator_8 input[name=\"8\"],\n  .response.blockIndicator_8 select[name=\"8\"] { display:none !important; }\n</style>\n\n<script>\n(function () {\n  function ensurePickerStyles() {\n    if (document.getElementById(\"pm-picker-styles\")) return;\n    const style = document.createElement(\"style\");\n    style.id = \"pm-picker-styles\";\n    style.textContent = `\n.pm-picker-summary { background:#f7f8fa; border:1px solid #d0d5dd; border-radius:0.6rem; padding:0.5rem 0.6rem; }\n.pm-picker-summary:hover { background:#f2f4f7; }\n.pm-picker-summary:focus-within { outline:2px solid #1f6feb; outline-offset:2px; }\n.pm-picker-summary-value { min-height:1.3rem; }\n.pm-picker-none { color:#5b6270; font-size:0.95rem; }\n.pm-picker-badge { display:inline-flex; align-items:center; gap:0.35rem; background:#e8f2ff; border:1px solid #b9d6ff; color:#0b3d91; padding:0.15rem 0.5rem; border-radius:999px; font-weight:600; font-size:0.9rem; }\n.pm-picker-badge-check { font-weight:700; }\n.pm-picker-change.buttonNorm { margin-left:auto; }\n.pm-picker-panel { border:1px solid #d0d5dd; border-radius:0.6rem; padding:0.6rem; background:#fff; }\n.pm-picker-search { width:100%; }\n.pm-picker-search-clear { border:1px solid #c9c9c9; background:#fff; border-radius:0.5rem; padding:0.3rem 0.5rem; font-size:0.85rem; }\n.pm-picker-search-clear:focus-visible { outline:2px solid #1f6feb; outline-offset:2px; }\n.pm-picker-list { padding:0.35rem; }\n.pm-picker-option { display:flex; gap:0.5rem; align-items:flex-start; padding:0.35rem 0.4rem; border-radius:0.5rem; cursor:pointer; border-left:3px solid transparent; }\n.pm-picker-option:hover { background:#f5f7fb; }\n.pm-picker-option--selected { background:#eef6ff; border-left-color:#2f6fed; }\n.pm-picker-option:focus-within { outline:2px solid #1f6feb; outline-offset:2px; }\n.pm-picker-option-status { display:inline-flex; align-items:center; gap:0.25rem; font-size:0.8rem; color:#2f6fed; font-weight:600; }\n.pm-picker-empty { font-size:0.9rem; color:#5b6270; padding:0.4rem; }\n    `;\n    document.head.appendChild(style);\n  }\n\n  // Task field b
-fetch('/platform/projects/api/formWorkflow/143/currentStep', {
+      "html": "<div id=\"pkWrap8\" style=\"max-width: 820px;\">\n  <div id=\"pkSummary8\" class=\"pm-picker-summary\" style=\"display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap;\">\n    <div id=\"pkSummaryVal8\" class=\"pm-picker-summary-value\" style=\"flex:1; min-width:200px; padding:0.25rem 0;\">None selected</div>\n    <button type=\"button\" id=\"pkToggle8\" class=\"buttonNorm pm-picker-change\" aria-expanded=\"false\" aria-controls=\"pkPanel8\" style=\"white-space:nowrap;\">Change</button>\n  </div>\n\n  <div id=\"pkPanel8\" class=\"pm-picker-panel\" style=\"display:none; margin-top:0.6rem;\">\n    <div class=\"pm-picker-search-row\" style=\"display:flex; gap:0.75rem; align-items:flex-end; flex-wrap:wrap;\">\n      <div style=\"flex:1; min-width: 260px;\">\n        <input id=\"pkSearch8\" class=\"pm-picker-search\" type=\"text\" autocomplete=\"off\" placeholder=\"Search...\" aria-label=\"Search projects\"\n          style=\"width:100%; padding:0.45rem 0.55rem; border:1px solid #c9c9c9; border-radius:0.5rem;\">\n      </div>\n\n      <div style=\"display:flex; gap:0.5rem; align-items:center;\">\n        <button type=\"button\" id=\"pkSearchClear8\" class=\"pm-picker-search-clear\" hidden>Clear search</button>\n        <button type=\"button\" id=\"pkClear8\" class=\"buttonNorm\" style=\"white-space:nowrap;\">Clear</button>\n        <button type=\"button\" id=\"pkClose8\" class=\"buttonNorm\" style=\"white-space:nowrap;\">Close</button>\n      </div>\n    </div>\n\n    <div id=\"pkMsg8\" style=\"margin-top:0.5rem; font-size:0.9rem;\"></div>\n\n    <div style=\"margin-top:0.6rem;\">\n      <div style=\"font-weight:600; margin-bottom:0.35rem;\">Available projects</div>\n      <div id=\"pkList8\" class=\"pm-picker-list\"\n        style=\"border:1px solid #d9d9d9; border-radius:0.6rem; padding:0.6rem; min-height: 140px; max-height: 320px; overflow:auto; background:#fff;\">\n      </div>\n    </div>\n  </div>\n</div>\n\n<style>\n  /* Hide only the real LEAF-bound field for indicator 8 (keeps custom UI visible) */\n  .response.blockIndicator_8 [name=\"8\"] { display:none !important; }\n  .response.blockIndicator_8 textarea[name=\"8\"],\n  .response.blockIndicator_8 input[name=\"8\"],\n  .response.blockIndicator_8 select[name=\"8\"] { display:none !important; }\n</style>\n\n<script>\n(function () {\n  function ensurePickerStyles() {\n    if (document.getElementById(\"pm-picker-styles\")) return;\n    const style = document.createElement(\"style\");\n    style.id = \"pm-picker-styles\";\n    style.textContent = `\n.pm-picker-summary { background:#f7f8fa; border:1px solid #d0d5dd; border-radius:0.6rem; padding:0.5rem 0.6rem; }\n.pm-picker-summary:hover { background:#f2f4f7; }\n.pm-picker-summary:focus-within { outline:2px solid #1f6feb; outline-offset:2px; }\n.pm-picker-summary-value { min-height:1.3rem; }\n.pm-picker-none { color:#5b6270; font-size:0.95rem; }\n.pm-picker-badge { display:inline-flex; align-items:center; gap:0.35rem; background:#e8f2ff; border:1px solid #b9d6ff; color:#0b3d91; padding:0.15rem 0.5rem; border-radius:999px; font-weight:600; font-size:0.9rem; }\n.pm-picker-badge-check { font-weight:700; }\n.pm-picker-change.buttonNorm { margin-left:auto; }\n.pm-picker-panel { border:1px solid #d0d5dd; border-radius:0.6rem; padding:0.6rem; background:#fff; }\n.pm-picker-search { width:100%; }\n.pm-picker-search-clear { border:1px solid #c9c9c9; background:#fff; border-radius:0.5rem; padding:0.3rem 0.5rem; font-size:0.85rem; }\n.pm-picker-search-clear:focus-visible { outline:2px solid #1f6feb; outline-offset:2px; }\n.pm-picker-list { padding:0.35rem; }\n.pm-picker-option { display:flex; gap:0.5rem; align-items:flex-start; padding:0.35rem 0.4rem; border-radius:0.5rem; cursor:pointer; border-left:3px solid transparent; }\n.pm-picker-option:hover { background:#f5f7fb; }\n.pm-picker-option--selected { background:#eef6ff; border-left-color:#2f6fed; }\n.pm-picker-option:focus-within { outline:2px solid #1f6feb; outline-offset:2px; }\n.pm-picker-option-status { display:inline-flex; align-items:center; gap:0.25rem; font-size:0.8rem; color:#2f6fed; font-weight:600; }\n.pm-picker-empty { font-size:0.9rem; color:#5b6270; padding:0.4rem; }\n    `;\n    document.head.appendChild(style);\n  }\n\n  // Task field being programmed (this is where we s
+fetch('/platform/projects/api/formWorkflow/134/currentStep', {
   credentials: 'include'
 })
 .then(r => r.json())
 .then(d => console.log(JSON.stringify(d, null, 2)));
 Promise {<pending>, then: ƒ}
-VM320:5 null
+VM413:5 {
+  "-1": {
+    "dependencyID": -1,
+    "recordID": 134,
+    "stepID": 1,
+    "stepTitle": "Assigned To",
+    "blockingStepID": 0,
+    "workflowID": 2,
+    "serviceID": 0,
+    "filled": 0,
+    "stepBgColor": "#fffdcd",
+    "stepFontColor": "black",
+    "stepBorder": "1px solid black",
+    "description": "Assigned To (Stephanie Lumagui)",
+    "indicatorID_for_assigned_empUID": 11,
+    "indicatorID_for_assigned_groupID": null,
+    "jsSrc": "",
+    "userID": "oitauslumags",
+    "userMetadata": {
+      "email": "Stephanie.Lumagui@va.gov",
+      "lastName": "Lumagui",
+      "userName": "oitauslumags",
+      "firstName": "Stephanie",
+      "middleName": "L"
+    },
+    "requiresDigitalSignature": null,
+    "isActionable": true,
+    "approverName": "Stephanie Lumagui",
+    "approverUID": "Stephanie.Lumagui@va.gov",
+    "dependencyActions": [
+      {
+        "actionType": "Accept",
+        "workflowID": 2,
+        "stepID": 1,
+        "nextStepID": 2,
+        "displayConditional": "",
+        "actionText": "Accept",
+        "actionTextPasttense": "Accepted",
+        "actionIcon": "dialog-apply.svg",
+        "actionAlignment": "right",
+        "sort": 0,
+        "fillDependency": 1,
+        "deleted": 0
+      }
+    ],
+    "hasAccess": true
+  }
+}
