@@ -8,6 +8,9 @@ Error handling response: TypeError: Cannot read properties of undefined (reading
     at <URL>
 Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
     at <URL>
+Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at <URL>
+Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
 Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
 Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
 Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
@@ -15,17 +18,74 @@ Unchecked runtime.lastError: Could not establish connection. Receiving end does 
 Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
 project_v10.js:839  CSRF token not found in START_TASK_URL response.
 fetchAndExtract @ project_v10.js:839
+await in fetchAndExtract
+ensureCSRFToken @ project_v10.js:844
+checkAndCopyResolvedRecurringTasks @ project_v10.js:276
+main @ project_v10.js:7285
 project_v10.js:839  CSRF token not found in START_PROJECT_URL response.
 fetchAndExtract @ project_v10.js:839
-project_v10.js:369 Recurring task copied: source=119 → new=127
-/platform/projects/api/formWorkflow/127/apply:1   Failed to load resource: the server responded with a status of 409 (Conflict)
-project_v10.js:304  Failed to copy recurring task 119 Error: Workflow submit failed HTTP 409
-    at copyRecurringTask (project_v10.js:406:13)
-    at async checkAndCopyResolvedRecurringTasks (project_v10.js:302:11)
-checkAndCopyResolvedRecurringTasks @ project_v10.js:304
-project_v10.js:369 Recurring task copied: source=124 → new=128
-/platform/projects/api/formWorkflow/128/apply:1   Failed to load resource: the server responded with a status of 409 (Conflict)
-project_v10.js:304  Failed to copy recurring task 124 Error: Workflow submit failed HTTP 409
-    at copyRecurringTask (project_v10.js:406:13)
-    at async checkAndCopyResolvedRecurringTasks (project_v10.js:302:11)
-checkAndCopyResolvedRecurringTasks @ project_v10.js:304
+await in fetchAndExtract
+ensureCSRFToken @ project_v10.js:851
+await in ensureCSRFToken
+checkAndCopyResolvedRecurringTasks @ project_v10.js:276
+main @ project_v10.js:7285
+project_v10.js:278  checkAndCopyResolvedRecurringTasks: could not obtain CSRF token, skipping.
+checkAndCopyResolvedRecurringTasks @ project_v10.js:278
+await in checkAndCopyResolvedRecurringTasks
+main @ project_v10.js:7285
+project_v10.js:6157 Recurring checkbox set successfully on attempt 13
+fetch('/platform/projects/api/formWorkflow/127/apply', {
+  credentials: 'include'
+})
+.then(r => r.text())
+.then(d => console.log(d));
+Promise {<pending>, then: ƒ}
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   GET https://leaf.va.gov/platform/projects/api/formWorkflow/127/apply 400 (Bad Request)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
+(anonymous) @ VM3148:1
+VM3148:5 "Controller is undefined."
+fetch('/platform/projects/api/form/127', {
+  credentials: 'include'
+})
+.then(r => r.json())
+.then(d => console.log(JSON.stringify(d, null, 2)));
+
+Promise {<pending>, then: ƒ}
+VM3165:5 {
+  "label": "name",
+  "identifier": "jsonIdx",
+  "items": [
+    {
+      "name": "Task",
+      "type": "form",
+      "jsonIdx": -2,
+      "series": 1,
+      "children": [
+        {
+          "name": "1.1: Task",
+          "desc": "Task",
+          "type": "form_9b302",
+          "jsonIdx": "7.1",
+          "series": 1,
+          "format": "",
+          "indicatorID": 7
+        }
+      ]
+    }
+  ]
+}
+
+fetch('/platform/projects/api/formWorkflow/127', {
+  credentials: 'include'
+})
+.then(r => r.json())
+.then(d => console.log(JSON.stringify(d, null, 2)));
+Promise {<pending>, then: ƒ}
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   GET https://leaf.va.gov/platform/projects/api/formWorkflow/127 400 (Bad Request)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
+(anonymous) @ VM3181:2
+VM3181:6 "Controller is undefined."
