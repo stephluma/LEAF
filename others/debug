@@ -1,12 +1,31 @@
-report.php?a=dashboard:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-report.php?a=dashboard:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-report.php?a=LEAF_Start_Request&id=form_9b302&title=Recurring+Task&45=Yes:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-report.php?a=LEAF_Start_Request&id=form_9b302&title=Recurring+Task&45=Yes:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-project_v10.js:6100  Recurring checkbox (indicator 45) not found in iframe DOM.
-(anonymous) @ project_v10.js:6100
-frame._recurringLoadHandler @ project_v10.js:477
-index.php?a=view&recordID=119:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-index.php?a=view&recordID=119:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+var frame = document.getElementById("pmModalFrame");
+var doc = frame.contentDocument || frame.contentWindow.document;
+var checkboxes = doc.querySelectorAll('input[type="checkbox"]');
+checkboxes.forEach(function (cb) {
+  console.log({
+    name: cb.name,
+    id: cb.id,
+    value: cb.value,
+    dataAttributes: cb.dataset,
+    outerHTML: cb.outerHTML,
+  });
+});
+VM220:5 {name: '', id: '', value: 'on', dataAttributes: DOMStringMap, outerHTML: '<input type="checkbox" class="depChk" data-id="50" style="margin-top:0.2rem;">'}
+VM220:5 {name: '', id: '', value: 'on', dataAttributes: DOMStringMap, outerHTML: '<input type="checkbox" class="depChk" data-id="51" style="margin-top:0.2rem;">'}
+VM220:5 {name: '', id: '', value: 'on', dataAttributes: DOMStringMap, outerHTML: '<input type="checkbox" class="depChk" data-id="52" style="margin-top:0.2rem;">'}
+VM220:5 {name: '', id: '', value: 'on', dataAttributes: DOMStringMap, outerHTML: '<input type="checkbox" class="depChk" data-id="53" style="margin-top:0.2rem;">'}
+VM220:5 {name: '', id: '', value: 'on', dataAttributes: DOMStringMap, outerHTML: '<input type="checkbox" class="depChk" data-id="54" style="margin-top:0.2rem;">'}
+VM220:5 {name: '', id: '', value: 'on', dataAttributes: DOMStringMap, outerHTML: '<input type="checkbox" class="depChk" data-id="55" style="margin-top:0.2rem;">'}
+VM220:5 {name: '', id: '', value: 'on', dataAttributes: DOMStringMap, outerHTML: '<input type="checkbox" class="depChk" data-id="56" style="margin-top:0.2rem;">'}
+VM220:5 {name: '', id: '', value: 'on', dataAttributes: DOMStringMap, outerHTML: '<input type="checkbox" class="depChk" data-id="57" style="margin-top:0.2rem;">'}
+VM220:5 {name: '', id: '', value: 'on', dataAttributes: DOMStringMap, outerHTML: '<input type="checkbox" class="depChk" data-id="60" style="margin-top:0.2rem;">'}
+VM220:5 {name: '', id: '', value: 'on', dataAttributes: DOMStringMap, outerHTML: '<input type="checkbox" class="depChk" data-id="97" style="margin-top:0.2rem;">'}
+VM220:5 {name: '', id: '', value: 'on', dataAttributes: DOMStringMap, outerHTML: '<input type="checkbox" class="depChk" data-id="101" style="margin-top:0.2rem;">'}
+VM220:5 {name: '', id: '', value: 'on', dataAttributes: DOMStringMap, outerHTML: '<input type="checkbox" class="depChk" data-id="102" style="margin-top:0.2rem;">'}
+VM220:5 {name: '', id: '', value: 'on', dataAttributes: DOMStringMap, outerHTML: '<input type="checkbox" class="depChk" data-id="103" style="margin-top:0.2rem;">'}
+VM220:5 {name: '', id: '', value: 'on', dataAttributes: DOMStringMap, outerHTML: '<input type="checkbox" class="depChk" data-id="104" style="margin-top:0.2rem;">'}
+VM220:5 {name: '', id: '', value: 'on', dataAttributes: DOMStringMap, outerHTML: '<input type="checkbox" class="depChk" data-id="106" style="margin-top:0.2rem;">'}
+VM220:5 {name: '', id: '', value: 'on', dataAttributes: DOMStringMap, outerHTML: '<input type="checkbox" class="depChk" data-id="109" style="margin-top:0.2rem;">'}
+VM220:5 {name: '', id: '', value: 'on', dataAttributes: DOMStringMap, outerHTML: '<input type="checkbox" class="depChk" data-id="115" style="margin-top:0.2rem;">'}
+VM220:5 {name: '45', id: '45_', value: 'Yes', dataAttributes: DOMStringMap, outerHTML: '<input type="checkbox" class="icheck45 leaf_check"…" value="Yes" aria-describedby="format_label_45">'}
+undefined
