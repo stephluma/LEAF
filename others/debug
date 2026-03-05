@@ -57,3 +57,31 @@ main @ project_v10.js:7253
 index.php?a=printview&recordID=122:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
     at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
 index.php?a=printview&recordID=122:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+
+fetch(
+  '/platform/projects/api/form/query/?terms=[{"id":"recordIDs","operator":"=","match":"120"}]&joins=["unfilledDependencies"]&format=json',
+  { credentials: "include" },
+)
+  .then((r) => r.json())
+  .then((d) => console.log(JSON.stringify(d, null, 2)));
+
+Promise {<pending>, then: ƒ}
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   GET https://leaf.va.gov/platform/projects/api/form/query/?terms=[{%22id%22:%22recordIDs%22,%22operator%22:%22=%22,%22match%22:%22120%22}]&joins=[%22unfilledDependencies%22]&format=json 500 (Internal Server Error)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
+(anonymous) @ VM572:2
+VM574:1  Uncaught (in promise) SyntaxError: Failed to execute 'json' on 'Response': Unexpected end of JSON input
+    at <anonymous>:6:18
+    at Object.dtAWF [as aWF] (ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250:385)
+    at Object.Gb (ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276:287)
+    at cb.<computed> (ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272:84)
+(anonymous) @ VM572:6
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+Gb @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+cb.<computed> @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+then @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
+(anonymous) @ VM572:6
