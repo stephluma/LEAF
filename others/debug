@@ -1,14 +1,27 @@
-// Find all elements that mention 45 in class, id, or for attribute
-['[class*="45"]', '[id*="45"]', '[for*="45"]', '[data-id="45"]'].forEach(
-  function (sel) {
-    document.querySelectorAll(sel).forEach(function (el) {
-      console.log(sel, el.outerHTML.substring(0, 200));
-    });
+// Test in console first
+$(".icheck45").closest("label").css("pointer-events", "none");
+$(".icheck45").closest("span").css("pointer-events", "none");
+$("#parentID_").css("pointer-events", "none");
+$(".response.blockIndicator_45").css("pointer-events", "none");
+
+// Also destroy iCheck if initialized
+if ($.fn.iCheck) {
+  $(".icheck45").iCheck("disable");
+}
+
+console.log("done");
+VM765:12 done
+undefined
+document.querySelector(".response.blockIndicator_45").addEventListener(
+  "click",
+  function (e) {
+    console.log(
+      "clicked element:",
+      e.target.tagName,
+      e.target.className,
+      e.target.id,
+    );
   },
+  true,
 );
-VM241:5 [id*="45"] <div class="printsubblock" id="subIndicator_45_1"><div class="printsublabel"><div class="printsubheading" style="height: 14.1667px;"><span class="printsubheading" title="indicatorID: 45" style="height
-VM241:5 [id*="45"] <div class="printResponse" id="xhrIndicator_45_1">                                                                                                                    <span class="printResponse" id="da
-VM241:5 [id*="45"] <span class="printResponse" id="data_45_1">
-                 Yes
-            </span>
 undefined
