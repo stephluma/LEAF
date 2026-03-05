@@ -1,31 +1,8 @@
-document
-  .querySelectorAll('[class*="blockIndicator_45"], [id*="45"]')
-  .forEach(function (el) {
-    console.log(
-      el.tagName,
-      el.className,
-      el.id,
-      el.outerHTML.substring(0, 150),
-    );
-  });
-VM1512:4 DIV printsubblock subIndicator_45_1 <div class="printsubblock" id="subIndicator_45_1"><div class="printsublabel"><div class="printsubheading" style="height: 14.1667px;"><span class="prin
-VM1512:4 DIV printResponse xhrIndicator_45_1 <div class="printResponse" id="xhrIndicator_45_1">                                                                                                    
-VM1512:4 SPAN printResponse data_45_1 <span class="printResponse" id="data_45_1">
-                 Yes
-            </span>
-VM1512:4 DIV ui-dialog-content ui-widget-content LeafForm245_xhrDialog <div id="LeafForm245_xhrDialog" style="background-color: white; border-style: none solid solid; border-width: 0px 1px 1px; border-color: rgb(224, 224,
-VM1512:4 FORM  LeafForm245_record <form id="LeafForm245_record" enctype="multipart/form-data" action="javascript:void(0);">                <div>                    <div id="form-xhr-ca
-VM1512:4 BUTTON buttonNorm LeafForm245_button_cancelchange <button type="button" id="LeafForm245_button_cancelchange" class="buttonNorm"><img src="dynicons/?img=process-stop.svg&amp;w=16" alt=""> Cancel</butto
-VM1512:4 BUTTON buttonNorm LeafForm245_button_save <button type="button" id="LeafForm245_button_save" class="buttonNorm" style="visibility: visible;"><img src="dynicons/?img=media-floppy.svg&amp;w=16" 
-VM1512:4 DIV  LeafForm245_loadIndicator <div id="LeafForm245_loadIndicator" aria-hidden="true" style="visibility: hidden; position: absolute; text-align: center; font-size: 24px; font-weight
-VM1512:4 DIV  LeafForm245_xhr <div id="LeafForm245_xhr" style="min-width: 540px; min-height: 420px; padding: 8px; overflow: auto" aria-live="polite"><input name="series" type="hidd
-VM1512:4 DIV sublabel blockIndicator_45  <div class="sublabel blockIndicator_45">
-                        <span id="format_label_45">
-                    <br>Recurring Task?            </span
-VM1512:4 SPAN  format_label_45 <span id="format_label_45">
-                    <br>Recurring Task?            </span>
-VM1512:4 DIV response blockIndicator_45  <div class="response blockIndicator_45">
-        
-                                                                                                    
-VM1512:4 INPUT icheck45 leaf_check 45_ <input type="checkbox" class="icheck45 leaf_check" id="45_" name="45" value="Yes" checked="checked" aria-describedby="format_label_45">
+console.log({
+    sublabel: $('.sublabel.blockIndicator_45').length,
+    response: $('.response.blockIndicator_45').length,
+    sublabelVisible: $('.sublabel.blockIndicator_45').is(':visible'),
+    responseVisible: $('.response.blockIndicator_45').is(':visible')
+});
+VM2061:1 {sublabel: 0, response: 0, sublabelVisible: false, responseVisible: false}
 undefined
