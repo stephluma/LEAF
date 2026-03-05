@@ -1,3 +1,12 @@
-$('.sublabel.blockIndicator_45').hide();
-$('.response.blockIndicator_45').hide();
-S.fn.init {0: div.response.blockIndicator_45, length: 1, prevObject: S.fn.init}
+
+console.log({
+    sublabelVisible: $('.sublabel.blockIndicator_45').is(':visible'),
+    responseVisible: $('.response.blockIndicator_45').is(':visible'),
+    sublabelDisplay: $('.sublabel.blockIndicator_45').css('display'),
+    responseDisplay: $('.response.blockIndicator_45').css('display'),
+    sublabelParentVisible: $('.sublabel.blockIndicator_45').parent().is(':visible'),
+    sublabelParentDisplay: $('.sublabel.blockIndicator_45').parent().css('display')
+});
+
+VM3131:2 {sublabelVisible: true, responseVisible: true, sublabelDisplay: 'block', responseDisplay: 'block', sublabelParentVisible: true, …}
+undefined
