@@ -1,56 +1,35 @@
-
-fetch('https://leaf.va.gov/platform/projects/api/formWorkflow/134/currentStep', {
-  credentials: 'include'
+created new blank task record to see what an unsubmitted record looks like = console log message:
+fetch('/platform/projects/api/form/new', {
+  method: 'POST',
+  credentials: 'include',
+  headers: {'x-requested-with': 'XMLHttpRequest'},
+  body: (() => { var fd = new FormData(); fd.append('numform_9b302', '1'); fd.append('title', 'test'); return fd; })()
 })
 .then(r => r.json())
-.then(d => console.log(JSON.stringify(d, null, 2)));
-
+.then(newID => {
+  console.log('new record ID:', newID);
+  return fetch('/platform/projects/api/formWorkflow/' + newID + '/currentStep', {credentials: 'include'})
+    .then(r => r.json())
+    .then(d => console.log('current step:', JSON.stringify(d, null, 2)));
+});
 Promise {<pending>, then: ƒ}
-VM4115:6 {
-  "-1": {
-    "dependencyID": -1,
-    "recordID": 134,
-    "stepID": 1,
-    "stepTitle": "Assigned To",
-    "blockingStepID": 0,
-    "workflowID": 2,
-    "serviceID": 0,
-    "filled": 0,
-    "stepBgColor": "#fffdcd",
-    "stepFontColor": "black",
-    "stepBorder": "1px solid black",
-    "description": "Assigned To (Stephanie Lumagui)",
-    "indicatorID_for_assigned_empUID": 11,
-    "indicatorID_for_assigned_groupID": null,
-    "jsSrc": "",
-    "userID": "oitauslumags",
-    "userMetadata": {
-      "email": "Stephanie.Lumagui@va.gov",
-      "lastName": "Lumagui",
-      "userName": "oitauslumags",
-      "firstName": "Stephanie",
-      "middleName": "L"
-    },
-    "requiresDigitalSignature": null,
-    "isActionable": true,
-    "approverName": "Stephanie Lumagui",
-    "approverUID": "Stephanie.Lumagui@va.gov",
-    "dependencyActions": [
-      {
-        "actionType": "Accept",
-        "workflowID": 2,
-        "stepID": 1,
-        "nextStepID": 2,
-        "displayConditional": "",
-        "actionText": "Accept",
-        "actionTextPasttense": "Accepted",
-        "actionIcon": "dialog-apply.svg",
-        "actionAlignment": "right",
-        "sort": 0,
-        "fillDependency": 1,
-        "deleted": 0
-      }
-    ],
-    "hasAccess": true
-  }
-}
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   POST https://leaf.va.gov/platform/projects/api/form/new 401 (Unauthorized)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
+(anonymous) @ VM4764:1
+VM4764:9 new record ID: Invalid Token.
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   GET https://leaf.va.gov/platform/projects/api/formWorkflow/Invalid%20Token./currentStep 400 (Bad Request)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
+(anonymous) @ VM4764:10
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+Gb @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+cb.<computed> @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+then @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
+(anonymous) @ VM4764:8
+VM4764:12 current step: "Controller is undefined."
