@@ -1,11 +1,126 @@
-most recently copied record: 
-/platform/projects/index.php?a=printview&recordID=132:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-/platform/projects/index.php?a=printview&recordID=132:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-fetch('https://leaf.va.gov/platform/projects/api/formWorkflow/128/currentStep', {
+Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at <URL>
+Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at <URL>
+Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at <URL>
+Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at <URL>
+Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at <URL>
+Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at <URL>
+Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+project_v10.js:839  CSRF token not found in START_TASK_URL response.
+fetchAndExtract @ project_v10.js:839
+await in fetchAndExtract
+ensureCSRFToken @ project_v10.js:844
+checkAndCopyResolvedRecurringTasks @ project_v10.js:276
+main @ project_v10.js:7285
+project_v10.js:839  CSRF token not found in START_PROJECT_URL response.
+fetchAndExtract @ project_v10.js:839
+await in fetchAndExtract
+ensureCSRFToken @ project_v10.js:851
+await in ensureCSRFToken
+checkAndCopyResolvedRecurringTasks @ project_v10.js:276
+main @ project_v10.js:7285
+fetch('/platform/projects/report.php?a=LEAF_Start_Request&id=form_9b302&title=Task', {
   credentials: 'include'
 })
-.then(r => r.json())
-.then(d => console.log(JSON.stringify(d, null, 2)));
+.then(r => r.text())
+.then(html => {
+  var match = html.match(/name=[\"'](CSRFToken)[\"'][^>]*value=[\"']([^\"']+)[\"']/i) ||
+              html.match(/CSRFToken\s*[:=]\s*[\"']([^\"']+)[\"']/i);
+  var token = match ? (match[2] || match[1]) : null;
+  console.log('CSRF token:', token);
+
+  if (!token) { console.error('No token found'); return; }
+
+  var fd = new FormData();
+  fd.append('CSRFToken', token);
+  fd.append('numform_9b302', '1');
+  fd.append('title', 'test');
+
+  return fetch('/platform/projects/api/form/new', {
+    method: 'POST',
+    credentials: 'include',
+    headers: {'x-requested-with': 'XMLHttpRequest', 'x-csrf-token': token},
+    body: fd
+  })
+  .then(r => r.json())
+  .then(newID => {
+    console.log('new record ID:', newID);
+    return fetch('/platform/projects/api/formWorkflow/' + newID + '/currentStep', {
+      credentials: 'include'
+    })
+    .then(r => r.json())
+    .then(d => console.log('current step:', JSON.stringify(d, null, 2)));
+  });
+});
 Promise {<pending>, then: ƒ}
-VM5280:5 null
+VM5395:9 CSRF token: null
+VM5395:11  No token found
+(anonymous) @ VM5395:11
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+Gb @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+cb.<computed> @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+then @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
+(anonymous) @ VM5395:5
+project_v10.js:278  checkAndCopyResolvedRecurringTasks: could not obtain CSRF token, skipping.
+checkAndCopyResolvedRecurringTasks @ project_v10.js:278
+await in checkAndCopyResolvedRecurringTasks
+main @ project_v10.js:7285
+project_v10.js:6157 Recurring checkbox set successfully on attempt 11
+fetch('/platform/projects/report.php?a=LEAF_Start_Request&id=form_9b302&title=Task', {
+  credentials: 'include'
+})
+.then(r => r.text())
+.then(html => {
+  var match = html.match(/name=[\"'](CSRFToken)[\"'][^>]*value=[\"']([^\"']+)[\"']/i) ||
+              html.match(/CSRFToken\s*[:=]\s*[\"']([^\"']+)[\"']/i);
+  var token = match ? (match[2] || match[1]) : null;
+  console.log('CSRF token:', token);
+
+  if (!token) { console.error('No token found'); return; }
+
+  var fd = new FormData();
+  fd.append('CSRFToken', token);
+  fd.append('numform_9b302', '1');
+  fd.append('title', 'test');
+
+  return fetch('/platform/projects/api/form/new', {
+    method: 'POST',
+    credentials: 'include',
+    headers: {'x-requested-with': 'XMLHttpRequest', 'x-csrf-token': token},
+    body: fd
+  })
+  .then(r => r.json())
+  .then(newID => {
+    console.log('new record ID:', newID);
+    return fetch('/platform/projects/api/formWorkflow/' + newID + '/currentStep', {
+      credentials: 'include'
+    })
+    .then(r => r.json())
+    .then(d => console.log('current step:', JSON.stringify(d, null, 2)));
+  });
+});
+Promise {<pending>, then: ƒ}
+VM5596:9 CSRF token: null
+VM5596:11  No token found
+(anonymous) @ VM5596:11
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+Gb @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+cb.<computed> @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+then @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
+(anonymous) @ VM5596:5
