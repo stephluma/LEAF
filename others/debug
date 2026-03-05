@@ -1,1 +1,23 @@
-https://leaf.va.gov/platform/privacy/api/form/query/?q={"terms":[{"id":"categoryID","operator":"=","match":"form_8f7e8","gate":"AND"},{"id":"stepID","operator":"=","match":"20","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{}}&x-filterData=recordID,title
+// Search all script tags on the page
+document.querySelectorAll('script[src]').forEach(function(s) {
+    if (s.src.indexOf('project') !== -1 || s.src.indexOf('v10') !== -1 || s.src.indexOf('v9') !== -1) {
+        console.log(s.src);
+    }
+});
+
+// Also check all iframes
+document.querySelectorAll('iframe').forEach(function(f) {
+    console.log('iframe src:', f.src);
+});
+VM8086:4 https://leaf.va.gov/platform/projects/js/dialogController.js
+VM8086:4 https://leaf.va.gov/platform/projects/js/form.js
+VM8086:4 https://leaf.va.gov/platform/projects/js/workflow.js
+VM8086:4 https://leaf.va.gov/platform/projects/js/formGrid.js
+VM8086:4 https://leaf.va.gov/platform/projects/js/formQuery.js
+VM8086:4 https://leaf.va.gov/platform/projects/js/formSearch.js
+VM8086:4 https://leaf.va.gov/platform/projects/js/gridInput.js
+VM8086:4 https://leaf.va.gov/platform/projects/js/lz-string/lz-string.min.js
+VM8086:4 https://leaf.va.gov/platform/projects/files/chart.js
+VM8086:4 https://leaf.va.gov/platform/projects/files/project_v10.js
+VM8086:10 iframe src: 
+undefined
