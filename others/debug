@@ -1,126 +1,21 @@
-Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at <URL>
-Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at <URL>
-Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at <URL>
-Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at <URL>
-Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at <URL>
-Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at <URL>
-Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-project_v10.js:839  CSRF token not found in START_TASK_URL response.
-fetchAndExtract @ project_v10.js:839
-await in fetchAndExtract
-ensureCSRFToken @ project_v10.js:844
-checkAndCopyResolvedRecurringTasks @ project_v10.js:276
-main @ project_v10.js:7285
-project_v10.js:839  CSRF token not found in START_PROJECT_URL response.
-fetchAndExtract @ project_v10.js:839
-await in fetchAndExtract
-ensureCSRFToken @ project_v10.js:851
-await in ensureCSRFToken
-checkAndCopyResolvedRecurringTasks @ project_v10.js:276
-main @ project_v10.js:7285
-fetch('/platform/projects/report.php?a=LEAF_Start_Request&id=form_9b302&title=Task', {
-  credentials: 'include'
+fetch('/platform/projects/report.php?a=LEAF_Start_Request&id=form_9b302&title=Task',
+{credentials: 'include'
 })
 .then(r => r.text())
 .then(html => {
-  var match = html.match(/name=[\"'](CSRFToken)[\"'][^>]*value=[\"']([^\"']+)[\"']/i) ||
-              html.match(/CSRFToken\s*[:=]\s*[\"']([^\"']+)[\"']/i);
-  var token = match ? (match[2] || match[1]) : null;
-  console.log('CSRF token:', token);
+  // Print first 3000 chars to find where CSRFToken appears
+  console.log(html.substring(0, 3000));
+  // Also search specifically for csrf anywhere in the page
+  var idx = html.toLowerCase().indexOf('csrf');
+  if (idx !== -1) {
+    console.log('CSRF found at index ' + idx + ':',
+  html.substring(idx - 20, idx + 100));
+  } else {
+    console.log('CSRF not found anywhere in response');
+  }
 
-  if (!token) { console.error('No token found'); return; }
-
-  var fd = new FormData();
-  fd.append('CSRFToken', token);
-  fd.append('numform_9b302', '1');
-  fd.append('title', 'test');
-
-  return fetch('/platform/projects/api/form/new', {
-    method: 'POST',
-    credentials: 'include',
-    headers: {'x-requested-with': 'XMLHttpRequest', 'x-csrf-token': token},
-    body: fd
-  })
-  .then(r => r.json())
-  .then(newID => {
-    console.log('new record ID:', newID);
-    return fetch('/platform/projects/api/formWorkflow/' + newID + '/currentStep', {
-      credentials: 'include'
-    })
-    .then(r => r.json())
-    .then(d => console.log('current step:', JSON.stringify(d, null, 2)));
-  });
 });
 Promise {<pending>, then: ƒ}
-VM5395:9 CSRF token: null
-VM5395:11  No token found
-(anonymous) @ VM5395:11
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
-Gb @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
-cb.<computed> @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
-then @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
-(anonymous) @ VM5395:5
-project_v10.js:278  checkAndCopyResolvedRecurringTasks: could not obtain CSRF token, skipping.
-checkAndCopyResolvedRecurringTasks @ project_v10.js:278
-await in checkAndCopyResolvedRecurringTasks
-main @ project_v10.js:7285
-project_v10.js:6157 Recurring checkbox set successfully on attempt 11
-fetch('/platform/projects/report.php?a=LEAF_Start_Request&id=form_9b302&title=Task', {
-  credentials: 'include'
-})
-.then(r => r.text())
-.then(html => {
-  var match = html.match(/name=[\"'](CSRFToken)[\"'][^>]*value=[\"']([^\"']+)[\"']/i) ||
-              html.match(/CSRFToken\s*[:=]\s*[\"']([^\"']+)[\"']/i);
-  var token = match ? (match[2] || match[1]) : null;
-  console.log('CSRF token:', token);
-
-  if (!token) { console.error('No token found'); return; }
-
-  var fd = new FormData();
-  fd.append('CSRFToken', token);
-  fd.append('numform_9b302', '1');
-  fd.append('title', 'test');
-
-  return fetch('/platform/projects/api/form/new', {
-    method: 'POST',
-    credentials: 'include',
-    headers: {'x-requested-with': 'XMLHttpRequest', 'x-csrf-token': token},
-    body: fd
-  })
-  .then(r => r.json())
-  .then(newID => {
-    console.log('new record ID:', newID);
-    return fetch('/platform/projects/api/formWorkflow/' + newID + '/currentStep', {
-      credentials: 'include'
-    })
-    .then(r => r.json())
-    .then(d => console.log('current step:', JSON.stringify(d, null, 2)));
-  });
-});
-Promise {<pending>, then: ƒ}
-VM5596:9 CSRF token: null
-VM5596:11  No token found
-(anonymous) @ VM5596:11
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
-Gb @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
-cb.<computed> @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
-then @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
-(anonymous) @ VM5596:5
+VM5675:7 <!DOCTYPE html><html lang="en"><head><script>if(navigator.userAgent.indexOf("Trident") != -1) {alert('Please use Microsoft Edge or Google Chrome to access this site.');}</script><title>VA LEAF Projects, Office of Information &amp; Technology</title><meta name="viewport" content="width=device-width, initial-scale=1"><script type="text/javascript" src="/ruxitagentjs_ICA7NVfhqrux_10323250822043923.js" data-dtconfig="rid=RID_-788015119|rpid=-980814897|domain=va.gov|reportUrl=/rb_65aa2f7a-2a1d-4836-9cfb-f98e8ba3af74|app=0b5de6c003f4dc0c|cuc=e0lcgmjb|owasp=1|mel=100000|featureHash=ICA7NVfhqrux|dpvc=1|md=mdcc1=a#headerHelp ^rb b|lastModification=1772734257635|tp=500,50,0|rdnt=1|uxrgce=1|srbbv=2|agentUri=/ruxitagentjs_ICA7NVfhqrux_10323250822043923.js"></script><style type="text/css" media="screen">@import "https://leaf.va.gov/app/libs/js/jquery/css/dcvamc/jquery-ui.custom.min.css";@import "https://leaf.va.gov/app/libs/js/choicesjs/choices.min.css";@import "css/style.css";@import "https://leaf.va.gov/app/libs/js/jquery/chosen/chosen.min.css";@import "https://leaf.va.gov/app/libs/js/jquery/trumbowyg/ui/trumbowyg.min.css";/* backwards compat */@import "https://leaf.va.gov/app/libs/js/jquery/icheck/skins/square/blue.css";</style><style type="text/css" media="print">@import "css/printer.css";#qrcode-js {display: block !important;}#qrcode-js * {display: block !important;-webkit-print-color-adjust: exact !important;print-color-adjust: exact !important;}</style><script type="text/javascript" src="https://leaf.va.gov/app/libs/js/jquery/jquery.min.js"></script><script type="text/javascript" src="https://leaf.va.gov/app/libs/js/jquery/jquery-ui.custom.min.js"></script><script type="text/javascript" src="js/dialogController.js"></script><script type="text/javascript" src="https://leaf.va.gov/app/libs/js/jquery/chosen/chosen.jquery.min.js"></script><script type="text/javascript" src="https://leaf.va.gov/app/libs/js/jquery/trumbowyg/trumbowyg.min.js"></script><!--backwards compat --><script type="text/javascript" src="https://leaf.va.gov/app/libs/js/jquery/icheck/icheck.js"></script><script type="text/javascript" src="https://leaf.va.gov/app/libs/js/LEAF/sessionAnnounce.js"></script><script type="text/javascript" src="js/form.js"></script><script type="text/javascript" src="js/workflow.js"></script><script type="text/javascript" src="js/formGrid.js"></script><script type="text/javascript" src="js/formQuery.js"></script><script type="text/javascript" src="js/formSearch.js"></script><script type="text/javascript" src="js/gridInput.js"></script><script type="text/javascript" src="js/lz-string/lz-string.min.js"></script><script type="text/javascript" src="https://leaf.va.gov/app/libs/js/LEAF/XSSHelpers.js"></script><script type="text/javascript" src="https://leaf.va.gov/app/libs/js/nexus/LEAFNexusAPI.js"></script><script type="text/javascript" src="https://leaf.va.gov/app/libs/js/portal/LEAFPortalAPI.js"></script><script type="text/javascript" src="https://leaf.va.gov/ap
+VM5675:11 CSRF found at index 13490:    formData.append('CSRFToken', 'fa2863704c6dbe8c6583ad3784822afe68ff4dbd720f51a92fc10f77f7617736');
+    formData.append
