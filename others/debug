@@ -1,7 +1,14 @@
-report.php?a=dashboard:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-report.php?a=dashboard:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-project_v10.js:279  checkAndCopyResolvedRecurringTasks: could not obtain CSRF token, skipping.
-checkAndCopyResolvedRecurringTasks @ project_v10.js:279
-await in checkAndCopyResolvedRecurringTasks
-main @ project_v10.js:7283
+// Find all elements that mention 45 in class, id, or for attribute
+['[class*="45"]', '[id*="45"]', '[for*="45"]', '[data-id="45"]'].forEach(
+  function (sel) {
+    document.querySelectorAll(sel).forEach(function (el) {
+      console.log(sel, el.outerHTML.substring(0, 200));
+    });
+  },
+);
+VM241:5 [id*="45"] <div class="printsubblock" id="subIndicator_45_1"><div class="printsublabel"><div class="printsubheading" style="height: 14.1667px;"><span class="printsubheading" title="indicatorID: 45" style="height
+VM241:5 [id*="45"] <div class="printResponse" id="xhrIndicator_45_1">                                                                                                                    <span class="printResponse" id="da
+VM241:5 [id*="45"] <span class="printResponse" id="data_45_1">
+                 Yes
+            </span>
+undefined
