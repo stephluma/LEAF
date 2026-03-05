@@ -1,7 +1,11 @@
-report.php?a=LEAF_Start_Request&id=form_9b302&title=Recurring+Task&45=Yes:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-report.php?a=LEAF_Start_Request&id=form_9b302&title=Recurring+Task&45=Yes:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-index.php?a=view&recordID=119:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-index.php?a=view&recordID=119:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-project_v10.js:6126 Recurring checkbox set successfully on attempt 11
+console.log(typeof LeafFormQuery);
+VM673:1 function
+undefined
+var query = new LeafFormQuery();
+query.addTerm("stepID", "=", "resolved");
+query.addDataTerm("data", 45, "=", "Yes");
+query.execute().then(function (r) {
+  console.log(r);
+});
+Promise {<pending>, then: ƒ}
+VM693:5 {119: {…}}
