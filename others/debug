@@ -1,17 +1,4 @@
-// Test in console first
-$(".icheck45").closest("label").css("pointer-events", "none");
-$(".icheck45").closest("span").css("pointer-events", "none");
-$("#parentID_").css("pointer-events", "none");
-$(".response.blockIndicator_45").css("pointer-events", "none");
 
-// Also destroy iCheck if initialized
-if ($.fn.iCheck) {
-  $(".icheck45").iCheck("disable");
-}
-
-console.log("done");
-VM765:12 done
-undefined
 document.querySelector(".response.blockIndicator_45").addEventListener(
   "click",
   function (e) {
@@ -25,3 +12,5 @@ document.querySelector(".response.blockIndicator_45").addEventListener(
   true,
 );
 undefined
+VM1171:5 clicked element: SPAN leaf_check 
+VM1171:5 clicked element: INPUT icheck45 leaf_check 45_
