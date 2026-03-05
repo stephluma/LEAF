@@ -13,3 +13,69 @@ query.join('status');
 query.execute().then(function(r) { console.log(JSON.stringify(r, null, 2)); });
 Promise {<pending>, then: ƒ}
 VM1655:5 {}
+var query = new LeafFormQuery();
+query.addTerm('recordIDs', '=', '143');
+query.getData([8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 30, 39, 45, 46]);
+query.join('status');
+query.execute().then(function(r) { console.log(JSON.stringify(r, null, 2)); });
+Promise {<pending>, then: ƒ}
+VM1728:5 {
+  "143": {
+    "recordID": 143,
+    "date": 1772737219,
+    "serviceID": 0,
+    "userID": "oitauslumags",
+    "title": "Record",
+    "priority": 0,
+    "lastStatus": null,
+    "submitted": 0,
+    "deleted": 0,
+    "isWritableUser": 1,
+    "isWritableGroup": 1,
+    "userMetadata": {
+      "email": "Stephanie.Lumagui@va.gov",
+      "lastName": "Lumagui",
+      "userName": "oitauslumags",
+      "firstName": "Stephanie",
+      "middleName": "L"
+    },
+    "stepID": null,
+    "blockingStepID": null,
+    "lastNotified": null,
+    "initialNotificationSent": null,
+    "stepTitle": null,
+    "userName": "oitauslumags",
+    "s1": {
+      "id8": "[object Object]",
+      "id9": "[object Object]",
+      "id10": null,
+      "id11": "",
+      "id12": "[object Object]",
+      "id13": "[object Object]",
+      "id14": "[object Object]",
+      "id16": "[object Object]",
+      "id17": "[object Object]",
+      "id18": "[object Object]",
+      "id30": "[object Object]",
+      "id39": "[object Object]",
+      "id45": "Yes",
+      "id46": null,
+      "id17_htmlPrint": "<div id=\"depPrint17\"></div>",
+      "id8_timestamp": 1772737220,
+      "id9_timestamp": 1772737220,
+      "id11_orgchart": {
+        "empUID": 0
+      },
+      "id11_timestamp": 1772737220,
+      "id12_timestamp": 1772737220,
+      "id13_timestamp": 1772737220,
+      "id14_timestamp": 1772737220,
+      "id16_timestamp": 1772737220,
+      "id17_timestamp": 1772737220,
+      "id18_timestamp": 1772737220,
+      "id30_timestamp": 1772737220,
+      "id39_timestamp": 1772737220,
+      "id45_timestamp": 1772737220
+    }
+  }
+}
