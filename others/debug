@@ -1,91 +1,37 @@
-Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at <URL>
-Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at <URL>
-Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at <URL>
-Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at <URL>
-Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at <URL>
-Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at <URL>
-Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-project_v10.js:839  CSRF token not found in START_TASK_URL response.
-fetchAndExtract @ project_v10.js:839
-await in fetchAndExtract
-ensureCSRFToken @ project_v10.js:844
-checkAndCopyResolvedRecurringTasks @ project_v10.js:276
-main @ project_v10.js:7285
-project_v10.js:839  CSRF token not found in START_PROJECT_URL response.
-fetchAndExtract @ project_v10.js:839
-await in fetchAndExtract
-ensureCSRFToken @ project_v10.js:851
-await in ensureCSRFToken
-checkAndCopyResolvedRecurringTasks @ project_v10.js:276
-main @ project_v10.js:7285
-project_v10.js:278  checkAndCopyResolvedRecurringTasks: could not obtain CSRF token, skipping.
-checkAndCopyResolvedRecurringTasks @ project_v10.js:278
-await in checkAndCopyResolvedRecurringTasks
-main @ project_v10.js:7285
-project_v10.js:6157 Recurring checkbox set successfully on attempt 13
-fetch('/platform/projects/api/formWorkflow/127/apply', {
-  credentials: 'include'
-})
-.then(r => r.text())
-.then(d => console.log(d));
-Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   GET https://leaf.va.gov/platform/projects/api/formWorkflow/127/apply 400 (Bad Request)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
-fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
-ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
-(anonymous) @ VM3148:1
-VM3148:5 "Controller is undefined."
-fetch('/platform/projects/api/form/127', {
-  credentials: 'include'
-})
-.then(r => r.json())
-.then(d => console.log(JSON.stringify(d, null, 2)));
+fetch("https://leaf.va.gov/platform/projects/api/formWorkflow/127/apply", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin"
+  },
+  "referrer": "https://leaf.va.gov/platform/projects/report.php?a=dashboard",
+  "body": null,
+  "method": "GET",
+  "mode": "cors",
+  "credentials": "include"
+});
 
-Promise {<pending>, then: ƒ}
-VM3165:5 {
-  "label": "name",
-  "identifier": "jsonIdx",
-  "items": [
-    {
-      "name": "Task",
-      "type": "form",
-      "jsonIdx": -2,
-      "series": 1,
-      "children": [
-        {
-          "name": "1.1: Task",
-          "desc": "Task",
-          "type": "form_9b302",
-          "jsonIdx": "7.1",
-          "series": 1,
-          "format": "",
-          "indicatorID": 7
-        }
-      ]
-    }
-  ]
-}
-
-fetch('/platform/projects/api/formWorkflow/127', {
-  credentials: 'include'
-})
-.then(r => r.json())
-.then(d => console.log(JSON.stringify(d, null, 2)));
-Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   GET https://leaf.va.gov/platform/projects/api/formWorkflow/127 400 (Bad Request)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
-fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
-ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
-(anonymous) @ VM3181:2
-VM3181:6 "Controller is undefined."
+GET /platform/projects/api/formWorkflow/127/apply HTTP/1.1
+Accept: */*
+Accept-Encoding: gzip, deflate, br, zstd
+Accept-Language: en-US,en;q=0.9
+Cache-Control: no-cache
+Connection: keep-alive
+Cookie: PHPSESSID=gfl7u89jsr7h5di0rotbk84h9e; dtCookie=v_4_srv_52_sn_547AF758A625BFAB3A953684C6C29EEB_perc_100000_ol_0_mul_1_app-3A0b5de6c003f4dc0c_1_rcs-3Acss_0; af4441596b110025d1cd66a9a205a170=9932f4a42f948811b2e8cd4d73194455; REMOTE_USER=4f526275434b3174424469634a75676b3a3a3337326331653031373366313535323833333238636265356331303634363730; rxVisitor=17725475886778T97L7OHPFICNU7G0RSDM799US8MU03G; nmstat=7129f290-f8b1-9214-2275-9c84d584f0b8; _ga=GA1.1.1933242930.1772633209; _ga_DFN0H6SPPL=GS2.1.s1772633209$o1$g1$t1772633283$j47$l0$h0; _ga_CSLL4ZEK4L=GS2.1.s1772633210$o1$g1$t1772633929$j12$l0$h0; dtSa=-; rxvt=1772736918275|1772725885093; dtPC=52$335114781_793h-vTRHQPPREWSGDCUFLUAMNCMJJSMHKCFUW-0e0
+Host: leaf.va.gov
+Pragma: no-cache
+Referer: https://leaf.va.gov/platform/projects/report.php?a=dashboard
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Mobile Safari/537.36 Edg/142.0.0.0
+sec-ch-ua: "Chromium";v="142", "Microsoft Edge";v="142", "Not_A Brand";v="99"
+sec-ch-ua-mobile: ?1
+sec-ch-ua-platform: "Android"
