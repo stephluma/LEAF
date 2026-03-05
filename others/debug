@@ -1,18 +1,59 @@
-_pmCheckRecurring();
-Promise {<pending>}[[Prototype]]: Promise[[PromiseState]]: "fulfilled"[[PromiseResult]]: undefined
-project_v10.js:360 Recurring task copied: source=119 → new=122
-   POST https://leaf.va.gov/platform/projects/api/formWorkflow/122/apply 409 (Conflict)
-dtAWF @ ruxitagentjs_ICA7NVf…250822043923.js:250
-fetch @ ruxitagentjs_ICA7NVf…250822043923.js:276
-ya @ ruxitagentjs_ICA7NVf…250822043923.js:275
-copyRecurringTask @ project_v10.js:385
+report.php?a=dashboard:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+report.php?a=dashboard:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+project_v10.js:830  CSRF token not found in START_TASK_URL response.
+fetchAndExtract @ project_v10.js:830
+await in fetchAndExtract
+ensureCSRFToken @ project_v10.js:835
+createTaskRecord @ project_v10.js:3052
+copyRecurringTask @ project_v10.js:315
 await in copyRecurringTask
 checkAndCopyResolvedRecurringTasks @ project_v10.js:293
 await in checkAndCopyResolvedRecurringTasks
-(anonymous) @ VM80:1
-project_v10.js:295  Failed to copy recurring task 119 Error: Workflow submit failed HTTP 409
-    at copyRecurringTask (project_v10.js:397:13)
+main @ project_v10.js:7253
+project_v10.js:830  CSRF token not found in START_PROJECT_URL response.
+fetchAndExtract @ project_v10.js:830
+await in fetchAndExtract
+ensureCSRFToken @ project_v10.js:842
+await in ensureCSRFToken
+createTaskRecord @ project_v10.js:3052
+copyRecurringTask @ project_v10.js:315
+await in copyRecurringTask
+checkAndCopyResolvedRecurringTasks @ project_v10.js:293
+await in checkAndCopyResolvedRecurringTasks
+main @ project_v10.js:7253
+report.php?a=LEAF_Start_Request&id=form_9b302&title=Task&csrfProbe=1&ts=1772730161543:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+report.php?a=LEAF_Start_Request&id=form_9b302&title=Task&csrfProbe=1&ts=1772730161543:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+index.php?a=view&recordID=113:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+index.php?a=view&recordID=113:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+project_v10.js:3059  Missing CSRFToken. Attempting create without token.
+createTaskRecord @ project_v10.js:3059
+await in createTaskRecord
+copyRecurringTask @ project_v10.js:315
+await in copyRecurringTask
+checkAndCopyResolvedRecurringTasks @ project_v10.js:293
+await in checkAndCopyResolvedRecurringTasks
+main @ project_v10.js:7253
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   POST https://leaf.va.gov/platform/projects/api/form/new 401 (Unauthorized)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
+createTaskRecord @ project_v10.js:3071
+await in createTaskRecord
+copyRecurringTask @ project_v10.js:315
+await in copyRecurringTask
+checkAndCopyResolvedRecurringTasks @ project_v10.js:293
+await in checkAndCopyResolvedRecurringTasks
+main @ project_v10.js:7253
+project_v10.js:295  Failed to copy recurring task 119 Error: Create failed HTTP 401
+    at createTaskRecord (project_v10.js:3078:22)
+    at async copyRecurringTask (project_v10.js:315:23)
     at async checkAndCopyResolvedRecurringTasks (project_v10.js:293:11)
 checkAndCopyResolvedRecurringTasks @ project_v10.js:295
 await in checkAndCopyResolvedRecurringTasks
-(anonymous) @ VM80:1
+main @ project_v10.js:7253
+index.php?a=printview&recordID=122:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+index.php?a=printview&recordID=122:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
