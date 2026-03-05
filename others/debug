@@ -1,8 +1,44 @@
-Not submitted:
-https://leaf.va.gov/platform/projects/api/form/query/?q={"terms":[{"id":"stepID","operator":"!=","match":"submitted","gate":"AND"},{"id":"categoryID","operator":"=","match":"form_9b302","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{}}&x-filterData=recordID,title
+fetch('/platform/projects/report.php?a=LEAF_Start_Request&id=form_9b302&title=Task', {
+  credentials: 'include'
+})
+.then(r => r.text())
+.then(html => {
+  var appendMatch = html.match(/formData\.append\(\s*['"]CSRFToken['"]\s*,\s*['"]([a-f0-9]+)['"]\s*\)/i);
+  var token = appendMatch ? appendMatch[1] : null;
+  console.log('token:', token);
 
-Submitted: 
-https://leaf.va.gov/platform/projects/api/form/query/?q={"terms":[{"id":"stepID","operator":"=","match":"submitted","gate":"AND"},{"id":"categoryID","operator":"=","match":"form_9b302","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{}}&x-filterData=recordID,title
+  var body = new URLSearchParams();
+  body.append('CSRFToken', token);
+  body.append('dependencyID', '0');
+  body.append('actionType', 'Submit');
+  body.append('comment', 'Auto-submitted by recurring task copy.');
 
-Resolved
-https://leaf.va.gov/platform/projects/api/form/query/?q={"terms":[{"id":"stepID","operator":"=","match":"resolved","gate":"AND"},{"id":"categoryID","operator":"=","match":"form_9b302","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{}}&x-filterData=recordID,title
+  return fetch('/platform/projects/api/formWorkflow/139/apply', {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      'x-requested-with': 'XMLHttpRequest',
+      'x-csrf-token': token
+    },
+    body: body.toString()
+  })
+  .then(r => r.text())
+  .then(d => console.log('apply response:', d));
+});
+Promise {<pending>, then: ƒ}
+VM6054:8 token: fa2863704c6dbe8c6583ad3784822afe68ff4dbd720f51a92fc10f77f7617736
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   POST https://leaf.va.gov/platform/projects/api/formWorkflow/139/apply 409 (Conflict)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
+(anonymous) @ VM6054:16
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+Gb @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+cb.<computed> @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+then @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:272
+(anonymous) @ VM6054:5
+VM6054:27 apply response: "This page is out of date. Please refresh for the latest status."
