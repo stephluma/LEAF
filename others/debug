@@ -1,9 +1,12 @@
-I'd recommend taking a look at the APIs and techniques in here as a starting point: https://github.com/department-of-veterans-affairs/LEAF-Developer-Examples/blob/master/utility/massAction_Copy_Data.tpl
- 
-We don't have a copy API (we technically have one for files, but we should not be using it and will migrate away from it), and instead we should use existing Read/Write APIs to "Copy" records.
- 
-The starting point is an example of copying data from one record ID to another, but the core components can be used to implement a better "Copy Request" function.
- 
-The key Read API you'll need is: ./form/[recordID]/data (Example: https://leaf.va.gov/Academy/Demo1/api/form/1/data). This outputs all data associated with a record. Note that it's based on the latest version of the Form. Therefore if a field is removed from the form, the related data field will not show up. You can alternately use the query API, but you'd need to manually define the data fields you need with this: https://github.com/department-of-veterans-affairs/LEAF-Developer-Examples/tree/master/forms#read-one-or-more-records
-
-The standard Read/Write APIs are listed here: https://github.com/department-of-veterans-affairs/LEAF-Developer-Examples/blob/master/forms/README.md
+report.php?a=dashboard:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+report.php?a=dashboard:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+report.php?a=LEAF_Start_Request&id=form_9b302&title=Recurring+Task&45=Yes:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+report.php?a=LEAF_Start_Request&id=form_9b302&title=Recurring+Task&45=Yes:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+project_v10.js:6100  Recurring checkbox (indicator 45) not found in iframe DOM.
+(anonymous) @ project_v10.js:6100
+frame._recurringLoadHandler @ project_v10.js:477
+index.php?a=view&recordID=119:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+index.php?a=view&recordID=119:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
