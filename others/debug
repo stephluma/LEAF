@@ -1,23 +1,21 @@
-// Search all script tags on the page
-document.querySelectorAll('script[src]').forEach(function(s) {
-    if (s.src.indexOf('project') !== -1 || s.src.indexOf('v10') !== -1 || s.src.indexOf('v9') !== -1) {
-        console.log(s.src);
-    }
-});
+LEAF 4700 -  if need-to-know is enabled, the record title must be replaced with the form type
+resolved 4/3/25
 
-// Also check all iframes
-document.querySelectorAll('iframe').forEach(function(f) {
-    console.log('iframe src:', f.src);
-});
-VM2333:4 https://leaf.va.gov/platform/projects/js/dialogController.js
-VM2333:4 https://leaf.va.gov/platform/projects/js/form.js
-VM2333:4 https://leaf.va.gov/platform/projects/js/gridInput.js
-VM2333:4 https://leaf.va.gov/platform/projects/js/workflow.js
-VM2333:4 https://leaf.va.gov/platform/projects/js/formGrid.js
-VM2333:4 https://leaf.va.gov/platform/projects/js/formQuery.js
-VM2333:4 https://leaf.va.gov/platform/projects/js/formPrint.js
-VM2333:4 https://leaf.va.gov/platform/projects/js/portalHelpers.js
-VM2333:4 https://leaf.va.gov/platform/projects/js/jsdiff.js
-VM2333:4 https://leaf.va.gov/platform/projects/js/titleValidator.js
-VM2333:4 https://leaf.va.gov/platform/projects/js/functions/toggleZoom.js
-undefined
+LEAF-4755
+ 2 new email template variables:
+
+fullTitle.insecure
+truncatedTitle.insecureenable people to use the original title even if the form is listed as "need to know".
+resolved 5/8/25
+
+LEAF-5109
+Enable “Need to Know” by Default for All new LEAF Forms
+resolved 11/21/25
+
+LEAF-5017
+Enforce Minimum Character Limit in Justification Field in LEAF-S certification form
+resolved 11/25/25
+
+LEAF-5016
+Add Form Preview to LEAF-S Certification Grid for Approvers (Privacy Officers)
+resolved 12/08/25
