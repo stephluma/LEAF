@@ -1,12 +1,31 @@
-
-console.log({
-    sublabelVisible: $('.sublabel.blockIndicator_45').is(':visible'),
-    responseVisible: $('.response.blockIndicator_45').is(':visible'),
-    sublabelDisplay: $('.sublabel.blockIndicator_45').css('display'),
-    responseDisplay: $('.response.blockIndicator_45').css('display'),
-    sublabelParentVisible: $('.sublabel.blockIndicator_45').parent().is(':visible'),
-    sublabelParentDisplay: $('.sublabel.blockIndicator_45').parent().css('display')
-});
-
-VM3131:2 {sublabelVisible: true, responseVisible: true, sublabelDisplay: 'block', responseDisplay: 'block', sublabelParentVisible: true, …}
-undefined
+Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at <URL>
+Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at <URL>
+Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at <URL>
+Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at <URL>
+Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at <URL>
+Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+project_v10.js:839  CSRF token not found in START_TASK_URL response.
+fetchAndExtract @ project_v10.js:839
+project_v10.js:839  CSRF token not found in START_PROJECT_URL response.
+fetchAndExtract @ project_v10.js:839
+project_v10.js:369 Recurring task copied: source=119 → new=127
+/platform/projects/api/formWorkflow/127/apply:1   Failed to load resource: the server responded with a status of 409 (Conflict)
+project_v10.js:304  Failed to copy recurring task 119 Error: Workflow submit failed HTTP 409
+    at copyRecurringTask (project_v10.js:406:13)
+    at async checkAndCopyResolvedRecurringTasks (project_v10.js:302:11)
+checkAndCopyResolvedRecurringTasks @ project_v10.js:304
+project_v10.js:369 Recurring task copied: source=124 → new=128
+/platform/projects/api/formWorkflow/128/apply:1   Failed to load resource: the server responded with a status of 409 (Conflict)
+project_v10.js:304  Failed to copy recurring task 124 Error: Workflow submit failed HTTP 409
+    at copyRecurringTask (project_v10.js:406:13)
+    at async checkAndCopyResolvedRecurringTasks (project_v10.js:302:11)
+checkAndCopyResolvedRecurringTasks @ project_v10.js:304
