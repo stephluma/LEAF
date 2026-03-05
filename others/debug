@@ -1,8 +1,3 @@
-console.log({
-    sublabel: $('.sublabel.blockIndicator_45').length,
-    response: $('.response.blockIndicator_45').length,
-    sublabelVisible: $('.sublabel.blockIndicator_45').is(':visible'),
-    responseVisible: $('.response.blockIndicator_45').is(':visible')
-});
-VM2061:1 {sublabel: 0, response: 0, sublabelVisible: false, responseVisible: false}
-undefined
+$('.sublabel.blockIndicator_45').hide();
+$('.response.blockIndicator_45').hide();
+S.fn.init {length: 0, prevObject: S.fn.init}
