@@ -1,21 +1,20 @@
-fetch('/platform/projects/report.php?a=LEAF_Start_Request&id=form_9b302&title=Task',
-{credentials: 'include'
-})
-.then(r => r.text())
-.then(html => {
-  // Print first 3000 chars to find where CSRFToken appears
-  console.log(html.substring(0, 3000));
-  // Also search specifically for csrf anywhere in the page
-  var idx = html.toLowerCase().indexOf('csrf');
-  if (idx !== -1) {
-    console.log('CSRF found at index ' + idx + ':',
-  html.substring(idx - 20, idx + 100));
-  } else {
-    console.log('CSRF not found anywhere in response');
-  }
-
-});
-Promise {<pending>, then: ƒ}
-VM5675:7 <!DOCTYPE html><html lang="en"><head><script>if(navigator.userAgent.indexOf("Trident") != -1) {alert('Please use Microsoft Edge or Google Chrome to access this site.');}</script><title>VA LEAF Projects, Office of Information &amp; Technology</title><meta name="viewport" content="width=device-width, initial-scale=1"><script type="text/javascript" src="/ruxitagentjs_ICA7NVfhqrux_10323250822043923.js" data-dtconfig="rid=RID_-788015119|rpid=-980814897|domain=va.gov|reportUrl=/rb_65aa2f7a-2a1d-4836-9cfb-f98e8ba3af74|app=0b5de6c003f4dc0c|cuc=e0lcgmjb|owasp=1|mel=100000|featureHash=ICA7NVfhqrux|dpvc=1|md=mdcc1=a#headerHelp ^rb b|lastModification=1772734257635|tp=500,50,0|rdnt=1|uxrgce=1|srbbv=2|agentUri=/ruxitagentjs_ICA7NVfhqrux_10323250822043923.js"></script><style type="text/css" media="screen">@import "https://leaf.va.gov/app/libs/js/jquery/css/dcvamc/jquery-ui.custom.min.css";@import "https://leaf.va.gov/app/libs/js/choicesjs/choices.min.css";@import "css/style.css";@import "https://leaf.va.gov/app/libs/js/jquery/chosen/chosen.min.css";@import "https://leaf.va.gov/app/libs/js/jquery/trumbowyg/ui/trumbowyg.min.css";/* backwards compat */@import "https://leaf.va.gov/app/libs/js/jquery/icheck/skins/square/blue.css";</style><style type="text/css" media="print">@import "css/printer.css";#qrcode-js {display: block !important;}#qrcode-js * {display: block !important;-webkit-print-color-adjust: exact !important;print-color-adjust: exact !important;}</style><script type="text/javascript" src="https://leaf.va.gov/app/libs/js/jquery/jquery.min.js"></script><script type="text/javascript" src="https://leaf.va.gov/app/libs/js/jquery/jquery-ui.custom.min.js"></script><script type="text/javascript" src="js/dialogController.js"></script><script type="text/javascript" src="https://leaf.va.gov/app/libs/js/jquery/chosen/chosen.jquery.min.js"></script><script type="text/javascript" src="https://leaf.va.gov/app/libs/js/jquery/trumbowyg/trumbowyg.min.js"></script><!--backwards compat --><script type="text/javascript" src="https://leaf.va.gov/app/libs/js/jquery/icheck/icheck.js"></script><script type="text/javascript" src="https://leaf.va.gov/app/libs/js/LEAF/sessionAnnounce.js"></script><script type="text/javascript" src="js/form.js"></script><script type="text/javascript" src="js/workflow.js"></script><script type="text/javascript" src="js/formGrid.js"></script><script type="text/javascript" src="js/formQuery.js"></script><script type="text/javascript" src="js/formSearch.js"></script><script type="text/javascript" src="js/gridInput.js"></script><script type="text/javascript" src="js/lz-string/lz-string.min.js"></script><script type="text/javascript" src="https://leaf.va.gov/app/libs/js/LEAF/XSSHelpers.js"></script><script type="text/javascript" src="https://leaf.va.gov/app/libs/js/nexus/LEAFNexusAPI.js"></script><script type="text/javascript" src="https://leaf.va.gov/app/libs/js/portal/LEAFPortalAPI.js"></script><script type="text/javascript" src="https://leaf.va.gov/ap
-VM5675:11 CSRF found at index 13490:    formData.append('CSRFToken', 'fa2863704c6dbe8c6583ad3784822afe68ff4dbd720f51a92fc10f77f7617736');
-    formData.append
+report.php?a=dashboard:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+report.php?a=dashboard:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+project_v10.js:899 CSRF token fetched via formData.append match.
+project_v10.js:373 Recurring task copied: source=119 → new=139
+ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250   POST https://leaf.va.gov/platform/projects/api/formWorkflow/139/apply 409 (Conflict)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:250
+fetch @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:276
+ya @ ruxitagentjs_ICA7NVfhqrux_10323250822043923.js:275
+copyRecurringTask @ project_v10.js:398
+await in copyRecurringTask
+checkAndCopyResolvedRecurringTasks @ project_v10.js:306
+await in checkAndCopyResolvedRecurringTasks
+main @ project_v10.js:7319
+project_v10.js:308  Failed to copy recurring task 119 Error: Workflow submit failed HTTP 409
+    at copyRecurringTask (project_v10.js:410:13)
+    at async checkAndCopyResolvedRecurringTasks (project_v10.js:306:11)
+checkAndCopyResolvedRecurringTasks @ project_v10.js:308
+await in checkAndCopyResolvedRecurringTasks
+main @ project_v10.js:7319
