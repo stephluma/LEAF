@@ -1,14 +1,18 @@
-checkAndCopyResolvedRecurringTasks();
-
-VM2313:1 Uncaught ReferenceError: checkAndCopyResolvedRecurringTasks is not defined
-    at <anonymous>:1:1
-(anonymous) @ VM2313:1
-// Temporarily override to confirm it's being reached
-var _original = checkAndCopyResolvedRecurringTasks;
-checkAndCopyResolvedRecurringTasks = function () {
-  console.log("checkAndCopyResolvedRecurringTasks called");
-  return _original.apply(this, arguments);
-};
-VM2317:2 Uncaught ReferenceError: checkAndCopyResolvedRecurringTasks is not defined
-    at <anonymous>:2:17
-(anonymous) @ VM2317:2
+_pmCheckRecurring();
+Promise {<pending>}[[Prototype]]: Promise[[PromiseState]]: "fulfilled"[[PromiseResult]]: undefined
+project_v10.js:360 Recurring task copied: source=119 → new=122
+   POST https://leaf.va.gov/platform/projects/api/formWorkflow/122/apply 409 (Conflict)
+dtAWF @ ruxitagentjs_ICA7NVf…250822043923.js:250
+fetch @ ruxitagentjs_ICA7NVf…250822043923.js:276
+ya @ ruxitagentjs_ICA7NVf…250822043923.js:275
+copyRecurringTask @ project_v10.js:385
+await in copyRecurringTask
+checkAndCopyResolvedRecurringTasks @ project_v10.js:293
+await in checkAndCopyResolvedRecurringTasks
+(anonymous) @ VM80:1
+project_v10.js:295  Failed to copy recurring task 119 Error: Workflow submit failed HTTP 409
+    at copyRecurringTask (project_v10.js:397:13)
+    at async checkAndCopyResolvedRecurringTasks (project_v10.js:293:11)
+checkAndCopyResolvedRecurringTasks @ project_v10.js:295
+await in checkAndCopyResolvedRecurringTasks
+(anonymous) @ VM80:1
