@@ -1,23 +1,13 @@
-// Search all script tags on the page
-document.querySelectorAll('script[src]').forEach(function(s) {
-    if (s.src.indexOf('project') !== -1 || s.src.indexOf('v10') !== -1 || s.src.indexOf('v9') !== -1) {
-        console.log(s.src);
-    }
-});
-
-// Also check all iframes
-document.querySelectorAll('iframe').forEach(function(f) {
-    console.log('iframe src:', f.src);
-});
-VM2542:4 https://leaf.va.gov/platform/projects/js/dialogController.js
-VM2542:4 https://leaf.va.gov/platform/projects/js/form.js
-VM2542:4 https://leaf.va.gov/platform/projects/js/gridInput.js
-VM2542:4 https://leaf.va.gov/platform/projects/js/workflow.js
-VM2542:4 https://leaf.va.gov/platform/projects/js/formGrid.js
-VM2542:4 https://leaf.va.gov/platform/projects/js/formQuery.js
-VM2542:4 https://leaf.va.gov/platform/projects/js/formPrint.js
-VM2542:4 https://leaf.va.gov/platform/projects/js/portalHelpers.js
-VM2542:4 https://leaf.va.gov/platform/projects/js/jsdiff.js
-VM2542:4 https://leaf.va.gov/platform/projects/js/titleValidator.js
-VM2542:4 https://leaf.va.gov/platform/projects/js/functions/toggleZoom.js
-undefined
+fetch('/platform/projects/files/project_v10.js?v=' + Date.now())
+  .then(r => r.text())
+  .then(js => {
+    // Execute the fresh version
+    var script = document.createElement('script');
+    script.textContent = js;
+    document.head.appendChild(script);
+    console.log('Script reloaded. Testing _pmCheckRecurring:');
+    console.log(typeof _pmCheckRecurring);
+  });
+Promise {<pending>, then: ƒ}
+VM8138:8 Script reloaded. Testing _pmCheckRecurring:
+VM8138:9 function
