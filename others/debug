@@ -1,45 +1,21 @@
-report.php?a=dashboard:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-report.php?a=dashboard:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-project_v10.js:954 CSRF token fetched via formData.append match.
-var query = new LeafFormQuery();
-query.addTerm('recordIDs', '=', '158');  // replace XXX with actual new ID
-query.getData([11, 45, 46]);
-query.execute().then(function(r) { 
-    console.log(JSON.stringify(r, null, 2)); 
+fetch("https://leaf.va.gov/platform/orgchart/api/employee/import/_oitauslumags", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
+    "x-requested-with": "XMLHttpRequest"
+  },
+  "referrer": "https://leaf.va.gov/platform/projects/index.php?a=view&recordID=159",
+  "body": "CSRFToken=4fec4d32b83621d762f2bfca3d59d64864299e03593dc12becca7952a79ee7a1",
+  "method": "POST",
+  "mode": "cors",
+  "credentials": "include"
 });
-Promise {<pending>, then: ƒ}
-VM1808:5 {
-  "158": {
-    "recordID": 158,
-    "date": 1772829026,
-    "serviceID": 0,
-    "userID": "oitauslumags",
-    "title": "Recurring Task",
-    "priority": 0,
-    "lastStatus": null,
-    "submitted": 0,
-    "deleted": 0,
-    "isWritableUser": 1,
-    "isWritableGroup": 1,
-    "userMetadata": {
-      "email": "Stephanie.Lumagui@va.gov",
-      "lastName": "Lumagui",
-      "userName": "oitauslumags",
-      "firstName": "Stephanie",
-      "middleName": "L"
-    },
-    "userName": "oitauslumags",
-    "s1": {
-      "id11": "",
-      "id45": "Yes",
-      "id46": "156",
-      "id11_orgchart": {
-        "empUID": 0
-      },
-      "id11_timestamp": 1772829026,
-      "id45_timestamp": 1772829027,
-      "id46_timestamp": 1772829027
-    }
-  }
-}
