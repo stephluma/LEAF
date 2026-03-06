@@ -1,9 +1,15 @@
-var frame = document.getElementById("pmModalFrame");
-var doc = frame.contentDocument || frame.contentWindow.document;
-doc.querySelectorAll('input[type="radio"]').forEach(function(r) {
-    console.log(r.name, r.value, r.checked, r.outerHTML.substring(0, 150));
+localStorage.removeItem('pm_recurring_copied_v10');
+_pmCheckRecurring();
+Promise {<pending>}
+project_v10.js:954 CSRF token fetched via formData.append match.
+project_v10.js:954 CSRF token fetched via formData.append match.
+project_v10.js:468 Recurring task copied: source=156 → new=158
+
+var query = new LeafFormQuery();
+query.addTerm('recordIDs', '=', 'XXX');  // replace XXX with actual new ID
+query.getData([11, 45, 46]);
+query.execute().then(function(r) { 
+    console.log(JSON.stringify(r, null, 2)); 
 });
-VM829:4 44 On Hold false <input type="radio" id="44_radio1" class="icheck44 leaf_check" name="44" value="On Hold" aria-describedby="format_label_44">
-VM829:4 44 Blocked false <input type="radio" id="44_radio2" class="icheck44 leaf_check" name="44" value="Blocked" aria-describedby="format_label_44">
-VM829:4 45 Yes true <input type="radio" id="45_radio4" class="icheck45 leaf_check" name="45" value="Yes" checked="checked" aria-describedby="format_label_45">
-undefined
+Promise {<pending>, then: ƒ}
+VM1682:6 {}
