@@ -1,21 +1,5 @@
-fetch("https://leaf.va.gov/platform/orgchart/api/employee/import/_oitauslumags", {
-  "headers": {
-    "accept": "*/*",
-    "accept-language": "en-US,en;q=0.9",
-    "cache-control": "no-cache",
-    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-    "pragma": "no-cache",
-    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
-    "sec-ch-ua-mobile": "?1",
-    "sec-ch-ua-platform": "\"Android\"",
-    "sec-fetch-dest": "empty",
-    "sec-fetch-mode": "cors",
-    "sec-fetch-site": "same-origin",
-    "x-requested-with": "XMLHttpRequest"
-  },
-  "referrer": "https://leaf.va.gov/platform/projects/index.php?a=view&recordID=159",
-  "body": "CSRFToken=4fec4d32b83621d762f2bfca3d59d64864299e03593dc12becca7952a79ee7a1",
-  "method": "POST",
-  "mode": "cors",
-  "credentials": "include"
-});
+
+report.php?a=dashboard:1  Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.
+Element with focus: <button.pm-modalClose#pmModalCloseBtn>
+Ancestor with aria-hidden: <div.pm-modal#pmModal> <div id=​"pmModal" class=​"pm-modal" aria-hidden=​"false" style=​"display:​ block;​">​…​</div>​
+/p
