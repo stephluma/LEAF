@@ -1,25 +1,4 @@
-fetch("https://leaf.va.gov/platform/orgchart/api/national/employee/search?q=userName%3Aoitauslumags&noLimit=0&domain=&_=1772830110532", {
-  "headers": {
-    "accept": "application/json, text/javascript, */*; q=0.01",
-    "accept-language": "en-US,en;q=0.9",
-    "cache-control": "no-cache",
-    "pragma": "no-cache",
-    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
-    "sec-ch-ua-mobile": "?1",
-    "sec-ch-ua-platform": "\"Android\"",
-    "sec-fetch-dest": "empty",
-    "sec-fetch-mode": "cors",
-    "sec-fetch-site": "same-origin",
-    "x-requested-with": "XMLHttpRequest"
-  },
-  "referrer": "https://leaf.va.gov/platform/projects/index.php?a=view&recordID=161",
-  "body": null,
-  "method": "GET",
-  "mode": "cors",
-  "credentials": "include"
-});
-
-fetch("https://leaf.va.gov/platform/orgchart/api/employee/import/_oitauslumags", {
+fetch("https://leaf.va.gov/platform/projects/api/form/161/submit", {
   "headers": {
     "accept": "*/*",
     "accept-language": "en-US,en;q=0.9",
@@ -32,16 +11,17 @@ fetch("https://leaf.va.gov/platform/orgchart/api/employee/import/_oitauslumags",
     "sec-fetch-dest": "empty",
     "sec-fetch-mode": "cors",
     "sec-fetch-site": "same-origin",
+    "x-dtpc": "52$430621991_966h10vIABITBSUKFUHILHKHGRHGBKIVHLFJUKP-0e0",
     "x-requested-with": "XMLHttpRequest"
   },
-  "referrer": "https://leaf.va.gov/platform/projects/index.php?a=view&recordID=161",
+  "referrer": "https://leaf.va.gov/platform/projects/index.php?a=printview&recordID=161",
   "body": "CSRFToken=4fec4d32b83621d762f2bfca3d59d64864299e03593dc12becca7952a79ee7a1",
   "method": "POST",
   "mode": "cors",
   "credentials": "include"
 });
 
-fetch("https://leaf.va.gov/platform/orgchart/api/employee/search?q=%23539772&noLimit=0&domain=&includeDisabled=true&_=1772830110533", {
+fetch("https://leaf.va.gov/platform/projects/api/formWorkflow/161/currentStep?masquerade=nonAdmin&_=1772830622016", {
   "headers": {
     "accept": "application/json, text/javascript, */*; q=0.01",
     "accept-language": "en-US,en;q=0.9",
@@ -53,9 +33,32 @@ fetch("https://leaf.va.gov/platform/orgchart/api/employee/search?q=%23539772&noL
     "sec-fetch-dest": "empty",
     "sec-fetch-mode": "cors",
     "sec-fetch-site": "same-origin",
+    "x-dtpc": "52$430621991_966h11vIABITBSUKFUHILHKHGRHGBKIVHLFJUKP-0e0",
     "x-requested-with": "XMLHttpRequest"
   },
-  "referrer": "https://leaf.va.gov/platform/projects/index.php?a=view&recordID=161",
+  "referrer": "https://leaf.va.gov/platform/projects/index.php?a=printview&recordID=161",
+  "body": null,
+  "method": "GET",
+  "mode": "cors",
+  "credentials": "include"
+});
+
+fetch("https://leaf.va.gov/platform/projects/api/formWorkflow/161/lastActionSummary?_=1772830622017", {
+  "headers": {
+    "accept": "application/json, text/javascript, */*; q=0.01",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
+    "x-dtpc": "52$430621991_966h12vIABITBSUKFUHILHKHGRHGBKIVHLFJUKP-0e0",
+    "x-requested-with": "XMLHttpRequest"
+  },
+  "referrer": "https://leaf.va.gov/platform/projects/index.php?a=printview&recordID=161",
   "body": null,
   "method": "GET",
   "mode": "cors",
