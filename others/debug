@@ -1,11 +1,19 @@
-
 var query = new LeafFormQuery();
-query.addTerm('stepID', '=', 'resolved');
-query.addDataTerm('data', 45, '=', 'Yes');
+query.addTerm('recordIDs', '=', '137');
+query.getData([45]);
 query.execute().then(function(r) { 
-    console.log('resolved recurring records:', JSON.stringify(Object.keys(r)));
-    console.log('localStorage dedup:', localStorage.getItem('pm_recurring_copied_v10'));
+    console.log(JSON.stringify(r['137'].s1, null, 2)); 
 });
 Promise {<pending>, then: ƒ}
-VM161:5 resolved recurring records: []
-VM161:6 localStorage dedup: ["137"]
+VM672:5 {
+  "id45": "Yes",
+  "id45_timestamp": 1772735950
+}
+var frame = document.getElementById("pmModalFrame");
+var doc = frame.contentDocument || frame.contentWindow.document;
+doc.querySelectorAll('input[type="radio"]').forEach(function(r) {
+    console.log(r.name, r.value, r.checked, r.outerHTML.substring(0, 150));
+});
+VM684:2 Uncaught TypeError: Cannot read properties of null (reading 'contentDocument')
+    at <anonymous>:2:17
+(anonymous) @ VM684:2
