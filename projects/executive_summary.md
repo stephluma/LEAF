@@ -1,115 +1,27 @@
-# LEAF Project Dashboard Executive Summary
+# LEAF Project Dashboard — Executive Summary
 
-## Overview
+## What It Is
 
-The LEAF Project Dashboard (v10) is the current version of the platform's unified project and task management interface, delivering a full-featured operational dashboard with real-time task tracking, analytics, OKR alignment, Kanban board, recurring task automation and many more functions that utilize LEAF's infrastructure at the core. 
+The LEAF Project Dashboard is a purpose-built operational platform that helps VA teams plan, track, and deliver digital work, built entirely on infrastructure the VA already built - Light Electronic Action Framework (LEAF). It gives teams a structured, consistent way to manage projects and tasks from initiation through completion, without relying on external tools, manual processes, or disconnected spreadsheets.
 
-## Purpose of the Project Dashboard
+## The Problem It Solves
 
-Provide a unified, platform-level view of project and task execution to support leadership oversight, prioritization, and accountability.
+VA teams doing digital work need more than a task list. They need a shared operational picture — one that keeps work moving, surfaces what is blocked or at risk, and connects day-to-day execution to the outcomes the organization is trying to achieve. Without that, teams spend time on coordination overhead instead of delivery, work falls through the cracks, and there is no reliable way to know whether the right things are getting done.
 
-## Business problem it solves
+## How It Helps Teams Deliver
 
-Eliminates external software use and fragmented, manual status reporting by consolidating project and task data into a single, consistent view of progress, risk, and throughput.
+The dashboard gives every team member a clear view of their work and a structured way to move it forward. Projects and tasks are organized in one place, ownership is explicit, priorities are visible, and status is always current. Teams can manage work across table, Kanban, and timeline views depending on how they think and operate.
 
-## Intended users
+Recurring operational work is automated — tasks that repeat are configured once and regenerate themselves, eliminating the manual overhead of re-creating routine work and ensuring nothing is dropped. When a task is completed, the system records when it was done, creating a reliable delivery history that teams can use to identify patterns, improve forecasting, and demonstrate progress.
 
-Leadership, portfolio owners, program managers, and operational stakeholders who require visibility across projects and tasks.
+The platform is built on LEAF, meaning it integrates naturally with existing VA workflows, approval routing, and governance structures. There is no new system to learn, no data leaving the platform, and no licensing cost.
 
-## Relationship to LEAF platform modules (Projects, Tasks, Analytics)
+## Leadership Visibility as a Force Multiplier
 
-Consolidates data from Projects and Tasks into an analytics-oriented dashboard that aligns operational activity with outcome tracking.
+When teams operate well, leadership gains something valuable: a live, accurate picture of what is happening across the portfolio. The dashboard surfaces schedule performance, completion trends, overdue work, and goal alignment — not through manual reporting, but as a natural byproduct of teams doing their work in the system.
 
-## Current State: project_v10 (Active Operations Phase)
-
-### Core capabilities
-
-- Unified project and task visibility across all active work streams
-- Task-level status, ownership, due-date, and completion date tracking
-- Actual Completion Date auto-stamped when a task is marked complete, enabling schedule variance analysis
-- Recurring task automation — tasks flagged as recurring automatically generate a fresh copy when completed, requiring no manual re-creation
-- Three task views: Table (virtualized, paginated), Kanban (drag-and-drop with keyboard support), and Gantt (timeline bar chart)
-- % Completion column on the Projects table — live calculation of completed vs. total tasks per project with inline progress bar
-- Project Health Sticky bar — per-project summary of total tasks, completed count, completion %, and overdue count
-- Cross-project analytics with Year/Quarter filtering, including schedule variance chart
-- OKR roll-up with Quick View, Index, and per-Key-Result drill-down
-- Add menu for creating Projects, Tasks, Recurring Tasks, Objectives, and Key Results directly from the dashboard
-
-### Primary user workflows
-
-- Review project inventory, status, fiscal year, and % completion at a glance
-- Inspect task execution details across Table, Kanban, and Gantt views
-- Track actual completion dates against due dates to identify schedule trends
-- Monitor recurring task health — set up once per task, the system self-maintains
-- Identify overdue work and execution bottlenecks via the analytics tab
-- Align task and project activity to OKRs and Key Results
-
-### Analytics roll-ups and indicator health scoring
-
-- Aggregated roll-ups of task completion, overdue indicators, and schedule variance
-- Project-level health scoring based on completion percentage and schedule risk
-- Schedule Variance chart: buckets completed tasks into Early/On Time, 1–7 days late, 8–14 days late, and 15+ days late — giving leadership a data-driven view of execution accuracy over time
-- OKR analytics with per-objective and per-key-result completion percentages
-- Analytics filtering by calendar year and quarter for trend analysis
-
-### Operational improvements over legacy reporting patterns
-
-- Standardized metrics across teams with consistent indicator interpretation
-- Reduced dependency on ad hoc status updates through real-time dashboard visibility
-- Faster identification of execution risk via overdue tracking and schedule variance analytics
-- Recurring task automation eliminates manual re-creation of repeating work items
-- Actual Completion Date tracking closes the loop between planned and actual delivery
-
-### Operational Governance Design
-
-#### Internal Forms
-
-- Internal Forms are used within both the Project and Task forms to identify an org chart employee for Product Owner (PO) review prior to closeout.
-- This enables structured routing for PO review without relying on broad user access group notifications.
-- This design reduces non-actionable notifications and supports scalable multi-team usage.
-- An additional Internal Form is used in Task to collect file attachments and supplemental notes in a structured manner.
-
-#### User Access Groups
-
-- Governance and visibility are controlled through defined user access groups.
-- PO Review workflow group for product owner approvals.
-- OKR workflow group for leadership approvals.
-- Two dashboard-specific groups:
-  - LEAF Team: Full dashboard visibility plus action controls (Add buttons and inbox row); operational contributors.
-  - Project Dashboard – Read Only: Dashboard visibility only; intended for senior leadership and viewers; no action controls unless also added to LEAF Team.
-- Intentional separation of visibility vs. action authority.
-- Reduced notification fatigue.
-- Clear governance boundaries.
-- Scalable oversight model.
+This gives leadership the context to make faster, better-informed decisions about priorities and resources — and creates an auditable record of delivery that supports accountability at every level.
 
 ## Strategic Value
 
-### Visibility into work and progress
-
-Clear, organization-wide visibility into active work streams, execution status, and delivery accuracy — including whether work is being completed on time or trending late.
-
-### Structured accountability
-
-Defined ownership, measurable progress indicators, and actual completion date tracking create a consistent and auditable record of delivery performance.
-
-### Operational Intelligence Through Schedule Variance
-
-The Schedule Variance chart transforms raw completion data into actionable delivery insight — revealing whether the team is consistently on time, trending late, or improving over time. This gives leadership a fact-based foundation for resourcing and prioritization decisions.
-
-### Recurring Work Without Overhead
-
-The recurring task system eliminates the manual cost of re-creating repeating work items. Each recurring task is configured once and self-maintains indefinitely, reducing operational overhead and ensuring repeating work is never dropped.
-
-### Controlled Action and Oversight
-
-- The dashboard separates who can see work from who can act on work.
-- Approval routing is structured and role-based rather than broadcast-based.
-- Governance scales without overwhelming stakeholders.
-
-### Reduction of fragmented reporting
-
-Single source of truth that eliminates duplicate reporting, inconsistent metrics, and manual status collection — from task-level execution up to OKR alignment.
-
-### Operational clarity at scale
-
-Scalable reporting structure for portfolio-level decision-making.
+The LEAF Project Dashboard is an investment in how VA teams operate. It reduces the friction of managing digital work, keeps execution aligned to organizational goals, and produces the visibility that good governance requires — all within infrastructure the VA already controls.
