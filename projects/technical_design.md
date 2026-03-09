@@ -1,3 +1,5 @@
+[Documentation created by Claude.ai]: #
+
 # LEAF Project Dashboard — v10 Technical Documentation
 
 ## 1) Overview
