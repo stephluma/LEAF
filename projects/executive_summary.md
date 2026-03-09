@@ -2,7 +2,7 @@
 
 ## Overview
 
-The LEAF Project Dashboard (v10) is the current version of the platform's unified project and task management interface. It represents a significant evolution from earlier versions, delivering a full-featured operational dashboard with real-time task tracking, analytics, OKR alignment, Gantt timeline visualization, recurring task automation, and schedule variance intelligence. v10 is actively used by the LEAF team for day-to-day project execution and leadership oversight.
+The LEAF Project Dashboard (v10) is the current version of the platform's unified project and task management interface, delivering a full-featured operational dashboard with real-time task tracking, analytics, OKR alignment, Kanban board, recurring task automation and many more functions that utilize LEAF's infrastructure at the core. 
 
 ## Purpose of the Project Dashboard
 
@@ -10,7 +10,7 @@ Provide a unified, platform-level view of project and task execution to support 
 
 ## Business problem it solves
 
-Eliminates fragmented, manual status reporting by consolidating project and task data into a single, consistent view of progress, risk, and throughput.
+Eliminates external software use and fragmented, manual status reporting by consolidating project and task data into a single, consistent view of progress, risk, and throughput.
 
 ## Intended users
 
@@ -59,13 +59,6 @@ Consolidates data from Projects and Tasks into an analytics-oriented dashboard t
 - Faster identification of execution risk via overdue tracking and schedule variance analytics
 - Recurring task automation eliminates manual re-creation of repeating work items
 - Actual Completion Date tracking closes the loop between planned and actual delivery
-
-### Areas currently being refined
-
-- Schedule variance analytics adoption and baseline establishment
-- Recurring task workflows across all team members
-- Completion date backfill for tasks completed prior to v10.1 deployment
-- Tooltip and onboarding guidance for newer dashboard features
 
 ### Operational Governance Design
 
