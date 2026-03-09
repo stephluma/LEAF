@@ -18,7 +18,7 @@ Version reference: v10.
 
 ## 2) File Structure and Versioning
 
-- `project_v10.html`
+- `project_v10.html` [view_homepage.tpl]
   - Page structure, layout scaffolding, tab containers, and modal plumbing.
   - OKR Analytics containers (filters, quick view, index, roll-up).
   - Add menu (Project, Task, Objective, Key Result) and View Inbox button.
