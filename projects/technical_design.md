@@ -1,6 +1,6 @@
 [Documentation created by Claude.ai]: #
 
-# LEAF Project Dashboard — v10 Technical Documentation
+# LEAF Project Dashboard — v11 Technical Documentation
 
 ## 1) Overview
 
@@ -12,13 +12,13 @@ Primary functional views:
 - Tasks (Table, Kanban, Gantt)
 - Analytics (Project analytics + OKR roll-up)
 
-Version reference: v10.
+Version reference: v11.
 
 ---
 
 ## 2) File Structure and Versioning
 
-- `project_v10.html` [view_homepage.tpl]
+- `project_v11.html` [view_homepage.tpl]
   - Page structure, layout scaffolding, tab containers, and modal plumbing.
   - OKR Analytics containers (filters, quick view, index, roll-up).
   - Add menu (Project, Task, Objective, Key Result) and View Inbox button.
@@ -26,23 +26,46 @@ Version reference: v10.
   - Project Health Sticky bar container (`pmProjectHealthSticky`).
   - Tasks table pagination container (`pmTasksTablePagination`).
   - Jump-to-top button (`pmJumpTopBtn`).
-- `project_v10.css`
+  - Font preconnect hint for Google Fonts (performance).
+  - Analytics chart titles promoted to `<h3>` elements.
+  - Modal titles (`#pmModalTitle`, `#pmOtherModalTitle`) promoted to `<h2>` elements.
+  - Hidden panels now use the native `hidden` attribute instead of `style="display:none"`.
+  - Tour overlay `role="dialog"` / `aria-modal` correctly scoped to inner tooltip only.
+- `project_v11.css`
   - Dashboard styling (tables, cards, filters, tasks, OKR roll-up UI, badges, progress bars).
   - Gantt view styles (`.pm-gantt*` family).
   - Project Health Sticky bar styles (`.pm-healthSticky`, `.pm-healthInner`, `.pm-healthCell`).
   - Pagination styles (`.pm-pagination`, `.pm-paginationControls`, etc.).
   - Jump-to-top button styles (`.pm-jumpTop`).
   - Add menu popover styles (`.pm-addMenu`, `.pm-addMenuPopover`, `.pm-menuItem`).
-- `project_v10.js`
+  - Z-index scale comment block at top of file.
+  - `.pm-input:focus { outline: none }` override removed (restores keyboard focus rings).
+  - `.pm-filterHeaderLabel` color raised to `var(--text)` for WCAG AA compliance.
+  - `.pm-switchInput` upgraded to full visually-hidden / sr-only pattern.
+  - Decorative `content` strings updated to use `/ ""` alt-text suppression syntax.
+  - Help tooltip z-index raised from 9999 to 10002.
+  - Tour spotlight transition changed from `all 0.3s ease` to explicit property list.
+  - `h3.pm-chartTitle` added to chart title selector.
+  - Deprecated `-webkit-overflow-scrolling: touch` declarations removed.
+- `project_v11.js`
   - Data fetching, normalization, filtering, aggregation, rendering, and UI behavior.
   - Gantt rendering (`renderGantt`), Gantt priority color logic (`ganttPriorityClass`).
   - Project Health Sticky rendering (`renderProjectHealthSticky`).
   - Pagination system (`buildPaginationModel`, `renderPaginationControls`, `ensurePaginationState`).
-  - Jump-to-top wiring (`wireJumpToTop`).
+  - Jump-to-top wiring (`wireJumpToTop`); resize listener debounced at 120ms.
   - Add menu and View Inbox wiring (`wireAddButtons`).
   - CSRF token resolution (`ensureCSRFToken`, `fetchCSRFTokenFromIframe`, `extractCSRFTokenFromHTML`).
+  - `decodeEntities` applied at all LEAF API extraction points to prevent double-encoding.
+  - Kanban completed-status auto-reload removed; error feedback via aria-live region.
+  - Kanban column config memoized via `_kanbanColsCache`.
+  - Recurring copied-set read once per loop pass (performance).
+  - All `STORAGE_KEYS` version-stamped to `v11`; `RECURRING_COPIED_KEY` bumped to `v11`.
+  - Multi-select toggle `id`, `aria-haspopup`, and per-filter search `aria-label` added.
+  - OKR index items include `role="button"` and `tabindex="0"` with Enter/Space handlers.
+  - Recurring banner carries `role="status"`, `aria-live="polite"`, `aria-atomic="true"`.
+  - Inbox badge `aria-label` uses correct singular/plural form; "No inbox items" when hidden.
 
-v10 supersedes v9 and adds: Gantt timeline view for tasks, Project Health Sticky bar, tasks table pagination, jump-to-top button, Add menu (Project / Task / Objective / Key Result) with full keyboard support, View Inbox button, Projects fiscal year filter, Projects by Project Type analytics chart, robust multi-strategy CSRF token resolution, recurring task auto-copy system, Actual Completion Date field on tasks, Schedule Variance analytics chart, and % Completion column on the Projects table. v9 performance architecture (lazy tab/view init, derived caching, task table virtualization, Kanban caps + load more, incremental analytics updates) is preserved.
+v11 supersedes v10. All v10 capabilities are preserved. v11 adds: full accessibility audit pass (focus rings, heading hierarchy, ARIA roles, contrast, sr-only patterns, decorative content suppression), double-encoding bug fix for LEAF pre-encoded API values, Kanban completed-column auto-reload removal, Kanban error feedback via aria-live instead of alert(), Kanban column memoization, debounced resize listener, deprecated CSS removal, native `hidden` attribute adoption, and version-stamped localStorage keys.
 
 ---
 
@@ -54,11 +77,13 @@ The dashboard uses LEAF Smarty template conditionals to gate visibility:
 <!--{if $empMembership['groupID'][435]}-->
 <!-- Outer gate: read-only group 435. All users need this. -->
 <div class="pm-wrap">
-  <span id="pmEnv"
+  <span
+    id="pmEnv"
     data-csrf="{$CSRFToken}"
     data-csrf-alt="{$csrf_token}"
     data-csrf2="{$csrfToken}"
-    style="display:none"></span>
+    style="display:none"
+  ></span>
 
   <!--{if $empMembership['groupID'][12]}-->
   <!-- Inner gate: LEAF Team group 12. Shows Add menu and View Inbox. -->
@@ -97,7 +122,9 @@ Tasks (Task form):
 - `indicatorID 30` — Task OKR Key
 - `indicatorID 39` — Task Key Result
 - `indicatorID 45` — Is Recurring (Yes/No checkbox)
+- `indicatorID 46` — Copied from Task # (source record ID written on copies for traceability)
 - `indicatorID 47` — Actual Completion Date (auto-stamped when task status is set to "Completed")
+- `indicatorID 48` — Continued as Task # (new copy's record ID written back to the source task)
 
 Projects (Project form):
 
@@ -145,6 +172,7 @@ New or expanded mappings post-v7:
 - Analytics windows use task/project `createdAt` when available (fallback to start/due).
 - `actualCompletionDate` (47) is auto-stamped with today's date (YYYY-MM-DD) when a task's status is changed to "Completed" via `updateTaskStatus()`. It is also fetched in the tasks query and exposed as `t.actualCompletion` on normalized task objects.
 - `isRecurring` (45) is used by the recurring task auto-copy system (see Section 23).
+- `recurringCopied` (48) is written back to the source task after a successful copy, storing the new copy's record ID. Provides server-side deduplication that survives localStorage clears, private browsing, and new devices. Must be created manually in LEAF Form Editor (type = text, label = "Continued as Task #", read-only) before server-side deduplication takes effect. Falls back to localStorage only until the field exists.
 
 ---
 
@@ -155,18 +183,32 @@ All statuses and Kanban column orderings are centralized in `STATUS_CONFIG`:
 ```js
 var STATUS_CONFIG = {
   ALL_STATUSES: [
-    "Not Started", "In Progress", "Ready for HCD Review",
-    "Ready for Testing", "Ready for PO Review", "Other", "Completed"
+    "Not Started",
+    "In Progress",
+    "Ready for HCD Review",
+    "Ready for Testing",
+    "Ready for PO Review",
+    "Other",
+    "Completed",
   ],
   LEGACY_KANBAN_COLUMNS: [
-    "Not Started", "In Progress", "Ready for HCD Review",
-    "Ready for PO Review", "Completed", "Other"
+    "Not Started",
+    "In Progress",
+    "Ready for HCD Review",
+    "Ready for PO Review",
+    "Completed",
+    "Other",
   ],
   DEV_KANBAN_COLUMNS: [
-    "Not Started", "In Progress", "Ready for HCD Review",
-    "Ready for Testing", "Ready for PO Review", "Completed", "Other"
+    "Not Started",
+    "In Progress",
+    "Ready for HCD Review",
+    "Ready for Testing",
+    "Ready for PO Review",
+    "Completed",
+    "Other",
   ],
-  OTHER_SUBTYPES: ["Blocked", "On Hold"]
+  OTHER_SUBTYPES: ["Blocked", "On Hold"],
 };
 ```
 
@@ -259,11 +301,11 @@ The tasks table supports server-side–style pagination rendered client-side.
 ```js
 var PAGINATION_CONFIG = {
   tasks: {
-    storageKey: "pm_tasks_pagination_v9",
+    storageKey: "pm_tasks_pagination_v11",
     containerId: "pmTasksTablePagination",
     defaultPageSize: 100,
-    pageSizes: [50, 100, 200]
-  }
+    pageSizes: [50, 100, 200],
+  },
 };
 ```
 
@@ -313,8 +355,13 @@ A timeline bar chart for tasks with start/due dates.
 ### HTML Structure
 
 ```html
-<div id="pmGanttWrap" role="tabpanel" aria-labelledby="pmViewGanttBtn"
-     aria-hidden="true" style="display:none">
+<div
+  id="pmGanttWrap"
+  role="tabpanel"
+  aria-labelledby="pmViewGanttBtn"
+  aria-hidden="true"
+  style="display:none"
+>
   <div class="pm-ganttMeta" id="pmGanttMeta"></div>
   <div id="pmGanttBoard" class="pm-gantt">
     <div id="pmGanttInner"></div>
@@ -334,8 +381,8 @@ A timeline bar chart for tasks with start/due dates.
 
 ### Priority Color Classes
 
-| Priority | CSS Class     | Color     |
-|----------|---------------|-----------|
+| Priority | CSS Class      | Color     |
+| -------- | -------------- | --------- |
 | High     | `pm-ganttHigh` | `#f2938c` |
 | Medium   | `pm-ganttMed`  | `#e6c74c` |
 | Low      | `pm-ganttLow`  | `#aacdec` |
@@ -380,7 +427,7 @@ A sticky summary bar that appears above the tasks table when a specific project 
 ### HTML
 
 ```html
-<div id="pmProjectHealthSticky" class="pm-healthSticky" style="display:none">
+<div id="pmProjectHealthSticky" class="pm-healthSticky" hidden>
   <div class="pm-healthInner"></div>
 </div>
 ```
@@ -396,11 +443,26 @@ A sticky summary bar that appears above the tasks table when a specific project 
 ### CSS
 
 ```css
-.pm-healthSticky  { position: sticky; top: var(--space-2); z-index: 10; }
-.pm-healthInner   { display: flex; flex-wrap: wrap; gap: 12px 18px; }
-.pm-healthCell    { font-size: 1.05rem; white-space: nowrap; }
-.pm-healthLabel   { font-weight: 900; }
-.pm-healthValue   { font-weight: 400; }
+.pm-healthSticky {
+  position: sticky;
+  top: var(--space-2);
+  z-index: 10;
+}
+.pm-healthInner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+}
+.pm-healthCell {
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+.pm-healthLabel {
+  font-weight: 900;
+}
+.pm-healthValue {
+  font-weight: 400;
+}
 ```
 
 ### Reproducing in Another Site
@@ -420,12 +482,12 @@ A team-member–only action row at the top of the dashboard (gated by LEAF group
 
 A popover menu button that opens a small dropdown with four creation options:
 
-| Menu Item   | Action key     | Opens modal for              |
-|-------------|----------------|------------------------------|
-| + Project   | `project`       | New Project form             |
-| + Task      | `task`          | New Task form                |
-| + Objective | `objective`     | New OKR (Objective) form     |
-| + Key Result| `keyResult`     | New Key Result form          |
+| Menu Item    | Action key  | Opens modal for          |
+| ------------ | ----------- | ------------------------ |
+| + Project    | `project`   | New Project form         |
+| + Task       | `task`      | New Task form            |
+| + Objective  | `objective` | New OKR (Objective) form |
+| + Key Result | `keyResult` | New Key Result form      |
 
 Each action calls `openModal(title, url)` with the appropriate `START_*_URL` constant.
 
@@ -450,19 +512,61 @@ A "View Inbox" ghost button that opens `report.php?a=LEAF_Inbox` in the record m
 <!--{if $empMembership['groupID'][12]}-->
 <div class="pm-actionsRow pm-actionsRowSpaced">
   <div class="pm-addMenu">
-    <button type="button" class="pm-primaryBtn pm-addBtn" id="pmAddMenuBtn"
-      aria-haspopup="menu" aria-expanded="false" aria-controls="pmAddMenuList">
+    <button
+      type="button"
+      class="pm-primaryBtn pm-addBtn"
+      id="pmAddMenuBtn"
+      aria-haspopup="menu"
+      aria-expanded="false"
+      aria-controls="pmAddMenuList"
+    >
       Add
     </button>
-    <div class="pm-addMenuPopover" id="pmAddMenuList"
-      role="menu" aria-label="Add menu" aria-orientation="vertical" hidden>
-      <button type="button" class="pm-menuItem" role="menuitem" data-action="project">+ Project</button>
-      <button type="button" class="pm-menuItem" role="menuitem" data-action="task">+ Task</button>
-      <button type="button" class="pm-menuItem" role="menuitem" data-action="objective">+ Objective</button>
-      <button type="button" class="pm-menuItem" role="menuitem" data-action="keyResult">+ Key Result</button>
+    <div
+      class="pm-addMenuPopover"
+      id="pmAddMenuList"
+      role="menu"
+      aria-label="Add menu"
+      aria-orientation="vertical"
+      hidden
+    >
+      <button
+        type="button"
+        class="pm-menuItem"
+        role="menuitem"
+        data-action="project"
+      >
+        + Project
+      </button>
+      <button
+        type="button"
+        class="pm-menuItem"
+        role="menuitem"
+        data-action="task"
+      >
+        + Task
+      </button>
+      <button
+        type="button"
+        class="pm-menuItem"
+        role="menuitem"
+        data-action="objective"
+      >
+        + Objective
+      </button>
+      <button
+        type="button"
+        class="pm-menuItem"
+        role="menuitem"
+        data-action="keyResult"
+      >
+        + Key Result
+      </button>
     </div>
   </div>
-  <button type="button" class="pm-ghostBtn pm-inboxBtn" id="pmViewInboxBtn">View Inbox</button>
+  <button type="button" class="pm-ghostBtn pm-inboxBtn" id="pmViewInboxBtn">
+    View Inbox
+  </button>
 </div>
 <!--{/if}-->
 ```
@@ -470,10 +574,12 @@ A "View Inbox" ghost button that opens `report.php?a=LEAF_Inbox` in the record m
 ### URL Constants (replace with your own LEAF instance paths)
 
 ```js
-var START_PROJECT_URL    = "report.php?a=LEAF_Start_Request&id=form_55445&title=Project";
-var START_TASK_URL       = "report.php?a=LEAF_Start_Request&id=form_9b302&title=Task";
-var START_OKR_URL        = "report.php?a=LEAF_Start_Request&id=form_a2b55&title=OKR";
-var START_KEY_RESULT_URL = "report.php?a=LEAF_Start_Request&id=form_6530b&title=Key+Result";
+var START_PROJECT_URL =
+  "report.php?a=LEAF_Start_Request&id=form_55445&title=Project";
+var START_TASK_URL = "report.php?a=LEAF_Start_Request&id=form_9b302&title=Task";
+var START_OKR_URL = "report.php?a=LEAF_Start_Request&id=form_a2b55&title=OKR";
+var START_KEY_RESULT_URL =
+  "report.php?a=LEAF_Start_Request&id=form_6530b&title=Key+Result";
 ```
 
 ---
@@ -487,23 +593,41 @@ A fixed-position circular button in the bottom-right corner that scrolls the pag
 - Visible only when the page is scrollable (scroll height > viewport + 80px) AND the user has scrolled down > 120px.
 - Toggled via `.is-visible` class; when hidden, `pointer-events: none` and `opacity: 0`.
 - Click triggers `window.scrollTo({ top: 0, behavior: 'smooth' })`.
-- Visibility updates on `scroll` (passive) and `resize`.
+- Visibility updates on `scroll` (passive) and `resize` (debounced at 120ms).
 - `aria-hidden` and `tabindex` are kept in sync with visibility.
 
 ### HTML
 
 ```html
-<button class="pm-jumpTop" id="pmJumpTopBtn"
-  aria-label="Jump to top" aria-hidden="true" tabindex="-1">↑</button>
+<button
+  class="pm-jumpTop"
+  id="pmJumpTopBtn"
+  aria-label="Jump to top"
+  aria-hidden="true"
+  tabindex="-1"
+>
+  ↑
+</button>
 ```
 
 ### CSS
 
 ```css
-.pm-jumpTop          { position: fixed; right: 24px; bottom: 24px;
-                       width: 46px; height: 46px; border-radius: 999px;
-                       opacity: 0; pointer-events: none; z-index: 1200; }
-.pm-jumpTop.is-visible { opacity: 1; pointer-events: auto; }
+.pm-jumpTop {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1200;
+}
+.pm-jumpTop.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
 ```
 
 ---
@@ -535,6 +659,7 @@ The Projects table includes a sortable **% Complete** column as the last column.
 **Helper function**: `getProjectCompletionPct(projectKey)` filters `state.tasksAll` by project key, counts tasks whose status contains "completed" (case-insensitive), and returns `Math.round((completed / total) * 100)`, or 0 if there are no tasks.
 
 **Styling**: Uses the same color classes as the Project Health Sticky bar:
+
 - `pm-completeGreen` (green) when % = 100
 - `pm-completeMid` (amber, `#b26a00`) when % ≥ 50 and < 100
 - No color class when % < 50
@@ -544,13 +669,35 @@ The Projects table includes a sortable **% Complete** column as the last column.
 **Sorting**: When `state.sort.projects.key === "completionPct"`, `getProjectCompletionPct()` is called on each project during the sort comparison using `compareValues` with type `"number"`.
 
 New CSS classes added:
+
 ```css
-.pm-colCompletion   { width: 110px; min-width: 90px; text-align: center; }
-.pm-compPctWrap     { display: inline-flex; align-items: center; gap: 6px; width: 100%; }
-.pm-compPctBar      { display: inline-block; height: 6px; background: #2563eb;
-                      border-radius: 3px; min-width: 2px; max-width: 60px; }
-.pm-compPctLabel    { font-weight: 600; font-size: 13px; min-width: 36px; }
-.pm-completeMid     { color: #b26a00; }
+.pm-colCompletion {
+  width: 110px;
+  min-width: 90px;
+  text-align: center;
+}
+.pm-compPctWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+.pm-compPctBar {
+  display: inline-block;
+  height: 6px;
+  background: #2563eb;
+  border-radius: 3px;
+  min-width: 2px;
+  max-width: 60px;
+}
+.pm-compPctLabel {
+  font-weight: 600;
+  font-size: 13px;
+  min-width: 36px;
+}
+.pm-completeMid {
+  color: #b26a00;
+}
 ```
 
 ---
@@ -561,21 +708,22 @@ New CSS classes added:
 
 All charts are rendered via Chart.js and support Year/Quarter filtering. The following charts are present:
 
-| Chart Title                   | Canvas ID                     | Data Source               |
-|-------------------------------|-------------------------------|---------------------------|
-| Due date buckets              | `pmChartDueBuckets`            | Tasks (due date)          |
-| Completed tasks by quarter    | `pmChartCompletedByQuarter`    | Tasks (completion date)   |
-| Completed tasks by category   | `pmChartCompletedByCategory`   | Tasks (category)          |
-| Tasks by priority             | `pmChartTasksByPriority`       | Tasks                     |
-| Tasks by Status               | `pmChartTasksByStatus`         | Tasks                     |
-| Tasks per Project Key         | `pmChartTasksByProject`        | Tasks                     |
-| Tickets imported by month     | `pmChartTicketsImported`       | Tasks (support ticket)    |
-| **Projects by Project Type**  | `pmChartProjectsByType`        | **Projects (type field)**  |
-| **Schedule Variance (Days Late/Early)** | `pmChartScheduleVariance` | **Completed tasks (actualCompletion vs due date)** |
+| Chart Title                             | Canvas ID                    | Data Source                                        |
+| --------------------------------------- | ---------------------------- | -------------------------------------------------- |
+| Due date buckets                        | `pmChartDueBuckets`          | Tasks (due date)                                   |
+| Completed tasks by quarter              | `pmChartCompletedByQuarter`  | Tasks (completion date)                            |
+| Completed tasks by category             | `pmChartCompletedByCategory` | Tasks (category)                                   |
+| Tasks by priority                       | `pmChartTasksByPriority`     | Tasks                                              |
+| Tasks by Status                         | `pmChartTasksByStatus`       | Tasks                                              |
+| Tasks per Project Key                   | `pmChartTasksByProject`      | Tasks                                              |
+| Tickets imported by month               | `pmChartTicketsImported`     | Tasks (support ticket)                             |
+| **Projects by Project Type**            | `pmChartProjectsByType`      | **Projects (type field)**                          |
+| **Schedule Variance (Days Late/Early)** | `pmChartScheduleVariance`    | **Completed tasks (actualCompletion vs due date)** |
 
 "Projects by Project Type" is new in v10 and uses `buildProjectTypeChartData(projects)` which aggregates `project.projectType` (indicator 32) with `formatProjectTypeLabel` for display normalization.
 
 **Schedule Variance chart** is new in v10.1. It is computed by `computeScheduleVariance(tasks)` which:
+
 - Only considers completed tasks that have both a `due` date and an `actualCompletion` date.
 - Computes `gap = actualCompletion - due` in whole days.
 - Buckets into: "Early/On Time" (gap ≤ 0), "1–7 days late", "8–14 days late", "15+ days late".
@@ -592,12 +740,12 @@ Both tables are generated by `renderAnalyticsTablesFromCache(cache)` and rendere
 
 ### Project Health Rollup vs. Health Sticky Bar
 
-| Feature                   | Analytics Project Health Table     | Tasks Health Sticky Bar             |
-|---------------------------|-------------------------------------|--------------------------------------|
-| Location                  | Analytics tab                       | Tasks tab                            |
-| Scope                     | All projects, all tasks             | One selected project                 |
-| Trigger                   | Analytics view activation           | Project filter selection             |
-| Updates on task change    | Yes (incremental cache update)      | Yes (re-renders on filter change)    |
+| Feature                | Analytics Project Health Table | Tasks Health Sticky Bar           |
+| ---------------------- | ------------------------------ | --------------------------------- |
+| Location               | Analytics tab                  | Tasks tab                         |
+| Scope                  | All projects, all tasks        | One selected project              |
+| Trigger                | Analytics view activation      | Project filter selection          |
+| Updates on task change | Yes (incremental cache update) | Yes (re-renders on filter change) |
 
 ---
 
@@ -697,33 +845,39 @@ FY interaction with OKR calculations:
 - v9: Stabilized performance and UX (virtualized task table, Kanban caps + load more, incremental analytics updates, lazy view initialization).
 - v10: Gantt timeline view, Project Health Sticky bar, tasks table pagination, jump-to-top button, Add menu with full keyboard support, View Inbox button, Projects fiscal year filter, Projects by Project Type analytics chart, robust multi-strategy CSRF resolution.
 - v10.1: Actual Completion Date field on tasks (indicator 47, auto-stamped on completion), Completed Date column in task table (sortable, filterable by date range), Schedule Variance analytics chart, % Completion column on Projects table (sortable, with inline progress bar).
+- v11: Full accessibility audit pass (keyboard focus rings, heading hierarchy, ARIA roles and labels, WCAG AA contrast, sr-only switch pattern, decorative content suppression); double-encoding bug fix for LEAF pre-encoded API values; Kanban completed-column auto-reload removed; Kanban error feedback via aria-live region instead of alert(); Kanban column config memoized; debounced resize listener; deprecated CSS removed; native `hidden` attribute adopted for hidden panels; all localStorage keys version-stamped to v11; indicator 48 (Continued as Task #) added for server-side recurring dedup; OKR index keyboard activation; font preconnect hint added; z-index scale documented.
 
 ---
 
-## 23) Recurring Task Auto-Copy System (v10)
+## 23) Recurring Task Auto-Copy System (v10+)
 
 Tasks marked with `isRecurring = Yes` (indicator 45) are automatically copied when resolved.
 
 ### How It Works
 
 1. On each data load, `checkAndCopyResolvedRecurringTasks()` queries for tasks with `stepID = resolved` AND `indicator 45 = Yes`.
-2. For each such task, if it has not already been copied (checked via `localStorage` key `pm_recurring_copied_v10` and an in-memory lock `recurringInProgress`), `copyRecurringTask(sourceRecordID)` is called.
+2. For each such task, if it has not already been copied (checked via the `RECURRING_COPIED_KEY` localStorage set and an in-memory lock `recurringInProgress`), `copyRecurringTask(sourceRecordID)` is called. In v11 the copied-set is read once before the loop instead of once per record.
 3. The copy process:
    - Reads all task fields from the source record via query API.
    - Creates a new task record via `/api/form/new` POST, copying all indicator fields except status (reset to "Not Started") and otherSubType (cleared).
-   - Writes the source record ID to indicator 46 for traceability.
+   - Writes the source record ID to indicator 46 on the new copy for traceability.
+   - Writes the new copy's record ID to indicator 48 (`recurringCopied`) on the source task for server-side deduplication.
    - Re-copies the `assignedTo` field via the LEAF orgchart API sequence (search → import → write empUID).
    - Submits the new record into the workflow via `/api/form/{id}/submit`.
-4. Deduplication: the `pm_recurring_copied_v10` localStorage key persists copied record IDs across page refreshes. The in-memory `recurringInProgress` Set prevents concurrent copies within the same poll cycle.
+4. Deduplication (two layers):
+   - **localStorage** (`pm_recurring_copied_v11`): persists copied record IDs across page refreshes within the same browser.
+   - **Server-side** (indicator 48): written back to the source task after a successful copy. Survives localStorage clears, private browsing, new devices, and deleted copies. Requires indicator 48 to be created in LEAF Form Editor (type = text, label = "Continued as Task #", read-only) before it takes effect.
 
 ### Relevant Indicators
 
 - `indicatorID 45` (`RECURRING_INDICATOR_ID`) — Is Recurring flag (Yes/No).
-- `indicatorID 46` — Source record ID (written on the copy for traceability).
+- `indicatorID 46` — Copied from Task # (source record ID, written on the copy).
+- `indicatorID 48` — Continued as Task # (new copy's record ID, written on the source task).
 
 ### Gotchas
 
-- The auto-copy only runs once per resolved record ID per browser session (plus persistence via localStorage). If a copy fails, it is removed from both locks so it can retry on the next load.
+- The auto-copy only runs once per resolved record ID per browser session plus persistence via localStorage and/or indicator 48. If a copy fails, it is removed from both locks so it can retry on the next load.
+- Until indicator 48 is created on the form, server-side deduplication does not take effect and the system falls back to localStorage only.
 
 ---
 
@@ -739,4 +893,117 @@ Tasks marked with `isRecurring = Yes` (indicator 45) are automatically copied wh
 - **Completed Date column always blank**: The Actual Completion Date (indicator 47) is only auto-stamped when a task's status is changed to "Completed" through the dashboard's `updateTaskStatus()` function. Tasks completed before v10.1 was deployed, or tasks completed via direct LEAF form edits, will not have this field populated unless manually backfilled.
 - **Schedule Variance chart shows no data**: The chart requires completed tasks that have both a `due` date (indicator 13) and an `actualCompletion` date (indicator 47). If both fields are present but the chart is empty, verify the task's status contains "completed" (case-insensitive check).
 - **% Complete column shows 0 for all projects**: This column is computed client-side from `state.tasksAll`. If tasks are not loading or the project key on tasks (indicator 8) does not match the project key on the project record (indicator 2) after normalization, all projects will show 0%. Use `getProjectCompletionPct(projectKey)` in the browser console to debug a specific key.
-- **Recurring tasks being copied multiple times**: Check `localStorage.getItem('pm_recurring_copied_v10')` in the browser console. If the key is missing or corrupted, clear it with `localStorage.removeItem('pm_recurring_copied_v10')`. Each resolved recurring task should appear in this set exactly once.
+- **Recurring tasks being copied multiple times**: Check `localStorage.getItem('pm_recurring_copied_v11')` in the browser console. If the key is missing or corrupted, clear it with `localStorage.removeItem('pm_recurring_copied_v11')`. Each resolved recurring task should appear in this set exactly once. In v11, indicator 48 provides a second deduplication layer at the server level; if localStorage is cleared but indicator 48 is populated on the source task, the copy will not be re-triggered.
+- **Field values showing `&amp;` or other HTML entities in the UI**: This was a double-encoding bug fixed in v11. LEAF returns some field values pre-HTML-encoded; the v11 `extractFromS1` and `extractRawIndicator` functions apply `decodeEntities()` at extraction time. If you are seeing encoded values, confirm you are running v11 JS and not a cached v10 file.
+- **Stale filter/pagination state after upgrade from v10**: All localStorage keys changed to `v11` variants. Old `v10` keys are inert and can be cleared manually via `localStorage.clear()` or selectively by removing keys prefixed with `pm_` or `pmdashboard_`.
+
+---
+
+## 24) Accessibility Architecture (v11)
+
+v11 completed a comprehensive accessibility audit pass. The following summarizes the design decisions and implementation patterns established.
+
+### Keyboard Focus Rings
+
+The v10 CSS contained `.pm-input:focus { outline: none; box-shadow: none; }` which silently suppressed focus outlines on all input elements. This rule was removed in v11. Focus styles are now governed by the existing `.pm-input:focus-visible` rule, which preserves the ring only during keyboard navigation and not on mouse click — matching modern best practice.
+
+### Heading Hierarchy
+
+- **Analytics tab**: All chart and table title elements were `<div class="pm-chartTitle">` in v10. In v11 these are `<h3 class="pm-chartTitle">`. The CSS selector was updated to `h3.pm-chartTitle` (also accepts `.pm-chartTitle` for backward compatibility).
+- **Modals**: `#pmModalTitle` and `#pmOtherModalTitle` were `<div>` elements. In v11 they are `<h2>`, establishing correct dialog heading hierarchy for screen reader users.
+- **OKR section heading** (`#pmOkrsTitle`) was already an `<h3>` and was not changed.
+
+### ARIA on Interactive Components
+
+#### Multi-select Filters (`createMultiSelect`)
+
+| Fix                    | v10                             | v11                                         |
+| ---------------------- | ------------------------------- | ------------------------------------------- |
+| Toggle `id`            | Not set (label `for` unmatched) | `container.id + "Toggle"`                   |
+| Toggle `aria-haspopup` | Not set                         | `"listbox"`                                 |
+| Search `aria-label`    | Generic `"Search options"`      | Per-filter: e.g. `"Search Project options"` |
+
+The `labelMap` object in `createMultiSelect` maps filter `data-filter` attribute values to human-readable names for the `aria-label`.
+
+#### OKR Index Items
+
+OKR index items (`.pm-okrIndexItem`) are rendered with `role="button"` and `tabindex="0"`. A `keydown` handler on the OKR index container activates the item on Enter or Space, matching the button interaction model.
+
+#### Recurring Task Banner (`showRecurringBanner`)
+
+The dynamically injected banner element receives `role="status"`, `aria-live="polite"`, and `aria-atomic="true"` before its text content is set, ensuring screen readers announce the message without interrupting current focus.
+
+#### Inbox Badge
+
+The `aria-label` on `#pmInboxBadge` is set dynamically:
+
+- When visible: `"{n} inbox item"` / `"{n} inbox items"` (correct singular/plural).
+- When hidden: `"No inbox items"`.
+
+### Toggle Switch (Dev Mode) — `.pm-switchInput`
+
+The visually-hidden checkbox backing the Dev Mode toggle was updated to a fully compliant sr-only pattern:
+
+```css
+.pm-switchInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  opacity: 0;
+}
+```
+
+This matches the standard Bootstrap / WCAG sr-only pattern and ensures the element is fully hidden from layout while remaining accessible to AT.
+
+### Decorative Content Suppression
+
+CSS `content` properties used for decorative characters now use the `/ ""` alternative text syntax introduced in CSS Generated Content Level 3:
+
+```css
+.pm-addBtn::after {
+  content: "▾" / "";
+}
+.pm-multiSelectToggle::after {
+  content: "▾" / "";
+}
+[data-action="recurringTask"]::before {
+  content: "↺ " / "";
+}
+```
+
+This suppresses the character from screen reader announcement without removing the visual affordance.
+
+### Tour Overlay ARIA Scope
+
+In v10 the outer backdrop `#pmTourOverlay` carried `role="dialog"`, `aria-modal="true"`, and `aria-label="Dashboard tour"`. This was incorrect — the dialog role should be on the element containing the dialog content, not the full-screen backdrop. In v11 these attributes were removed from `#pmTourOverlay` and are correctly scoped to the inner `#pmTourTooltip` element only.
+
+### Color Contrast
+
+`.pm-filterHeaderLabel` in v10 used `color: var(--muted)` (`#3f4a57`), which fails WCAG AA at 13px font size (~3.2:1 ratio against the light background). In v11 this was changed to `color: var(--text)` (`#1f2933`), which passes AA at all sizes.
+
+### Hidden Attribute Adoption
+
+Four elements that were hidden via `style="display:none"` in v10 now use the native `hidden` attribute in v11: `#pmOtherModal`, `#pmModal`, `#pmProjectHealthSticky`, and `#pmOkrsAnalyticsWrap`. The JS show/hide logic was updated from `el.style.display = "block"/"none"` to `el.hidden = false/true`. The `[hidden]` selector in the CSS ensures the attribute is respected even if specificity would otherwise override the UA stylesheet.
+
+### Z-Index Documentation
+
+A comment block at the top of `project_v11.css` documents the full z-index scale:
+
+```
+/* Z-INDEX SCALE
+ * 1000  — popovers, add menu
+ * 1200  — floating table overlays, jump-to-top
+ * 9999  — banners (recurring, transfer debug)
+ * 10000 — tour overlay backdrop
+ * 10001 — tour spotlight
+ * 10002 — tour tooltip, help tooltip
+ */
+```
+
+The help tooltip was raised from z-index 9999 to 10002 to resolve a layering conflict with the tour spotlight.
