@@ -1,1 +1,9 @@
-
+report.php?a=v11:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+report.php?a=v11:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+/platform/projects/api/inbox/dependency/0:1   Failed to load resource: the server responded with a status of 400 (Bad Request)
+project_v11.js:7818 INBOX B - dependency/0: Controller is undefined. count: string
+/platform/projects/api/inbox:1   Failed to load resource: the server responded with a status of 400 (Bad Request)
+project_v11.js:7829 INBOX C status: 400
+project_v11.js:7832 INBOX C response: "Controller is undefined."
+project_v11.js:7806 INBOX A - dependency/_: Object count: object
