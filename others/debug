@@ -1,3 +1,23 @@
+fetch("https://leaf.va.gov/rb_65aa2f7a-2a1d-4836-9cfb-f98e8ba3af74?type=js3&sn=v_4_srv_43_sn_4871D1AEA812A34647817C89A1416043_perc_100000_ol_0_mul_1_app-3A0b5de6c003f4dc0c_1_rcs-3Acss_0&svrid=43&flavor=post&vi=RHAHFFPUSFMAVITEMEUCQTARVPHETPMK-0&modifiedSince=1772807861431&bp=3&app=0b5de6c003f4dc0c&crc=461438814&en=e0lcgmjb&end=1", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "content-type": "text/plain;charset=UTF-8",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin"
+  },
+  "referrer": "https://leaf.va.gov/platform/projects/report.php?a=LEAF_Inbox",
+  "body": "$a=d%7C-1%7CPage%3A%20report.php%3Fa%3DLEAF_Inbox%7CKD%7C-%7C28097182_839%7C1773028100407%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Freport.php%3Fa%3DLEAF_Inbox%7C%7C%7C%2Fplatform%2Fprojects%2Freport.php%7C1773028096536%2C1%7C1%7C_load_%7C_load_%7C-%7C1773028100434%7C1773028103084%7Cdn%7C172%7Csvtrg%7C1%7Csvm%7Ci1%5Esk0%5Esh0%7Ctvtrg%7C1%7Ctvm%7Ci1%5Esk0%5Esh0%7Clr%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Freport.php%3Fa%3Dv11%2C2%7C4%7C_event_%7C1773028100434%7C_vc_%7CV%7C2650%5Epc%7CVCD%7C1901%7CVCDS%7C1%7CVCS%7C1816%7CVCO%7C3662%7CVCI%7C0%7CTS%7C1%7CVE%7C777%5Ep500%5Ep2520%5Eps%5Es...7558144a17c36a6b0eb3fa460e9ae14dbf4baa_14bd7960aaff0502c306503d364f154c4801c866%3Espan%3Anth-child%282%29%7CS%7C1629%2C2%7C5%7C_event_%7C1773028100434%7C_wv_%7ClcpE%7CH2%7ClcpSel%7C%23progressDetail%7ClcpS%7C10105%7ClcpT%7C2264%7ClcpU%7C-%7ClcpLT%7C0%7Cfcp%7C2264%7Cfp%7C2264%7Ccls%7C0%7Clt%7C0%2C2%7C2%7Cx%7Cxhr%7Cx%7C1773028101985%7C1773028102161%7Cdn%7C170%7Cxu%7C%2Fplatform%2Fprojects%2Fapi%2Fsite%2Fsettings%2Fsitemap_json%7Csvtrg%7C1%7Csvm%7Ci1%5Esk0%5Esh0%7Ctvtrg%7C1%7Ctvm%7Ci1%5Esk0%5Esh0%7Cxrt%7Cb1773028101989e0f0g0h0i0j0k25l166m168u1211v911w911X200T-1z11I1M1076534571V0%7Cxcs%7C176%7Cxce%7C176%2C2%7C3%7C_onload_%7C_load_%7C-%7C1773028102180%7C1773028102196%7Cdn%7C172%7Csvtrg%7C1%7Csvm%7Ci1%5Esk0%5Esh0%7Ctvtrg%7C1%7Ctvm%7Ci1%5Esk0%5Esh0%2C1%7C6%7C_event_%7C1773028100434%7C_view_%7Csvn%7C%2Fplatform%2Fprojects%2Freport.php%7Csvt%7C1773028096536%7Csvtrg%7C1%7Csvm%7Ci1%5Esk0%5Esh0%7Ctvtrg%7C1%7Ctvm%7Ci1%5Esk0%5Esh0$rId=RID_1791952188$rpId=-1024837212$domR=1773028102178$tvn=%2Fplatform%2Fprojects%2Freport.php$tvt=1773028100434$tvm=i1%3Bk0%3Bh0$tvtrg=1$w=930$h=590$sw=930$sh=590$nt=a1b1773028100434e7f7g7h7i7j7k9l225m227o1557p1557q1562r1744s1746t1762u17966v17666w65877X200M-1024837212V0$ni=4g|0.75$md=mdcc1%2CStephanie%20Lumagui$url=https%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Freport.php%3Fa%3DLEAF_Inbox$title=Inbox%20-%20VA%20LEAF%20Projects%2C%20Office%20of%20Information%20%26%20Technology$latC=0$app=0b5de6c003f4dc0c$vi=RHAHFFPUSFMAVITEMEUCQTARVPHETPMK-0$fId=28100903_872$v=10323250822043923$vID=1773013279292H2VUM1BEC35TVAVPVQ000C0AATBSJ8US$rf=https%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Freport.php%3Fa%3DLEAF_Inbox$time=1773028104157",
+  "method": "POST",
+  "mode": "cors",
+  "credentials": "include"
+}); ;
 fetch("https://leaf.va.gov/platform/projects/api/site/settings/sitemap_json", {
   "headers": {
     "accept": "*/*",
@@ -10,7 +30,7 @@ fetch("https://leaf.va.gov/platform/projects/api/site/settings/sitemap_json", {
     "sec-fetch-dest": "empty",
     "sec-fetch-mode": "cors",
     "sec-fetch-site": "same-origin",
-    "x-dtpc": "43$27366829_792h2vRHAHFFPUSFMAVITEMEUCQTARVPHETPMK-0e0",
+    "x-dtpc": "43$28105685_785h2vRHAHFFPUSFMAVITEMEUCQTARVPHETPMK-0e0",
     "x-requested-with": "XMLHttpRequest"
   },
   "referrer": "https://leaf.va.gov/platform/projects/report.php?a=LEAF_Inbox",
@@ -18,8 +38,26 @@ fetch("https://leaf.va.gov/platform/projects/api/site/settings/sitemap_json", {
   "method": "GET",
   "mode": "cors",
   "credentials": "include"
-});
-
+}); ;
+fetch("https://leaf.va.gov/platform/ux/api/form/query?q={%22terms%22:[{%22id%22:%22stepID%22,%22operator%22:%22=%22,%22match%22:%22actionable%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[%22service%22,%22categoryName%22,%22status%22],%22sort%22:{},%22limit%22:500,%22limitOffset%22:0}&x-filterData=recordID,categoryIDs,categoryNames,date,title,service,submitted,priority,stepID,blockingStepID,lastStatus,stepTitle,action_history.time,unfilledDependencyData&masquerade=nonAdmin", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin"
+  },
+  "referrer": "https://leaf.va.gov/platform/projects/report.php?a=LEAF_Inbox",
+  "body": null,
+  "method": "GET",
+  "mode": "cors",
+  "credentials": "include"
+}); ;
 fetch("https://leaf.va.gov/platform/projects/api/form/query?q={%22terms%22:[{%22id%22:%22stepID%22,%22operator%22:%22=%22,%22match%22:%22actionable%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[%22service%22,%22categoryName%22,%22status%22],%22sort%22:{},%22limit%22:500,%22limitOffset%22:0}&x-filterData=recordID,categoryIDs,categoryNames,date,title,service,submitted,priority,stepID,blockingStepID,lastStatus,stepTitle,action_history.time,unfilledDependencyData&masquerade=nonAdmin", {
   "headers": {
     "accept": "*/*",
@@ -38,8 +76,45 @@ fetch("https://leaf.va.gov/platform/projects/api/form/query?q={%22terms%22:[{%22
   "method": "GET",
   "mode": "cors",
   "credentials": "include"
-});
-
+}); ;
+fetch("https://leaf.va.gov/platform/support/api/form/query?q={%22terms%22:[{%22id%22:%22stepID%22,%22operator%22:%22=%22,%22match%22:%22actionable%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[%22service%22,%22categoryName%22,%22status%22],%22sort%22:{},%22limit%22:500,%22limitOffset%22:0}&x-filterData=recordID,categoryIDs,categoryNames,date,title,service,submitted,priority,stepID,blockingStepID,lastStatus,stepTitle,action_history.time,unfilledDependencyData&masquerade=nonAdmin", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin"
+  },
+  "referrer": "https://leaf.va.gov/platform/projects/report.php?a=LEAF_Inbox",
+  "body": null,
+  "method": "GET",
+  "mode": "cors",
+  "credentials": "include"
+}); ;
+fetch("https://leaf.va.gov/platform/support/api/form/query?q={%22terms%22:[{%22id%22:%22stepID%22,%22operator%22:%22=%22,%22match%22:%22actionable%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[%22service%22,%22categoryName%22,%22status%22],%22sort%22:{},%22limit%22:500,%22limitOffset%22:500}&x-filterData=recordID,categoryIDs,categoryNames,date,title,service,submitted,priority,stepID,blockingStepID,lastStatus,stepTitle,action_history.time,unfilledDependencyData&masquerade=nonAdmin", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin"
+  },
+  "referrer": "https://leaf.va.gov/platform/projects/report.php?a=LEAF_Inbox",
+  "body": null,
+  "method": "GET",
+  "mode": "cors",
+  "credentials": "include"
+}); ;
 fetch("https://leaf.va.gov/platform/projects/api/form/query?q={%22terms%22:[{%22id%22:%22stepID%22,%22operator%22:%22=%22,%22match%22:%22actionable%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[%22service%22,%22categoryName%22,%22status%22],%22sort%22:{},%22limit%22:500,%22limitOffset%22:500}&x-filterData=recordID,categoryIDs,categoryNames,date,title,service,submitted,priority,stepID,blockingStepID,lastStatus,stepTitle,action_history.time,unfilledDependencyData&masquerade=nonAdmin", {
   "headers": {
     "accept": "*/*",
@@ -58,8 +133,47 @@ fetch("https://leaf.va.gov/platform/projects/api/form/query?q={%22terms%22:[{%22
   "method": "GET",
   "mode": "cors",
   "credentials": "include"
-});
-
+}); ;
+fetch("https://leaf.va.gov/platform/ux/api/workflow/categories?includeStandardLEAF&x-filterData=categoryID", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
+    "x-requested-with": "XMLHttpRequest"
+  },
+  "referrer": "https://leaf.va.gov/platform/projects/report.php?a=LEAF_Inbox",
+  "body": null,
+  "method": "GET",
+  "mode": "cors",
+  "credentials": "include"
+}); ;
+fetch("https://leaf.va.gov/platform/support/api/workflow/categories?includeStandardLEAF&x-filterData=categoryID", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
+    "x-requested-with": "XMLHttpRequest"
+  },
+  "referrer": "https://leaf.va.gov/platform/projects/report.php?a=LEAF_Inbox",
+  "body": null,
+  "method": "GET",
+  "mode": "cors",
+  "credentials": "include"
+}); ;
 fetch("https://leaf.va.gov/platform/projects/api/workflow/categories?includeStandardLEAF&x-filterData=categoryID", {
   "headers": {
     "accept": "*/*",
@@ -79,9 +193,8 @@ fetch("https://leaf.va.gov/platform/projects/api/workflow/categories?includeStan
   "method": "GET",
   "mode": "cors",
   "credentials": "include"
-});
-
-fetch("https://leaf.va.gov/platform/projects/api/form/query?q={%22terms%22:[{%22id%22:%22stepID%22,%22operator%22:%22=%22,%22match%22:%22actionable%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[%22service%22,%22categoryName%22,%22status%22],%22sort%22:{},%22limit%22:500,%22limitOffset%22:500}&x-filterData=recordID,categoryIDs,categoryNames,date,title,service,submitted,priority,stepID,blockingStepID,lastStatus,stepTitle,action_history.time,unfilledDependencyData&masquerade=nonAdmin", {
+}); ;
+fetch("https://leaf.va.gov/platform/ideas/api/form/query?q={%22terms%22:[{%22id%22:%22stepID%22,%22operator%22:%22=%22,%22match%22:%22actionable%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[%22service%22,%22categoryName%22,%22status%22],%22sort%22:{},%22limit%22:500,%22limitOffset%22:0}&x-filterData=recordID,categoryIDs,categoryNames,date,title,service,submitted,priority,stepID,blockingStepID,lastStatus,stepTitle,action_history.time,unfilledDependencyData&masquerade=nonAdmin", {
   "headers": {
     "accept": "*/*",
     "accept-language": "en-US,en;q=0.9",
@@ -99,9 +212,8 @@ fetch("https://leaf.va.gov/platform/projects/api/form/query?q={%22terms%22:[{%22
   "method": "GET",
   "mode": "cors",
   "credentials": "include"
-});
-
-fetch("https://leaf.va.gov/platform/projects/api/workflow/categories?includeStandardLEAF&x-filterData=categoryID", {
+}); ;
+fetch("https://leaf.va.gov/platform/ideas/api/workflow/categories?includeStandardLEAF&x-filterData=categoryID", {
   "headers": {
     "accept": "*/*",
     "accept-language": "en-US,en;q=0.9",
@@ -118,6 +230,46 @@ fetch("https://leaf.va.gov/platform/projects/api/workflow/categories?includeStan
   "referrer": "https://leaf.va.gov/platform/projects/report.php?a=LEAF_Inbox",
   "body": null,
   "method": "GET",
+  "mode": "cors",
+  "credentials": "include"
+}); ;
+fetch("https://leaf.va.gov/rb_65aa2f7a-2a1d-4836-9cfb-f98e8ba3af74?type=js3&sn=v_4_srv_43_sn_4871D1AEA812A34647817C89A1416043_perc_100000_ol_0_mul_1_app-3A0b5de6c003f4dc0c_1_rcs-3Acss_0&svrid=43&flavor=post&vi=RHAHFFPUSFMAVITEMEUCQTARVPHETPMK-0&modifiedSince=1772807861431&bp=3&app=0b5de6c003f4dc0c&crc=1967880955&en=e0lcgmjb&end=1", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "content-type": "text/plain;charset=UTF-8",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin"
+  },
+  "referrer": "https://leaf.va.gov/platform/projects/report.php?a=LEAF_Inbox",
+  "body": "$a=d%7C-1%7CPage%3A%20report.php%3Fa%3DLEAF_Inbox%7CKD%7C-%7C28100903_872%7C1773028105084%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Freport.php%3Fa%3DLEAF_Inbox%7C%7C%7C%2Fplatform%2Fprojects%2Freport.php%7C1773028100434%2C1%7C1%7C_load_%7C_load_%7C-%7C1773028105100%7C1773028108286%7Cdn%7C172%7Csvtrg%7C1%7Csvm%7Ci1%5Esk0%5Esh0%7Ctvtrg%7C1%7Ctvm%7Ci1%5Esk0%5Esh0%7Clr%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Freport.php%3Fa%3Dv11%2C2%7C4%7C_event_%7C1773028105100%7C_vc_%7CV%7C3186%5Epc%7CVCD%7C1909%7CVCDS%7C0%7CVCS%7C2338%7CVCO%7C4191%7CVCI%7C0%7CTS%7C1%7CVE%7C777%5Ep500%5Ep2520%5Eps%5Es...7558144a17c36a6b0eb3fa460e9ae14dbf4baa_14bd7960aaff0502c306503d364f154c4801c866%3Espan%3Anth-child%282%29%7CS%7C1947%2C2%7C5%7C_event_%7C1773028105100%7C_wv_%7ClcpE%7CSPAN%7ClcpSel%7C%23headerHelp%7ClcpS%7C9112%7ClcpT%7C1632%7ClcpU%7C-%7ClcpLT%7C0%7Cfcp%7C1632%7Cfp%7C1632%7Ccls%7C0.0115%7Clt%7C0%2C2%7C2%7Cx%7Cxhr%7Cx%7C1773028106916%7C1773028107357%7Cdn%7C172%7Cxu%7C%2Fplatform%2Fprojects%2Fapi%2Fsite%2Fsettings%2Fsitemap_json%7Csvtrg%7C1%7Csvm%7Ci1%5Esk0%5Esh0%7Ctvtrg%7C1%7Ctvm%7Ci1%5Esk0%5Esh0%7Cxrt%7Cb1773028106920e0f0g0h0i0j0k2l427m431u1211v911w911X200T-1z11I1M-1597175086V0%7Cxcs%7C440%7Cxce%7C440%2C2%7C3%7C_onload_%7C_load_%7C-%7C1773028107176%7C1773028107190%7Cdn%7C159%7Csvtrg%7C1%7Csvm%7Ci1%5Esk0%5Esh0%7Ctvtrg%7C1%7Ctvm%7Ci1%5Esk0%5Esh0%2C1%7C6%7C_event_%7C1773028105100%7C_view_%7Csvn%7C%2Fplatform%2Fprojects%2Freport.php%7Csvt%7C1773028100434%7Csvtrg%7C1%7Csvm%7Ci1%5Esk0%5Esh0%7Ctvtrg%7C1%7Ctvm%7Ci1%5Esk0%5Esh0$rId=RID_1791952188$rpId=-1969626911$domR=1773028107174$tvn=%2Fplatform%2Fprojects%2Freport.php$tvt=1773028105100$tvm=i1%3Bk0%3Bh0$tvtrg=1$w=930$h=590$sw=930$sh=590$nt=a1b1773028105100e4f4g4h4i4j4k7l343m345o1824p1824q1827r2074s2076t2090u17968v17668w65877X200M-1969626911V0$ni=4g|0.75$md=mdcc1%2CStephanie%20Lumagui$url=https%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Freport.php%3Fa%3DLEAF_Inbox$title=Inbox%20-%20VA%20LEAF%20Projects%2C%20Office%20of%20Information%20%26%20Technology$latC=0$app=0b5de6c003f4dc0c$vi=RHAHFFPUSFMAVITEMEUCQTARVPHETPMK-0$fId=28105685_785$v=10323250822043923$vID=1773013279292H2VUM1BEC35TVAVPVQ000C0AATBSJ8US$rf=https%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Freport.php%3Fa%3DLEAF_Inbox$time=1773028109352",
+  "method": "POST",
+  "mode": "cors",
+  "credentials": "include"
+}); ;
+fetch("https://leaf.va.gov/rb_65aa2f7a-2a1d-4836-9cfb-f98e8ba3af74?type=js3&sn=v_4_srv_43_sn_4871D1AEA812A34647817C89A1416043_perc_100000_ol_0_mul_1_app-3A0b5de6c003f4dc0c_1_rcs-3Acss_0&svrid=43&flavor=post&vi=RHAHFFPUSFMAVITEMEUCQTARVPHETPMK-0&modifiedSince=1772807861431&bp=3&app=0b5de6c003f4dc0c&crc=216112112&en=e0lcgmjb&end=1", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "content-type": "text/plain;charset=UTF-8",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin"
+  },
+  "referrer": "https://leaf.va.gov/platform/projects/report.php?a=LEAF_Inbox",
+  "body": "$tvn=%2Fplatform%2Fprojects%2Freport.php$tvt=1773028105100$tvm=i1%3Bk0%3Bh0$tvtrg=1$w=930$h=590$sw=930$sh=590$ni=4g|0.75$rt=1-1773028105100%3Bhttps%3A%2F%2Fleaf.va.gov%2Fapp%2Flibs%2Fjs%2Fjquery%2Fcss%2Fdcvamc%2Fjquery-ui.custom.min.css%7Cb368e0f0g0h0i0j0k27l197m200u32246v31946w31946X200I9M524526997V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fapp%2Flibs%2Fjs%2Fchoicesjs%2Fchoices.min.css%7Cb368e0f0g0h0i0j0k27l198m202u7967v7667w7667X200I9M-1171588833V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fcss%2Fstyle.css%7Cb368e0f0g0h0i0j0k29l198m312u27848v27548w27548X200I9M-1327456227V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fapp%2Flibs%2Fjs%2Fjquery%2Fchosen%2Fchosen.min.css%7Cb368e0f0g0h0i0j0k29l312m317u11340v11040w11040X200I9M-1936244556V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fapp%2Flibs%2Fjs%2Fjquery%2Ftrumbowyg%2Fui%2Ftrumbowyg.min.css%7Cb368e0f0g0h0i0j0k56l315m318u15637v15337w15337X200I9M-1391174963V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fcss%2Fprinter.css%7Cb368e0f0g0h0i0j0k201l426m430u5665v5365w5365X200I9M1414495971V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fapp%2Flibs%2Fjs%2Fjquery%2Ficheck%2Fskins%2Fsquare%2Fblue.css%7Cb368e0f0g0h0i0j0k200l426m429u2554v2254w2254X200I9M-1842536444V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fapp%2Flibs%2Fjs%2Fjquery%2Fjquery.min.js%7Cb368e0f0g0h0i0j0k202l426m431u89963v89663w89663X200K1I12M-603506625V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fjs%2FdialogController.js%7Cb369e0f0g0h0i0j0k317l699m701u8253v7953w7953X200K1I12M-127330220V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fapp%2Flibs%2Fjs%2Fjquery%2Fchosen%2Fchosen.jquery.min.js%7Cb369e0f0g0h0i0j0k319l583m707u30698v30398w30398X200K1I12M-114876296V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fapp%2Flibs%2Fjs%2Fjquery%2Fjquery-ui.custom.min.js%7Cb369e0f0g0h0i0j0k313l468m713u255379v255079w255079X200K1I12M-1448040955V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fapp%2Flibs%2Fjs%2Fjquery%2Ficheck%2Ficheck.js%7Cb369e0f0g0h0i0j0k432l711m813u9286v8986w8986X200K1I12M1695865178V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fapp%2Flibs%2Fjs%2Fjquery%2Ftrumbowyg%2Ftrumbowyg.min.js%7Cb369e0f0g0h0i0j0k431l710m814u26002v25702w25702X200K1I12M1525245165V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fapp%2Flibs%2Fjs%2FLEAF%2FsessionAnnounce.js%7Cb369e0f0g0h0i0j0k432l813m817u3739v3439w3439X200K1I12M-962444504V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fjs%2Fform.js%7Cb369e0f0g0h0i0j0k701l814m818u38980v38680w38680X200K1I12M-1381679413V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fjs%2Fworkflow.js%7Cb369e0f0g0h0i0j0k707l814m937u40538v40238w40238X200K1I12M1960337495V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fjs%2FformGrid.js%7Cb369e0f0g0h0i0j0k713l937m940u38302v38002w38002X200K1I12M-879020706V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fjs%2FformQuery.js%7Cb369e0f0g0h0i0j0k814l938m943u11471v11171w11171X200K1I12M-1901562917V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fjs%2FformSearch.js%7Cb369e0f0g0h0i0j0k814l938m1040u83787v83487w83487X200K1I12M-1697235098V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fjs%2FgridInput.js%7Cb369e0f0g0h0i0j0k817l1030m1032u16977v16677w16677X200K1I12M577246880V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fjs%2Flz-string%2Flz-string.min.js%7Cb369e0f0g0h0i0j0k818l1034m1047u5019v4719w4719X200K1I12M-989840138V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fapp%2Flibs%2Fjs%2FLEAF%2FXSSHelpers.js%7Cb369e0f0g0h0i0j0k938l1092m1209u4634v4334w4334X200K1I12M1451804568V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fapp%2Flibs%2Fjs%2Fnexus%2FLEAFNexusAPI.js%7Cb370e0f0g0h0i0j0k941l1209m1214u11428v11128w11128X200K1I12M-1458065441V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fapp%2Flibs%2Fjs%2Fportal%2FLEAFPortalAPI.js%7Cb370e0f0g0h0i0j0k943l1210m1219u31051v30751w30751X200K1I12M398983351V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fapp%2Flibs%2Fjs%2Fchoicesjs%2Fchoices.min.js%7Cb370e0f0g0h0i0j0k1033l1210m1227u88861v88561w88561X200K1I12M135732671V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fapp%2Flibs%2Fjs%2Fqr-code%2Fqrcode.min.js%7Cb370e0f0g0h0i0j0k1041l1210m1220u21621v21321w21321X200K1I12M-1274968028V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Ffiles%2Fleaf_5Ficon_5Fnavy.png%7Cb370e0f0g0h0i0j0k1049l1213m1233u10794v10494w10494X200N2O80P80Q500R500I7M-695666921V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fimages%2Ftab.png%7Cb370e0f0g0h0i0j0k1214l1324m1325u750v450w450X200E1F1024O32P32I7M-444502298V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fdynicons%2F%3Fimg%3Dgo-home.svg%26w%3D16%7Cb370e0f0g0h0i0j0k1244l1426m1428u19680v19380w19380X200E1F256O16P16I7M1211642098V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fdynicons%2F%3Fimg%3Dhelp-browser.svg%26w%3D16%7Cb370e0f0g0h0i0j0k1245l1427m1429u12738v12438w12438X200E1F256O16P16I7M1878066977V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fdynicons%2F%3Fimg%3Dapplications-system.svg%26w%3D16%7Cb370e0f0g0h0i0j0k1245l1427m1431u15249v14949w14949X200E1F256O16P16I7M92639950V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Flibs%2Fjs%2Fsha1.js%7Cb370e0f0g0h0i0j0k1245l1324m1327u5926v5626w5626X200K1I12M855702865V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Flibs%2Fjs%2FLEAF%2FintervalQueue.js%7Cb370e0f0g0h0i0j0k1245l1325m1327u3864v3564w3564X200K1I12M-1417220930V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fapp%2Flibs%2Fjs%2FLEAF%2FsensitiveIndicator.js%7Cb370e0f0g0h0i0j0k1332l1427m1431u1198v898w898X200K1I12M2097381843V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fdynicons%2F%3Fimg%3Ddialog-apply.svg%26w%3D32%7Cb370e0f0g0h0i0j0k1333l1581m1583u4078v3778w3778X200N3O32P32I7M343213V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fimages%2Flargespinner.gif%7Cb370e0f0g0h0i0j0k1432l1582m1583u2908v2608w2608X200N3O31P31I7M-2116838124V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fdynicons%2F%3Fimg%3Dedit-undo.svg%26w%3D32%7Cb371e0f0g0h0i0j0k1433l1693m1695u8430v8130w8130X200N3O32P32I7M855143894V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fimages%2Fgradient.png%7Cb1612e0f0g0h0i0j0k83l185m187u704v404w404X200E1F75748O930P80Q1R85I9M824112198V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fapi%2Fsite%2Fsettings%2Fsitemap_5Fjson%7Cb1820e0f0g0h0i0j0k2l427m431u1211v911w911X200T-1z1I1M-1597175086V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Ffiles%2Fleaf_5Ffavicon.png%7Cb2125e0f0g0h0i0j0k2l122m126u808v508w508X200I22M-950075967V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fux%2Fapi%2Fform%2Fquery%7Cb2391e0f0g0h0i0j0k2l253m254u549v249w249X200z11I2M1773450207V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fapi%2Fform%2Fquery%7Cb2392e0f0g0h0i0j0k2l251m253u2288v1988w1988X200z11I2M1051535147V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fsupport%2Fapi%2Fform%2Fquery%7Cb2393e0f0g0h0i0j0k2l146m148u1087v787w787X200z11I2M582904250V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fsupport%2Fapi%2Fform%2Fquery%7Cb2545e0f0g0h0i0j0k3l131m132u302v2w2X200z11I2M-1086010936V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fapi%2Fform%2Fquery%7Cb2649e0f0g0h0i0j0k2l181m183u302v2w2X200z11I2M1184812685V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fux%2Fapi%2Fworkflow%2Fcategories%3FincludeStandardLEAF%26x-filterData%3DcategoryID%7Cb2650e0f0g0h0i0j0k2l180m182u391v91w91X200z11I1M521007705V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fsupport%2Fapi%2Fworkflow%2Fcategories%3FincludeStandardLEAF%26x-filterData%3DcategoryID%7Cb2681e0f0g0h0i0j0k2l149m151u419v119w119X200z11I1M1033918851V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Fapi%2Fworkflow%2Fcategories%3FincludeStandardLEAF%26x-filterData%3DcategoryID%7Cb2836e0f0g0h0i0j0k2l189m190u475v175w175X200z11I1M1160279737V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fideas%2Fapi%2Fform%2Fquery%7Cb2886e0f0g0h0i0j0k2l147m148u811v511w511X200z11I2M-1770708525V0%7Chttps%3A%2F%2Fleaf.va.gov%2Fplatform%2Fideas%2Fapi%2Fworkflow%2Fcategories%3FincludeStandardLEAF%26x-filterData%3DcategoryID%7Cb3038e0f0g0h0i0j0k2l121m123u419v119w119X200z11I1M2019379431V0$url=https%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Freport.php%3Fa%3DLEAF_Inbox$title=Inbox%20-%20VA%20LEAF%20Projects%2C%20Office%20of%20Information%20%26%20Technology$latC=0$app=0b5de6c003f4dc0c$vi=RHAHFFPUSFMAVITEMEUCQTARVPHETPMK-0$fId=28105685_785$v=10323250822043923$vID=1773013279292H2VUM1BEC35TVAVPVQ000C0AATBSJ8US$rf=https%3A%2F%2Fleaf.va.gov%2Fplatform%2Fprojects%2Freport.php%3Fa%3DLEAF_Inbox$time=1773028111396",
+  "method": "POST",
   "mode": "cors",
   "credentials": "include"
 });
