@@ -1,7 +1,82 @@
-report.php?a=v11:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-report.php?a=v11:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-project_v11.js:7805 INBOX A full response: {"10":{"records":{"18":{"dependencyID":10,"recordID":18,"serviceID":0,"stepID":7,"blockingStepID":0,"lastNotified":"2026-02-18 23:13:22","initialNotificationSent":0,"date":1771455555,"userID":"oitauslumags","title":"Record","priority":0,"lastStatus":"Submitted","submitted":1771456402,"deleted":0,"isWritableUser":0,"isWritableGroup":1,"userMetadata":"{\"email\": \"Stephanie.Lumagui@va.gov\", \"lastName\": \"Lumagui\", \"userName\": \"oitauslumags\", \"firstName\": \"Stephanie\", \"middleName\": \
-project_v11.js:7806 INBOX A keys: (7) ['10', '-1_5', '-1_5493', '-1_1913', '-1_101439', '-1_539772', '-3_']
-project_v11.js:7809 INBOX A first item: {"records":{"18":{"dependencyID":10,"recordID":18,"serviceID":0,"stepID":7,"blockingStepID":0,"lastNotified":"2026-02-18 23:13:22","initialNotificationSent":0,"date":1771455555,"userID":"oitauslumags","title":"Record","priority":0,"lastStatus":"Submitted","submitted":1771456402,"deleted":0,"isWritableUser":0,"isWritableGroup":1,"userMetadata":"{\"email\": \"Stephanie.Lumagui@va.gov\", \"lastName\": \"Lumagui\", \"userName\": \"oitauslumags\", \"firstName\": \"Stephanie\", \"middleName\": \"L\"}","workflowID":3,"stepTitle":"In Progress","stepBgColor":"#fffdcd","stepFontColor":"black","stepBorder":"1px solid black","jsSrc":"","posX":577,"posY":135,"indicatorID_for_assigned_empUID":null,"indicatorID_for_assigned_groupID":null,"requiresDigitalSignature":null,"stepData":null,"groupID":null,"description":"OKR - Leadership Review","service":null,"abbreviatedService":null,"filled":0,"time":1771456402,"categoryNames":"Objectives","hasAccess":true},"19":{"dependencyID":10,"recordID":19,"serviceID":0,"stepID":7,"blockingStepID":0,"lastNotified":"2026-02-18 23:49:00","initialNotificationSent":0,"date":1771455582,"userID":"oitauslumags","title":"OKR","priority":0,"lastStatus":"Submitted","submitted":1771458540,"deleted":0,"isWritableUser":0,"isWritableGroup":1,"userMetadata":"{\"email\": \"Stephanie.Lumagui@va.gov\", \"lastName\": \"Lumagui\", \"userName\": \"oitauslumags\", \"firstName\": \"Stephanie\", \"middleName\": \"L\"}","workflowID":3,"stepTitle":"In Progress","stepBgColor":"#fffdcd","stepFontColor":"black","stepBorder":"1px solid black","jsSrc":"","posX":577,"posY":135,"indicatorID_for_assigned_empUID":null,"indicatorID_for_assigned_groupID":null,"requiresDigitalSignature":null,"stepData":null,"groupID":null,"description":"OKR - Leadership Review","service":null,"abbreviatedService":null,"filled":0,"time":1771458540,"categoryNames":"Objectives","hasAccess":true},"21":{"dependencyID":10,"recordID":21,"serviceID":0,"stepID":7,"blockingStepID":0,"lastNotified":"2026-02-19 01:17:09","initialNotificationSent":0,"date":1771463805,"userID":"oitauslumags","title":"OKR","priority":0,"lastStatus":"Submitted","submitted":1771463829,"deleted":0,"isWritableUser":0,"isWritableGroup":1,"userMetadata":"{\"email\": \"Stephanie.Lumagui@va.gov\", \"lastName\": \"Lumagui\", \"userName\": \"oitauslumags\", \"firstName\": \"Stephanie\", \"middleName\": \"L\"}","workflowID":3,"stepTitle":"In Progress","stepBgColor":"#fffdcd","stepFontColor":"black","stepBorder":"1px solid black","jsSrc":"","posX":577,"posY":135,"indicatorID_for_assigned_empUID":null,"indicatorID_for_assigned_groupID":null,"requiresDigitalSignature":null,"stepData":null,"groupID":null,"description":"OKR - Leadership Review","service":null,"abbreviatedService":null,"filled":0,"time":1771463829,"categoryNames":"Objectives","hasAccess":true},"22":{"dependencyID":10,"recordID":22,"serviceID":0,"stepID":7,"blockingStepID":0,"lastNotified":"2026-02-19 01:17:35","initialNotificationSent":0,"date":1771463839,"userID":"oitauslumags","title":"OKR","priority":0,"lastStatus":"Submitted","submitted":1771463855,"deleted":0,"isWritableUser":0,"isWritableGroup":1,"userMetadata":"{\"email\": \"Stephanie.Lumagui@va.gov\", \"lastName\": \"Lumagui\", \"userName\": \"oitauslumags\", \"firstName\": \"Stephanie\", \"middleName\": \"L\"}","workflowID":3,"stepTitle":"In Progress","stepBgColor":"#fffdcd","stepFontColor":"black","stepBorder":"1px solid black","jsSrc":"","posX":577,"posY":135,"indicatorID_for_assigned_empUID":null,"indicatorID_for_assigned_groupID":null,"requiresDigitalSignature":null,"stepData":null,"groupID":null,"description":"OKR - Leadership Review","service":null,"abbreviatedService":null,"filled":0,"time":1771463855,"categoryNames":"Objectives","hasAccess":true},"23":{"dependencyID":10,"recordID":23,"serviceID":0,"stepID":7,"blockingStepID":0,"lastNotified":"2026-02-19 01:17:49","initialNotificationSent":0,"date":1771463860,"userID":"oitauslumags","title":"OKR","priority":0,"lastStatus":"Submitted","submitted":1771463869,"deleted":0,"isWritableUser":0,"isWritableGroup":1,"userMetadata":"{\"email\": \"Stephanie.Lumagui@va.gov\", \"lastName\": \"Lumagui\", \"userName\": \"oitauslumags\", \"firstName\": \"Stephanie\", \"middleName\": \"L\"}","workflowID":3,"stepTitle":"In Progress","stepBgColor":"#fffdcd","stepFontColor":"black","stepBorder":"1px solid black","jsSrc":"","posX":577,"posY":135,"indicatorID_for_assigned_empUID":null,"indicatorID_for_assigned_groupID":null,"requiresDigitalSignature":null,"stepData":null,"groupID":null,"description":"OKR - Leadership Review","service":null,"abbreviatedService":null,"filled":0,"time":1771463869,"categoryNames":"Objectives","hasAccess":true},"24":{"dependencyID":10,"recordID":24,"serviceID":0,"stepID":7,"blockingStepID":0,"lastNotified":"2026-02-19 01:18:01","initialNotificationSent":0,"date":1771463871,"userID":"oitauslumags","title":"OKR","priority":0,"lastStatus":"Submitted","submitted":1771463881,"deleted":0,"isWritableUser":0,
-project_v11.js:574 Recurring task submitted to workflow: 180
+fetch("https://leaf.va.gov/platform/projects/api/site/settings/sitemap_json", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
+    "x-dtpc": "43$27366829_792h2vRHAHFFPUSFMAVITEMEUCQTARVPHETPMK-0e0",
+    "x-requested-with": "XMLHttpRequest"
+  },
+  "referrer": "https://leaf.va.gov/platform/projects/report.php?a=LEAF_Inbox",
+  "body": null,
+  "method": "GET",
+  "mode": "cors",
+  "credentials": "include"
+});
+
+fetch("https://leaf.va.gov/platform/projects/api/form/query?q={%22terms%22:[{%22id%22:%22stepID%22,%22operator%22:%22=%22,%22match%22:%22actionable%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[%22service%22,%22categoryName%22,%22status%22],%22sort%22:{},%22limit%22:500,%22limitOffset%22:0}&x-filterData=recordID,categoryIDs,categoryNames,date,title,service,submitted,priority,stepID,blockingStepID,lastStatus,stepTitle,action_history.time,unfilledDependencyData&masquerade=nonAdmin", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin"
+  },
+  "referrer": "https://leaf.va.gov/platform/projects/report.php?a=LEAF_Inbox",
+  "body": null,
+  "method": "GET",
+  "mode": "cors",
+  "credentials": "include"
+});
+
+fetch("https://leaf.va.gov/platform/projects/api/form/query?q={%22terms%22:[{%22id%22:%22stepID%22,%22operator%22:%22=%22,%22match%22:%22actionable%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[%22service%22,%22categoryName%22,%22status%22],%22sort%22:{},%22limit%22:500,%22limitOffset%22:500}&x-filterData=recordID,categoryIDs,categoryNames,date,title,service,submitted,priority,stepID,blockingStepID,lastStatus,stepTitle,action_history.time,unfilledDependencyData&masquerade=nonAdmin", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin"
+  },
+  "referrer": "https://leaf.va.gov/platform/projects/report.php?a=LEAF_Inbox",
+  "body": null,
+  "method": "GET",
+  "mode": "cors",
+  "credentials": "include"
+});
+
+fetch("https://leaf.va.gov/platform/projects/api/workflow/categories?includeStandardLEAF&x-filterData=categoryID", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
+    "x-requested-with": "XMLHttpRequest"
+  },
+  "referrer": "https://leaf.va.gov/platform/projects/report.php?a=LEAF_Inbox",
+  "body": null,
+  "method": "GET",
+  "mode": "cors",
+  "credentials": "include"
+});
