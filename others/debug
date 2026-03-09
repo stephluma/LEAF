@@ -80,3 +80,44 @@ fetch("https://leaf.va.gov/platform/projects/api/workflow/categories?includeStan
   "mode": "cors",
   "credentials": "include"
 });
+
+fetch("https://leaf.va.gov/platform/projects/api/form/query?q={%22terms%22:[{%22id%22:%22stepID%22,%22operator%22:%22=%22,%22match%22:%22actionable%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[%22service%22,%22categoryName%22,%22status%22],%22sort%22:{},%22limit%22:500,%22limitOffset%22:500}&x-filterData=recordID,categoryIDs,categoryNames,date,title,service,submitted,priority,stepID,blockingStepID,lastStatus,stepTitle,action_history.time,unfilledDependencyData&masquerade=nonAdmin", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin"
+  },
+  "referrer": "https://leaf.va.gov/platform/projects/report.php?a=LEAF_Inbox",
+  "body": null,
+  "method": "GET",
+  "mode": "cors",
+  "credentials": "include"
+});
+
+fetch("https://leaf.va.gov/platform/projects/api/workflow/categories?includeStandardLEAF&x-filterData=categoryID", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"142\", \"Microsoft Edge\";v=\"142\", \"Not_A Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
+    "x-requested-with": "XMLHttpRequest"
+  },
+  "referrer": "https://leaf.va.gov/platform/projects/report.php?a=LEAF_Inbox",
+  "body": null,
+  "method": "GET",
+  "mode": "cors",
+  "credentials": "include"
+});
