@@ -1,4 +1,6 @@
-
-<div class="file_history_options_date">
-                                    <div>3/5/2026<br>12:13:17 PM</div>
-                                </div>
+report.php?a=steph_test:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+report.php?a=steph_test:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+report.php?a=steph_test:222   GET https://leaf.va.gov/launchpad/files/graphics-form.png 404 (Not Found)
+report.php?a=steph_test:254   GET https://leaf.va.gov/launchpad/files/graphics-workflow.png 404 (Not Found)
+report.php?a=steph_test:292   GET https://leaf.va.gov/launchpad/files/graphics-analytics.png 404 (Not Found)
