@@ -1,6 +1,4 @@
 report.php?a=steph_test:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
     at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
 report.php?a=steph_test:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-report.php?a=steph_test:691  Uncaught SyntaxError: Invalid regular expression: missing /
-document.getElementById("welcomeBack")
-<div id=​"welcomeBack" class=​"is-hidden">​<!-- Greeting Hero Band --><div class=​"lp-wb-hero">​…​</div>​<!-- Resource Hub Grid --><div class=​"lp-resource-hub">​…​</div>​grid<!-- Site History --><div class=​"lp-site-history">​…​</div>​</div>​
+report.php?a=steph_test:603 [Intervention] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/s/materialsymbolsoutlined/v318/kJF4BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZZLsYEpzC_1ver5Y0.woff2
