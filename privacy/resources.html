@@ -22,11 +22,8 @@
           <div class="info-item">
             <span class="tag" aria-label="Important">Important</span>
           </div>
-          <div class="info-item">
-            Estimated Reading Time: <span id="reading-time">~2 mins</span>
-          </div>
           <div class="info-item right">
-            Last Updated: <span id="last-updated-date">Loading…</span>
+            Estimated Reading Time: <span id="reading-time">~2 mins</span>
           </div>
         </div>
       </section>
@@ -48,7 +45,9 @@
             class="section recent-changes"
             aria-labelledby="recent-changes-title"
           >
-            <h2 id="recent-changes-title" class="subtitle">Recent Enhancements</h2>
+            <h2 id="recent-changes-title" class="subtitle">
+              Recent Enhancements
+            </h2>
             <div class="card section">
               <div>
                 <p
@@ -134,8 +133,8 @@
                 </div>
                 <div class="card-text">
                   <p>
-                    LEAF-S is required for sites that collect, display, or
-                    route PHI or PII.
+                    LEAF-S is required for sites that collect, display, or route
+                    PHI or PII.
                   </p>
                   <h4 class="card-title subhead">Some examples may include:</h4>
                   <ul class="checklist">
@@ -148,9 +147,12 @@
                     <li>Case details tied to an identifiable Veteran</li>
                     <li>Attachments containing identifiable information</li>
                     <li>Employee records</li>
-                      <li>and more</li>
                   </ul>
-                    <p> This list is not exhasutive. When in doubt, consult your local Privacy Officer. </p>
+                  <p>
+                    This is not an exhaustive list — if you're unsure whether
+                    your process involves PII or PHI, contact your local Privacy
+                    Officer.
+                  </p>
                 </div>
               </article>
 
@@ -159,11 +161,14 @@
                   <h3 class="card-title">How to get started</h3>
                 </div>
                 <div class="card-text">
-                    <p> Once you have identified a sensitive field in your form: </p>
+                  <p>
+                    Once you have identified a sensitive field in your form:
+                  </p>
                   <ol class="checklist">
                     <li>
-                      <strong>Path 1:</strong> Use the link in the banner that appears in the Form Editor
-                        to begin the LEAF-S certification form <b> or </b>
+                      <strong>Path 1:</strong> Use the link in the banner that
+                      appears in the Form Editor to begin the LEAF-S
+                      certification form <b> or </b>
                     </li>
                     <li>
                       <strong>Path 2:</strong> Admin Panel &gt; Site Settings
@@ -325,7 +330,7 @@
 
           <div class="callout" role="note" aria-label="Update and note">
             <p>
-              <span class="badge">Note:</span>
+              <strong>Note:</strong>
               The LEAF Platform team does not serve as the subject matter expert
               for privacy policy or approval decisions. Local LEAF Process
               Owners are responsible for working directly with the appropriate
@@ -417,33 +422,22 @@
       }
 
       body.smarty.page-privacy .recent-change-date {
+        display: block;
         color: var(--muted);
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         font-style: italic;
+        margin: 0;
       }
 
       body.smarty.page-privacy .recent-change-title {
+        display: block;
         font-weight: 700;
         color: var(--text);
+        margin: 0.2rem 0 0;
       }
 
-      body.smarty.page-privacy .recent-change-meta {
-        margin: 0;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: baseline;
-        gap: 0;
-      }
-
-      body.smarty.page-privacy .recent-change-meta .pipe {
-        color: var(--muted);
-        margin: 0 0.35rem;
-      }
-
-      body.smarty.page-privacy .recent-change-summary p + p,
-      body.smarty.page-privacy .recent-change-summary ul,
-      body.smarty.page-privacy .recent-change-summary ol {
-        margin-top: var(--space-1);
+      body.smarty.page-privacy .recent-change-summary {
+        margin-top: 0.35rem;
       }
 
       body.smarty.page-privacy .btn:focus-visible,
@@ -452,12 +446,54 @@
         outline-offset: 3px;
         box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25);
       }
-        
-        body.smarty.page-privacy .smarty-root hr.divider {
-            border: none;
-            border-top: 1px solid var(--border, #e2e8f0) !important;
-            margin: var(--space-3, 1.25rem) 0 !important;
-        }
+
+      /* 1 & 2: h2 subtitle — larger than h3 card-title (1.05rem), with increased top padding */
+      body.smarty.page-privacy .subtitle {
+        font-size: 1.5rem !important;
+        padding-top: var(--space-4, 1.75rem) !important;
+        margin-top: 0 !important;
+      }
+
+      /* 3: Increase wrap padding for more breathing room from browser edges */
+      body.smarty.page-privacy .wrap {
+        padding-left: clamp(2rem, 8vw, 5rem) !important;
+        padding-right: clamp(2rem, 8vw, 5rem) !important;
+      }
+
+      /* VA Privacy Resources — stretch cards so buttons align at the same bottom line */
+      body.smarty.page-privacy #resources-title ~ .grid .card {
+        display: flex;
+        flex-direction: column;
+      }
+
+      body.smarty.page-privacy #resources-title ~ .grid .card > div {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      body.smarty.page-privacy #resources-title ~ .grid .card-row {
+        flex: 1;
+        align-items: flex-end;
+      }
+
+      /* VA Privacy Resources — body text top-aligned */
+      body.smarty.page-privacy #resources-title ~ .grid .card-text {
+        align-self: flex-start;
+      }
+
+      /* 6: Recent changes — no fixed height, expands naturally to fit content */
+      body.smarty.page-privacy .recent-changes-scroll {
+        max-height: none !important;
+        overflow-y: visible !important;
+        padding-right: 0 !important;
+      }
+
+      body.smarty.page-privacy .smarty-root hr.divider {
+        border: none;
+        border-top: 1px solid var(--border, #e2e8f0) !important;
+        margin: var(--space-3, 1.25rem) 0 !important;
+      }
     </style>
 
     <script>
@@ -625,9 +661,6 @@
         const li = document.createElement("li");
         li.className = "recent-changes-item";
 
-        const meta = document.createElement("p");
-        meta.className = "recent-change-meta";
-
         const timeElement = document.createElement("time");
         timeElement.className = "recent-change-date";
         if (entry.dateObject) {
@@ -638,23 +671,16 @@
         }
         timeElement.textContent = entry.displayDate;
 
-        const separator = document.createElement("span");
-        separator.className = "pipe";
-        separator.textContent = "|";
-
-        const title = document.createElement("span");
+        const title = document.createElement("p");
         title.className = "recent-change-title";
         title.textContent = entry.title;
-
-        meta.appendChild(timeElement);
-        meta.appendChild(separator);
-        meta.appendChild(title);
 
         const summary = document.createElement("div");
         summary.className = "recent-change-summary";
         renderMultilineText(summary, entry.summary);
 
-        li.appendChild(meta);
+        li.appendChild(timeElement);
+        li.appendChild(title);
         li.appendChild(summary);
 
         return li;
@@ -826,17 +852,8 @@
       });
 
       backToTopButton.addEventListener("click", () => {
-        const prefersReducedMotion = window.matchMedia(
-          "(prefers-reduced-motion: reduce)",
-        ).matches;
-        window.scrollTo({
-          top: 0,
-          behavior: prefersReducedMotion ? "auto" : "smooth",
-        });
-        const focusDelay = prefersReducedMotion ? 0 : 300;
-        setTimeout(() => {
-          mainContent.focus();
-        }, focusDelay);
+        window.scrollTo({ top: 0, behavior: "instant" });
+        mainContent.focus();
       });
 
       if (recentChangesToggle) {
@@ -847,22 +864,6 @@
       }
 
       loadRecentChanges();
-
-      // ── Auto: Last Updated from file's HTTP Last-Modified header ──────────
-      (function () {
-        const raw = document.lastModified;
-        const d = raw ? new Date(raw) : null;
-        const el = document.getElementById("last-updated-date");
-        if (el && d && !isNaN(d.getTime())) {
-          el.textContent = d.toLocaleDateString("en-US", {
-            month: "2-digit",
-            day: "2-digit",
-            year: "numeric",
-          });
-        } else if (el) {
-          el.textContent = "N/A";
-        }
-      })();
 
       // ── Auto: Estimated Reading Time from visible page text ───────────────
       function updateReadingTime() {
