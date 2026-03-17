@@ -1,31 +1,45 @@
 index.php?a=printview&recordID=5:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
     at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
 index.php?a=printview&recordID=5:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-index.php?a=printview&recordID=5:246 Quiz grading: not a quiz form, skipping.
-fetch("./api/form/" + recordID)
-  .then((r) => r.json())
-  .then((d) => console.log(JSON.stringify(d, null, 2)));
-Promise {<pending>, then: ƒ}
-VM500:3 {
-  "label": "name",
-  "identifier": "jsonIdx",
-  "items": [
-    {
-      "name": "Knowledge Verification",
-      "type": "form",
-      "jsonIdx": -2,
-      "series": 1,
-      "children": [
-        {
-          "name": "1.1: Knowledge Verification",
-          "desc": "Knowledge Verification",
-          "type": "form_515b4",
-          "jsonIdx": "63.1",
-          "series": 1,
-          "format": "",
-          "indicatorID": 63
-        }
-      ]
-    }
-  ]
-}
+index.php?a=printview&recordID=5:309 Quiz grading: cannot find radio options for indicator 65
+index.php?a=printview&recordID=5:309 Quiz grading: cannot find radio options for indicator 66
+index.php?a=printview&recordID=5:309 Quiz grading: cannot find radio options for indicator 67
+index.php?a=printview&recordID=5:309 Quiz grading: cannot find radio options for indicator 68
+index.php?a=printview&recordID=5:309 Quiz grading: cannot find radio options for indicator 69
+console.log(document.querySelector('#formcontent').innerHTML.substring(0, 3000));
+VM854:1 <div id="quizResultsBanner" style="background-color: #b71c1c;color: white;padding: 16px 20px;margin-bottom: 20px;font-size: 20px;font-weight: bold;border-radius: 4px;text-align: center;">✗ You did not pass. Score: 0/5 (0%) — minimum passing score is 80%<div style="margin-top: 8px; font-size: 15px; font-weight: normal;">Incorrect: Question 1, Question 2, Question 3, Question 4, Question 5</div><div style="margin-top: 12px;"><a href="https://leaf.va.gov/platform/stephanie_sandbox/report.php?a=LEAF_Start_Request&amp;id=form_515b4" class="buttonNorm" style="display: inline-block; font-size: 16px; padding: 8px 20px; text-decoration: none;">↻ Retake Quiz</a></div></div><!-- form -->
+<br>
+<div class="printmainform" style="border-bottom: 0px; min-height: 64px">
+    <div id="requestTitle">Test 
+            <img src="dynicons/?img=accessories-text-editor.svg&amp;w=16" style="cursor: pointer" alt="" title="Edit Title" onclick="changeTitle()" tabindex="0" role="button" onkeydown="if (event.keyCode==13){ changeTitle(); }">
+    
+    <br><span style="font-weight: normal; color: #686868; font-style: italic">Knowledge Verification</span>
+    </div>
+    <div id="requestInfo">
+        <table>
+            <tbody><tr>
+                <td>&nbsp;                </td>
+                <td><b></b>
+                                            <img src="dynicons/?img=accessories-text-editor.svg&amp;w=16" style="cursor: pointer" alt="Edit Service" title="Edit Service" onclick="changeService()" role="button" tabindex="0" onkeydown="if (event.keyCode==13){ changeService(); }">
+                                    </td>
+            </tr>
+            <tr>
+                <td>Initiated by</td>
+                <td><b>Stephanie Lumagui</b></td>
+            </tr>
+            <tr style="display: none">
+                <td>Submitted</td>
+                <td><b>Not submitted</b></td>
+            </tr>
+        </tbody></table>
+    </div>
+    <br class="noprint" style="clear: both">
+</div>
+<div class="tags noprint" id="tags" style="border: 1px solid black; padding: 2px; text-align: right" role="status" aria-live="polite">
+    <b>
+</b>
+<!-- <img src="dynicons/?img=folder-new.svg&amp;w=16" alt="Edit tags" title="Edit tags" style="cursor: pointer" onclick="getTags(5);" /> --></div>
+
+<div class="printmainform">
+    <div class="printformblock"><div class="printmainblock"><div class="printmainlabel"><div class="printcounter" style="cursor: pointer" onclick="toggleZoom('data_63_1')"><span>1</span></div><div id="PHindicator_63_1" class="printheading"><div style="float: right"><button type="button" style="width: 16px; height: 16px; padding: 0; border: 0; background-image: url('dynicons/?img=accessories-text-editor.svg&amp;w=16'); cursor: pointer;" alt="Edit Knowledge Verification field" title="Edit Knowledge Verification field" onclick="getForm(63, 1)" tabindex="0" role="button"></button></div><span class="printsubheading" style="cursor: pointer; height: 13px;" title="indicatorID: 63" onclick="getF
+undefined
