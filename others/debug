@@ -1,4 +1,31 @@
-<div id="submitContent" class="noprint" style="border: 1px solid black; text-align: center; background-color: rgb(255, 174, 174);"><div style="background-color: #b74141; padding: 8px; margin: 0px; color: white; text-shadow: black 0.1em 0.1em 0.2em; font-weight: bold; text-align: center; font-size: 120%">Please review your request before submitting</div>
-<div style="padding: 8px; width: 260px; margin: auto" id="submitControl">
-    <button class="buttonNorm" type="button" style="font-weight: bold; font-size: 120%" title="Submit Form" onclick="doSubmit(3);"><img src="dynicons/?img=go-next.svg&amp;w=32" alt=""> Submit Request</button>
-</div></div>
+index.php?a=printview&recordID=5:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+index.php?a=printview&recordID=5:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+index.php?a=printview&recordID=5:246 Quiz grading: not a quiz form, skipping.
+fetch("./api/form/" + recordID)
+  .then((r) => r.json())
+  .then((d) => console.log(JSON.stringify(d, null, 2)));
+Promise {<pending>, then: ƒ}
+VM500:3 {
+  "label": "name",
+  "identifier": "jsonIdx",
+  "items": [
+    {
+      "name": "Knowledge Verification",
+      "type": "form",
+      "jsonIdx": -2,
+      "series": 1,
+      "children": [
+        {
+          "name": "1.1: Knowledge Verification",
+          "desc": "Knowledge Verification",
+          "type": "form_515b4",
+          "jsonIdx": "63.1",
+          "series": 1,
+          "format": "",
+          "indicatorID": 63
+        }
+      ]
+    }
+  ]
+}
