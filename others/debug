@@ -1,7 +1,1 @@
-<label class="checkable leaf_check" for="20_radio1">
-                    <input type="radio" id="20_radio1" class="icheck20 leaf_check" name="20" value="a. Site Setting" aria-describedby="format_label_20">
-                    <span class="leaf_check"></span> a. Site Setting</label>
-
-<label class="checkable leaf_check" for="20_radio2">
-                    <input type="radio" id="20_radio2" class="icheck20 leaf_check" name="20" value="b. User Groups" aria-describedby="format_label_20">
-                    <span class="leaf_check"></span> b. User Groups</label>
+https://leaf.va.gov/platform/stephanie_sandbox/report.php?a=LEAF_Start_Request&id=form_515b4
