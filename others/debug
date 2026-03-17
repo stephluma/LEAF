@@ -1,44 +1,8 @@
-fetch("./api/form/" + recordID)
-  .then((r) => r.json())
-  .then(function (d) {
-    console.log("full response:", JSON.stringify(d, null, 2));
-    if (d && d.items) {
-      d.items.forEach(function (item) {
-        (item.children || []).forEach(function (child) {
-          console.log(
-            "child.type:",
-            child.type,
-            "=== QUIZ_CATEGORY_ID:",
-            "form_515b4",
-            "->",
-            child.type === "form_515b4",
-          );
+var gradeObserver = new MutationObserver(function(mutations, obs) {
+            // Wait for actual form content to appear — not just the loading div
+            var formLoaded = document.querySelector('#formcontent table, #formcontent .formBody, #formcontent .lf-form-body, #formcontent input');
+            if (formLoaded) {
+                obs.disconnect();
+                runQuizGrading(recordID);
+            }
         });
-      });
-    }
-  });
-Promise {<pending>, then: ƒ}
-VM1143:4 full response: {
-  "label": "name",
-  "identifier": "jsonIdx",
-  "items": [
-    {
-      "name": "Knowledge Verification",
-      "type": "form",
-      "jsonIdx": -2,
-      "series": 1,
-      "children": [
-        {
-          "name": "1.1: Knowledge Verification",
-          "desc": "Knowledge Verification",
-          "type": "form_515b4",
-          "jsonIdx": "63.1",
-          "series": 1,
-          "format": "",
-          "indicatorID": 63
-        }
-      ]
-    }
-  ]
-}
-VM1143:8 child.type: form_515b4 === QUIZ_CATEGORY_ID: form_515b4 -> true
