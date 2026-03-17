@@ -1,51 +1,220 @@
-index.php?a=printview&recordID=5:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-index.php?a=printview&recordID=5:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-index.php?a=printview&recordID=5:309 Quiz grading: cannot find radio options for indicator 65
-index.php?a=printview&recordID=5:309 Quiz grading: cannot find radio options for indicator 66
-index.php?a=printview&recordID=5:309 Quiz grading: cannot find radio options for indicator 67
-index.php?a=printview&recordID=5:309 Quiz grading: cannot find radio options for indicator 68
-index.php?a=printview&recordID=5:309 Quiz grading: cannot find radio options for indicator 69
-console.log(document.querySelector('#formcontent').innerHTML.substring(0, 5000));
-VM2001:1 <div id="quizResultsBanner" style="background-color: #b71c1c;color: white;padding: 16px 20px;margin-bottom: 20px;font-size: 20px;font-weight: bold;border-radius: 4px;text-align: center;">✗ You did not pass. Score: 0/5 (0%) — minimum passing score is 80%<div style="margin-top: 8px; font-size: 15px; font-weight: normal;">Incorrect: Question 1, Question 2, Question 3, Question 4, Question 5</div><div style="margin-top: 12px;"><a href="https://leaf.va.gov/platform/stephanie_sandbox/report.php?a=LEAF_Start_Request&amp;id=form_515b4" class="buttonNorm" style="display: inline-block; font-size: 16px; padding: 8px 20px; text-decoration: none;">↻ Retake Quiz</a></div></div><!-- form -->
-<br>
-<div class="printmainform" style="border-bottom: 0px; min-height: 64px">
-    <div id="requestTitle">Test 
-            <img src="dynicons/?img=accessories-text-editor.svg&amp;w=16" style="cursor: pointer" alt="" title="Edit Title" onclick="changeTitle()" tabindex="0" role="button" onkeydown="if (event.keyCode==13){ changeTitle(); }">
-    
-    <br><span style="font-weight: normal; color: #686868; font-style: italic">Knowledge Verification</span>
-    </div>
-    <div id="requestInfo">
-        <table>
-            <tbody><tr>
-                <td>&nbsp;                </td>
-                <td><b></b>
-                                            <img src="dynicons/?img=accessories-text-editor.svg&amp;w=16" style="cursor: pointer" alt="Edit Service" title="Edit Service" onclick="changeService()" role="button" tabindex="0" onkeydown="if (event.keyCode==13){ changeService(); }">
-                                    </td>
-            </tr>
-            <tr>
-                <td>Initiated by</td>
-                <td><b>Stephanie Lumagui</b></td>
-            </tr>
-            <tr style="display: none">
-                <td>Submitted</td>
-                <td><b>Not submitted</b></td>
-            </tr>
-        </tbody></table>
-    </div>
-    <br class="noprint" style="clear: both">
-</div>
-<div class="tags noprint" id="tags" style="border: 1px solid black; padding: 2px; text-align: right" role="status" aria-live="polite">
-    <b>
-</b>
-<!-- <img src="dynicons/?img=folder-new.svg&amp;w=16" alt="Edit tags" title="Edit tags" style="cursor: pointer" onclick="getTags(5);" /> --></div>
-
-<div class="printmainform">
-    <div class="printformblock"><div class="printmainblock"><div class="printmainlabel"><div class="printcounter" style="cursor: pointer" onclick="toggleZoom('data_63_1')"><span>1</span></div><div id="PHindicator_63_1" class="printheading"><div style="float: right"><button type="button" style="width: 16px; height: 16px; padding: 0; border: 0; background-image: url('dynicons/?img=accessories-text-editor.svg&amp;w=16'); cursor: pointer;" alt="Edit Knowledge Verification field" title="Edit Knowledge Verification field" onclick="getForm(63, 1)" tabindex="0" role="button"></button></div><span class="printsubheading" style="cursor: pointer; height: 13px;" title="indicatorID: 63" onclick="getForm(63, 1)">Knowledge Verification</span></div><div class="printResponse" id="xhrIndicator_63_1">                            
-                                                                                                                                                                                <div class="printformblock"><div class="printsubblock" id="subIndicator_64_1"><div class="printsublabel"><div class="printsubheading" style="height: 29.3333px;"><span class="printsubheading" title="indicatorID: 64" style="height: 28px;">To receive TMS credit please answer the following questions.</span></div><div class="printResponse" id="xhrIndicator_64_1">                            
-                                                                                                                                                                                </div><!-- end print reponse --></div><!-- end print sublabel --></div><!-- end print block --><div class="printsubblock" id="subIndicator_65_1"><div class="printsublabel"><div class="printsubheading" style="height: 29.3333px;"><span class="printsubheading" title="indicatorID: 65" style="height: 28px;"> 1.  Email Reminders  are automatically set without needing to be triggered. </span></div><div class="printResponse" id="xhrIndicator_65_1">                                                <span class="printResponse" id="data_65_1">
-                b. False
-                </span>
-                
-                                                                                                                                                                </div><!-- end print reponse --></div><!-- end print sublabel --></div><!-- end print block --><div class="printsubblock" id="subIndicator_66_1"><div class="printsublabel"><div class="printsubheading"><span class="printsubheading" title="indicatorID: 66" style="height: 28px;"> 2. The  LEAF-S certification  process needs to be completed </span></div><div class="printRes
-undefined
+fetch("./api/form/" + recordID + "/data")
+  .then((r) => r.json())
+  .then((d) => console.log(JSON.stringify(d, null, 2)));
+Promise {<pending>, then: ƒ}
+VM2005:3 {
+  "63": {
+    "1": {
+      "indicatorID": 63,
+      "categoryID": "form_515b4",
+      "series": 1,
+      "name": "Knowledge Verification",
+      "description": "",
+      "default": "",
+      "parentID": null,
+      "html": null,
+      "htmlPrint": null,
+      "conditions": null,
+      "required": 0,
+      "is_sensitive": 0,
+      "isEmpty": true,
+      "value": "",
+      "displayedValue": "",
+      "timestamp": 0,
+      "userID": null,
+      "isWritable": 1,
+      "isMasked": 0,
+      "sort": -128,
+      "has_code": "",
+      "format": ""
+    }
+  },
+  "64": {
+    "1": {
+      "indicatorID": 64,
+      "series": 1,
+      "name": "To receive TMS credit please answer the following questions.",
+      "default": "",
+      "description": "",
+      "html": "",
+      "htmlPrint": "",
+      "conditions": null,
+      "required": 0,
+      "is_sensitive": 0,
+      "isEmpty": true,
+      "value": "",
+      "timestamp": 0,
+      "isWritable": 1,
+      "isMasked": 0,
+      "sort": -128,
+      "has_code": false,
+      "userID": "",
+      "format": "",
+      "parentID": 63
+    }
+  },
+  "65": {
+    "1": {
+      "indicatorID": 65,
+      "series": 1,
+      "name": "<p>1. <strong>Email Reminders</strong> are automatically set without needing to be triggered.</p>",
+      "default": "",
+      "description": "",
+      "html": "",
+      "htmlPrint": "",
+      "conditions": null,
+      "required": 0,
+      "is_sensitive": 0,
+      "isEmpty": false,
+      "value": "b. False",
+      "timestamp": 1773782693,
+      "isWritable": 1,
+      "isMasked": 0,
+      "sort": -127,
+      "has_code": false,
+      "userID": "oitauslumags",
+      "options": [
+        "a. True",
+        "b. False"
+      ],
+      "format": "radio",
+      "parentID": 63
+    }
+  },
+  "66": {
+    "1": {
+      "indicatorID": 66,
+      "series": 1,
+      "name": "<p>2. The <strong>LEAF-S certification</strong> process needs to be completed</p>",
+      "default": "",
+      "description": "",
+      "html": "",
+      "htmlPrint": "",
+      "conditions": null,
+      "required": 0,
+      "is_sensitive": 0,
+      "isEmpty": false,
+      "value": "b. AFTER all the fields on the form(s) containing PHI/PII are marked sensitive",
+      "timestamp": 1773782693,
+      "isWritable": 1,
+      "isMasked": 0,
+      "sort": -126,
+      "has_code": false,
+      "userID": "oitauslumags",
+      "options": [
+        "a. BEFORE all the fields on the form(s) containing PHI/PII are marked sensitive",
+        "b. AFTER all the fields on the form(s) containing PHI/PII are marked sensitive"
+      ],
+      "format": "radio",
+      "parentID": 63
+    }
+  },
+  "67": {
+    "1": {
+      "indicatorID": 67,
+      "series": 1,
+      "name": "<p>3. The <strong>Admin Panel</strong> is used to manage user groups, workflows, forms and other functions in LEAF.</p>",
+      "default": "",
+      "description": "",
+      "html": "",
+      "htmlPrint": "",
+      "conditions": null,
+      "required": 0,
+      "is_sensitive": 0,
+      "isEmpty": false,
+      "value": "a. True",
+      "timestamp": 1773782693,
+      "isWritable": 1,
+      "isMasked": 0,
+      "sort": -125,
+      "has_code": false,
+      "userID": "oitauslumags",
+      "options": [
+        "a. True",
+        "b. False"
+      ],
+      "format": "radio",
+      "parentID": 63
+    }
+  },
+  "68": {
+    "1": {
+      "indicatorID": 68,
+      "series": 1,
+      "name": "<p>4. Adding <strong>Events</strong> within a workflow is crucial for triggering email notifications.</p>",
+      "default": "",
+      "description": "",
+      "html": "",
+      "htmlPrint": "",
+      "conditions": null,
+      "required": 0,
+      "is_sensitive": 0,
+      "isEmpty": false,
+      "value": "a. True",
+      "timestamp": 1773782693,
+      "isWritable": 1,
+      "isMasked": 0,
+      "sort": -124,
+      "has_code": false,
+      "userID": "oitauslumags",
+      "options": [
+        "a. True",
+        "b. False"
+      ],
+      "format": "radio",
+      "parentID": 63
+    }
+  },
+  "69": {
+    "1": {
+      "indicatorID": 69,
+      "series": 1,
+      "name": "<p>5. It is not necessary to add <strong>Requirements</strong> to a step when creating a workflow.</p>",
+      "default": "",
+      "description": "",
+      "html": "",
+      "htmlPrint": "",
+      "conditions": null,
+      "required": 0,
+      "is_sensitive": 0,
+      "isEmpty": false,
+      "value": "a. True",
+      "timestamp": 1773782693,
+      "isWritable": 1,
+      "isMasked": 0,
+      "sort": -123,
+      "has_code": false,
+      "userID": "oitauslumags",
+      "options": [
+        "a. True",
+        "b. False"
+      ],
+      "format": "radio",
+      "parentID": 63
+    }
+  },
+  "70": {
+    "1": {
+      "indicatorID": 70,
+      "series": 1,
+      "name": "<p><strong>Thank you for completing the Knowledge Verification!</strong></p><p>Please click <strong>Submit for Certificate of Completion</strong>to submit your responses. Once submitted, a self-certification email will be sent to you with instructions on how to finalize your TMS credit.</p>",
+      "default": "",
+      "description": "",
+      "html": "",
+      "htmlPrint": "",
+      "conditions": "[{\"childIndID\":70,\"parentIndID\":69,\"selectedOp\":\"==\",\"selectedParentValue\":\"a. True<br \\/>\\nb. False\",\"selectedChildValue\":\"\",\"selectedOutcome\":\"show\",\"crosswalkFile\":\"\",\"crosswalkHasHeader\":false,\"level2IndID\":null,\"childFormat\":\"\",\"parentFormat\":\"radio\"}]",
+      "required": 0,
+      "is_sensitive": 0,
+      "isEmpty": true,
+      "value": "",
+      "timestamp": 0,
+      "isWritable": 1,
+      "isMasked": 0,
+      "sort": -128,
+      "has_code": false,
+      "userID": "",
+      "format": "",
+      "parentID": 69
+    }
+  }
+}
