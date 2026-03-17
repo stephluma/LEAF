@@ -1,1 +1,3 @@
-https://dvagov.sharepoint.com/sites/vhaleaf/_layouts/15/embed.aspx?UniqueId=4326d1e5-57b3-4138-92e5-f16bdce8fdb2&embed=%7B%22ust%22%3Afalse%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create
+<label class="checkable leaf_check" for="20_radio1">
+                    <input type="radio" id="20_radio1" class="icheck20 leaf_check" name="20" value="a. Site Setting" aria-describedby="format_label_20">
+                    <span class="leaf_check"></span> a. Site Setting</label>
