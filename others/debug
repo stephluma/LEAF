@@ -1,228 +1,44 @@
-index.php?a=printview&recordID=5:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-index.php?a=printview&recordID=5:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-index.php?a=printview&recordID=5:309 Quiz grading: cannot find radio options for indicator 65
-index.php?a=printview&recordID=5:309 Quiz grading: cannot find radio options for indicator 66
-index.php?a=printview&recordID=5:309 Quiz grading: cannot find radio options for indicator 67
-index.php?a=printview&recordID=5:309 Quiz grading: cannot find radio options for indicator 68
-index.php?a=printview&recordID=5:309 Quiz grading: cannot find radio options for indicator 69
-fetch("./api/form/" + recordID + "/data")
+fetch("./api/form/" + recordID)
   .then((r) => r.json())
-  .then((d) => console.log(JSON.stringify(d, null, 2)));
+  .then(function (d) {
+    console.log("full response:", JSON.stringify(d, null, 2));
+    if (d && d.items) {
+      d.items.forEach(function (item) {
+        (item.children || []).forEach(function (child) {
+          console.log(
+            "child.type:",
+            child.type,
+            "=== QUIZ_CATEGORY_ID:",
+            "form_515b4",
+            "->",
+            child.type === "form_515b4",
+          );
+        });
+      });
+    }
+  });
 Promise {<pending>, then: ƒ}
-VM1119:3 {
-  "63": {
-    "1": {
-      "indicatorID": 63,
-      "categoryID": "form_515b4",
-      "series": 1,
+VM1143:4 full response: {
+  "label": "name",
+  "identifier": "jsonIdx",
+  "items": [
+    {
       "name": "Knowledge Verification",
-      "description": "",
-      "default": "",
-      "parentID": null,
-      "html": null,
-      "htmlPrint": null,
-      "conditions": null,
-      "required": 0,
-      "is_sensitive": 0,
-      "isEmpty": true,
-      "value": "",
-      "displayedValue": "",
-      "timestamp": 0,
-      "userID": null,
-      "isWritable": 1,
-      "isMasked": 0,
-      "sort": -128,
-      "has_code": "",
-      "format": ""
-    }
-  },
-  "64": {
-    "1": {
-      "indicatorID": 64,
+      "type": "form",
+      "jsonIdx": -2,
       "series": 1,
-      "name": "To receive TMS credit please answer the following questions.",
-      "default": "",
-      "description": "",
-      "html": "",
-      "htmlPrint": "",
-      "conditions": null,
-      "required": 0,
-      "is_sensitive": 0,
-      "isEmpty": true,
-      "value": "",
-      "timestamp": 0,
-      "isWritable": 1,
-      "isMasked": 0,
-      "sort": -128,
-      "has_code": false,
-      "userID": "",
-      "format": "",
-      "parentID": 63
+      "children": [
+        {
+          "name": "1.1: Knowledge Verification",
+          "desc": "Knowledge Verification",
+          "type": "form_515b4",
+          "jsonIdx": "63.1",
+          "series": 1,
+          "format": "",
+          "indicatorID": 63
+        }
+      ]
     }
-  },
-  "65": {
-    "1": {
-      "indicatorID": 65,
-      "series": 1,
-      "name": "<p>1. <strong>Email Reminders</strong> are automatically set without needing to be triggered.</p>",
-      "default": "",
-      "description": "",
-      "html": "",
-      "htmlPrint": "",
-      "conditions": null,
-      "required": 0,
-      "is_sensitive": 0,
-      "isEmpty": false,
-      "value": "b. False",
-      "timestamp": 1773782693,
-      "isWritable": 1,
-      "isMasked": 0,
-      "sort": -127,
-      "has_code": false,
-      "userID": "oitauslumags",
-      "options": [
-        "a. True",
-        "b. False"
-      ],
-      "format": "radio",
-      "parentID": 63
-    }
-  },
-  "66": {
-    "1": {
-      "indicatorID": 66,
-      "series": 1,
-      "name": "<p>2. The <strong>LEAF-S certification</strong> process needs to be completed</p>",
-      "default": "",
-      "description": "",
-      "html": "",
-      "htmlPrint": "",
-      "conditions": null,
-      "required": 0,
-      "is_sensitive": 0,
-      "isEmpty": false,
-      "value": "b. AFTER all the fields on the form(s) containing PHI/PII are marked sensitive",
-      "timestamp": 1773782693,
-      "isWritable": 1,
-      "isMasked": 0,
-      "sort": -126,
-      "has_code": false,
-      "userID": "oitauslumags",
-      "options": [
-        "a. BEFORE all the fields on the form(s) containing PHI/PII are marked sensitive",
-        "b. AFTER all the fields on the form(s) containing PHI/PII are marked sensitive"
-      ],
-      "format": "radio",
-      "parentID": 63
-    }
-  },
-  "67": {
-    "1": {
-      "indicatorID": 67,
-      "series": 1,
-      "name": "<p>3. The <strong>Admin Panel</strong> is used to manage user groups, workflows, forms and other functions in LEAF.</p>",
-      "default": "",
-      "description": "",
-      "html": "",
-      "htmlPrint": "",
-      "conditions": null,
-      "required": 0,
-      "is_sensitive": 0,
-      "isEmpty": false,
-      "value": "a. True",
-      "timestamp": 1773782693,
-      "isWritable": 1,
-      "isMasked": 0,
-      "sort": -125,
-      "has_code": false,
-      "userID": "oitauslumags",
-      "options": [
-        "a. True",
-        "b. False"
-      ],
-      "format": "radio",
-      "parentID": 63
-    }
-  },
-  "68": {
-    "1": {
-      "indicatorID": 68,
-      "series": 1,
-      "name": "<p>4. Adding <strong>Events</strong> within a workflow is crucial for triggering email notifications.</p>",
-      "default": "",
-      "description": "",
-      "html": "",
-      "htmlPrint": "",
-      "conditions": null,
-      "required": 0,
-      "is_sensitive": 0,
-      "isEmpty": false,
-      "value": "a. True",
-      "timestamp": 1773782693,
-      "isWritable": 1,
-      "isMasked": 0,
-      "sort": -124,
-      "has_code": false,
-      "userID": "oitauslumags",
-      "options": [
-        "a. True",
-        "b. False"
-      ],
-      "format": "radio",
-      "parentID": 63
-    }
-  },
-  "69": {
-    "1": {
-      "indicatorID": 69,
-      "series": 1,
-      "name": "<p>5. It is not necessary to add <strong>Requirements</strong> to a step when creating a workflow.</p>",
-      "default": "",
-      "description": "",
-      "html": "",
-      "htmlPrint": "",
-      "conditions": null,
-      "required": 0,
-      "is_sensitive": 0,
-      "isEmpty": false,
-      "value": "a. True",
-      "timestamp": 1773782693,
-      "isWritable": 1,
-      "isMasked": 0,
-      "sort": -123,
-      "has_code": false,
-      "userID": "oitauslumags",
-      "options": [
-        "a. True",
-        "b. False"
-      ],
-      "format": "radio",
-      "parentID": 63
-    }
-  },
-  "70": {
-    "1": {
-      "indicatorID": 70,
-      "series": 1,
-      "name": "<p><strong>Thank you for completing the Knowledge Verification!</strong></p><p>Please click <strong>Submit for Certificate of Completion</strong>to submit your responses. Once submitted, a self-certification email will be sent to you with instructions on how to finalize your TMS credit.</p>",
-      "default": "",
-      "description": "",
-      "html": "",
-      "htmlPrint": "",
-      "conditions": "[{\"childIndID\":70,\"parentIndID\":69,\"selectedOp\":\"==\",\"selectedParentValue\":\"a. True<br \\/>\\nb. False\",\"selectedChildValue\":\"\",\"selectedOutcome\":\"show\",\"crosswalkFile\":\"\",\"crosswalkHasHeader\":false,\"level2IndID\":null,\"childFormat\":\"\",\"parentFormat\":\"radio\"}]",
-      "required": 0,
-      "is_sensitive": 0,
-      "isEmpty": true,
-      "value": "",
-      "timestamp": 0,
-      "isWritable": 1,
-      "isMasked": 0,
-      "sort": -128,
-      "has_code": false,
-      "userID": "",
-      "format": "",
-      "parentID": 69
-    }
-  }
+  ]
 }
+VM1143:8 child.type: form_515b4 === QUIZ_CATEGORY_ID: form_515b4 -> true
