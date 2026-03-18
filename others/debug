@@ -1,3 +1,9 @@
-<div style="background-color: #b74141; padding: 8px; color: white; text-shadow: black 0.1em 0.1em 0.2em; font-weight: bold; text-align: center; font-size: 120%">Please review your request before submitting</div>
-
-<button class="buttonNorm" type="button" style="font-weight: bold; font-size: 120%" title="Submit Form" onclick="doSubmit(3);"><img src="dynicons/?img=go-next.svg&amp;w=32" alt=""> Submit Request</button>
+report.php?a=v12:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+report.php?a=v12:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+project_v12.js:8322  Failed to load data. TypeError: labelMap.get is not a function
+    at updateToggleLabel (project_v12.js:5190:39)
+    at multiSelectDropdown (project_v12.js:5351:5)
+    at initFilterControls (project_v12.js:6174:35)
+    at HTMLDocument.main (project_v12.js:8161:7)
+main @ project_v12.js:8322
