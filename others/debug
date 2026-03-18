@@ -1,8 +1,6 @@
 report.php?a=v12:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
     at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
 report.php?a=v12:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-report.php?a=v12:1019 [Intervention] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/s/materialicons/v145/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2
-/platform/projects/api/form/new:1   Failed to load resource: the server responded with a status of 401 (Unauthorized)
-project_v12.js:6996  Feedback submission failed: Error: Invalid record ID returned
-    at HTMLButtonElement.<anonymous> (project_v12.js:6965:53)
-(anonymous) @ project_v12.js:6996
+project_v12.js:7004  Feedback submission failed: Error: Invalid record ID returned
+    at HTMLButtonElement.<anonymous> (project_v12.js:6973:53)
+(anonymous) @ project_v12.js:7004
