@@ -1,6 +1,48 @@
-report.php?a=v12:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-report.php?a=v12:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-project_v12.js:7004  Feedback submission failed: Error: Invalid record ID returned
-    at HTMLButtonElement.<anonymous> (project_v12.js:6973:53)
-(anonymous) @ project_v12.js:7004
+<div class="response blockIndicator_6">
+        
+                                                                <span><select id="6" name="6" style="width: 50%; display: none;">
+                                                <option value=""></option>
+                                                                <option value="Not Started">Not Started</option>
+                                                                <option value="In Progress" selected="selected">In Progress</option>
+                    In Progress
+                                                                <option value="On Hold">On Hold</option>
+                                                                <option value="Completed" style="display: none;">Completed</option>
+                                                                <option value="Cancelled">Cancelled</option>
+                                            </select><div class="chosen-container chosen-container-single" title="" id="6_chosen" style="width: 80%;"><a class="chosen-single chosen-single-with-deselect">
+  <span>In Progress</span><abbr class="search-choice-close"></abbr>
+  <div><b></b></div>
+</a>
+<div class="chosen-drop">
+  <div class="chosen-search">
+    <input class="chosen-search-input" type="text" autocomplete="off" aria-expanded="false" aria-haspopup="true" aria-autocomplete="list" role="combobox" aria-owns="6-chosen-search-results" aria-labelledby="format_label_6" aria-activedescendant="6-chosen-search-result-2">
+  </div>
+  <ul class="chosen-results" id="6-chosen-search-results" title="Selection List" role="listbox" aria-busy="false"><li class="active-result" data-option-array-index="1" role="option" id="6-chosen-search-result-1">Not Started</li><li class="active-result result-selected" data-option-array-index="2" role="option" id="6-chosen-search-result-2">In Progress</li><li class="active-result" data-option-array-index="3" role="option" id="6-chosen-search-result-3">On Hold</li><li class="active-result" data-option-array-index="4" role="option" id="6-chosen-search-result-4">Completed</li><li class="active-result" data-option-array-index="5" role="option" id="6-chosen-search-result-5">Cancelled</li></ul>
+</div></div></span>
+                <script>
+                $(function() {
+                	$('#6').chosen({disable_search_threshold: 5, allow_single_deselect: true, width: '80%'});
+                    $('#6_chosen input.chosen-search-input').attr('role', 'combobox');
+                    $('#6_chosen input.chosen-search-input').attr('aria-labelledby', 'format_label_6');
+                    $(`#6-chosen-search-results`).attr('title', "Selection List");
+                    $(`#6-chosen-search-results`).attr('role', 'listbox');
+                });
+                                </script>
+                // Hide "Completed" from project status dropdown — auto-set by syncProjectCompletionStatus()
+<script>
+$(document).ready(function () {
+  // Try immediately, then retry briefly in case LEAF renders the field async
+  function hideCompletedOption() {
+    $('select[name="6"], select[name="6_1"]')
+      .find("option")
+      .filter(function () {
+        return $(this).text().trim() === "Completed";
+      })
+      .hide();
+  }
+  hideCompletedOption();
+  setTimeout(hideCompletedOption, 500); // safety net for async render
+});
+</script>
+                                                                                                                                            
+            
+                    </div>
