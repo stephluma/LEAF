@@ -1,14 +1,20 @@
 const testUserID = window.leafIdeaPortal.userID;
 const testUrl = `https://leaf.va.gov/platform/ideas/api/form/query/?x-filterData=recordID,title,created_date,userID&q={"terms":[{"id":"userID","operator":"=","match":"${testUserID}","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["5","8","9","12","13","stepID"]}`;
-console.log("URL:", testUrl);
 fetch(testUrl, {
-  method: "GET",
   credentials: "same-origin",
-  cache: "no-store",
-  headers: { Accept: "application/json" },
 })
   .then((r) => r.text())
   .then((data) => console.log("response:", data));
-VM107:3 URL: https://leaf.va.gov/platform/ideas/api/form/query/?x-filterData=recordID,title,created_date,userID&q={"terms":[{"id":"userID","operator":"=","match":"oitauslumags","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["5","8","9","12","13","stepID"]}
 Promise {<pending>, then: ƒ}
-VM107:11 response: ""
+VM115:7 response: ""
+fetch(testUrl, {
+  credentials: "same-origin",
+})
+  .then((r) => {
+    console.log("status:", r.status, r.statusText);
+    return r.text();
+  })
+  .then((data) => console.log("response:", data));
+Promise {<pending>, then: ƒ}
+VM119:5 status: 200 OK
+VM119:8 response: ""
