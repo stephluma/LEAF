@@ -1,1 +1,13 @@
-
+// Simulate exactly what fetchUserSubmissions sends
+const userID = window.leafIdeaPortal.userID;
+const url = `https://leaf.va.gov/platform/ideas/api/form/query/?x-filterData=recordID,title,created_date,userID&q={"terms":[{"id":"userID","operator":"=","match":"${userID}","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["5","8","9","12","13","stepID"]}`;
+console.log("URL:", url);
+fetch(url, {
+  method: "GET",
+  credentials: "same-origin",
+  cache: "no-store",
+  headers: { Accept: "application/json" },
+})
+  .then((r) => r.text())
+  .then((data) => console.log("response:", data));
+VM103:1 Uncaught SyntaxError: Identifier 'userID' has already been declared
