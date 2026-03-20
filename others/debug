@@ -1,5 +1,5 @@
 fetch(
-  'https://leaf.va.gov/platform/ideas/api/form/query/?q={"terms":[{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["5","8","9","12","13","stepID"]}&x-filterData=recordID,title,created_date,userID',
+  'https://leaf.va.gov/platform/ideas/api/form/query/?q={"terms":[{"id":"userID","operator":"=","match":"oitauslumags","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{}}&x-filterData=recordID,title,created_date,userID,s1',
   {
     credentials: "same-origin",
   },
@@ -7,30 +7,4 @@ fetch(
   .then((r) => r.text())
   .then(console.log);
 Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10327251022105625.js:251 ""
-fetch(
-  'https://leaf.va.gov/platform/ideas/api/form/query/?q={"terms":[{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["5"]}&x-filterData=recordID,title,userID',
-  {
-    credentials: "same-origin",
-  },
-)
-  .then((r) => r.text())
-  .then((data) => {
-    const records = JSON.parse(data);
-    console.log("portal userID:", window.leafIdeaPortal.userID);
-    Object.values(records)
-      .slice(0, 3)
-      .forEach((r) => {
-        console.log(
-          "record userID:",
-          r.userID,
-          "match:",
-          r.userID === window.leafIdeaPortal.userID,
-        );
-      });
-  });
-Promise {<pending>, then: ƒ}
-VM135:10 portal userID: oitauslumags
-VM135:14 record userID: oitauslumags match: true
-VM135:14 record userID: oitauslumags match: true
-VM135:14 record userID: oitauslumags match: true
+ruxitagentjs_ICA7NVfhqrux_10327251022105625.js:251 {"1":{"recordID":1,"userID":"oitauslumags","title":"Test"},"2":{"recordID":2,"userID":"oitauslumags","title":"test"},"3":{"recordID":3,"userID":"oitauslumags","title":"test"},"4":{"recordID":4,"userID":"oitauslumags","title":"test"},"5":{"recordID":5,"userID":"oitauslumags","title":"Image test"},"6":{"recordID":6,"userID":"oitauslumags","title":"Test"},"7":{"recordID":7,"userID":"oitauslumags","title":"test"},"8":{"recordID":8,"userID":"oitauslumags","title":"test"},"9":{"recordID":9,"userID":"oitauslumags","title":"Idea #5"},"10":{"recordID":10,"userID":"oitauslumags","title":"test"},"11":{"recordID":11,"userID":"oitauslumags","title":"test"},"12":{"recordID":12,"userID":"oitauslumags","title":"test"},"13":{"recordID":13,"userID":"oitauslumags","title":"test"},"14":{"recordID":14,"userID":"oitauslumags","title":"Test"},"15":{"recordID":15,"userID":"oitauslumags","title":"Submit Idea Test"},"16":{"recordID":16,"userID":"oitauslumags","title":"Save Idea test"},"17":{"recordID":17,"userID":"oitauslumags","title":"s"},"18":{"recordID":18,"userID":"oitauslumags","title":"Idea #1"}}
