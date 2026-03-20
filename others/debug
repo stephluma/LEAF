@@ -1,16 +1,9 @@
-report.php?a=test:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+report.php?a=0_test:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
     at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-report.php?a=test:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-report.php?a=test:661 === ROADMAP DEBUG: Raw query results ===
-report.php?a=test:662 {}
-report.php?a=test:663 Number of records returned: 0
-report.php?a=test:706 WARNING: Query returned 0 records. Possible causes:
-report.php?a=test:709   1. categoryID '50725' does not match any form
-report.php?a=test:714   2. No records exist for this form yet
-report.php?a=test:715   3. All records are deleted
-report.php?a=test:716   4. categoryID might need 'form_' prefix or just the number — try both
-report.php?a=test:720 === END DEBUG ===
-report.php?a=test:834 === PROCESSING SUMMARY ===
-report.php?a=test:835   Total records from query: 0
-report.php?a=test:836   Themes added to board: 0
-report.php?a=test:837   Records skipped: 0
+report.php?a=0_test:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+report.php?a=0_test:616 [Intervention] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/s/materialsymbolsoutlined/v321/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDCvHOejbdhzrA.woff2
+ideas.js:1691  IdeaPortal:  is loaded but no longer required.
+(anonymous) @ ideas.js:1691
+ideas.js:1523 [Workflow] steps: (3) [Array(2), Array(2), Array(2)]
+ideas.js:1100 [MyIdeas] raw count: 0
+ideas.js:1114 [MyIdeas] merged count: 0
