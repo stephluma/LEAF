@@ -1,9 +1,40 @@
-report.php?a=0_test:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+report.php?a=test:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
     at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-report.php?a=0_test:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-report.php?a=0_test:616 [Intervention] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/s/materialsymbolsoutlined/v321/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDCvHOejbdhzrA.woff2
-ideas.js:1691  IdeaPortal:  is loaded but no longer required.
-(anonymous) @ ideas.js:1691
-ideas.js:1523 [Workflow] steps: (3) [Array(2), Array(2), Array(2)]
-ideas.js:1100 [MyIdeas] raw count: 0
-ideas.js:1114 [MyIdeas] merged count: 0
+report.php?a=test:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+report.php?a=test:641 === ROADMAP DIAGNOSTICS ===
+report.php?a=test:642 Config categoryID: '50725'
+report.php?a=test:643 Indicator IDs: {title: 10, horizon: 16, area: 18}
+report.php?a=test:650 
+--- STEP 1: Fetching available forms via API ---
+report.php?a=test:707 
+--- STEP 2: Querying with categoryID = '50725' ---
+report.php?a=test:748 
+--- STEP 3: Querying ALL recent records (no category filter) ---
+report.php?a=test:793 
+--- STEP 4: Trying categoryID = 'form_50725' (with form_ prefix) ---
+report.php?a=test:823 
+--- STEP 5: Including un-submitted records (stepID=notSubmitted) ---
+report.php?a=test:848 
+--- STEP 6: Trying query with getData to inspect indicator structure ---
+report.php?a=test:655 Available form categories on this site:
+report.php?a=test:665   categoryID: 0 => LEAF Developer Console
+report.php?a=test:665   categoryID: 1 => Leaf Secure Certification
+report.php?a=test:665   categoryID: 2 => UX Feedback Session
+report.php?a=test:665   categoryID: 3 => UX Roadmap
+report.php?a=test:721   Result: 0 records found with categoryID='50725'
+report.php?a=test:833   Result: 0 un-submitted records found
+report.php?a=test:758   Found 2 total non-deleted records on this site
+report.php?a=test:762   Showing up to 10 records with their category info:
+report.php?a=test:767     Record #1 | title: Submit Form | categoryNames: ["UX Feedback Session"] | categoryIDs: ["form_0bca4"]
+report.php?a=test:767     Record #3 | title: Test | categoryNames: ["UX Roadmap"] | categoryIDs: ["form_50725"]
+report.php?a=test:805   Result: 1 records found with categoryID='form_50725'
+report.php?a=test:813   >>> FIX: Change ROADMAP_CONFIG.categoryID to 'form_50725'
+report.php?a=test:861   Result: 0 records (with getData)
+report.php?a=test:869 
+=== END DIAGNOSTICS ===
+report.php?a=test:870 === Now running the real query... ===
+
+report.php?a=test:1019 === PROCESSING SUMMARY ===
+report.php?a=test:1020   Total records from query: 0
+report.php?a=test:1021   Themes added to board: 0
+report.php?a=test:1022   Records skipped: 0
