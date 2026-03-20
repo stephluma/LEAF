@@ -1,5 +1,4 @@
-<div class="printResponse" id="xhrIndicator_10_1">                                                                                                                                            <span class="printResponse" id="data_10_1">
-                                                                    <img alt="image upload: coming-soon-01.png" src="https://leaf.va.gov/platform/ideas/image.php?form=1&amp;id=10&amp;series=1&amp;file=0" style="max-width: 200px" onclick="window.open('https://leaf.va.gov/platform/ideas/image.php?form=1&amp;id=10&amp;series=1&amp;file=0', 'newName', 'width=550', 'height=550'); return false;">
-                                                                    <br><br>
-            </span>
-                                                                </div>
+index.php?a=printview&recordID=1:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+index.php?a=printview&recordID=1:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+index.php?a=printview&recordID=1:589 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
