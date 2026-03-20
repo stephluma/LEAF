@@ -1,7 +1,10 @@
-console.log("userID value:", userID);
-console.log("type:", typeof userID);
-console.log("length:", userID?.length);
-VM122:1 userID value: oitauslumags
-VM122:2 type: string
-VM122:3 length: 12
-undefined
+ideas.js:1063 [MyIdeas] my records: 0
+const testUID = userID;
+const testUrl = `https://leaf.va.gov/platform/ideas/api/form/query/?q={"terms":[{"id":"userID","operator":"=","match":"${testUID}","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["5","8","9","12","13","stepID"]}&x-filterData=recordID,title,created_date,userID`;
+console.log("built url:", testUrl);
+fetch(testUrl, { credentials: "same-origin" })
+  .then((r) => r.text())
+  .then(console.log);
+VM166:3 built url: https://leaf.va.gov/platform/ideas/api/form/query/?q={"terms":[{"id":"userID","operator":"=","match":"oitauslumags","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["5","8","9","12","13","stepID"]}&x-filterData=recordID,title,created_date,userID
+Promise {<pending>, then: ƒ}
+ruxitagentjs_ICA7NVfhqrux_10327251022105625.js:251 ""
