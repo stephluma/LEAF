@@ -1,10 +1,8 @@
+report.php?a=0_test:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+report.php?a=0_test:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+report.php?a=0_test:616 [Intervention] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/s/materialsymbolsoutlined/v321/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDCvHOejbdhzrA.woff2
+ideas.js:1515  IdeaPortal:  is loaded but no longer required.
+(anonymous) @ ideas.js:1515
+ideas.js:1051 [MyIdeas] url: https://leaf.va.gov/platform/ideas/api/form/query/?q={"terms":[{"id":"userID","operator":"=","match":"oitauslumags","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["5","8","9","12","13","stepID"]}&x-filterData=recordID,title,created_date,userID&_=1774034211551
 ideas.js:1063 [MyIdeas] my records: 0
-const testUID = userID;
-const testUrl = `https://leaf.va.gov/platform/ideas/api/form/query/?q={"terms":[{"id":"userID","operator":"=","match":"${testUID}","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["5","8","9","12","13","stepID"]}&x-filterData=recordID,title,created_date,userID`;
-console.log("built url:", testUrl);
-fetch(testUrl, { credentials: "same-origin" })
-  .then((r) => r.text())
-  .then(console.log);
-VM166:3 built url: https://leaf.va.gov/platform/ideas/api/form/query/?q={"terms":[{"id":"userID","operator":"=","match":"oitauslumags","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["5","8","9","12","13","stepID"]}&x-filterData=recordID,title,created_date,userID
-Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10327251022105625.js:251 ""
