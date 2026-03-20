@@ -2,6 +2,10 @@ report.php?a=0_test:1  Error handling response: TypeError: Cannot read propertie
     at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
 report.php?a=0_test:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
 report.php?a=0_test:589 [Intervention] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/s/materialsymbolsoutlined/v321/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDCvHOejbdhzrA.woff2
-ideas.js:1703  IdeaPortal:  is loaded but no longer required.
-(anonymous) @ ideas.js:1703
-ideas.js:1535 [Workflow] steps: (3) [Array(2), Array(2), Array(2)]
+ideas.js:1707  IdeaPortal:  is loaded but no longer required.
+(anonymous) @ ideas.js:1707
+ideas.js:1539 [Workflow] steps: (3) [Array(2), Array(2), Array(2)]
+ideas.js:1108 [MyIdeas] submittedData: ""
+ideas.js:1109 [MyIdeas] draftData: ""
+ideas.js:1129 [MyIdeas] merged count: 0 records: []
+ideas.js:1141 [MyIdeas] myIdeasCache count: 3
