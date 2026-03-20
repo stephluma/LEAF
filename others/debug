@@ -1,44 +1,16 @@
-fetch(
-  "https://leaf.va.gov/platform/ideas/api/form/query/?debug=1&x-filterData=recordID,title,created_date,userID&q=" +
-    JSON.stringify({
-      terms: [
-        {
-          id: "userID",
-          operator: "=",
-          match: window.leafIdeaPortal.userID,
-          gate: "AND",
-        },
-        { id: "deleted", operator: "=", match: 0, gate: "AND" },
-      ],
-      joins: [],
-      sort: {},
-      getData: ["5"],
-    }),
-  { credentials: "same-origin" },
-)
-  .then((r) => r.text())
-  .then(console.log);
-Promise {<pending>, then: ƒ}
-ruxitagentjs_ICA7NVfhqrux_10327251022105625.js:251 {"terms":[],"joins":[],"sort":[],"getData":[]}
-fetch(
-  "https://leaf.va.gov/platform/ideas/api/form/query/?x-filterData=recordID,title,created_date,userID&q=" +
-    JSON.stringify({
-      terms: [
-        {
-          id: "userID",
-          operator: "=",
-          match: window.leafIdeaPortal.userID,
-          gate: "AND",
-        },
-        { id: "deleted", operator: "=", match: 0, gate: "AND" },
-      ],
-      joins: [],
-      sort: {},
-      getData: ["5"],
-    }),
-  { credentials: "same-origin" },
-)
-  .then((r) => r.text())
-  .then((data) => console.log("raw:", JSON.stringify(data)));
-Promise {<pending>, then: ƒ}
-VM497:20 raw: "{\"1\":{\"recordID\":1,\"userID\":\"oitauslumags\",\"title\":\"Test\",\"s1\":{\"id5\":\"Test Idea\"}},\"2\":{\"recordID\":2,\"userID\":\"oitauslumags\",\"title\":\"test\",\"s1\":{\"id5\":\"test\"}},\"3\":{\"recordID\":3,\"userID\":\"oitauslumags\",\"title\":\"test\",\"s1\":{\"id5\":\"test\"}},\"4\":{\"recordID\":4,\"userID\":\"oitauslumags\",\"title\":\"test\",\"s1\":{\"id5\":\"Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi.\"}},\"5\":{\"recordID\":5,\"userID\":\"oitauslumags\",\"title\":\"Image test\",\"s1\":{\"id5\":\"Image test\"}},\"6\":{\"recordID\":6,\"userID\":\"oitauslumags\",\"title\":\"Test\",\"s1\":{\"id5\":\"\"}},\"7\":{\"recordID\":7,\"userID\":\"oitauslumags\",\"title\":\"test\",\"s1\":{\"id5\":\"test\"}},\"8\":{\"recordID\":8,\"userID\":\"oitauslumags\",\"title\":\"test\",\"s1\":{\"id5\":\"test\"}},\"9\":{\"recordID\":9,\"userID\":\"oitauslumags\",\"title\":\"Idea #5\",\"s1\":{\"id5\":null}},\"10\":{\"recordID\":10,\"userID\":\"oitauslumags\",\"title\":\"test\",\"s1\":{\"id5\":\"test\"}},\"11\":{\"recordID\":11,\"userID\":\"oitauslumags\",\"title\":\"test\",\"s1\":{\"id5\":\"test\"}},\"12\":{\"recordID\":12,\"userID\":\"oitauslumags\",\"title\":\"test\",\"s1\":{\"id5\":\"test\"}},\"13\":{\"recordID\":13,\"userID\":\"oitauslumags\",\"title\":\"test\",\"s1\":{\"id5\":\"test\"}},\"14\":{\"recordID\":14,\"userID\":\"oitauslumags\",\"title\":\"Test\",\"s1\":{\"id5\":\"Test\"}},\"15\":{\"recordID\":15,\"userID\":\"oitauslumags\",\"title\":\"Submit Idea Test\",\"s1\":{\"id5\":\"Submit Idea Test\"}},\"16\":{\"recordID\":16,\"userID\":\"oitauslumags\",\"title\":\"Save Idea test\",\"s1\":{\"id5\":\"Save Idea test\"}}}"
+report.php?a=test:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+report.php?a=test:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+report.php?a=test:661 === ROADMAP DEBUG: Raw query results ===
+report.php?a=test:662 {}
+report.php?a=test:663 Number of records returned: 0
+report.php?a=test:706 WARNING: Query returned 0 records. Possible causes:
+report.php?a=test:709   1. categoryID '50725' does not match any form
+report.php?a=test:714   2. No records exist for this form yet
+report.php?a=test:715   3. All records are deleted
+report.php?a=test:716   4. categoryID might need 'form_' prefix or just the number — try both
+report.php?a=test:720 === END DEBUG ===
+report.php?a=test:834 === PROCESSING SUMMARY ===
+report.php?a=test:835   Total records from query: 0
+report.php?a=test:836   Themes added to board: 0
+report.php?a=test:837   Records skipped: 0
