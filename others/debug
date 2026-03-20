@@ -1,48 +1,43 @@
-<div class="response blockIndicator_6">
-        
-                                                                <span><select id="6" name="6" style="width: 50%; display: none;">
-                                                <option value=""></option>
-                                                                <option value="Not Started">Not Started</option>
-                                                                <option value="In Progress" selected="selected">In Progress</option>
-                    In Progress
-                                                                <option value="On Hold">On Hold</option>
-                                                                <option value="Completed" style="display: none;">Completed</option>
-                                                                <option value="Cancelled">Cancelled</option>
-                                            </select><div class="chosen-container chosen-container-single" title="" id="6_chosen" style="width: 80%;"><a class="chosen-single chosen-single-with-deselect">
-  <span>In Progress</span><abbr class="search-choice-close"></abbr>
-  <div><b></b></div>
-</a>
-<div class="chosen-drop">
-  <div class="chosen-search">
-    <input class="chosen-search-input" type="text" autocomplete="off" aria-expanded="false" aria-haspopup="true" aria-autocomplete="list" role="combobox" aria-owns="6-chosen-search-results" aria-labelledby="format_label_6" aria-activedescendant="6-chosen-search-result-2">
-  </div>
-  <ul class="chosen-results" id="6-chosen-search-results" title="Selection List" role="listbox" aria-busy="false"><li class="active-result" data-option-array-index="1" role="option" id="6-chosen-search-result-1">Not Started</li><li class="active-result result-selected" data-option-array-index="2" role="option" id="6-chosen-search-result-2">In Progress</li><li class="active-result" data-option-array-index="3" role="option" id="6-chosen-search-result-3">On Hold</li><li class="active-result" data-option-array-index="4" role="option" id="6-chosen-search-result-4">Completed</li><li class="active-result" data-option-array-index="5" role="option" id="6-chosen-search-result-5">Cancelled</li></ul>
-</div></div></span>
-                <script>
-                $(function() {
-                	$('#6').chosen({disable_search_threshold: 5, allow_single_deselect: true, width: '80%'});
-                    $('#6_chosen input.chosen-search-input').attr('role', 'combobox');
-                    $('#6_chosen input.chosen-search-input').attr('aria-labelledby', 'format_label_6');
-                    $(`#6-chosen-search-results`).attr('title', "Selection List");
-                    $(`#6-chosen-search-results`).attr('role', 'listbox');
-                });
-                                </script>
-                // Hide "Completed" from project status dropdown — auto-set by syncProjectCompletionStatus()
-<script>
-$(document).ready(function () {
-  // Try immediately, then retry briefly in case LEAF renders the field async
-  function hideCompletedOption() {
-    $('select[name="6"], select[name="6_1"]')
-      .find("option")
-      .filter(function () {
-        return $(this).text().trim() === "Completed";
-      })
-      .hide();
-  }
-  hideCompletedOption();
-  setTimeout(hideCompletedOption, 500); // safety net for async render
-});
-</script>
-                                                                                                                                            
-            
-                    </div>
+// Test the exact draft query being sent
+fetch(
+  "https://leaf.va.gov/platform/ideas/api/form/query/?x-filterData=recordID,title,created_date,userID&q=" +
+    JSON.stringify({
+      terms: [
+        {
+          id: "userID",
+          operator: "=",
+          match: window.leafIdeaPortal.userID,
+          gate: "AND",
+        },
+        { id: "categoryID", operator: "=", match: "form_ae642", gate: "AND" },
+        { id: "deleted", operator: "=", match: 0, gate: "AND" },
+        { id: "stepID", operator: "=", match: "notSubmitted", gate: "AND" },
+      ],
+      joins: [],
+      sort: {},
+      getData: ["5", "8", "9", "13", "stepID"],
+    }),
+  { credentials: "same-origin" },
+)
+  .then((r) => r.text())
+  .then(console.log);
+Promise {<pending>, then: ƒ}
+ruxitagentjs_ICA7NVfhqrux_10327251022105625.js:251 ""
+// Check the most recent draft record directly
+fetch(
+  "https://leaf.va.gov/platform/ideas/api/form/query/?x-filterData=recordID,title,created_date,userID&q=" +
+    JSON.stringify({
+      terms: [
+        { id: "stepID", operator: "=", match: "notSubmitted", gate: "AND" },
+        { id: "deleted", operator: "=", match: 0, gate: "AND" },
+      ],
+      joins: [],
+      sort: {},
+      getData: ["5"],
+    }),
+  { credentials: "same-origin" },
+)
+  .then((r) => r.text())
+  .then(console.log);
+Promise {<pending>, then: ƒ}
+ruxitagentjs_ICA7NVfhqrux_10327251022105625.js:251 {"2":{"recordID":2,"userID":"oitauslumags","title":"test","s1":{"id5":"test"}},"3":{"recordID":3,"userID":"oitauslumags","title":"test","s1":{"id5":"test"}},"4":{"recordID":4,"userID":"oitauslumags","title":"test","s1":{"id5":"Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi."}},"5":{"recordID":5,"userID":"oitauslumags","title":"Image test","s1":{"id5":"Image test"}},"6":{"recordID":6,"userID":"oitauslumags","title":"Test","s1":{"id5":""}},"7":{"recordID":7,"userID":"oitauslumags","title":"test","s1":{"id5":"test"}},"8":{"recordID":8,"userID":"oitauslumags","title":"test","s1":{"id5":"test"}},"9":{"recordID":9,"userID":"oitauslumags","title":"Idea #5","s1":{"id5":null}},"10":{"recordID":10,"userID":"oitauslumags","title":"test","s1":{"id5":"test"}},"12":{"recordID":12,"userID":"oitauslumags","title":"test","s1":{"id5":"test"}},"13":{"recordID":13,"userID":"oitauslumags","title":"test","s1":{"id5":"test"}},"14":{"recordID":14,"userID":"oitauslumags","title":"Test","s1":{"id5":"Test"}},"16":{"recordID":16,"userID":"oitauslumags","title":"Save Idea test","s1":{"id5":"Save Idea test"}}}
