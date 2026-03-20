@@ -1,40 +1,13 @@
-report.php?a=test:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-report.php?a=test:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-report.php?a=test:641 === ROADMAP DIAGNOSTICS ===
-report.php?a=test:642 Config categoryID: '50725'
-report.php?a=test:643 Indicator IDs: {title: 10, horizon: 16, area: 18}
-report.php?a=test:650 
---- STEP 1: Fetching available forms via API ---
-report.php?a=test:707 
---- STEP 2: Querying with categoryID = '50725' ---
-report.php?a=test:748 
---- STEP 3: Querying ALL recent records (no category filter) ---
-report.php?a=test:793 
---- STEP 4: Trying categoryID = 'form_50725' (with form_ prefix) ---
-report.php?a=test:823 
---- STEP 5: Including un-submitted records (stepID=notSubmitted) ---
-report.php?a=test:848 
---- STEP 6: Trying query with getData to inspect indicator structure ---
-report.php?a=test:655 Available form categories on this site:
-report.php?a=test:665   categoryID: 0 => LEAF Developer Console
-report.php?a=test:665   categoryID: 1 => Leaf Secure Certification
-report.php?a=test:665   categoryID: 2 => UX Feedback Session
-report.php?a=test:665   categoryID: 3 => UX Roadmap
-report.php?a=test:721   Result: 0 records found with categoryID='50725'
-report.php?a=test:833   Result: 0 un-submitted records found
-report.php?a=test:758   Found 2 total non-deleted records on this site
-report.php?a=test:762   Showing up to 10 records with their category info:
-report.php?a=test:767     Record #1 | title: Submit Form | categoryNames: ["UX Feedback Session"] | categoryIDs: ["form_0bca4"]
-report.php?a=test:767     Record #3 | title: Test | categoryNames: ["UX Roadmap"] | categoryIDs: ["form_50725"]
-report.php?a=test:805   Result: 1 records found with categoryID='form_50725'
-report.php?a=test:813   >>> FIX: Change ROADMAP_CONFIG.categoryID to 'form_50725'
-report.php?a=test:861   Result: 0 records (with getData)
-report.php?a=test:869 
-=== END DIAGNOSTICS ===
-report.php?a=test:870 === Now running the real query... ===
-
-report.php?a=test:1019 === PROCESSING SUMMARY ===
-report.php?a=test:1020   Total records from query: 0
-report.php?a=test:1021   Themes added to board: 0
-report.php?a=test:1022   Records skipped: 0
+fetch(
+  'https://leaf.va.gov/platform/ideas/api/form/query/?x-filterData=recordID,title,created_date,userID&q={"terms":[{"id":"userID","operator":"=","match":"oitauslumags","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["5","12"]}',
+  {
+    method: "GET",
+    credentials: "same-origin",
+    cache: "no-store",
+    headers: { Accept: "application/json" },
+  },
+)
+  .then((r) => r.text())
+  .then((data) => console.log("raw:", data));
+Promise {<pending>, then: ƒ}
+VM548:11 raw: {"1":{"recordID":1,"userID":"oitauslumags","title":"Test","s1":{"id5":"Test Idea","id12":"Completed"}},"2":{"recordID":2,"userID":"oitauslumags","title":"test","s1":{"id5":"test","id12":"( New Submission )"}},"3":{"recordID":3,"userID":"oitauslumags","title":"test","s1":{"id5":"test","id12":"( New Submission )"}},"4":{"recordID":4,"userID":"oitauslumags","title":"test","s1":{"id5":"Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi.","id12":"( New Submission )"}},"5":{"recordID":5,"userID":"oitauslumags","title":"Image test","s1":{"id5":"Image test","id12":"( New Submission )"}},"6":{"recordID":6,"userID":"oitauslumags","title":"Test","s1":{"id5":"","id12":"( New Submission )"}},"7":{"recordID":7,"userID":"oitauslumags","title":"test","s1":{"id5":"test","id12":"( New Submission )"}},"8":{"recordID":8,"userID":"oitauslumags","title":"test","s1":{"id5":"test","id12":"( New Submission )"}},"9":{"recordID":9,"userID":"oitauslumags","title":"Idea #5","s1":{"id5":null,"id12":"( New Submission )"}},"10":{"recordID":10,"userID":"oitauslumags","title":"test","s1":{"id5":"test","id12":"( New Submission )"}},"11":{"recordID":11,"userID":"oitauslumags","title":"test","s1":{"id5":"test","id12":"( New Submission )"}},"12":{"recordID":12,"userID":"oitauslumags","title":"test","s1":{"id5":"test","id12":"( New Submission )"}},"13":{"recordID":13,"userID":"oitauslumags","title":"test","s1":{"id5":"test","id12":"( New Submission )"}},"14":{"recordID":14,"userID":"oitauslumags","title":"Test","s1":{"id5":"Test","id12":"( New Submission )"}},"15":{"recordID":15,"userID":"oitauslumags","title":"Submit Idea Test","s1":{"id5":"Submit Idea Test","id12":"( New Submission )"}},"16":{"recordID":16,"userID":"oitauslumags","title":"Save Idea test","s1":{"id5":"Save Idea test","id12":"( New Submission )"}}}
