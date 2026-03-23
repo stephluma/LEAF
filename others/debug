@@ -1,3 +1,75 @@
+<style>
+    #header {
+        margin-bottom: 0px;
+    }
+    .buttonNorm {
+        text-decoration: none;
+    }
+    p, li {
+        font-size: 1rem;
+        line-height: 2rem;
+    }
+/* 5 column grid */
+.group:after,.section{clear:both}.section{padding:16px 0 16px 0;margin:0}.col{display:block;float:left;margin:1% 0 1% 1.6%}.col:first-child{margin-left:0}.group:after,.group:before{content:"";display:table}.group{zoom:1}.span_5_of_5{width:100%}.span_4_of_5{width:79.68%}.span_3_of_5{width:59.36%}.span_2_of_5{width:39.04%}.span_1_of_5{width:18.72%}@media only screen and (max-width:480px){.col{margin:1% 0}.span_1_of_5,.span_2_of_5,.span_3_of_5,.span_4_of_5,.span_5_of_5{width:100%}}
+
+    /* overrides and convenience classes */
+    .section h2 {
+        font-size: 250%;
+    }
+    .section p {
+        font-size: 140%;
+    }
+    .center {
+        text-align: center;
+    }
+    .comfyWidth {
+        max-width: 540px;
+    }
+</style>
+
+<div class="section" id="firstVisit" style="text-align: center; padding: 5rem 0 7rem; background: radial-gradient(circle, #f3f3f3 50%, #7bc143 100%);">
+    <p style="font-size: 250%; font-weight: bold">
+        Help modernize VA.
+    </p>
+    <p>
+        Improve your processes with our powerful workflow and form system.
+    </p>
+    <br /><br />        
+    
+    
+    <a href="?a=newform" class="buttonNorm" style="font-size: 140%; padding: 16px">🚀 Get started</a>
+    <br /><br />
+    <p style="font-size: 100%">
+        Join us for a demo on the <a href="https://dvagov.sharepoint.com/sites/vhaleaf/SitePages/LEAF-Academy.aspx?source=https%3A%2F%2Fdvagov.sharepoint.com%2Fsites%2Fvhaleaf%2FSitePages%2FForms%2FByAuthor.aspx"> first thursday </a> of every month
+    </p>
+</div>
+
+<div class="section group" id="welcomeBack" style="display: none">
+    <div class="col span_2_of_5">
+        <div style="padding: 1rem">
+            <p style="font-size: 250%" class="center">
+                Welcome back!
+            </p>
+
+            <p>How can we help?</p>
+            <ul>
+                <li><a href="report.php?a=Start_new_site">I need a new LEAF site</a></li>
+                <li><a href="/platform/service_requests_launchpad/">I need help with LEAF</a></li>
+                <li><a href="report.php?a=Find_my_site">I'm looking for a site</a></li>
+            </ul>
+
+            <br /><br />
+
+            <p class="center" style="font-size: 100%">
+                Join our <a href="https://leaf.va.gov/platform/CoP/">Community of Practice</a> for insights and tips!
+            </p>
+        </div>
+    </div>
+    
+    <div class="col span_3_of_5">
+        <p>
+			Here's the LEAF web sites you've requested:
+        </p>
         <div id="searchWidget">
             <div style="background-color: white; border: 1px solid black; padding: 8px; box-shadow: 0 2px 4px #8e8e8e; margin: auto">
                 <!--{include file=$tpl_search is_service_chief=$is_service_chief is_admin=$is_admin empUID=$empUID userID=$userID}-->
@@ -5,3 +77,124 @@
                 <br />
             </div>
         </div>
+    </div>
+</div>
+
+<div class="section group card" style="background-color: #112e51; color: white">
+    <div class="col span_2_of_5 center">
+        <img src="dynicons/?img=appointment.svg&w=256" alt="Icon of a clock" />
+    </div>
+    <div class="col span_3_of_5">
+        <h2>
+            Save time in the office,<br />create more time for Veterans
+        </h2>
+        <div class="comfyWidth">
+            <p>
+                The VA Light Electronic Action Framework (LEAF) combines intuitive design and non-technical rapid design tools to empower employees in process improvement.
+            </p>
+            <p>
+                By ensuring requests are never lost, and keeping stakeholders updated on the status, significant time savings can be realized.
+            </p>
+            <p>
+                In Salisbury VAMC, a December 2016 study found that LEAF made hiring decisions <b>54% faster</b> than the existing process, a 26-day improvement. Additionally, urgent access-related positions could be approved in under 24 hours.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="section group card" style="background-color: #fad980">
+    <div class="col span_3_of_5">
+        <div class="comfyWidth" style="float: right">
+        <h2>
+            Built by VA. For VA.
+        </h2>
+        <p>
+            For VA Medical Centers and Program Offices, since LEAF is a VA product, this means <b>signficant cost savings</b> compared to conventional development contracts.
+        </p>
+        <p>
+            Originally created by VA employees at the Washington D.C. VA Medical Center in 2008, LEAF has been built to seamlessly integrate with existing VA enterprise technology, such as two factor authentication with PIV-cards, and single sign-on.
+        </p>
+        <p>
+            In 2013, The VA Center for Innovation (VACI) and VHA Innovation Program spearheaded efforts in development, diffusion, and helped the platform mature to better serve the VA enterprise.
+        </p>
+        <p>
+            In 2021, Sustainment responsibilities were migrated to the OIT Franchise Fund Budget Office and Technology Platform Services, which continues to improve the sustainment and capability of LEAF.
+        </p>
+        <p>
+            <a class="buttonNorm" href="/launchpad/report.php?a=Cost_Estimator" target="_blank" style="padding: 16px; color: black"><img src="dynicons/?img=preferences-system-windows.svg&w=32" alt="icon for external link"> Evaluate cost and value</a>
+        </p>
+        </div>
+    </div>
+    <div class="col span_2_of_5 center">
+        <img src="/launchpad/files/Seal_of_the_U.S._Department_of_Veterans_Affairs.png" style="width: 50%" alt="Seal of the U.S. Department of Veterans Affairs" />
+        <br /><br /><br />
+<!--        <img src="/launchpad/files/VHAIE_Logo.jpg" style="width: 80%" alt="Logo for VHA Innovation Ecosystem" />
+ -->   </div>
+</div>
+
+<div class="section group card" style="background-color: #2e8540; color: white">
+    <div class="col span_2_of_5 center">
+        <img src="dynicons/?img=document-properties.svg&w=256" alt="Icon of a clock" />
+    </div>
+    <div class="col span_3_of_5">
+        <h2>
+            Rapid Implementation and Standardization
+        </h2>
+        <div class="comfyWidth">
+            <p>
+                Creating forms and workflows can be accomplished through an intuitive point-and-click interface. Additionally, LEAF has a built-in a library of forms that helps accelerate local implementations.
+            </p>
+            <p>
+                Instead of duplicating effort at each facility, LEAF can help deploy standardized forms and feed data to reports/dashboards.
+            </p>
+            <p>
+                <a class="buttonNorm" href="report.php?a=library" target="_blank" style="float: right; padding: 8px; color: black"><img src="dynicons/?img=preferences-system-windows.svg&w=32" alt="icon for external link"> Browse the LEAF Library</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="section group card" style="background-color: #112e51; color: white">
+    <div class="col span_3_of_5">
+        <div class="comfyWidth" style="float: right">
+        <h2>
+            Secure. Open Source technology leader.
+        </h2>
+        <p>
+            Role-based privileges are backed by VA's enterprise authentication mechanism, which is seamlessly integrated to provide an automatic login experience.
+        </p>
+        <p>
+            A simple "Need to know" switch streamlines data access rules. When this mode is enabled, only the individuals involved in the process will be able to view protected data.
+        </p>
+        <p>
+            VA LEAF is Open Source and built using TRM approved technologies. Developers seeking to build customized solutions do not require any special licences: the tools are open source as well.
+        </p>
+        </div>
+    </div>
+    <div class="col span_2_of_5 center">
+        <img src="dynicons/?img=emblem-readonly.svg&w=256" style="width: 50%" alt="Icon of person standing with open book" />
+    </div>
+</div>
+
+<div class="section group card" style="background-color: #4aa564; color: black">
+    <div class="col span_2_of_5 center">
+        <img src="dynicons/?img=emblem-readnews.svg&w=256" alt="Icon of a clock" />
+    </div>
+    <div class="col span_3_of_5">
+        <h2>
+            Easy to learn
+        </h2>
+        <div class="comfyWidth">
+            <p>
+                Intuitive design and ease of use leads to less training requirements, and reduced friction during implementation. LEAF forms have been designed to naturally lead users through the process, and minimize confusion.
+            </p>
+            <p>
+                Our community consists of a network of employees who all have the same goal: To improve VA. This is a central area where people can share ideas, ask questions, and help others.
+                <br /><br />
+            </p>
+            <p>
+                <a class="buttonNorm" href="https://dvagov.sharepoint.com/sites/vhaleaf" target="_blank" style="float: right; padding: 8px; color: black"><img src="dynicons/?img=preferences-system-windows.svg&w=32" alt="icon for external link"> Visit our Community</a>
+            </p>
+        </div>
+    </div>
+</div>
