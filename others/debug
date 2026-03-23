@@ -1,4 +1,16 @@
-index.php?a=printview&recordID=1:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-index.php?a=printview&recordID=1:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-index.php?a=printview&recordID=1:589 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
+curl ^"https://leaf.va.gov/launchpad/api/form/query?q=^\{^%^22terms^%^22:^\[^\{^%^22id^%^22:^%^22title^%^22,^%^22operator^%^22:^%^22LIKE^%^22,^%^22match^%^22:^%^22***^%^22,^%^22gate^%^22:^%^22AND^%^22^\},^\{^%^22id^%^22:^%^22deleted^%^22,^%^22operator^%^22:^%^22=^%^22,^%^22match^%^22:0,^%^22gate^%^22:^%^22AND^%^22^\},^\{^%^22id^%^22:^%^22userID^%^22,^%^22operator^%^22:^%^22=^%^22,^%^22match^%^22:^%^22oitauslumags^%^22,^%^22gate^%^22:^%^22AND^%^22^\}^\],^%^22joins^%^22:^\[^%^22status^%^22,^%^22categoryName^%^22^\],^%^22sort^%^22:^\{^%^22column^%^22:^%^22date^%^22,^%^22direction^%^22:^%^22DESC^%^22^\},^%^22getData^%^22:^\[17,22,21^\],^%^22limit^%^22:10,^%^22limitOffset^%^22:10^\}^" ^
+  -H ^"Accept: */*^" ^
+  -H ^"Accept-Language: en-US,en;q=0.9^" ^
+  -H ^"Cache-Control: no-cache^" ^
+  -H ^"Connection: keep-alive^" ^
+  -b ^"PHPSESSID=igr7ca41o8do2gi92i9vteh4cd; dtCookie=v_4_srv_48_sn_62CDB5C162967350285714EEC68FB28D_perc_100000_ol_0_mul_1_app-3A0b5de6c003f4dc0c_1_rcs-3Acss_0; af4441596b110025d1cd66a9a205a170=afa34f34c9c58a88de0cbed9057e8696; REMOTE_USER=792f7947653054396676722b4947636e3a3a6639633332393430616437643339333431316131613938356531666636343632; rxVisitor=17742703423856BER12K653R4JFUSIC8HF0AC99GQA83T; dtSa=-; rxvt=1774272188032^|1774270342387; dtPC=48^$70342381_875h8vHQLHGTDQHKIAGTFHAJKRNPVMLROLMKKJ-0e0^" ^
+  -H ^"Pragma: no-cache^" ^
+  -H ^"Referer: https://leaf.va.gov/launchpad/^" ^
+  -H ^"Sec-Fetch-Dest: empty^" ^
+  -H ^"Sec-Fetch-Mode: cors^" ^
+  -H ^"Sec-Fetch-Site: same-origin^" ^
+  -H ^"User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Mobile Safari/537.36 Edg/144.0.0.0^" ^
+  -H ^"sec-ch-ua: ^\^"Not(A:Brand^\^";v=^\^"8^\^", ^\^"Chromium^\^";v=^\^"144^\^", ^\^"Microsoft Edge^\^";v=^\^"144^\^"^" ^
+  -H ^"sec-ch-ua-mobile: ?1^" ^
+  -H ^"sec-ch-ua-platform: ^\^"Android^\^"^" ^
+  -H ^"x-dtpc: 48^$70342381_875h8vHQLHGTDQHKIAGTFHAJKRNPVMLROLMKKJ-0e0^"
