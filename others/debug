@@ -1,15 +1,20 @@
+index.php?a=printview&recordID=281:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+index.php?a=printview&recordID=281:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
 $.ajax({
-  type: "GET",
-  url: "./api/form/50/9/1",
-  dataType: "json",
-  success: function (res) {
-    console.log(JSON.stringify(res));
-  },
+    type: 'GET',
+    url: './api/form/query',
+    data: {
+        q: JSON.stringify({
+            terms: [{ id: 'categoryID', operator: '=', match: 'form_9b302' }],
+            joins: []
+        }),
+        'x-filterData': 'recordID,9'
+    },
+    dataType: 'json',
+    success: function(res) {
+        console.log(JSON.stringify(res));
+    }
 });
 {readyState: 1, getResponseHeader: ƒ, getAllResponseHeaders: ƒ, setRequestHeader: ƒ, overrideMimeType: ƒ, …}
-ruxitagentjs_ICA7NVfhqrux_10327251022105625.js:380   GET https://leaf.va.gov/platform/projects/api/form/50/9/1 400 (Bad Request)
-Ge @ ruxitagentjs_ICA7NVfhqrux_10327251022105625.js:380
-x.send @ ruxitagentjs_ICA7NVfhqrux_10327251022105625.js:387
-send @ jquery.min.js:2
-ajax @ jquery.min.js:2
-(anonymous) @ VM436:1
+VM369:13 {"2":{"recordID":2},"4":{"recordID":4},"5":{"recordID":5},"6":{"recordID":6},"7":{"recordID":7},"8":{"recordID":8},"9":{"recordID":9},"11":{"recordID":11},"12":{"recordID":12},"13":{"recordID":13},"14":{"recordID":14},"15":{"recordID":15},"16":{"recordID":16},"20":{"recordID":20},"50":{"recordID":50},"51":{"recordID":51},"52":{"recordID":52},"53":{"recordID":53},"54":{"recordID":54},"55":{"recordID":55},"56":{"recordID":56},"57":{"recordID":57},"60":{"recordID":60},"96":{"recordID":96},"97":{"recordID":97},"100":{"recordID":100},"101":{"recordID":101},"102":{"recordID":102},"103":{"recordID":103},"104":{"recordID":104},"106":{"recordID":106},"108":{"recordID":108},"109":{"recordID":109},"110":{"recordID":110},"111":{"recordID":111},"112":{"recordID":112},"113":{"recordID":113},"114":{"recordID":114},"115":{"recordID":115},"116":{"recordID":116},"117":{"recordID":117},"118":{"recordID":118},"119":{"recordID":119},"120":{"recordID":120},"121":{"recordID":121},"122":{"recordID":122},"123":{"recordID":123},"124":{"recordID":124},"125":{"recordID":125},"126":{"recordID":126},"127":{"recordID":127},"128":{"recordID":128},"129":{"recordID":129},"130":{"recordID":130},"131":{"recordID":131},"132":{"recordID":132},"133":{"recordID":133},"134":{"recordID":134},"135":{"recordID":135},"136":{"recordID":136},"137":{"recordID":137},"138":{"recordID":138},"139":{"recordID":139},"140":{"recordID":140},"141":{"recordID":141},"142":{"recordID":142},"143":{"recordID":143},"144":{"recordID":144},"145":{"recordID":145},"147":{"recordID":147},"148":{"recordID":148},"149":{"recordID":149},"150":{"recordID":150},"151":{"recordID":151},"153":{"recordID":153},"154":{"recordID":154},"155":{"recordID":155},"156":{"recordID":156},"157":{"recordID":157},"158":{"recordID":158},"159":{"recordID":159},"160":{"recordID":160},"161":{"recordID":161},"162":{"recordID":162},"163":{"recordID":163},"164":{"recordID":164},"165":{"recordID":165},"166":{"recordID":166},"167":{"recordID":167},"168":{"recordID":168},"169":{"recordID":169},"170":{"recordID":170},"171":{"recordID":171},"172":{"recordID":172},"173":{"recordID":173},"174":{"recordID":174},"175":{"recordID":175},"176":{"recordID":176},"177":{"recordID":177},"178":{"recordID":178},"179":{"recordID":179},"180":{"recordID":180},"181":{"recordID":181},"182":{"recordID":182},"183":{"recordID":183},"184":{"recordID":184},"185":{"recordID":185},"186":{"recordID":186},"187":{"recordID":187},"188":{"recordID":188},"189":{"recordID":189},"193":{"recordID":193},"194":{"recordID":194},"195":{"recordID":195},"196":{"recordID":196},"197":{"recordID":197},"198":{"recordID":198},"199":{"recordID":199},"200":{"recordID":200},"201":{"recordID":201},"202":{"recordID":202},"203":{"recordID":203},"204":{"recordID":204},"205":{"recordID":205},"206":{"recordID":206},"207":{"recordID":207},"208":{"recordID":208},"209":{"recordID":209},"210":{"recordID":210},"211":{"recordID":211},"212":{"recordID":212},"213":{"recordID":213},"214":{"recordID":214},"215":{"recordID":215},"216":{"recordID":216},"217":{"recordID":217},"218":{"recordID":218},"219":{"recordID":219},"220":{"recordID":220},"221":{"recordID":221},"222":{"recordID":222},"223":{"recordID":223},"224":{"recordID":224},"225":{"recordID":225},"226":{"recordID":226},"227":{"recordID":227},"228":{"recordID":228},"229":{"recordID":229},"230":{"recordID":230},"231":{"recordID":231},"232":{"recordID":232},"233":{"recordID":233},"234":{"recordID":234},"235":{"recordID":235},"236":{"recordID":236},"237":{"recordID":237},"238":{"recordID":238},"239":{"recordID":239},"240":{"recordID":240},"241":{"recordID":241},"242":{"recordID":242},"243":{"recordID":243},"244":{"recordID":244},"245":{"recordID":245},"246":{"recordID":246},"247":{"recordID":247},"248":{"recordID":248},"249":{"recordID":249},"250":{"recordID":250},"251":{"recordID":251},"252":{"recordID":252},"253":{"recordID":253},"254":{"recordID":254},"255":{"recordID":255},"256":{"recordID":256},"257":{"recordID":257},"258":{"recordID":258},"259":{"recordID":259},"260":{"recordID":260},"261":{"recordID":261},"262":{"recordID":262},"263":{"recordID":263},"264":{"recordID":264},"265":{"recordID":265},"266":{"recordID":266},"267":{"recordID":267},"268":{"recordID":268},"269":{"recordID":269},"270":{"recordID":270},"271":{"recordID":271},"272":{"recordID":272},"273":{"recordID":273},"274":{"recordID":274},"275":{"recordID":275},"276":{"recordID":276},"277":{"recordID":277},"278":{"recordID":278},"279":{"recordID":279},"280":{"recordID":280},"281":{"recordID":281},"282":{"recordID":282},"283":{"recordID":283},"284":{"recordID":284},"285":{"recordID":285},"286":{"recordID":286},"287":{"recordID":287},"288":{"recordID":288},"289":{"recordID":289},"290":{"recordID":290},"291":{"recordID":291},"292":{"recordID":292},"293":{"recordID":293},"294":{"recordID":294},"295":{"recordID":295},"296":{"recordID":296},"297":{"recordID":297},"298":{"recordID":298},"299":{"recordID":299},"300":{"recordID":300},"301":{"recordID":301},"30
