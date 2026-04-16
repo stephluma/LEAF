@@ -1,1 +1,12 @@
-
+projects/:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+projects/:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+projects/index.php?a=printview&recordID=582&iframe=1:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+projects/index.php?a=printview&recordID=582&iframe=1:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+projects/index.php?a=printview&recordID=582&iframe=1:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+projects/index.php?a=printview&recordID=582&iframe=1:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+index.php?a=printview&recordID=582&iframe=1:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+index.php?a=printview&recordID=582&iframe=1:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
