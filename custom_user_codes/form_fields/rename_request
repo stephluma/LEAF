@@ -1,0 +1,10 @@
+function RenameRequest() {
+    //set new title in LEAF
+    $.ajax({
+      type: 'POST',
+      url: './api/form/{{ recordID }}/title',
+      data: {
+        title:  employee_name,
+        CSRFToken: CSRFToken
+      }
+    });
