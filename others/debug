@@ -1,23 +1,7 @@
-$.ajax({
-    type: 'GET',
-    url: './api/form/query',
-    data: {
-        q: JSON.stringify({
-            terms: [{ id: 'categoryID', operator: '=', match: 'form_9b302' }],
-            joins: ['9']
-        }),
-        'x-filterData': 'recordID,9'
-    },
-    dataType: 'json',
-    success: function(res) {
-        // Show just one record to see structure
-        var keys = Object.keys(res);
-        console.log(JSON.stringify(res[keys[0]]));
-        console.log(JSON.stringify(res[keys[1]]));
-        console.log(JSON.stringify(res[keys[2]]));
-    }
-});
-{readyState: 1, getResponseHeader: ƒ, getAllResponseHeaders: ƒ, setRequestHeader: ƒ, overrideMimeType: ƒ, …}
-VM471:15 {"recordID":2}
-VM471:16 {"recordID":4}
-VM471:17 {"recordID":5}
+if(typeof enableUserContentLinks === 'function') {
+
+const element = document.getElementById("data_9_1");
+
+enableUserContentLinks(element);
+
+}
