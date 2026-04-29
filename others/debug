@@ -1,7 +1,1 @@
-if(typeof enableUserContentLinks === 'function') {
-
-const element = document.getElementById("data_9_1");
-
-enableUserContentLinks(element);
-
-}
+{"buttons":[{"id":"zcL5B","title":"test","description":"","target":"leaf.va.gov","color":"#ffffff","fontColor":"#000000","icon":"","order":0}]}
