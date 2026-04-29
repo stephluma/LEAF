@@ -1,1 +1,16 @@
-{"buttons":[{"id":"zcL5B","title":"test","description":"","target":"leaf.va.gov","color":"#ffffff","fontColor":"#000000","icon":"","order":0}]}
+report.php?a=LEAF_sitemaps_template:1  Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+report.php?a=LEAF_sitemaps_template:1  Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+report.php?a=LEAF_sitemaps_template:146   GET https://leaf.va.gov/platform/SL_Sandbox/sqpurple.gif 404 (Not Found)
+fetch('https://leaf.va.gov/platform/your_site/api/site/settings/sitemap_json', {credentials:'include'}).then(r=>r.text()).then(console.log)
+Promise {<pending>, then: ƒ}
+ruxitagentjs_ICA7NVfhqrux_10331260218130851.js:253   GET https://leaf.va.gov/platform/your_site/api/site/settings/sitemap_json 404 (Not Found)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10331260218130851.js:253
+fetch @ ruxitagentjs_ICA7NVfhqrux_10331260218130851.js:278
+wa @ ruxitagentjs_ICA7NVfhqrux_10331260218130851.js:277
+(anonymous) @ VM663:1
+ruxitagentjs_ICA7NVfhqrux_10331260218130851.js:253 File not found.
+
+fetch('https://leaf.va.gov/platform/SL_Sandbox/api/site/settings/sitemap_json', {credentials:'include'}).then(r=>r.text()).then(console.log)
+Promise {<pending>, then: ƒ}
+ruxitagentjs_ICA7NVfhqrux_10331260218130851.js:253 [{"data":"{\"buttons\":[]}"}]
