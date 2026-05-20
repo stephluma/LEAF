@@ -1,0 +1,266 @@
+<style>
+p {
+    font-family: 'Source Sans Pro', helvetica;
+    font-size: 1rem;
+}
+#results {
+    margin: auto;
+    width: 50%;
+}
+
+#searchBar {
+	margin: auto;
+    width: 51%;
+    padding: 16px;
+    padding-left: 32px;
+}
+#searchBar input {
+    padding: 8px;
+    width: 85%;
+
+    font-size: large;
+}
+#searchBar .searchIcon {
+    margin-right: 8px;
+    cursor: pointer;
+    height: 25px;
+    width: 25px;
+    vertical-align: middle;
+}
+</style>
+<div style="text-align:center; padding-top:1rem; padding-bottom:0.5rem;">
+    <div style="font-size:24px; font-weight:bold;">
+        Hi, what are you looking for?
+    </div>
+    <div style="font-size:16px; color:#555; margin-top:0.3rem;">
+        Type a keyword and we'll bring up the most relevant tutorials and resources.
+    </div>
+</div>
+<div id="searchBar">
+    <img id="searchHelpBtn"
+        class="searchIcon"
+        src="dynicons/?img=search.svg&w=25"
+        alt="search icon" />
+    <input id="searchHelpInput" type="text" placeholder="Enter Keyword" />
+</div>
+
+<div style="font-size:18px; text-align: center; padding-top: 1rem; padding-bottom: 1rem">For further assistance or inquiries, request a <a href="https://leaf.va.gov/platform/support/report.php?a=LEAF_Start_Request&id=form_ba7de">Consultation</a>.</div>
+
+<div id="results"></div>
+
+<div style="text-align: center; padding-top: 2rem"><p>Can't find what you need? Check out our <a href="https://leaf.va.gov/#goto=teams">Community of Practice</a> or <a href="https://leaf.va.gov/platform/service_requests_launchpad/">Ask our team</a></p></div>
+
+<script type="text/javascript">
+
+function scrubHTML(input) {
+    let tClean = document.createElement('div');
+    tClean.innerHTML = input;
+    return tClean.innerText;
+}
+
+// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+function shuffle(array) {
+  let currentIndex = array.length,  randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
+function render(resultData) {
+    //let results = Object.keys(resultData).map(key => resultData[key]);
+    //results = shuffle(results);
+    
+    let today = new Date();
+    let lastMonth = new Date();
+    lastMonth.setDate(today.getDate() - 30);
+    let grid = new LeafFormGrid('results', {readOnly: true});
+    grid.hideIndex();
+    grid.setDataBlob(resultData);
+    grid.setHeaders([
+        {name: 'Topic', indicatorID: 'title', editable: false, callback: function(data, blob) {
+            let description = scrubHTML(blob[data.recordID].s1.id40);
+            if(description.length > 60) {
+                description = description.substring(0, 60) + '...';
+            }
+			if(description.length > 0) {
+                description = `<p>${description}</p>`;
+            }
+            let newText = '';
+            let lastUpdated = new Date(blob[data.recordID].s1.id22);
+            if(lastUpdated > lastMonth) {
+                newText = `<span style="cursor: help" title="${blob[data.recordID].s1.id22}">💡 Updated within the past month</span>`;
+            }
+            document.querySelector(`#${data.cellContainerID}`).innerHTML = `<h2><a href="report.php?a=View_Help_Resource#${data.recordID}" style="text-decoration: none; color: black">${blob[data.recordID].title}</a></h2>${description}${newText}`;
+        }},
+        {name: 'Resources', indicatorID: 'resources', editable: false, callback: function(data, blob) {
+            let buf = '';
+            if(blob[data.recordID].s1.id42 != null && blob[data.recordID].s1.id42 != '') {
+                buf += `<button class="buttonNorm" onclick="open('${blob[data.recordID].s1.id42}', '_blank', 'popup,width=600,height=400,left=600,top=200')"><img src="dynicons/?img=applications-multimedia.svg&w=16" /> Watch Video</button> `;
+            }
+			if(blob[data.recordID].s1.id41 != null && blob[data.recordID].s1.id41 != '') {
+                let files = blob[data.recordID].s1.id41.split("\n");
+                for(let i in files) {
+                    //buf += `<button class="buttonNorm" onclick="open('file.php?form=${data.recordID}&id=${41}&series=1&file=${i}', '_blank', 'popup,width=600,height=800,left=600,top=200')"><img src="dynicons/?img=x-office-document.svg&w=16" /> Read Tutorial</button> `;
+                    buf += `<a href="report.php?a=View_Help_Resource#${data.recordID}"><button class="buttonNorm""><img src="dynicons/?img=x-office-document.svg&w=16" /> Read Tutorial</button></a> `;
+                }
+            }
+            document.querySelector(`#${data.cellContainerID}`).innerHTML = buf;
+        }}
+    ]);
+
+    let tGridData = [];
+    for(let i in resultData) {
+        tGridData.push(resultData[i]);
+    }
+
+    // rank results
+    if(searchWords.length > 0) {
+        tGridData = tGridData.sort(rankResults);
+
+        // remove results when there are no matches
+        for(let i = tGridData.length - 1; i > 0; i--) {
+            if(tGridData[i].rank == 0) {
+                tGridData.pop();
+            }
+        }
+    }
+    else {
+        tGridData = tGridData.sort(rankDefaultResults);
+    }
+    
+    grid.setData(tGridData);
+    grid.renderBody();
+    grid.announceResults();
+}
+
+function rankResults(a, b) {
+    let rankA = 0;
+    let rankB = 0;
+    
+    searchWords.forEach(word => {
+        word = word.toLowerCase();
+        if(a.title.toLowerCase().indexOf(word) != -1) {
+            rankA += 3;
+        }
+        for(let i in a.s1) {
+            if(a.s1[i] != null && a.s1[i].toLowerCase().indexOf(word) != -1) {
+                rankA++;
+            }
+        }
+        
+        if(b.title.toLowerCase().indexOf(word) != -1) {
+            rankB += 3;
+        }
+        for(let i in b.s1) {
+            if(b.s1[i] != null && b.s1[i].toLowerCase().indexOf(word) != -1) {
+                rankB++;
+            }
+
+        }
+    });
+    a.rank = rankA;
+    b.rank = rankB;
+
+    if(rankA > rankB) {
+        return -1;
+    }
+    else if(rankB > rankA) {
+        return 1;
+    }
+    return 0;
+}
+
+function rankDefaultResults(a, b) {
+    let dateA = new Date(a.s1.id22);
+    let dateB = new Date(b.s1.id22);
+
+    if(dateA > dateB) {
+        return -1;
+    }
+    else if(dateB > dateA) {
+        return 1;
+    }
+    return 0;
+}
+
+var searchWords;
+function search() {
+    searchWords = [];
+    let query = new LeafFormQuery();
+    let searchText = $('#searchHelpInput').val();
+    if(searchText != '') {
+        searchWords = searchText.split(' ');
+        searchWords.forEach(word => {
+            query.addDataTerm("data", "0", "LIKE", word, 'OR');
+        });
+    	//query.addDataTerm("data", "0", "LIKE", searchText, 'OR');
+        //query.addDataTerm("title", "LIKE", searchText, 'AND');
+    }
+    query.addTerm("categoryID", "=", "form_08f4f", 'AND');
+    query.addTerm("deleted", "=", 0);
+    query.addTerm("stepID", "=", 15);
+    query.getData("40");
+    query.getData("41");
+    query.getData("42");
+    query.getData("22");
+    query.setExtraParams('&x-filterData=recordID,title');
+    
+    query.execute().then(results => {
+        render(results);
+    });
+}
+
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
+
+$(function() {
+    $('#searchHelpBtn').click(function() {
+        search();
+    });
+
+    var debouncedSearch = debounce(function() {
+        search();
+    }, 300);
+
+    $('#searchHelpInput').focus();
+    $('#searchHelpInput').keyup(debouncedSearch);
+    
+    let urlParams = new URLSearchParams(window.location.search);
+    if(urlParams.get('topic') != null) {
+        let topic = urlParams.get('topic');
+        let tmp = document.createElement('div');
+        tmp.innerHTML = topic;
+        $('#searchHelpInput').val(tmp.innerText);
+    }
+    
+    search();
+});
+
+</script>
