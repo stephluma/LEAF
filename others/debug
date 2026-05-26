@@ -1,16 +1,34 @@
 report.php?a=590:1 Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
     at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
 report.php?a=590:1 Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-report.php?a=590:1115 --- CustomerOverview Debug ---
-report.php?a=590:1116 recordID from ?a=: 590
-report.php?a=590:1117 typeof LeafFormQuery: function
-report.php?a=590:1118 typeof $: function
-/platform/projects/api/form/query?a=590&x-filterData=recordID:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
-report.php?a=590:1127 Raw API test failed: SyntaxError: Failed to execute 'json' on 'Response': Unexpected end of JSON input
-    at report.php?a=590:1125:34
-    at Object.dtAWF [as aWF] (ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:252:107)
-    at Object.Jb (ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:279:37)
-    at ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:274:84
-(anonymous) @ report.php?a=590:1127
-report.php?a=590:1135 Direct record fetch: Object
-report.php?a=590:1078 [CustomerOverview] Raw s1: Object
+report.php?a=590:1125 --- CustomerOverview Debug ---
+report.php?a=590:1126 recordID from ?a=: 590
+report.php?a=590:1127 typeof LeafFormQuery: function
+report.php?a=590:1128 typeof $: function
+ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:252  GET https://leaf.va.gov/platform/projects/api/form/query?a=590&x-filterData=recordID 400 (Bad Request)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:252
+fetch @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:278
+wa @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:277
+init @ report.php?a=590:1131
+report.php?a=590:1137 Raw API test failed: SyntaxError: Unexpected end of JSON input
+(anonymous) @ report.php?a=590:1137
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:252
+Kb @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:279
+Za.<computed> @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:274
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:252
+then @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:278
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:274
+init @ report.php?a=590:1137
+report.php?a=590:1145 Direct record fetch: {label: 'name', identifier: 'jsonIdx', items: Array(1)}
+report.php?a=590:1078 [CustomerOverview] Raw s1: {id59: 'Office of Connect Care - Landing Page', id60: 'National Project', id61: 'Discovery', id62: 'Lorem ipsum dolor sit amet, consectetur adipiscing… qui officia deserunt mollit anim id est laborum.', id63: 'Lorem ipsum dolor sit amet, consectetur adipiscing… qui officia deserunt mollit anim id est laborum.', …}
+report.php?a=590:1079 [CustomerOverview] s1 full dump: {"id59":"Office of Connect Care - Landing Page","id60":"National Project","id61":"Discovery","id62":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.","id63":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.","id64":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.","id65":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.","id66":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."}
+report.php?a=590:1080 [CustomerOverview] Looking for indicators:
+report.php?a=590:1081   IND_PROJECT_NAME (undefined): undefined
+report.php?a=590:1082   IND_PROJECT_TYPE (undefined): undefined
+report.php?a=590:1083   IND_CURRENT_PHASE (undefined): undefined
+report.php?a=590:1084   IND_PHASE_1 (undefined): undefined
+report.php?a=590:1085   IND_PHASE_2 (undefined): undefined
+report.php?a=590:1086   IND_PHASE_3 (undefined): undefined
+report.php?a=590:1087   IND_PHASE_4 (undefined): undefined
+report.php?a=590:1088   IND_PHASE_5 (undefined): undefined
