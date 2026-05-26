@@ -1,6 +1,6 @@
 [Documentation created by Claude.ai]: #
 
-# LEAF Project Dashboard — v12 Technical Documentation
+# LEAF Project Dashboard — v16 Technical Documentation
 
 ## 1) Overview
 
@@ -12,16 +12,16 @@ Primary functional views:
 - Tasks (Table, Kanban, Gantt)
 - Analytics (Project analytics + OKR roll-up)
 
-Version reference: v12.
+Version reference: v16.
 
 ---
 
 ## 2) File Structure and Versioning
 
-- `project_v12.html` [view_homepage.tpl]
+- `project_v16.html` [view_homepage.tpl]
   - Page structure, layout scaffolding, tab containers, and modal plumbing.
   - OKR Analytics containers (filters, quick view, index, roll-up).
-  - Add menu (Project, Task, **Recurring Task**, Objective, Key Result) and View Inbox button.
+  - Add menu (Project, Task, **Recurring Task**, Objective, Key Result), View Inbox button, and **`#pmReportBuilderBtn`** (Report Builder) in the Group 12 actions row.
   - **`<h1 class="pm-title">` dashboard title** promoted into a new `.pm-header` wrapper element.
   - **`.pm-inboxWrap`** wrapper around View Inbox button and new `#pmInboxBadge` badge element.
   - **`#pmTourBtn`** help button (Material Icon: `tour`) added to actions row for replaying the tour.
@@ -40,9 +40,14 @@ Version reference: v12.
   - Modal titles (`#pmModalTitle`, `#pmOtherModalTitle`) are `<h2>` elements.
   - Hidden panels use the native `hidden` attribute instead of `style="display:none"`.
   - Tour overlay `role="dialog"` / `aria-modal` correctly scoped to inner `#pmTourTooltip` only.
-- `project_v12.css`
+  - **`#pmAnalyticsDrilldown`** panel (v13+): positioned below the analytics charts; contains a `.pm-analyticsDrilldownHeader` (with `.pm-analyticsDrilldownMeta` > `.pm-analyticsDrilldownIcon` + `.pm-analyticsDrilldownTitle`, and `.pm-analyticsDrilldownClose` / `#pmAnalyticsDrilldownClose` button), plus `#pmAnalyticsDrilldownBody` container for the drilldown data table. Panel uses the `hidden` attribute and is revealed by `wireChartDrilldown`.
+  - **`#pmModalNav`** (v15+): modal navigation bar inside the primary modal header, containing `#pmModalPrevBtn` (chevron_left icon), `#pmModalNavCounter` counter span, and `#pmModalNextBtn` (chevron_right icon). Uses `hidden` attribute; visible when a multi-record result set is active.
+  - **`#pmModalOpenTabBtn`** (class `pm-modalOpenTab`, v15+): button in the modal header actions row that opens the current iframe URL in a new standalone LEAF tab.
+  - **`#pmRecurringFilterBtn`** (class `pm-ghostBtn pm-recurringFilterBtn`, v15+): toggle button in the Tasks filter row; `aria-pressed="false"` by default. Shows a `change_circle` Material Icon and the label "Recurring".
+  - **`#pmProjectOwnerSelect`** (v15+): multi-select control in the Projects filter row with `data-filter="projectOwner"` and label "Owner".
+- `project_v16.css`
   - Dashboard styling (tables, cards, filters, tasks, OKR roll-up UI, badges, progress bars).
-  - **`.pm-header`** — flex column wrapper for title and actions row.**`.pm-title`** — `<h1>` at 28px/800 weight.**`.pm-subtitle`** — `<h2>` for tab panel headings.
+  - **`.pm-header`** — flex column wrapper for title and actions row. **`.pm-title`** — `<h1>` at 28px/800 weight. **`.pm-subtitle`** — `<h2>` for tab panel headings.
   - **Tour styles**: `.pm-tourOverlay`, `.pm-tourSpotlight`, `.pm-tourTooltip`, `.pm-tourStepLabel`, `.pm-tourTitle`, `.pm-tourBody`, `.pm-tourFooter`, `.pm-tourSkip`, `.pm-tourNav`, `.pm-tourBack`, `.pm-tourNext`, `.pm-tourWelcome`.
   - **Feedback styles**: `.pm-feedbackBtn`, `.pm-feedbackModal`, `.pm-feedbackInner`, `.pm-feedbackHeader`, `.pm-feedbackTitle`, `.pm-feedbackClose`, `.pm-feedbackTextarea`, `.pm-feedbackFooter`, `.pm-feedbackStatus`.
   - **Inbox badge styles**: `.pm-inboxWrap`, `.pm-inboxBadge`.
@@ -53,19 +58,33 @@ Version reference: v12.
   - **Responsive table scrolling**: `#pmProjectHealthTable`, `#pmOverdueTasksTable`, `#pmOkrsTableWrap` gain `overflow-x: auto`. Mobile breakpoint (≤768px) sets min-widths on inner tables.
   - Z-index scale comment block updated: `1300` added for feedback modal.
   - All v11 styles preserved.
-- `project_v12.js`
+  - **Drilldown panel styles** (v13+): `.pm-analyticsDrilldown` — bordered, rounded card with fade-in animation; `.pm-analyticsDrilldownHeader` — blue accent background with white text; `.pm-analyticsDrilldownMeta` — flex row for icon + title; `.pm-analyticsDrilldownIcon` — white Material Icon at 18px; `.pm-analyticsDrilldownTitle` — white 14px label; `.pm-analyticsDrilldownClose` — white-background ghost button inside the header.
+  - **`.pm-analyticsTables`** (v16+) — two-column grid (collapses to one column at ≤900px) containing the project health rollup and overdue tasks table cards above the chart grid. Replaces the previous standalone table wrappers in layout.
+  - **`.pm-recurringFilterBtn[aria-pressed="true"]`** (v15+) — pressed-state highlight: `background-color` set to `var(--pm-accent, #1a73e8)`, `color: #fff`, matching `border-color`.
+  - **Modal navigation styles** (v15+): `.pm-modalNav` — flex row, `margin-left: auto`, `margin-right: 12px`; `.pm-modalNavBtn` — 30×30px icon button with border and hover accent; `.pm-modalNavBtn:disabled` — `opacity: 0.35`, `cursor: default`; `.pm-modalNavCounter` — 12px tabular-numeric counter, min-width 44px.
+  - **`.pm-modalOpenTab`** (v15+) — bordered ghost-style button in modal header; hover/focus transitions to `var(--surface-alt)`.
+- `project_v16.js`
   - Data fetching, normalization, filtering, aggregation, rendering, and UI behavior.
-  - **`initTour()`** — new interactive onboarding tour (see Section 25).
-  - **`wireFeedbackWidget()`** — new feedback dialog wired to LEAF form submission (see Section 26).
+  - **`initTour()`** — interactive onboarding tour (see Section 25).
+  - **`wireFeedbackWidget()`** — feedback dialog wired to LEAF form submission (see Section 26).
   - **`fetchAndRenderInboxCount()`** — live inbox badge count fetched across all portal URLs from sitemap (see Section 12).
   - **`wireRecurringFieldHider()`** — MutationObserver hides the `isRecurring` field from new-task forms opened via the Recurring Task menu item.
-  - **`START_RECURRING_TASK_URL`** — new constant: same as `START_TASK_URL` with `&i_` + `RECURRING_INDICATOR_ID` + `=Yes` appended to pre-populate indicator 45.
+  - **`START_RECURRING_TASK_URL`** — constant: same as `START_TASK_URL` with `&i_` + `RECURRING_INDICATOR_ID` + `=Yes` appended to pre-populate indicator 45.
   - **`+ Recurring Task` action in `wireAddButtons`** — opens modal with `START_RECURRING_TASK_URL` and a post-load callback that polls the iframe DOM (up to 20 × 250ms) to force-check the "Yes" radio for indicator 45 and hide the field wrapper.
-  - `STORAGE_KEYS.FILTER_STATE_KEY` bumped to `pm_filter_state_v12`; all other storage keys remain at v11.
-  - `main()` wiring order updated: adds `fetchAndRenderInboxCount`, `wireRecurringFieldHider`, `wireFeedbackWidget`, and `initTour` after existing wires.
-  - All v11 capabilities preserved.
+  - **`wireChartDrilldown(slot, canvasId)`** (v13+) — attaches a Chart.js click listener to the specified canvas; on click, looks up the label in `CHART_DRILLDOWN_MAP`, calls the resolver, and reveals `#pmAnalyticsDrilldown`.
+  - **`wireDrilldownCloseButtons()`** (v13+) — attaches click handler on `#pmAnalyticsDrilldownClose` to hide the panel and clear `state.drilldownActive`.
+  - **`scheduleSilentRefresh(delayMs)`** and **`runSilentRefresh()`** (v14+) — debounced background re-fetch of `state.projectsAll`, `state.tasksAll`, and `state.keyResultsAll` without a full page reload; `state._silentRefreshInProgress` guards against concurrent fetches.
+  - **`renderAnalyticsTablesFromState()`**, **`renderAnalyticsTablesFromCache(cache)`**, **`ensureAnalyticsTableState()`** (v16+) — render sortable data tables alongside each analytics chart; sort state managed in `state.analyticsTables`.
+  - **`updateModalNav()`** (v15+) — manages Prev/Next button disabled states and updates `#pmModalNavCounter` text (e.g., "2 / 5").
+  - **`state.recurringOnly`** flag (v15+) — boolean; set by `#pmRecurringFilterBtn` toggle; filters tasks to `isRecurring = Yes` only when `true`.
+  - **`state.drilldownActive`** object (v13+) — tracks the currently active drilldown `{ slot, label }`; reset to `{}` when analytics filters change.
+  - **`state.analyticsTables`** object (v16+) — tracks expanded state and cached rows for analytics sortable tables (`healthExpanded`, `overdueExpanded`, `healthRows`, `overdueRows`).
+  - **`RECURRING_COPIED_KEY`** bumped to `'pm_recurring_copied_v16'`.
+  - **All `STORAGE_KEYS`** bumped to `_v16` suffix (`pm_active_tab_v16`, `pm_tasks_view_v16`, `pm_analytics_view_v16`, `pmdashboard_tasks_devOnly_v16`, `pm_tasks_pagination_v16`, `pm_filter_state_v16`).
+  - `main()` wiring order updated: `wireDrilldownCloseButtons` and recurring filter button wiring added after `wireAnalyticsSharedFilters`; `wireFeedbackWidget` and `initTour` remain at end.
+  - All v12 capabilities preserved.
 
-v12 supersedes v11. All v11 capabilities are preserved. v12 adds: interactive onboarding tour with spotlight and keyboard navigation, feedback submission widget backed by a LEAF form, live inbox badge count on View Inbox button, `+ Recurring Task` Add Menu shortcut with automatic indicator pre-population and field hiding, dashboard `<h1>` title and header layout, responsive horizontal scrolling for analytics and OKR tables, de-emphasized Project Key column in the task table, and updated z-index documentation for the feedback modal.
+v16 supersedes v12. All v12 capabilities are preserved. v13 adds analytics chart drilldown with per-chart resolver functions and a collapsible detail panel. v14 adds silent background refresh that re-syncs data after task changes without a full page reload. v15 adds Project Owner filter on Projects tab, Recurring Only toggle on Tasks tab, modal Prev/Next navigation, Report Builder shortcut, and open-in-new-tab button in modal header. v16 adds sortable analytics data tables rendered alongside each chart and bumps all storage keys to the `_v16` suffix.
 
 ---
 
@@ -434,13 +453,13 @@ A sticky summary bar that appears above the tasks table when a specific project 
 
 ---
 
-## 12) Add Menu, View Inbox, and Tour Button (v10/v12)
+## 12) Add Menu, View Inbox, Tour Button, and Report Builder (v10/v12/v15)
 
 A team-member–only action row at the top of the dashboard (gated by LEAF group 12).
 
 ### Add Menu
 
-A popover menu button that opens a dropdown with five creation options in v12:
+A popover menu button that opens a dropdown with five creation options:
 
 | Menu Item        | Action key      | Opens modal for                                                       |
 | ---------------- | --------------- | --------------------------------------------------------------------- |
@@ -453,6 +472,16 @@ A popover menu button that opens a dropdown with five creation options in v12:
 The `+ Recurring Task` item uses class `pm-menuItemTip` and a `data-tooltip` attribute to show a hover/focus-visible tooltip explaining the feature. It pre-populates indicator 45 via `START_RECURRING_TASK_URL` and forces the "Yes" radio via a post-load iframe callback (see Section 27).
 
 Each action calls `openModal(title, url)` (or `openModal(title, url, callback)` for the recurring task) with the appropriate URL constant.
+
+### Report Builder Button (v15)
+
+`#pmReportBuilderBtn` is placed in the Group 12 actions row alongside the Add menu and View Inbox button. Clicking it calls:
+
+```js
+window.open('https://leaf.va.gov/platform/projects/?a=reports&v=3', '_blank', 'noopener');
+```
+
+It opens the LEAF Report Builder in a new tab. The button uses the `.pm-primaryBtn .pm-inboxBtn` style classes (ghost-style button matching View Inbox).
 
 ### Keyboard Behavior (`wireAddButtons`)
 
@@ -473,6 +502,20 @@ The View Inbox button is now wrapped in `.pm-inboxWrap`. A badge (`#pmInboxBadge
 - `aria-label` is set to `"{n} inbox item(s)"` when visible, `"No inbox items"` when hidden.
 - `aria-live="polite"` on the badge announces count changes to screen readers.
 - Count is fetched by `fetchAndRenderInboxCount()` on every page load (see Section 27).
+
+### Modal Navigation Bar (v15)
+
+`#pmModalNav` is a flex row rendered inside the primary modal header between the title and the actions area. It is hidden (`hidden` attribute) by default and becomes visible when a multi-record result set is loaded into the modal.
+
+- `#pmModalPrevBtn` — chevron_left icon button; disabled when at the first record.
+- `#pmModalNavCounter` — text span showing the current position, e.g., `"2 / 5"`.
+- `#pmModalNextBtn` — chevron_right icon button; disabled when at the last record.
+
+`updateModalNav()` is called after each navigation action to update button disabled states and counter text. Buttons at boundaries have `opacity: 0.35` and `pointer-events: none` via `.pm-modalNavBtn:disabled`.
+
+### Open-in-New-Tab Button (v15)
+
+`#pmModalOpenTabBtn` (class `pm-modalOpenTab`) appears in the modal header actions row to the left of the Close button. Clicking it reads the `data-url` attribute from the modal iframe (or a stored URL) and opens it in a new LEAF tab via `window.open(..., '_blank', 'noopener')`. The button is hidden when the modal is displaying client-side-generated content (e.g., the project tasks inline view).
 
 ### Tour Button (v12)
 
@@ -630,9 +673,42 @@ Two tabular summaries appear above the charts:
 
 Both tables support "Show all / Show less" toggle when row count exceeds 20.
 
+In v16, both table cards are placed inside a `.pm-analyticsTables` two-column grid (using `renderAnalyticsTablesFromState` / `renderAnalyticsTablesFromCache`); each column becomes inline-sortable. Sort state is managed per-table in `state.analyticsTables`.
+
 ### OKR Table Responsive Scrolling (v12)
 
 `#pmOkrsTableWrap` is now `overflow-x: auto` with `max-width: 100%`. At ≤768px breakpoint, `.pm-table` inside the wrapper gets `min-width: 700px`.
+
+### Analytics Chart Drilldown (v13+)
+
+Clicking any bar or segment on any of the nine analytics charts fires `wireChartDrilldown(slot, canvasId)`. The clicked bar label is looked up in `CHART_DRILLDOWN_MAP` to find the correct resolver function and the target container ID. The `#pmAnalyticsDrilldown` panel appears below the charts, showing a sortable table of the matching tasks or projects.
+
+Each chart has its own drilldown resolver:
+
+| Chart slot | Resolver function |
+| --- | --- |
+| `scheduleVariance` | `drilldownScheduleVariance` |
+| `dueBuckets` | `drilldownDueBuckets` |
+| `completedByQuarter` | `drilldownCompletedByQuarter` |
+| `completedByCategory` | `drilldownCompletedByCategory` |
+| `priority` | `drilldownTasksByPriority` |
+| `status` | `drilldownTasksByStatus` |
+| `projectKey` | `drilldownTasksByProject` |
+| `ticketsImported` | `drilldownTicketsImported` |
+| `projectsByType` | `drilldownProjectsByType` |
+
+The drilldown panel header shows an icon and the clicked label as a title. The panel is cleared and hidden whenever the analytics Year/Quarter filters change (`state.drilldownActive = {}`). The close button (`#pmAnalyticsDrilldownClose`) calls `closeDrilldown`, which hides the panel and resets `state.drilldownActive`.
+
+### Silent Background Refresh (v14+)
+
+`scheduleSilentRefresh(delayMs)` debounces a background re-fetch of all data. The default delay is 500ms.
+
+It is called after:
+- The recurring task copy banner is shown (5,000ms delay).
+- The primary modal is closed (500ms).
+- A task status is updated (500ms).
+
+`runSilentRefresh()` re-fetches projects, tasks, and key results in parallel, then re-normalizes and re-renders the active tab without a full page reload. `state._silentRefreshInProgress` is set to `true` for the duration of the fetch and prevents concurrent refreshes. On fetch failure, it is reset to `false` via the `catch` handler.
 
 ---
 
@@ -667,9 +743,13 @@ Shared selector UI behaviors used in htmlEdit scripts for OKR/Project/KR pickers
 
 - Filters are multi-select controls (one or more values, or "All").
 - Filter logic: AND across filters; each filter matches exact value. Empty selection = "All".
-- **Projects filters**: Fiscal Year, search.
-- **Tasks filters**: Project, Status, Assigned To, Category, Priority, Actual Completion Date (date range: from/to), Dev-Only toggle.
-- **Filter state persistence**: persisted to `localStorage` under key `pm_filter_state_v12` (bumped from v11 in v12).
+- **Projects filters**: Fiscal Year, **Project Owner** (`pmProjectOwnerSelect`, multi-select, `data-filter="projectOwner"`, v15+), Project Status, search.
+- **Tasks filters**: Project, Status, Assigned To, Category, Priority, Actual Completion Date (date range: from/to), Dev-Only toggle, **Recurring Only** toggle (`#pmRecurringFilterBtn`, v15+).
+- **Filter state persistence**: persisted to `localStorage` under key `pm_filter_state_v16` (bumped from `pm_filter_state_v12` in v16).
+
+**Project Owner filter (v15+)**: `pmProjectOwnerSelect` is a standard multi-select control in the Projects filter row with `data-filter="projectOwner"`. It is populated from unique `owner` values across `state.projectsAll`. An empty selection includes all owners.
+
+**Recurring Only toggle (v15+)**: `#pmRecurringFilterBtn` (class `pm-recurringFilterBtn`) is a ghost-style toggle button in the Tasks filter row. Pressing it sets `state.recurringOnly = true` and `aria-pressed="true"`, which filters the task list to records where `isRecurring = Yes`. Pressing again (or clicking Clear Filters) resets `state.recurringOnly = false` and sets `aria-pressed="false"`. The CSS rule `.pm-recurringFilterBtn[aria-pressed="true"]` highlights the button in the accent color.
 
 The Actual Completion Date filter uses two `<input type="date">` controls (`pmActualCompletionFrom` and `pmActualCompletionTo`). If a from-date is set, tasks with an actualCompletion date before it are excluded. If a to-date is set, tasks with an actualCompletion date after it are excluded. Tasks with no actualCompletion date are excluded when either bound is active.
 
@@ -695,7 +775,7 @@ The Actual Completion Date filter uses two `<input type="date">` controls (`pmAc
 ## 20) Lifecycle & Initialization Flow
 
 - `DOMContentLoaded` → `main()` wires all UI, then fetches data.
-- UI wiring order: `wireTabs`, `wireTaskViewToggle`, `wireDevOnlyToggle`, `wireAnalyticsViewToggle`, `wireOkrTableViewToggle`, `wireSortingDelegation`, `wireLoadMore`, `wireProjectsLoadMore`, `loadFilterState`, `initFilterControls`, `wireClearFilters`, `wireOkrFilters`, `wireOkrRollupToggle`, `wireRecordModalLinks`, `wireSupportMessageListener`, `wireModalControls`, `wireOtherStatusModal`, `wireAddButtons`, `fetchAndRenderInboxCount`, `wireRecurringFieldHider`, `wireAnalyticsSharedFilters`, `wireJumpToTop`, `wireFeedbackWidget`, `initTour`.
+- UI wiring order: `wireTabs`, `wireTaskViewToggle`, `wireDevOnlyToggle`, `wireAnalyticsViewToggle`, `wireOkrTableViewToggle`, `wireSortingDelegation`, `wireLoadMore`, `wireProjectsLoadMore`, `loadFilterState`, `initFilterControls`, `wireClearFilters`, `wireOkrFilters`, `wireOkrRollupToggle`, `wireRecordModalLinks`, `wireSupportMessageListener`, `wireModalControls`, `wireOtherStatusModal`, `wireAddButtons`, `fetchAndRenderInboxCount`, `wireRecurringFieldHider`, `wireAnalyticsSharedFilters`, `wireDrilldownCloseButtons` (v13+), recurring filter button wiring (v15+), `wireJumpToTop`, `wireFeedbackWidget`, `initTour`.
 - Data loads (parallel Promise.all):
   - Projects query (Project form indicators: 2, 3, 4, 5, 6, 38, 29, 32, 37, 23, 24, 25, 26, 33)
   - Tasks query (Task form indicators: 8, 9, 10, 44, 14, 16, 17, 11, 12, 13, 18, 30, 39, 45, 47, 48)
@@ -724,6 +804,10 @@ The Actual Completion Date filter uses two `<input type="date">` controls (`pmAc
 - v10.1: Actual Completion Date field on tasks (indicator 47, auto-stamped on completion), Completed Date column in task table (sortable, filterable by date range), Schedule Variance analytics chart, % Completion column on Projects table (sortable, with inline progress bar).
 - v11: Full accessibility audit pass (keyboard focus rings, heading hierarchy, ARIA roles and labels, WCAG AA contrast, sr-only switch pattern, decorative content suppression); double-encoding bug fix for LEAF pre-encoded API values; Kanban completed-column auto-reload removed; Kanban error feedback via aria-live region instead of alert(); Kanban column config memoized; debounced resize listener; deprecated CSS removed; native `hidden` attribute adopted for hidden panels; all localStorage keys version-stamped to v11; indicator 48 (Continued as Task #) added for server-side recurring dedup; OKR index keyboard activation; font preconnect hint added; z-index scale documented.
 - v12: Interactive onboarding tour (`initTour`) with spotlight, keyboard navigation, and localStorage persistence; feedback submission widget (`wireFeedbackWidget`) backed by LEAF form (indicator 50, form `1c5b6`, step 13); live inbox badge count (`fetchAndRenderInboxCount`) across all sitemap portal URLs; `+ Recurring Task` Add Menu item with indicator 45 pre-population and iframe field-hiding; dashboard `<h1>` title and `.pm-header` layout; responsive horizontal scrolling for analytics and OKR tables with mobile min-widths; Project Key column de-emphasized in task table; `pm_filter_state_v12` storage key; z-index 1300 for feedback modal.
+- v13: Analytics chart drilldown (`wireChartDrilldown`, `CHART_DRILLDOWN_MAP`). Clicking any analytics chart bar or segment opens the `#pmAnalyticsDrilldown` panel with a filterable data table showing the underlying tasks or projects. All nine charts support drilldown: Schedule Variance, Due Buckets, Completed by Quarter, Completed by Category, Tasks by Priority, Tasks by Status, Tasks by Project, Tickets Imported, Projects by Type. Drilldown state tracked in `state.drilldownActive`. Panel cleared on filter change. `wireDrilldownCloseButtons()` added to `main()` wiring order.
+- v14: Silent background refresh (`scheduleSilentRefresh` / `runSilentRefresh`). After any task status change, recurring task copy, or modal close, a debounced background re-fetch re-syncs `state.projectsAll`, `state.tasksAll`, and `state.keyResultsAll` without a full page reload. `state._silentRefreshInProgress` guards against concurrent fetches.
+- v15: Project Owner multi-select filter on the Projects tab (`pmProjectOwnerSelect`, `data-filter="projectOwner"`). Recurring-only toggle button (`#pmRecurringFilterBtn`, class `pm-recurringFilterBtn`) added to Tasks filter row — toggles `state.recurringOnly` and re-renders tasks filtered to `isRecurring = Yes` only; `aria-pressed` reflects state. Modal navigation bar (`#pmModalNav`, `#pmModalPrevBtn`, `#pmModalNextBtn`, `#pmModalNavCounter`) added to the primary modal for navigating multi-record result sets; `updateModalNav()` manages button states. Report Builder button (`#pmReportBuilderBtn`) added to the Group 12 actions row — opens `https://leaf.va.gov/platform/projects/?a=reports&v=3` in a new tab. Open-in-new-tab button (`#pmModalOpenTabBtn`, class `pm-modalOpenTab`) added to modal header for opening the current iframe URL in a standalone LEAF tab.
+- v16: Analytics sortable data tables (`renderAnalyticsTablesFromState`, `renderAnalyticsTablesFromCache`) render alongside charts with inline sort; state managed in `state.analyticsTables`. All `STORAGE_KEYS` bumped to `_v16` suffix. `RECURRING_COPIED_KEY` bumped to `'pm_recurring_copied_v16'`. Filter state key is now `pm_filter_state_v16`.
 
 ---
 
@@ -743,7 +827,7 @@ Tasks marked with `isRecurring = Yes` (indicator 45) are automatically copied wh
    - Re-copies the `assignedTo` field via the LEAF orgchart API sequence (search → import → write empUID).
    - Submits the new record into the workflow via `/api/form/{id}/submit`.
 4. Deduplication (two layers):
-   - **localStorage** (`pm_recurring_copied_v11`): persists copied record IDs across page refreshes within the same browser.
+   - **localStorage** (`pm_recurring_copied_v16`): persists copied record IDs across page refreshes within the same browser.
    - **Server-side** (indicator 48): written back to the source task after a successful copy. Survives localStorage clears, private browsing, new devices, and deleted copies. Requires indicator 48 to be created in LEAF Form Editor (type = text, label = "Continued as Task #", read-only) before it takes effect.
 
 ### Relevant Indicators
@@ -773,9 +857,13 @@ In v12, team members can create a recurring task directly from the Add Menu:
 - **Completed Date column always blank**: The Actual Completion Date (indicator 47) is only auto-stamped when a task's status is changed to "Completed" through the dashboard's `updateTaskStatus()` function. Tasks completed via direct LEAF form edits will not have this field populated.
 - **Schedule Variance chart shows no data**: The chart requires completed tasks that have both a `due` date (indicator 13) and an `actualCompletion` date (indicator 47).
 - **% Complete column shows 0 for all projects**: Computed client-side from `state.tasksAll`. Check that project keys on tasks (indicator 8) match project record keys (indicator 2) after normalization.
-- **Recurring tasks being copied multiple times**: Check `localStorage.getItem('pm_recurring_copied_v11')` in the browser console. Indicator 48 provides a second deduplication layer; if localStorage is cleared but indicator 48 is populated, the copy will not be re-triggered.
+- **Recurring tasks being copied multiple times**: Check `localStorage.getItem('pm_recurring_copied_v16')` in the browser console. Indicator 48 provides a second deduplication layer; if localStorage is cleared but indicator 48 is populated, the copy will not be re-triggered.
 - **Field values showing `&amp;` or other HTML entities**: This was a double-encoding bug fixed in v11. Confirm you are running v11+ JS and not a cached v10 file.
 - **Stale filter state after upgrade from v11**: The filter state key changed to `pm_filter_state_v12`. Old `pm_filter_state_v11` keys are inert. Clear with `localStorage.removeItem('pm_filter_state_v11')` or `localStorage.clear()`.
+- **Drilldown panel not appearing**: Confirm Chart.js is loaded and `wireChartDrilldown` ran without errors. Check `CHART_DRILLDOWN_MAP` for the chart slot name. The panel requires `#pmAnalyticsDrilldown` to exist in the DOM.
+- **Silent refresh not triggering**: `state._silentRefreshInProgress` may be stuck `true` from a failed fetch. Reload the page to reset. Check network errors in the console.
+- **Recurring filter not clearing**: The Clear Filters button resets `state.recurringOnly = false` and sets `aria-pressed="false"` on `#pmRecurringFilterBtn`. If the button state is out of sync, check that `wireClearFilters` ran successfully.
+- **Stale filter state after upgrade from v15**: The filter state key changed to `pm_filter_state_v16`. Old keys are inert. Clear with `localStorage.removeItem('pm_filter_state_v15')` or `localStorage.clear()`.
 - **Tour auto-starts every page load**: The tour is suppressed after first completion by `pm_tour_seen_v1` in localStorage. If it keeps re-appearing, check that localStorage is writable. Clear the key manually with `localStorage.removeItem('pm_tour_seen_v1')` to force a replay.
 - **Feedback widget submission fails**: The widget requires a valid CSRF token and network access to `/platform/projects/api/form/new`. Check console errors. The status message will display "Submission failed. Please try again." on error.
 - **Inbox badge not updating**: `fetchAndRenderInboxCount()` runs once on page load. It reads portal URLs from `api/site/settings/sitemap_json`. If the sitemap request fails, it falls back to the current origin. If the badge always shows 0, check the browser console for network errors on the sitemap or form query requests.
