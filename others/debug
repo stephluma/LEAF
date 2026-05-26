@@ -1,28 +1,16 @@
 report.php?a=590:1 Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
     at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
 report.php?a=590:1 Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-report.php?a=590:1120 --- CustomerOverview Debug ---
-report.php?a=590:1121 recordID from ?a=: 590
-report.php?a=590:1122 typeof LeafFormQuery: function
-report.php?a=590:1123 typeof $: function
-ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:252  GET https://leaf.va.gov/platform/projects/api/form/query?a=590&x-filterData=recordID 400 (Bad Request)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:252
-fetch @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:278
-wa @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:277
-init @ report.php?a=590:1126
-report.php?a=590:1132 Raw API test failed: SyntaxError: Failed to execute 'json' on 'Response': Unexpected end of JSON input
-    at report.php?a=590:1130:34
+report.php?a=590:1115 --- CustomerOverview Debug ---
+report.php?a=590:1116 recordID from ?a=: 590
+report.php?a=590:1117 typeof LeafFormQuery: function
+report.php?a=590:1118 typeof $: function
+/platform/projects/api/form/query?a=590&x-filterData=recordID:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+report.php?a=590:1127 Raw API test failed: SyntaxError: Failed to execute 'json' on 'Response': Unexpected end of JSON input
+    at report.php?a=590:1125:34
     at Object.dtAWF [as aWF] (ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:252:107)
     at Object.Jb (ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:279:37)
-    at Za.<computed> (ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:274:84)
-(anonymous) @ report.php?a=590:1132
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:252
-Kb @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:279
-Za.<computed> @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:274
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:252
-then @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:274
-init @ report.php?a=590:1132
-report.php?a=590:1140 Direct record fetch: {label: 'name', identifier: 'jsonIdx', items: Array(1)}
-report.php?a=590:1083 [CustomerOverview] Raw s1: {id59: 'Office of Connect Care - Landing Page', id60: 'National Project', id61: 'Discovery', id62: 'Lorem ipsum dolor sit amet, consectetur adipiscing… qui officia deserunt mollit anim id est laborum.', id63: 'Lorem ipsum dolor sit amet, consectetur adipiscing… qui officia deserunt mollit anim id est laborum.', …}
+    at ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:274:84
+(anonymous) @ report.php?a=590:1127
+report.php?a=590:1135 Direct record fetch: Object
+report.php?a=590:1078 [CustomerOverview] Raw s1: Object
