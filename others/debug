@@ -1,4 +1,32 @@
-CSRFToken
-f3301e3200828d1d6f2e14d47e87e6f573bc7be22be2e3611379f25868713ccc
-sitemap_json
-{"buttons":[{"id":"rYlNk","title":"Test","description":"","target":"leaf.va.gov","color":"#ffffff","fontColor":"#000000","icon":"","order":0}]}
+report.php?a=590:1 Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+report.php?a=590:1 Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+report.php?a=590:1126 --- CustomerOverview Debug ---
+report.php?a=590:1127 recordID from ?a=: 590
+report.php?a=590:1128 typeof LeafFormQuery: function
+report.php?a=590:1129 typeof $: function
+report.php?a=590:1213 [CustomerOverview] Error loading project data: TypeError: query.addForm is not a function
+    at report.php?a=590:1068:15
+    at new Promise (<anonymous>)
+    at leafQuery (report.php?a=590:1055:12)
+    at HTMLDocument.init (report.php?a=590:1161:7)
+(anonymous) @ report.php?a=590:1213
+Promise.catch
+init @ report.php?a=590:1211
+ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:252  GET https://leaf.va.gov/platform/projects/api/form/query?a=590&x-filterData=recordID 400 (Bad Request)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:252
+fetch @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:278
+wa @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:277
+init @ report.php?a=590:1132
+report.php?a=590:1138 Raw API test failed: SyntaxError: Unexpected end of JSON input
+(anonymous) @ report.php?a=590:1138
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:252
+Kb @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:279
+Za.<computed> @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:274
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:252
+then @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:278
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10335260306043831.js:274
+init @ report.php?a=590:1138
+report.php?a=590:1146 Direct record fetch: {label: 'name', identifier: 'jsonIdx', items: Array(1)}
+report.php?a=590:1114 [CustomerOverview] Record metadata: {label: 'name', identifier: 'jsonIdx', items: Array(1)}
