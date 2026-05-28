@@ -1,12 +1,25 @@
-=== CustomerOverview v3 Debug ===
-window.location.href: https://leaf.va.gov/platform/projects/report.php?a=590
-parent.location.href: https://leaf.va.gov/platform/projects/report.php?a=590
-recordID resolved to: 590
-API base: https://leaf.va.gov/platform/projects
-API response keys: 590
-Full response: {"590":{"recordID":590,"s1":{"id59":"Office of Connected Care","id60":"National Project","id67":"Stephanie Lumagui","id74":"Harlie Haag","id61":"Planning","id62":"The Discovery phase focuses on understanding the current state of the organization&#039;s needs, goals, and stakeholders. The team conducts research, gathers requirements, and identifies any existing gaps or opportunities. Key decisions made during this phase lay the foundation for the entire project. Findings are documented and review
-s1 keys: id59, id60, id67, id74, id61, id62, id63, id64, id65, id66, id67_orgchart, id74_orgchart
-LEAF POC raw (id67): "Stephanie Lumagui"
-LEAF POC orgchart meta: {"empUID":539772,"email":"Stephanie.Lumagui@va.gov","lastName":"Lumagui","userName":"oitauslumags","firstName":"Stephanie","middleName":"L"}
-Service POC raw (id74): "Harlie Haag"
-Service POC orgchart meta: {"empUID":101439,"email":"Harlie.Haag@va.gov","lastName":"Haag","userName":"oitcohaagh","firstName":"Harlie","middleName":"M"}
+[...new Set(state.projectsAll.map((p) => p.projectFiscalYear))];
+VM102:1 Uncaught ReferenceError: state is not defined
+    at <anonymous>:1:13
+(anonymous) @ VM102:1
+pmOverdueDebug()
+project_v18.js:7574 [pmOverdueDebug] Overdue Alert Diagnostics
+project_v18.js:7579 1) Identity (from #pmEnv data attributes)
+project_v18.js:7580 CURRENT_USER_ID  : "oitauslumags"
+project_v18.js:7581 CURRENT_USER_NAME: ""
+project_v18.js:7584 2) Tasks (ind 11 = assignedTo, ind 13 = dueDate)
+project_v18.js:7585 Total tasks loaded: 371
+project_v18.js:7600 (index)recordIDtitleassignedToassignedToUserNameduestatusmatchesUserisCompletedisArchivedisOverdue(index)recordIDtitleassignedToassignedToUserNameduestatusmatchesUserisCompletedisArchivedisOverdue0'50''Research Task: Audit Sample Methods''Panaghis Nerantzinis''oitorlneranp''''In Progress'falsefalsefalsefalse1'51''Full SSN Scanning Report''Carrie Hanscom''oitnhmhanscc''01/27/2026''Completed'falsetruefalsefalse2'52''Comms: SSN Compliance Review for LEAF sites''Harlie Haag''oitcohaagh''01/22/2026''Completed'falsetruefalsefalse3'53''Comms: CoP Open Office Hours''Harlie Haag''oitcohaagh''02/03/2026''Completed'falsetruefalsefalse4'54''Unset Primary Admins with active sites''Harlie Haag''oitcohaagh''02/04/2026''Completed'falsetruefalsefalse5'55''Comms: Full SSN Reminder''Harlie Haag''oitcohaagh''02/10/2026''Completed'falsetruefalsefalse6'56''Comms: Update! Changes to SSN Compliance in LEAF''Harlie Haag''oitcohaagh''02/17/2026''Completed'falsetruefalsefalse7'57''SSNR Project Close out''Harlie Haag''oitcohaagh''02/27/2026''Completed'falsetruefalsefalse8'60''Privacy Resources Page''Stephanie Lumagui''oitauslumags''03/17/2026''Completed'truetruefalsefalse9'97''Launchpad: Update to Acknowledge Full SSN Use''Harlie Haag''oitcohaagh''01/27/2026''Completed'falsetruefalsefalseArray(10)
+project_v18.js:7610 My overdue tasks (4): (4) ['#109 - Submit Form Enhancements', '#689 - OVERDUE TASK 1 (TESTING)', '#694 - OVERDUE TASK 2 (TESTING)', '#696 - OVERDUE TASK 3 (TESTING)']
+project_v18.js:7618 3) Projects (ind 5 = owner, ind 70 = projectEndDate)
+project_v18.js:7619 Total projects loaded: 39
+project_v18.js:7635 (index)recordIDprojectKeyprojectNameownerownerUserNameprojectEndDateprojectStatusmatchesUserisCompletedisArchivedendDateParsed(index)recordIDprojectKeyprojectNameownerownerUserNameprojectEndDateprojectStatusmatchesUserisCompletedisArchivedendDateParsed0'1''LEAF-1''SSNR''Sulgeiry Gardner''vhahongardns''''Completed'falsetruefalse'null'1'18'''''''''''''falsefalsefalse'null'2'19'''''''''''''falsefalsefalse'null'3'21'''''''''''''falsefalsefalse'null'4'22'''''''''''''falsefalsefalse'null'5'23'''''''''''''falsefalsefalse'null'6'24'''''''''''''falsefalsefalse'null'7'25'''''''''''''falsefalsefalse'null'8'26'''''''''''''falsefalsefalse'null'9'27''LEAF-27''Audit Process''Justin Bobier''oitaacbobiej''''In Progress'falsefalsefalse'null'Array(10)
+project_v18.js:7647 My overdue projects (3): (3) ['#652 - OVERDUE PROJECT #1 (TESTING)', '#692 - Advanced Search UI Enhancement', '#693 - OVERDUE PROJECT 2 (TESTING)']
+project_v18.js:7655 4) Session dismiss
+project_v18.js:7656 Key: pm_overdue_alert_dismissed_v18
+project_v18.js:7657 Dismissed this session?: false
+project_v18.js:7661 (Run sessionStorage.removeItem("pm_overdue_alert_dismissed_v18") to reset)
+project_v18.js:7668 5) Alert element
+project_v18.js:7670 Element found?: true
+project_v18.js:7671 Currently hidden?: false
+undefined
