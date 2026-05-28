@@ -4,5 +4,9 @@ parent.location.href: https://leaf.va.gov/platform/projects/report.php?a=590
 recordID resolved to: 590
 API base: https://leaf.va.gov/platform/projects
 API response keys: 590
-Full response: {"590":{"recordID":590,"s1":{"id59":"Office of Connect Care - Landing Page","id60":"National Project","id67":"Stephanie Lumagui","id74":"Harlie Haag","id61":"Planning","id62":"The Discovery phase focuses on understanding the current state of the organization&#039;s needs, goals, and stakeholders. The team conducts research, gathers requirements, and identifies any existing gaps or opportunities. Key decisions made during this phase lay the foundation for the entire project. Findings are document
+Full response: {"590":{"recordID":590,"s1":{"id59":"Office of Connected Care","id60":"National Project","id67":"Stephanie Lumagui","id74":"Harlie Haag","id61":"Planning","id62":"The Discovery phase focuses on understanding the current state of the organization&#039;s needs, goals, and stakeholders. The team conducts research, gathers requirements, and identifies any existing gaps or opportunities. Key decisions made during this phase lay the foundation for the entire project. Findings are documented and review
 s1 keys: id59, id60, id67, id74, id61, id62, id63, id64, id65, id66, id67_orgchart, id74_orgchart
+LEAF POC raw (id67): "Stephanie Lumagui"
+LEAF POC orgchart meta: {"empUID":539772,"email":"Stephanie.Lumagui@va.gov","lastName":"Lumagui","userName":"oitauslumags","firstName":"Stephanie","middleName":"L"}
+Service POC raw (id74): "Harlie Haag"
+Service POC orgchart meta: {"empUID":101439,"email":"Harlie.Haag@va.gov","lastName":"Haag","userName":"oitcohaagh","firstName":"Harlie","middleName":"M"}
