@@ -1,25 +1,5 @@
-[...new Set(state.projectsAll.map((p) => p.projectFiscalYear))];
-VM102:1 Uncaught ReferenceError: state is not defined
-    at <anonymous>:1:13
-(anonymous) @ VM102:1
-pmOverdueDebug()
-project_v18.js:7574 [pmOverdueDebug] Overdue Alert Diagnostics
-project_v18.js:7579 1) Identity (from #pmEnv data attributes)
-project_v18.js:7580 CURRENT_USER_ID  : "oitauslumags"
-project_v18.js:7581 CURRENT_USER_NAME: ""
-project_v18.js:7584 2) Tasks (ind 11 = assignedTo, ind 13 = dueDate)
-project_v18.js:7585 Total tasks loaded: 371
-project_v18.js:7600 (index)recordIDtitleassignedToassignedToUserNameduestatusmatchesUserisCompletedisArchivedisOverdue(index)recordIDtitleassignedToassignedToUserNameduestatusmatchesUserisCompletedisArchivedisOverdue0'50''Research Task: Audit Sample Methods''Panaghis Nerantzinis''oitorlneranp''''In Progress'falsefalsefalsefalse1'51''Full SSN Scanning Report''Carrie Hanscom''oitnhmhanscc''01/27/2026''Completed'falsetruefalsefalse2'52''Comms: SSN Compliance Review for LEAF sites''Harlie Haag''oitcohaagh''01/22/2026''Completed'falsetruefalsefalse3'53''Comms: CoP Open Office Hours''Harlie Haag''oitcohaagh''02/03/2026''Completed'falsetruefalsefalse4'54''Unset Primary Admins with active sites''Harlie Haag''oitcohaagh''02/04/2026''Completed'falsetruefalsefalse5'55''Comms: Full SSN Reminder''Harlie Haag''oitcohaagh''02/10/2026''Completed'falsetruefalsefalse6'56''Comms: Update! Changes to SSN Compliance in LEAF''Harlie Haag''oitcohaagh''02/17/2026''Completed'falsetruefalsefalse7'57''SSNR Project Close out''Harlie Haag''oitcohaagh''02/27/2026''Completed'falsetruefalsefalse8'60''Privacy Resources Page''Stephanie Lumagui''oitauslumags''03/17/2026''Completed'truetruefalsefalse9'97''Launchpad: Update to Acknowledge Full SSN Use''Harlie Haag''oitcohaagh''01/27/2026''Completed'falsetruefalsefalseArray(10)
-project_v18.js:7610 My overdue tasks (4): (4) ['#109 - Submit Form Enhancements', '#689 - OVERDUE TASK 1 (TESTING)', '#694 - OVERDUE TASK 2 (TESTING)', '#696 - OVERDUE TASK 3 (TESTING)']
-project_v18.js:7618 3) Projects (ind 5 = owner, ind 70 = projectEndDate)
-project_v18.js:7619 Total projects loaded: 39
-project_v18.js:7635 (index)recordIDprojectKeyprojectNameownerownerUserNameprojectEndDateprojectStatusmatchesUserisCompletedisArchivedendDateParsed(index)recordIDprojectKeyprojectNameownerownerUserNameprojectEndDateprojectStatusmatchesUserisCompletedisArchivedendDateParsed0'1''LEAF-1''SSNR''Sulgeiry Gardner''vhahongardns''''Completed'falsetruefalse'null'1'18'''''''''''''falsefalsefalse'null'2'19'''''''''''''falsefalsefalse'null'3'21'''''''''''''falsefalsefalse'null'4'22'''''''''''''falsefalsefalse'null'5'23'''''''''''''falsefalsefalse'null'6'24'''''''''''''falsefalsefalse'null'7'25'''''''''''''falsefalsefalse'null'8'26'''''''''''''falsefalsefalse'null'9'27''LEAF-27''Audit Process''Justin Bobier''oitaacbobiej''''In Progress'falsefalsefalse'null'Array(10)
-project_v18.js:7647 My overdue projects (3): (3) ['#652 - OVERDUE PROJECT #1 (TESTING)', '#692 - Advanced Search UI Enhancement', '#693 - OVERDUE PROJECT 2 (TESTING)']
-project_v18.js:7655 4) Session dismiss
-project_v18.js:7656 Key: pm_overdue_alert_dismissed_v18
-project_v18.js:7657 Dismissed this session?: false
-project_v18.js:7661 (Run sessionStorage.removeItem("pm_overdue_alert_dismissed_v18") to reset)
-project_v18.js:7668 5) Alert element
-project_v18.js:7670 Element found?: true
-project_v18.js:7671 Currently hidden?: false
+pmFYDebug()
+project_v18.js:7687 [pmFYDebug] Fiscal Year values across all projects
+project_v18.js:7691 (index)recordIDprojectKeyprojectFiscalYearraw(index)recordIDprojectKeyprojectFiscalYearraw0'1''LEAF-1''FY26''"FY26"'1'18''''''""'2'19''''''""'3'21''''''""'4'22''''''""'5'23''''''""'6'24''''''""'7'25''''''""'8'26''''''""'9'27''LEAF-27''FY26''"FY26"'10'59''LEAF-59''FY26''"FY26"'11'98''LEAF-98''FY26''"FY26"'12'99''LEAF-99''FY26''"FY26"'13'105''LEAF-105''FY26''"FY26"'14'107''LEAF-107''FY26''"FY26"'15'146''LEAF-146''FY26''"FY26"'16'152''LEAF-152''FY26''"FY26"'17'436''LEAF-436''FY26''"FY26"'18'450''LEAF-450''FY26''"FY26"'19'456''LEAF-456''FY26''"FY26"'20'476''LEAF-476''FY26''"FY26"'21'478''LEAF-478''FY26''"FY26"'22'493''LEAF-493''FY26''"FY26"'23'496''LEAF-496''FY26''"FY26"'24'497''LEAF-497''FY26''"FY26"'25'498''LEAF-498''FY26''"FY26"'26'502''LEAF-502''FY26''"FY26"'27'537''LEAF-537''FY26''"FY26"'28'540''LEAF-540''FY26''"FY26"'29'542''LEAF-542''FY26''"FY26"'30'590''LEAF-590''FY26''"FY26"'31'643''LEAF-643''FY26''"FY26"'32'645''LEAF-645''FY26''"FY26"'33'652''LEAF-652''FY27''"FY27"'34'655''LEAF-655''FY26''"FY26"'35'672''LEAF-672''FY26''"FY26"'36'685''LEAF-685''FY26''"FY26"'37'692''LEAF-692''FY26''"FY26"'38'693''LEAF-693''FY26''"FY26"'Array(39)
+project_v18.js:7701 Unique non-blank FY values (2): (2) ['FY26', 'FY27']
 undefined
