@@ -1,24 +1,8 @@
-report.php?a=v18:1 Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-report.php?a=v18:1 Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-pmOverdueDebug()
-project_v18.js:7390 [pmOverdueDebug] Overdue Alert Diagnostics
-project_v18.js:7395 1) Identity (from #pmEnv data attributes)
-project_v18.js:7396 CURRENT_USER_ID  : "oitauslumags"
-project_v18.js:7397 CURRENT_USER_NAME: ""
-project_v18.js:7400 2) Tasks (ind 11 = assignedTo, ind 13 = dueDate)
-project_v18.js:7401 Total tasks loaded: 352
-project_v18.js:7415 (index)recordIDtitleassignedToduestatusmatchesUserisCompletedisArchivedisOverdue(index)recordIDtitleassignedToduestatusmatchesUserisCompletedisArchivedisOverdue0'50''Research Task: Audit Sample Methods''Panaghis Nerantzinis''''In Progress'falsefalsefalsefalse1'51''Full SSN Scanning Report''Carrie Hanscom''01/27/2026''Completed'falsetruefalsefalse2'52''Comms: SSN Compliance Review for LEAF sites''Harlie Haag''01/22/2026''Completed'falsetruefalsefalse3'53''Comms: CoP Open Office Hours''Harlie Haag''02/03/2026''Completed'falsetruefalsefalse4'54''Unset Primary Admins with active sites''Harlie Haag''02/04/2026''Completed'falsetruefalsefalse5'55''Comms: Full SSN Reminder''Harlie Haag''02/10/2026''Completed'falsetruefalsefalse6'56''Comms: Update! Changes to SSN Compliance in LEAF''Harlie Haag''02/17/2026''Completed'falsetruefalsefalse7'57''SSNR Project Close out''Harlie Haag''02/27/2026''Completed'falsetruefalsefalse8'60''Privacy Resources Page''Stephanie Lumagui''03/17/2026''Completed'falsetruefalsefalse9'97''Launchpad: Update to Acknowledge Full SSN Use''Harlie Haag''01/27/2026''Completed'falsetruefalsefalseArray(10)
-project_v18.js:7425 My overdue tasks (0): []
-project_v18.js:7433 3) Projects (ind 5 = owner, ind 70 = projectEndDate)
-project_v18.js:7434 Total projects loaded: 37
-project_v18.js:7449 (index)recordIDprojectKeyprojectNameownerprojectEndDateprojectStatusmatchesUserisCompletedisArchivedendDateParsed(index)recordIDprojectKeyprojectNameownerprojectEndDateprojectStatusmatchesUserisCompletedisArchivedendDateParsed0'1''LEAF-1''SSNR''Sulgeiry Gardner''''Completed'falsetruefalse'null'1'18'''''''''''falsefalsefalse'null'2'19'''''''''''falsefalsefalse'null'3'21'''''''''''falsefalsefalse'null'4'22'''''''''''falsefalsefalse'null'5'23'''''''''''falsefalsefalse'null'6'24'''''''''''falsefalsefalse'null'7'25'''''''''''falsefalsefalse'null'8'26'''''''''''falsefalsefalse'null'9'27''LEAF-27''Audit Process''Justin Bobier''''In Progress'falsefalsefalse'null'Array(10)
-project_v18.js:7461 My overdue projects (0): []
-project_v18.js:7469 4) Session dismiss
-project_v18.js:7470 Key: pm_overdue_alert_dismissed_v18
-project_v18.js:7471 Dismissed this session?: false
-project_v18.js:7475 (Run sessionStorage.removeItem("pm_overdue_alert_dismissed_v18") to reset)
-project_v18.js:7482 5) Alert element
-project_v18.js:7484 Element found?: true
-project_v18.js:7485 Currently hidden?: true
-undefined
+=== CustomerOverview v3 Debug ===
+window.location.href: https://leaf.va.gov/platform/projects/report.php?a=590
+parent.location.href: https://leaf.va.gov/platform/projects/report.php?a=590
+recordID resolved to: 590
+API base: https://leaf.va.gov/platform/projects
+API response keys: 590
+Full response: {"590":{"recordID":590,"s1":{"id59":"Office of Connect Care - Landing Page","id60":"National Project","id67":"Stephanie Lumagui","id74":"Harlie Haag","id61":"Planning","id62":"The Discovery phase focuses on understanding the current state of the organization&#039;s needs, goals, and stakeholders. The team conducts research, gathers requirements, and identifies any existing gaps or opportunities. Key decisions made during this phase lay the foundation for the entire project. Findings are document
+s1 keys: id59, id60, id67, id74, id61, id62, id63, id64, id65, id66, id67_orgchart, id74_orgchart
