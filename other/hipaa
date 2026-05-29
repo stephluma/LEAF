@@ -1,0 +1,36 @@
+
+Topic 1: Intermediary, not the source of truth, so HIPAA doesn’t apply to us. 
+HIPAA's applicability does not depend on whether you originate the record or are the authoritative copy. It depends on whether you create, receive, maintain, or transmit PHI on behalf of a covered entity. The phrase "maintain or transmit" is explicitly in the Business Associate definition at 45 CFR 160.103. A platform that holds or moves medical records "in transit to the source of truth" is squarely doing exactly what makes an entity a Business Associate. "Data in transit" is not an exemption; it's one of the named triggers.
+
+So the intermediary framing actually confirms HIPAA likely applies rather than escaping it — if the customer is a covered entity (or another BA), this platform is almost certainly a Business Associate and needs a Business Associate Agreement (BAA).
+
+Topic 2: PHI/PII certification is not the same as HIPAA compliance
+Vendors sometimes point to SOC 2, HITRUST, FedRAMP, or general "PII/PHI handling" attestations. Those are useful security signals but none of them constitute HIPAA compliance, and none replace a BAA, a Security Rule risk analysis, or breach-notification obligations.
+
+Topic 3: Accessible Auditing Tools for Privacy/HIPAA Officers
+The HIPAA Security Rule requires audit controls — hardware, software, and procedural mechanisms that record and examine activity in systems containing ePHI (45 CFR 164.312(b)). The Privacy Rule and the accounting-of-disclosures provisions (45 CFR 164.528) also assume the ability to track access and disclosures. A privacy or security officer being unable to audit sites that collect medical data is a direct failure of the audit-control standard, regardless of whether the platform is the "source of truth."
+
+Logs that capture sensitive data accessible only to developers create several problems: developers gaining access to PHI typically need to be covered under workforce access controls and minimum-necessary rules; logging actual sensitive content (rather than metadata about access) can itself expand the PHI footprint into systems never designed to protect it; and the people who are supposed to have audit access (the privacy/security officers) apparently don't. Only the dev team can see it is the opposite of proper access governance. The right model is role-based audit access for compliance staff and minimum-necessary, logged access for engineers.
+
+These are the regulatory anchors. More details available on ecfr.gov and hhs.gov:
+•	45 CFR 160.103 — definitions of "Business Associate," "PHI," and the "create, receive, maintain, or transmit" language. (ecfr.gov)
+•	45 CFR 164.502(e) / 164.504(e) — Business Associate Agreement requirements.
+•	45 CFR 164.308 — administrative safeguards, including the required security risk analysis and workforce access management.
+•	45 CFR 164.312(b) — audit controls standard (directly contradicts the "no audit tooling" position).
+•	45 CFR 164.312(a)(1) — access control / minimum necessary.
+•	45 CFR 164.528 — accounting of disclosures.
+•	HHS HIPAA for Professionals — plain-language guidance: hhs.gov/hipaa/for-professionals
+•	HHS guidance on Business Associates — hhs.gov/hipaa/for-professionals/privacy/guidance/business-associates
+•	NIST SP 800-66 Rev. 2 — implementing the HIPAA Security Rule (practical control mapping): csrc.nist.gov
+
+
+What should actually be done
+The threshold question that decides everything: is the platform's customer a HIPAA covered entity or another business associate, and is the data PHI? If yes, then:
+1.	Execute a BAA with each covered-entity customer before any PHI flows.
+2.	Conduct and document a Security Rule risk analysis (164.308).
+3.	Build audit controls that give privacy/security officers — not just developers — role-based visibility into who accessed what, when, on the LEAF sites.
+4.	Stop logging sensitive content in dev-accessible backends unless there's a documented need; log access metadata instead, and restrict to minimum-necessary.
+5.	Define breach-notification responsibilities (164.410) for the BA role.
+6.	Treat existing PHI/PII certs as supporting evidence, not a substitute for the above.
+
+One nuance worth flagging: if the customer is not a covered entity (e.g., certain government records functions fall under the Privacy Act of 1974, FISMA, or state law rather than HIPAA), then HIPAA may not be the governing framework at all — but that doesn't make the audit/access gaps acceptable; it just changes which statute governs them.
