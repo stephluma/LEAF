@@ -1,5 +1,15 @@
-pmFYDebug()
-project_v18.js:7687 [pmFYDebug] Fiscal Year values across all projects
-project_v18.js:7691 (index)recordIDprojectKeyprojectFiscalYearraw(index)recordIDprojectKeyprojectFiscalYearraw0'1''LEAF-1''FY26''"FY26"'1'18''''''""'2'19''''''""'3'21''''''""'4'22''''''""'5'23''''''""'6'24''''''""'7'25''''''""'8'26''''''""'9'27''LEAF-27''FY26''"FY26"'10'59''LEAF-59''FY26''"FY26"'11'98''LEAF-98''FY26''"FY26"'12'99''LEAF-99''FY26''"FY26"'13'105''LEAF-105''FY26''"FY26"'14'107''LEAF-107''FY26''"FY26"'15'146''LEAF-146''FY26''"FY26"'16'152''LEAF-152''FY26''"FY26"'17'436''LEAF-436''FY26''"FY26"'18'450''LEAF-450''FY26''"FY26"'19'456''LEAF-456''FY26''"FY26"'20'476''LEAF-476''FY26''"FY26"'21'478''LEAF-478''FY26''"FY26"'22'493''LEAF-493''FY26''"FY26"'23'496''LEAF-496''FY26''"FY26"'24'497''LEAF-497''FY26''"FY26"'25'498''LEAF-498''FY26''"FY26"'26'502''LEAF-502''FY26''"FY26"'27'537''LEAF-537''FY26''"FY26"'28'540''LEAF-540''FY26''"FY26"'29'542''LEAF-542''FY26''"FY26"'30'590''LEAF-590''FY26''"FY26"'31'643''LEAF-643''FY26''"FY26"'32'645''LEAF-645''FY26''"FY26"'33'652''LEAF-652''FY27''"FY27"'34'655''LEAF-655''FY26''"FY26"'35'672''LEAF-672''FY26''"FY26"'36'685''LEAF-685''FY26''"FY26"'37'692''LEAF-692''FY26''"FY26"'38'693''LEAF-693''FY26''"FY26"'Array(39)
-project_v18.js:7701 Unique non-blank FY values (2): (2) ['FY26', 'FY27']
-undefined
+=== CustomerOverview v3 Debug ===
+window.location.href: https://leaf.va.gov/platform/projects/report.php?a=590
+parent.location.href: https://leaf.va.gov/platform/projects/report.php?a=590
+recordID resolved to: 590
+API base: https://leaf.va.gov/platform/projects
+fetchPhaseOptions raw keys: 61
+fetchPhaseOptions full response: {"61":{"indicatorID":61,"categoryID":"form_0cd96","series":1,"name":"Current Phase (this automatically moves the progress bar on the page)","description":"Current Phase","default":"","parentID":null,"html":null,"htmlPrint":null,"conditions":null,"required":0,"is_sensitive":0,"isEmpty":true,"value":"","displayedValue":"","timestamp":0,"userID":null,"isWritable":1,"isMasked":0,"sort":-128,"has_code":"","options":["Test 1","Test 2","Test 3","Test 4","Test 5"],"format":"dropdown","child":null}}
+fetchPhaseOptions: no recognised options key found — labels will use fallback
+API response keys: 590
+Full response: {"590":{"recordID":590,"s1":{"id59":"Office of Connected Care","id60":"National Project","id86":"Design a clear, accessible landing page for the Office of Community Care within LEAF that helps clients quickly find and navigate health information management services, resources, and relevant forms with minimal friction.","id87":"https://leaf.va.gov/NATIONAL/657/occ_launchpad/","id67":"Stephanie Lumagui","id74":"Ashish Berry","id61":"Discovery","id62":"The Discovery phase focuses on understanding t
+s1 keys: id59, id60, id86, id87, id67, id74, id61, id62, id63, id64, id65, id66, id88, id89, id90, id91, id92, id93, id94, id95, id96, id97, id67_orgchart, id74_orgchart
+LEAF POC raw (id67): "Stephanie Lumagui"
+LEAF POC orgchart meta: {"empUID":539772,"email":"Stephanie.Lumagui@va.gov","lastName":"Lumagui","userName":"oitauslumags","firstName":"Stephanie","middleName":"L"}
+Customer POC raw (id74): "Ashish Berry"
+Customer POC orgchart meta: {"empUID":597780,"email":"Ashish.Berry@va.gov","lastName":"Berry","userName":"vacoberrya1","firstName":"Ashish","middleName":""}
