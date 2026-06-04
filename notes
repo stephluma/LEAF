@@ -1,6 +1,0 @@
-Instead of accessing "api/form/query" directly, use this:  https://va.ghe.com/software/LEAF-Developer-Examples/blob/master/forms/formQuery.md
-Also recommend integrating its "onProgress" function to provide user feedback when dealing with large data sets
-This file documents a key component in our system that helps us provide performant API responses
-Use JavaScript Template literals instead of string concatenation
-This makes it easier for people to work with the code (AI is very good at doing this conversion automatically)
-Use async/await patterns
