@@ -9,6 +9,9 @@ Using direct fetch
 fetchPhaseOptions raw keys: 61
 fetchPhaseOptions full response: {"61":{"indicatorID":61,"categoryID":"form_0cd96","series":1,"name":"Current Phase (changing the options here changes the phase name on the progress bar and description header, phase 1 top to phase 5 bottom)","description":"Current Phase","default":"","parentID":null,"html":"<script>\n // Disable the input with the dynamic ID and apply gray background color\n  $('#{{ iID }}').attr('disabled', true).css('background-color', '#e0e0e0');\n\n  // Disable the input with INDICATOR_ID and apply gray background color\n  $('#INDICATOR_ID').attr('disabled', true).css('background-color', '#e0e0e0');\n\n$(function() {\n    // Add logic to hide the field\n    $('#{{ iID }}').hide();  // This will hide the field initially.\n    $('.sublabel.blockIndicator_{{ iID }}').hide();;\n});\n</script>","htmlPrint":null,"conditions":null,"required":0,"is_sensitive":0,"isEmpty":true,"value":"","displayedValue":"","timestamp":0,"userID":null,"isWritable":1,"isMasked":0,"sort":-128,"has_code":"<script>\n // Disable the input with the dynamic ID and apply gray background color\n  $('#{{ iID }}').attr('disabled', true).css('background-color', '#e0e0e0');\n\n  // Disable the input with INDICATOR_ID and apply gray background color\n  $('#INDICATOR_ID').attr('disabled', true).css('background-color', '#e0e0e0');\n\n$(function() {\n    // Add logic to hide the field\n    $('#{{ iID }}').hide();  // This will hide the field initially.\n    $('.sublabel.blockIndicator_{{ iID }}').hide();;\n});\n</script>","options":["Discovery","Planning","Execution","Launch","Monitoring"],"format":"dropdown","child":null}}
 fetchPhaseOptions parsed labels: ["Discovery","Planning","Execution","Launch","Monitoring"]
+fetchWorkflowStep record root keys: recordID, date, serviceID, userID, title, priority, lastStatus, submitted, deleted, isWritableUser, isWritableGroup, userMetadata, stepID, blockingStepID, stepTitle, stepType, userName
+fetchWorkflowStep full rec: {"recordID":590,"date":1776430593,"serviceID":0,"userID":"vhahongardns","title":"Office of Connected Care Design Project","priority":0,"lastStatus":"Phase 1 Started","submitted":1776430738,"deleted":0,"isWritableUser":0,"isWritableGroup":1,"userMetadata":{"email":"Sulgeiry.Gardner@va.gov","lastName"
+fetchWorkflowStep stepID: 19
 processResponse data type: object
 fetchProjectData response keys: 590
 Full response: {"590":{"recordID":590,"s1":{"id59":"Office of Connected Care","id60":"National Project","id86":"Design a clear, accessible LEAF landing page for the Office of Connected Care that helps users quickly find health information management services, resources, and relevant forms.","id87":"https://leaf.va.gov/NATIONAL/657/occ_launchpad/","id67":"Stephanie Lumagui","id74":"Ashish Berry","id62":"The Discovery phase is about understanding who will use this page and what they actually need. We explore existing content, review similar pages, and identify what&#039;s working and what&#039;s getting in the way. Initial mockups are shared early to spark conversation. The mockups at this stage use placeholder text and content blocks - the goal is to align on structure and layout before real content is pl
@@ -16,8 +19,9 @@ record root keys: recordID, s1
 s1 keys: id59, id60, id86, id87, id67, id74, id62, id63, id64, id65, id66, id88, id89, id90, id91, id92, id93, id94, id95, id96, id97, id67_orgchart, id74_orgchart
 stepID resolved to: null
 full rec root (no s1): {"recordID":590}
+stepID from fetchWorkflowStep: 19
 Phase labels applied: Discovery, Planning, Execution, Launch, Monitoring
-resolveActiveStep: raw=null parsed=NaN
+resolveActiveStep: raw=19 parsed=19
 LEAF POC raw (id67): "Stephanie Lumagui"
 LEAF POC orgchart meta: {"empUID":539772,"email":"Stephanie.Lumagui@va.gov","lastName":"Lumagui","userName":"oitauslumags","firstName":"Stephanie","middleName":"L"}
 Customer POC raw (id74): "Ashish Berry"
