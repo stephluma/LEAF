@@ -11,10 +11,11 @@ fetchPhaseOptions full response: {"61":{"indicatorID":61,"categoryID":"form_0cd9
 fetchPhaseOptions parsed labels: ["Discovery","Planning","Execution","Launch","Monitoring"]
 processResponse data type: object
 fetchProjectData response keys: 590
-Full response: {"590":{"recordID":590,"s1":{"id59":"Office of Connected Care","id60":"National Project","id86":"Design a clear, accessible LEAF landing page for the Office of Connected Care that helps users quickly find health information management services, resources, and relevant forms.","id87":"https://leaf.va.gov/NATIONAL/657/occ_launchpad/","id67":"Stephanie Lumagui","id74":"Ashish Berry","id62":"The Discovery phase is about understanding who will use this page and what they actually need. We explore existing content, review similar pages, and identify what&#039;s working and what&#039;s getting in the
+Full response: {"590":{"recordID":590,"s1":{"id59":"Office of Connected Care","id60":"National Project","id86":"Design a clear, accessible LEAF landing page for the Office of Connected Care that helps users quickly find health information management services, resources, and relevant forms.","id87":"https://leaf.va.gov/NATIONAL/657/occ_launchpad/","id67":"Stephanie Lumagui","id74":"Ashish Berry","id62":"The Discovery phase is about understanding who will use this page and what they actually need. We explore existing content, review similar pages, and identify what&#039;s working and what&#039;s getting in the way. Initial mockups are shared early to spark conversation. The mockups at this stage use placeholder text and content blocks - the goal is to align on structure and layout before real content is pl
 record root keys: recordID, s1
 s1 keys: id59, id60, id86, id87, id67, id74, id62, id63, id64, id65, id66, id88, id89, id90, id91, id92, id93, id94, id95, id96, id97, id67_orgchart, id74_orgchart
-stepID from status join: null
+stepID resolved to: null
+full rec root (no s1): {"recordID":590}
 Phase labels applied: Discovery, Planning, Execution, Launch, Monitoring
 resolveActiveStep: raw=null parsed=NaN
 LEAF POC raw (id67): "Stephanie Lumagui"
