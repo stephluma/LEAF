@@ -1,16 +1,4 @@
 report.php?a=v19:1 Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
     at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
 report.php?a=v19:1 Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-project_v19.js:2 [PM Dashboard v19] Script loaded and executing — if you see this, the JS file is active
-project_v19.js:7988 [PM Dashboard] Bug 1 — Project Import Chart Debug
-project_v19.js:7989 Total projectsForGeneralCharts: 0
-project_v19.js:7993 Projects WITH ticketNumber (should appear in chart): 0 []
-project_v19.js:7998 Projects WITHOUT ticketNumber (should be excluded): 0 []
-project_v19.js:8003 projectImportCounts array: (12) [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-project_v19.js:8004 Sample raw project (first in state.projectsAll): undefined
-project_v19.js:7988 [PM Dashboard] Bug 1 — Project Import Chart Debug
-project_v19.js:7989 Total projectsForGeneralCharts: 39
-project_v19.js:7993 Projects WITH ticketNumber (should appear in chart): 1 [{…}]
-project_v19.js:7998 Projects WITHOUT ticketNumber (should be excluded): 38 (5) [{…}, {…}, {…}, {…}, {…}]
-project_v19.js:8003 projectImportCounts array: (12) [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
-project_v19.js:8004 Sample raw project (first in state.projectsAll): {recordID: '1', projectKey: 'LEAF-1', projectName: 'SSNR', description: 'Compliance with The Social Security Number Fraud P…solidated Appropriations Act of 2024, Section 237', owner: 'Sulgeiry Gardner', …}
+project_v19.js:2446 Uncaught SyntaxError: Unexpected token 'function'
