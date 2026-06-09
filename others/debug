@@ -1,4 +1,37 @@
 report.php?a=v19:1 Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
     at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
 report.php?a=v19:1 Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-project_v19.js:10493 Uncaught SyntaxError: Function statements require a function name
+project_v19.js:5670 [PM Dashboard] stepID debug — confirm STEP_ID_RESOLVED value
+project_v19.js:5673 recordID → stepID → dashboard status:
+project_v19.js:5687   recordID=1  stepID=null  status="Completed"
+project_v19.js:5687   recordID=27  stepID=null  status="In Progress"
+project_v19.js:5687   recordID=59  stepID=null  status="Completed"
+project_v19.js:5687   recordID=98  stepID=null  status="Completed"
+project_v19.js:5687   recordID=99  stepID=null  status="Completed"
+project_v19.js:5687   recordID=105  stepID=null  status="Completed"
+project_v19.js:5687   recordID=107  stepID=null  status="In Progress"
+project_v19.js:5687   recordID=146  stepID=null  status="In Progress"
+project_v19.js:5687   recordID=152  stepID=null  status="Not Started"
+project_v19.js:5687   recordID=436  stepID=null  status="In Progress"
+project_v19.js:5687   recordID=450  stepID=null  status="Completed"
+project_v19.js:5687   recordID=456  stepID=null  status="In Progress"
+project_v19.js:5687   recordID=476  stepID=null  status="Not Started"
+project_v19.js:5687   recordID=478  stepID=null  status="Not Started"
+project_v19.js:5687   recordID=493  stepID=null  status=""
+project_v19.js:5687   recordID=496  stepID=null  status="Completed"
+project_v19.js:5687   recordID=497  stepID=null  status="Completed"
+project_v19.js:5687   recordID=498  stepID=null  status="In Progress"
+project_v19.js:5687   recordID=502  stepID=null  status="In Progress"
+project_v19.js:5687   recordID=537  stepID=null  status="In Progress"
+project_v19.js:5687   recordID=540  stepID=null  status="In Progress"
+project_v19.js:5687   recordID=542  stepID=null  status="Completed"
+project_v19.js:5687   recordID=590  stepID=null  status="In Progress"
+project_v19.js:5687   recordID=643  stepID=null  status="Completed"
+project_v19.js:5687   recordID=645  stepID=null  status="In Progress"
+project_v19.js:5687   recordID=652  stepID=null  status=""
+project_v19.js:5687   recordID=655  stepID=null  status="In Progress"
+project_v19.js:5687   recordID=672  stepID=null  status="Not Started"
+project_v19.js:5687   recordID=685  stepID=null  status="Not Started"
+project_v19.js:5687   recordID=692  stepID=null  status="In Progress"
+project_v19.js:5687   recordID=693  stepID=null  status=""
+project_v19.js:5691 Once confirmed, update STEP_ID_RESOLVED constant (currently: 0 )
