@@ -1,12 +1,41 @@
-report.php?a=v19:1 Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-report.php?a=v19:1 Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-/platform/projects/api/orgchart?search=oitdetsherms&limit=5:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
-/platform/projects/api/form/new?csrfProbe=1:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
-report.php?a=v19:364 [PM Access Request] CSRF token: EMPTY
-report.php?a=v19:374 [PM Access Request] Posting new record with: Object
-/platform/projects/api/form/new:1  Failed to load resource: the server responded with a status of 401 (Unauthorized)
-report.php?a=v19:387 [PM Access Request] Create response status: 401
-report.php?a=v19:460 [PM Access Request] Error: Create failed: HTTP 401
-    at HTMLButtonElement.<anonymous> (report.php?a=v19:392:17)
-(anonymous) @ report.php?a=v19:460
+<fieldset id="LeafFormSearch772_advancedOptions" style="position: relative; margin: 0px; border: 1px solid black; background-color: white; display: inline;">		        <legend>Advanced Search Options</legend>		        <button type="button" id="LeafFormSearch772_advancedOptionsClose" style="float: right; margin-top: -20px; margin-right: -14px; cursor: pointer; background-image: url(&quot;dynicons/?img=process-stop.svg&amp;w=16&quot;); height: 16px; width: 16px; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; background-color: transparent; text-indent: -9999em;">Close advanced search</button>                <div style="width: 550px">Find items where...</div>		        <table id="LeafFormSearch772_searchTerms"><tr id="LeafFormSearch772_widget_0" style="border-spacing: 5px">
+                <td id="LeafFormSearch772_widgetRemove_0">
+                    <button type="button" id="LeafFormSearch772_widgetRemoveButton_0" aria-label="remove filter row" style="cursor: pointer">
+                        <img src="dynicons/?img=list-remove.svg&amp;w=16" alt="">
+                    </button>
+                </td>
+                <td style="text-align: center; display: none;">
+                    <strong id="LeafFormSearch772_widgetGate_0" value="AND">AND</strong>
+                </td><td colspan="2" style="width: 225px;"><select id="LeafFormSearch772_widgetTerm_0" style="width: 150px; display: none;" class="chosen" aria-label="condition">                            <option value="stepID">Current Status</option>            				<option value="data">Data Field ...</option>            				<option value="dateSubmitted">Date Submitted</option>                            <option value="userID">Initiator</option>            				<option value="serviceID">Service</option>            				<option value="title">Title</option>            				<option value="categoryID">Type</option>                            <option value="recordID">Record ID</option>                            <option value="stepAction">Record Actions ...</option>            				<option value="dependencyID">Requirement ...</option>            				</select><div class="chosen-container chosen-container-single" title="" id="LeafFormSearch772_widgetTerm_0_chosen" style="width: 100%;"><a class="chosen-single">
+  <span>Current Status</span>
+  <div><b></b></div>
+</a>
+<div class="chosen-drop">
+  <div class="chosen-search">
+    <input class="chosen-search-input" type="text" autocomplete="off" aria-expanded="false" aria-haspopup="true" aria-autocomplete="list" role="combobox" aria-owns="LeafFormSearch772_widgetTerm_0-chosen-search-results" aria-label="[object Attr]" aria-activedescendant="LeafFormSearch772_widgetTerm_0-chosen-search-result-2">
+  </div>
+  <ul class="chosen-results" id="LeafFormSearch772_widgetTerm_0-chosen-search-results" aria-busy="false"><li class="active-result result-selected" data-option-array-index="0" role="option" id="LeafFormSearch772_widgetTerm_0-chosen-search-result-0">Current Status</li><li class="active-result" data-option-array-index="1" role="option" id="LeafFormSearch772_widgetTerm_0-chosen-search-result-1">Data Field ...</li><li class="active-result" data-option-array-index="2" role="option" id="LeafFormSearch772_widgetTerm_0-chosen-search-result-2">Date Submitted</li><li class="active-result" data-option-array-index="3" role="option" id="LeafFormSearch772_widgetTerm_0-chosen-search-result-3">Initiator</li><li class="active-result" data-option-array-index="4" role="option" id="LeafFormSearch772_widgetTerm_0-chosen-search-result-4">Service</li><li class="active-result" data-option-array-index="5" role="option" id="LeafFormSearch772_widgetTerm_0-chosen-search-result-5">Title</li><li class="active-result" data-option-array-index="6" role="option" id="LeafFormSearch772_widgetTerm_0-chosen-search-result-6">Type</li><li class="active-result" data-option-array-index="7" role="option" id="LeafFormSearch772_widgetTerm_0-chosen-search-result-7">Record ID</li><li class="active-result" data-option-array-index="8" role="option" id="LeafFormSearch772_widgetTerm_0-chosen-search-result-8">Record Actions ...</li><li class="active-result" data-option-array-index="9" role="option" id="LeafFormSearch772_widgetTerm_0-chosen-search-result-9">Requirement ...</li></ul>
+</div></div></td>			            <td id="LeafFormSearch772_widgetCondition_0" style="width: 130px;"><select id="LeafFormSearch772_widgetCod_0" style="width: 140px; display: none;" class="chosen" aria-label="categoryID">	            		<option value="=">IS</option>	            		<option value="!=" selected="">IS NOT</option>	            	</select><div class="chosen-container chosen-container-single chosen-container-single-nosearch" title="" id="LeafFormSearch772_widgetCod_0_chosen" style="width: 100%;"><a class="chosen-single">
+  <span>IS NOT</span>
+  <div><b></b></div>
+</a>
+<div class="chosen-drop">
+  <div class="chosen-search">
+    <input class="chosen-search-input" type="text" autocomplete="off" aria-expanded="false" aria-haspopup="true" aria-autocomplete="list" role="combobox" aria-owns="LeafFormSearch772_widgetCod_0-chosen-search-results" aria-label="[object Attr]" readonly="">
+  </div>
+  <ul class="chosen-results" id="LeafFormSearch772_widgetCod_0-chosen-search-results"></ul>
+</div></div></td>						<td id="LeafFormSearch772_widgetMatch_0"><select id="LeafFormSearch772_widgetMat_0" class="chosen" aria-label="stepID" style="width: 250px; display: none;">
+                                    <option value="submitted">Submitted</option>
+                                    <option value="deleted">Cancelled</option>
+                                    <option value="resolved" selected="">Resolved</option>
+                                    <option value="actionable">Actionable by me</option>
+                                    <option value="holding">On Hold &amp; Actionable by me</option><option value="6">Design Workflow - Group #1: Discard Idea</option><option value="5">Design Workflow - Group #1: Documentation</option><option value="2">Design Workflow - Group #1: In Progress</option><option value="1">Design Workflow - Group #1: In Queue</option><option value="3">Design Workflow - Group #1: On Hold</option><option value="4">Design Workflow - Group #1: Ready for Review</option></select><div class="chosen-container chosen-container-single" title="" id="LeafFormSearch772_widgetMat_0_chosen" style="width: 100%;"><a class="chosen-single">
+  <span>Resolved</span>
+  <div><b></b></div>
+</a>
+<div class="chosen-drop">
+  <div class="chosen-search">
+    <input class="chosen-search-input" type="text" autocomplete="off" aria-expanded="false" aria-haspopup="true" aria-autocomplete="list" role="combobox" aria-owns="LeafFormSearch772_widgetMat_0-chosen-search-results" aria-label="[object Attr]">
+  </div>
+  <ul class="chosen-results" id="LeafFormSearch772_widgetMat_0-chosen-search-results"></ul>
+</div></div></td>					  </tr></table>		        <button type="button" aria-label="add logical and filter" class="buttonNorm" id="LeafFormSearch772_addTerm" style="float: left">And...</button>		        <button type="button" aria-label="add logical or filter" class="buttonNorm" id="LeafFormSearch772_orTerm" style="float: left">Or...</button>		        <br><br>                <div id="unsubmitted_results_notice" style="display:none;color:#b00; margin:0.5rem 2px;">                    <div>Results can include unsubmitted requests.  Consider including 'Current Status IS Submitted'.</div>                </div>		        <button type="button" id="LeafFormSearch772_advancedSearchApply" class="buttonNorm" style="text-align: center; width: 100%">Apply Filters</button>		    </fieldset>
