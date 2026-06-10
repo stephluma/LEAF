@@ -1,67 +1,12 @@
 report.php?a=v19:1 Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
     at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
 report.php?a=v19:1 Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
- [PM Dashboard] stepID raw result sample: Array(3)
-project_v19.js:5679 [PM Dashboard] stepID debug — confirm STEP_ID_RESOLVED value
-project_v19.js:5682 recordID → stepID → dashboard status:
-project_v19.js:5696   recordID=60  stepID=0  status="Completed"
-project_v19.js:5696   recordID=106  stepID=0  status="Completed"
-project_v19.js:5696   recordID=109  stepID=0  status="Completed"
-project_v19.js:5696   recordID=276  stepID=0  status="Completed"
-project_v19.js:5696   recordID=278  stepID=0  status="Not Started"
-project_v19.js:5696   recordID=279  stepID=2  status="Not Started"
-project_v19.js:5696   recordID=281  stepID=2  status="Not Started"
-project_v19.js:5696   recordID=284  stepID=0  status="Completed"
-project_v19.js:5696   recordID=285  stepID=0  status="Completed"
-project_v19.js:5696   recordID=287  stepID=0  status="Not Started"
-project_v19.js:5696   recordID=288  stepID=2  status="In Progress"
-project_v19.js:5696   recordID=289  stepID=0  status="Completed"
-project_v19.js:5696   recordID=350  stepID=0  status="Not Started"
-project_v19.js:5696   recordID=360  stepID=0  status="Not Started"
-project_v19.js:5696   recordID=361  stepID=0  status="Completed"
-project_v19.js:5696   recordID=382  stepID=0  status="Not Started"
-project_v19.js:5696   recordID=383  stepID=0  status="Completed"
-project_v19.js:5696   recordID=384  stepID=0  status="Not Started"
-project_v19.js:5696   recordID=385  stepID=0  status="Cancelled"
-project_v19.js:5696   recordID=393  stepID=0  status="Completed"
-project_v19.js:5696   recordID=397  stepID=2  status="Other"
-project_v19.js:5696   recordID=398  stepID=0  status="Completed"
-project_v19.js:5696   recordID=399  stepID=0  status="Completed"
-project_v19.js:5696   recordID=420  stepID=2  status="Not Started"
-project_v19.js:5696   recordID=421  stepID=0  status="Completed"
-project_v19.js:5696   recordID=422  stepID=0  status="Completed"
-project_v19.js:5696   recordID=423  stepID=0  status="Completed"
-project_v19.js:5696   recordID=427  stepID=0  status="Completed"
-project_v19.js:5696   recordID=429  stepID=0  status="Completed"
-project_v19.js:5696   recordID=430  stepID=0  status="Completed"
-project_v19.js:5696   recordID=470  stepID=0  status="Completed"
-project_v19.js:5696   recordID=598  stepID=0  status="Completed"
-project_v19.js:5696   recordID=605  stepID=0  status="Completed"
-project_v19.js:5696   recordID=686  stepID=0  status="Completed"
-project_v19.js:5696   recordID=688  stepID=2  status="Completed"
-project_v19.js:5696   recordID=689  stepID=0  status="Not Started"
-project_v19.js:5696   recordID=694  stepID=0  status="( Not Started )"
-project_v19.js:5696   recordID=696  stepID=0  status="( Not Started )"
-project_v19.js:5696   recordID=697  stepID=1  status="In Progress"
-project_v19.js:5696   recordID=698  stepID=1  status="Not Started"
-project_v19.js:5696   recordID=699  stepID=1  status="Not Started"
-project_v19.js:5696   recordID=700  stepID=1  status="Not Started"
-project_v19.js:5696   recordID=701  stepID=1  status="Not Started"
-project_v19.js:5696   recordID=702  stepID=1  status="Not Started"
-project_v19.js:5696   recordID=704  stepID=1  status="Not Started"
-project_v19.js:5696   recordID=705  stepID=1  status="Not Started"
-project_v19.js:5696   recordID=706  stepID=1  status="Not Started"
-project_v19.js:5696   recordID=707  stepID=1  status="Not Started"
-project_v19.js:5696   recordID=708  stepID=1  status="Not Started"
-project_v19.js:5696   recordID=709  stepID=1  status="Not Started"
-project_v19.js:5696   recordID=710  stepID=1  status="Not Started"
-project_v19.js:5696   recordID=711  stepID=1  status="( Not Started )"
-project_v19.js:5696   recordID=712  stepID=1  status="( Not Started )"
-project_v19.js:5696   recordID=713  stepID=0  status="Not Started"
-project_v19.js:5696   recordID=847  stepID=2  status="In Progress"
-project_v19.js:5696   recordID=848  stepID=2  status="Not Started"
-project_v19.js:5696   recordID=849  stepID=0  status="Not Started"
-project_v19.js:5700 Once confirmed, update STEP_ID_RESOLVED constant (currently: 0 )
-/platform/projects/index.php?a=printview&recordID=713&iframe=1:1 Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-/platform/projects/index.php?a=printview&recordID=713&iframe=1:1 Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+/platform/projects/api/orgchart?search=oitdetsherms&limit=5:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+/platform/projects/api/form/new?csrfProbe=1:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+report.php?a=v19:364 [PM Access Request] CSRF token: EMPTY
+report.php?a=v19:374 [PM Access Request] Posting new record with: Object
+/platform/projects/api/form/new:1  Failed to load resource: the server responded with a status of 401 (Unauthorized)
+report.php?a=v19:387 [PM Access Request] Create response status: 401
+report.php?a=v19:460 [PM Access Request] Error: Create failed: HTTP 401
+    at HTMLButtonElement.<anonymous> (report.php?a=v19:392:17)
+(anonymous) @ report.php?a=v19:460
