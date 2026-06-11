@@ -2,3 +2,14 @@ projects/:1 Error handling response: TypeError: Cannot read properties of undefi
     at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
 projects/:1 Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
 project_v19.js:3 Uncaught SyntaxError: Unexpected token '<'
+
+
+projects/:1 Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
+    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
+projects/:1 Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252  GET https://leaf.va.gov/platform/projects/api/orgchart?search=oitauslumags&limit=5 400 (Bad Request)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
+fetch @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
+wa @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:277
+(anonymous) @ projects/:390
+(anonymous) @ projects/:428
