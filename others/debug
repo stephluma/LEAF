@@ -1,15 +1,28 @@
-projects/:1 Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-projects/:1 Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
-project_v19.js:3 Uncaught SyntaxError: Unexpected token '<'
-
-
-projects/:1 Error handling response: TypeError: Cannot read properties of undefined (reading 'features')
-    at chrome-extension://jjkchpdmjjdmalgembblgafllbpcjlei/mcafee_wa_contentplg.js:2719:35
-projects/:1 Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
+projects/:372 [PM Access Request] Environment Debug
+projects/:373 userID (from Smarty): oitauslumags
+projects/:374 displayName (from Smarty): (empty)
+projects/:375 CSRFToken (from Smarty): PRESENT (8c92cd32...)
 ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252  GET https://leaf.va.gov/platform/projects/api/orgchart?search=oitauslumags&limit=5 400 (Bad Request)
 dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
 fetch @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
 wa @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:277
-(anonymous) @ projects/:390
-(anonymous) @ projects/:428
+(anonymous) @ projects/:422
+(anonymous) @ projects/:457
+projects/:426 [PM Access Request] Orgchart probe status: 400 FAILED
+ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252  GET https://leaf.va.gov/platform/projects/api/form/new?csrfProbe=1 400 (Bad Request)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
+fetch @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
+wa @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:277
+(anonymous) @ projects/:379
+(anonymous) @ projects/:457
+projects/:384 [PM Access Request] CSRF probe status: 400 FAILED
+ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252  GET https://leaf.va.gov/platform/projects/api/form/new 400 (Bad Request)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
+fetch @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
+wa @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:277
+(anonymous) @ projects/:403
+(anonymous) @ projects/:457
+projects/:409 [PM Access Request] POST endpoint GET probe status: 400 unreachable
+projects/:388 [PM Access Request] CSRF probe response: "Controller is undefined."
+projects/:394 [PM Access Request] Parsed CSRF from API: NOT FOUND in response
+projects/:413 [PM Access Request] POST endpoint response: "Controller is undefined."
