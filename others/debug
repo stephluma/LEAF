@@ -1,88 +1,181 @@
-<div id="header"><div style="float: left"><img class="print nodisplay" style="width: 72px" src="https://leaf.va.gov/platform/help_library/qrcode/?encode=https%3A%2F%2Fleaf.va.gov%2Fplatform%2Fhelp_library%2Freport.php%3Fa%3Dstephanie_test1" alt="QR code"></div><!----><div style="cursor: pointer" onclick="window.location='./'"><!----><span style="position: absolute"><img src="images/VA_icon_small.png" style="width: 80px" alt="VA logo"></span><span id="headerLabel">Office of Information &amp; Technology</span><h1 id="headerDescription">LEAF Help Library</h1></div><span id="headerHelp"><div class="alert" style="display: inline"><span>Do not enter PHI/PII.</span></div>    Welcome, <b>Stephanie Lumagui</b>! | <a href="?a=logout">Sign out</a>
-</span><span id="headerLogin"></span><span id="headerTab"></span><span id="headerTabImg"><img src="images/tab.png" alt="tab"></span><span id="headerMenu" class="noprint">    <a href="./" class="buttonNorm" title="nav to homepage"><img src="dynicons/?img=go-home.svg&amp;w=16" alt="">Main Page</a>
-<div id="headerMenu_container" style="display: inline-block">
-    <a id="button_showLinks" tabindex="0" class="buttonNorm" title="site links" aria-haspopup="true" aria-expanded="false" role="button">Links</a>
-    <div id="headerMenu_links">
-    <ul id="headerMenu_links_list">
-    <li><a href="/platform/orgchart" target="_blank" role="button">
-        <span class="menuButtonSmall" style="background-color: #ffecb7">
-            <img class="menuIconSmall" src="dynicons/?img=applications-internet.svg&amp;w=76" style="position: relative" alt="">
-            <span class="menuTextSmall">LEAF Nexus</span><br>
-            <span class="menuDescSmall">Org. Charts and Employee Information for your facility</span>
-        </span>
-    </a></li>
-
-</ul>    </div>
-</div>
-<div id="headerMenuHelp_container" style="display: inline-block">
-    <a id="button_showHelp" tabindex="0" class="buttonNorm" title="primary admin contact information" aria-haspopup="true" aria-expanded="false" role="button">
-        <img style="vertical-align: sub;" src="dynicons/?img=help-browser.svg&amp;w=16" alt="">&nbsp;Help
-    </a>
-    <div id="headerMenu_help" tabindex="0">
-    For Help contact your primary admin
-<div id="help-primary-admin" style="font-weight:bold;">Searching...</div>
-<script type="text/javascript">
-    let observPrimaryAdmin = new IntersectionObserver(function(entities) {
-        if(entities[0].isIntersecting) {
-            observPrimaryAdmin.disconnect();
-            $.ajax({
-                url: "api/system/primaryadmin",
-                dataType: "json",
-                success: function(response) {
-                    const fullName = ((response['Fname'] || '') + ' ' + (response['Lname'] || '')).trim();
-                    const userName = response["userName"] || '';
-                    const nameDisplay = fullName || userName;
-                    const email = response['Email'] || '';
-
-                    const adminInfo = email !== '' ?
-                        '<div>Primary Admin:</div>' + nameDisplay + ' - <br/><a href="mailto:' + email+ '">' + email + '</a>' :
-                        'Primary Admin has not been set.';
-
-                    $('#help-primary-admin').html('<div id="help_admin_info">' + adminInfo + '</div>');
-                }
-            });
-        }
-    }, {
-        threshold: 1.0
-    });
-    observPrimaryAdmin.observe(document.querySelector('#help-primary-admin'));
-</script>    </div>
-</div>
-     <a href="./admin/" class="buttonNorm" role="button"><img src="dynicons/?img=applications-system.svg&amp;w=16" alt="">Admin Panel</a>
-
-<script>
-    function focusout(e) {
-        e.stopPropagation();
-        let parEl = e.currentTarget.parentNode;
-        let anchor = parEl?.querySelector('a');
-        if (anchor) {
-            e.currentTarget.style.display = 'none';
-            anchor.setAttribute('aria-expanded', 'false');
-        }
-    }
-    function toggleMenuPopup(e){
-        e.stopPropagation();
-        if(e.keyCode && (parseInt(e.keyCode)=== 32 || parseInt(e.keyCode)=== 13)) {
-            e.preventDefault();
-            let popupEl = document.querySelector('#' + e.currentTarget.id + ' + div');
-            if (popupEl) {
-                if(popupEl.style.display === '') {
-                    popupEl.style.display = 'block';
-                    e.currentTarget.setAttribute('aria-expanded', 'true');
-                } else {
-                    curDisplay = popupEl.style.display;
-                    popupEl.style.display = curDisplay === 'block' ? 'none' : 'block';
-                    e.currentTarget.setAttribute('aria-expanded', curDisplay === 'block' ? 'false' : 'true');
-                }
-            }
-        }
-    }
-    $('#button_showLinks').on('keypress', toggleMenuPopup);
-    $('#button_showHelp').on('keypress', toggleMenuPopup);
-    $('#headerMenu_links').on('focusout', focusout);
-    $('#headerMenu_help').on('focusout', focusout);
-</script>
-
-<br>
-<noscript><div class="alert"><span>Javascript must be enabled for this version of software to work!</span></div></noscript>
-</span></div>
+leaf_nav.js:523 [LP Nav] dd-link clicked: <a class=​"dd-link" href=​"https:​/​/​leaf.va.gov/​platform/​help_library/​report.php?a=stephanie_test1">​…​</a>​flex
+leaf_nav.js:524 [LP Nav] modifier keys — ctrl: false meta: false shift: false button: 0
+leaf_nav.js:544 [LP Nav] href: https://leaf.va.gov/platform/help_library/report.php?a=stephanie_test1
+leaf_nav.js:554 [LP Nav] preventDefault() called — navigation cancelled
+leaf_nav.js:567 [LP Nav] Resolved title: Help library
+leaf_nav.js:481 [LP Panel] openInlinePanel called: https://leaf.va.gov/platform/help_library/report.php?a=stephanie_test1 Help library
+leaf_nav.js:488 [LP Panel] Elements found: Object
+leaf_nav.js:504 [LP Panel] Setting iframe src to: https://leaf.va.gov/platform/help_library/report.php?a=stephanie_test1
+leaf_nav.js:511 [LP Panel] lp:open event dispatched
+leaf_nav.js:515 [LP Panel] Panel opened successfully ✓
+report.php?a=stephanie_test1:1875 [norm] record 3 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 4 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Workflow%20Editor/Automated%20Email%20Reminders%20for%20Inactivity.webm?csf=1&amp;web=1&amp;e=ttyd48 | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 6 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Creating%20Actions.webm?csf=1&amp;web=1&amp;e=h01PoN | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 8 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Tips%20and%20Tricks_part%201.webm?csf=1&amp;web=1&amp;e=eSqJzv | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 9 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Nexus.webm?csf=1&amp;web=1&amp;e=I167OZ | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 10 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/LEAF%20and%20Lean%20Principles.webm?csf=1&amp;web=1&amp;e=zUVR9N | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 12 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Form%20Editor/Copy%20Request.webm?csf=1&amp;web=1&amp;e=9PdXLB | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 14 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Customizing%20Event%20Email%20Templates.webm?csf=1&amp;web=1&amp;e=bxVW2N | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 15 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Workflow%20Editor/Editing%20and%20Deleting%20Workflow%20Actions.webm?csf=1&amp;web=1&amp;e=Ac78Dm | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 16 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 17 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Email%20Template%20Editor.mp4?csf=1&amp;web=1&amp;e=JAehow | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 24 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/LEAF%20Demo.mp4?csf=1&amp;web=1&amp;e=mTUKsc | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 27 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 28 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Requesting%20LEAF%20Secure%20Status.webm?csf=1&amp;web=1&amp;e=ttXglU | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 29 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 30 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 31 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 33 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 34 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 36 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 37 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 38 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 39 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 42 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 43 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 44 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 45 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 48 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Request%20Help/Submit%20YourIT%20Incident%20Ticket%20For%20LEAF.webm?csf=1&amp;web=1&amp;e=E8eREj | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 49 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Form%20Editor/New%20-%20Adding%20a%20hyperlink%20to%20a%20form.webm?csf=1&amp;web=1&amp;e=TVPFyl | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 51 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Form%20Editor/Sort%20Priority.webm?csf=1&amp;web=1&amp;e=48JgTd | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 55 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Workflow%20Editor/Add%20Comments%20using%20Loop%20Action.webm?csf=1&amp;web=1&amp;e=qS6MP5 | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 56 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20User%20Access%20Groups/Import%20User%20Groups.webm?csf=1&amp;web=1&amp;e=3XpmaU | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 57 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20User%20Access%20Groups/Create%20User%20Access%20Groups.mp4?csf=1&amp;web=1&amp;e=fdp14u | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 59 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/View%20History.mp4?csf=1&amp;web=1&amp;e=dNdMgo | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 60 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Bookmarks.webm?csf=1&amp;web=1&amp;e=zYdPS3 | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 63 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Workflow%20Editor/Troubleshoot%20Missing%20Emails.mp4?csf=1&amp;web=1&amp;e=8a18On | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 64 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Reassign%20Services%20in%20Nexus.mp4?csf=1&amp;web=1&amp;e=x5D9Gd | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 66 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Mass%20Actions.mp4?csf=1&amp;web=1&amp;e=G476fy | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 68 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Clear%20Cache%20in%20Chrome.webm?csf=1&amp;web=1&amp;e=e1Oftw | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 69 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20User%20Access%20Groups/Add%20and%20Remove%20System%20Administrators.webm?csf=1&amp;web=1&amp;e=JsM5Hp | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 70 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Employee%20Clearing%20Demonstration%20(1).mp4?csf=1&amp;web=1&amp;e=JgeKdT | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 71 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Nexus.webm?csf=1&amp;web=1&amp;e=hQwtDJ | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 77 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Lunch%20and%20Learn_Troubleshooting.webm?csf=1&amp;web=1&amp;e=1bnLdy | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 81 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Workflow%20Editor/Create%20a%20new%20workflow%20action.webm?csf=1&amp;web=1&amp;e=2IHjep | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 83 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Workflow%20Editor/Rename%20Workflow.webm?csf=1&amp;web=1&amp;e=8sHNjp | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 84 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 86 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Rearrange%20Action%20Buttons_CoP_4_25_23.mp4?csf=1&amp;web=1&amp;e=L0v6Wq | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 87 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Track%20File%20Editing_CoP_4_25_23.mp4?csf=1&amp;web=1&amp;e=TnNC8x | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 90 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 91 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Parallel%20Processing-20230517_045935.webm?csf=1&amp;web=1&amp;e=5JUOtM | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 92 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 93 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 94 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 97 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Setting%20a%20LEAF%20Primary%20Administrator.webm?csf=1&amp;web=1&amp;e=g2W7kM | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 98 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Locating%20Nexus%20Administrators.webm?csf=1&amp;web=1&amp;e=pP4MHl | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 100 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/If_Then_enchancement_CoP.mp4?csf=1&amp;web=1&amp;e=j1Dis1 | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 101 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 105 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/New%20Account%20Updater.mp4?csf=1&amp;web=1&amp;e=jbF27O | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 106 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 109 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Timeline%20Explorer.webm?csf=1&amp;web=1&amp;e=ADfS7z | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 110 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 112 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Smart%20Fields%20in%20Email%20Templates.mp4?csf=1&amp;web=1&amp;e=xDR3YE | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 113 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/LEAF%20Site%20Locator.mp4?csf=1&amp;web=1&amp;e=Nu00ek | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 114 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 115 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Workflow%20Editor/Require%20Comments%20on%20Return%20to%20Requestor.webm?csf=1&amp;web=1&amp;e=BbicgA | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 117 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 119 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Workflow%20Editor/Read%20Only%20Workflow%20Step.mp4?csf=1&amp;web=1&amp;e=FDfPgk | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 121 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Workflow%20Editor/Duplicate%20a%20Workflow.webm?csf=1&amp;web=1&amp;e=Bwr4V5 | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 126 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Tips%20ad%20Tricks%20-%20Aug%202023.webm?csf=1&amp;web=1&amp;e=bWFrsQ | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 127 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 130 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/sites/vhaleaf/_layouts/15/stream.aspx?id=%2Fsites%2Fvhaleaf%2FShared%20Documents%2FState%20of%20LEAF%2FRecording%2Emp4&amp;referrer=OneDriveForBusiness&amp;referrerScenario=OpenFile | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 131 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 133 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/sites/vhaleaf/_layouts/15/stream.aspx?id=%2Fsites%2Fvhaleaf%2FShared%20Documents%2FLEAF%20Stream%20Videos%2FLEAF%20Workflow%20Editor%2FSetting%20Automated%20Email%20Reminders%2Ewebm&amp;referrer=OneDriveForBusiness&amp;referrerScenario=OpenFile | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 134 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/LEAFHelpTeam/Shared%20Documents/LEAF%20Open%20Office%20Hours%20-%20CoP/Recordings/LEAF%20Open%20Office%20Hours%20-%20CoP-20231010_075949-Meeting%20Recording.mp4?csf=1&amp;web=1&amp;e=toN7Fp&amp;isSPOFile=1 | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 135 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/LEAF_lunch%20and%20learn_Email%20Template%20Editor.webm?csf=1&amp;web=1&amp;e=gu1Mld | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 136 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 137 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Requesting%20a%20new%20LEAF%20Site.webm?csf=1&amp;web=1&amp;e=dQyocY | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 138 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 139 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Generate%20a%20LEAF%20Report.mp4?csf=1&amp;web=1&amp;e=K45DHP | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 143 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/LEAF%20Lunch%20and%20Learn%20-%20Tips%20and%20Tricks%20(Dec%202023).webm?csf=1&amp;web=1&amp;e=r3bFEW | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 145 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Restoring%20Email%20Templates.webm?csf=1&amp;web=1&amp;e=ZV5qMo | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 146 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 147 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/LEAF%20Lunch%20and%20Learn%20-%20LEAF%20Library%20.webm?csf=1&amp;web=1&amp;e=ib80AA | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 150 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 152 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Workflow%20Editor/Setting%20Actions%20within%20a%20Step.webm?csf=1&amp;web=1&amp;e=MHxAgo | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 153 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Lunch%20and%20Learn%20-%20Return%20to%20Requestor.webm?csf=1&amp;web=1&amp;e=41Ol2D | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 154 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Workflow%20Editor/Icons.mp4?csf=1&amp;web=1&amp;e=0aQhYD | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 156 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Training%20Material/LEAF%20Academy%20102_10_08_24.mp4?csf=1&amp;web=1&amp;e=Zz8X7U | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 157 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Lunch%20and%20Learn_Combined%20Inbox%20Editor.webm?csf=1&amp;web=1&amp;e=n4vWib | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 158 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Submit%20a%20new%20LEAF%20Request.webm?csf=1&amp;web=1&amp;e=Qy7aY6 | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 161 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 162 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/LEAF%20Homepage%20Overview.mp4?csf=1&amp;web=1&amp;e=IfnlSj | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 165 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Lunch%20and%20Learns/LEAF_Lunch_and_Learn_Tips%20and%20Tricks_April%202024.webm?csf=1&amp;web=1&amp;e=cp1EjV | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 166 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Form%20Editor/New%20Form%20Editor%20Overview.webm?csf=1&amp;web=1&amp;e=hwI3jx | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 167 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 168 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Training%20Material/LEAF%20Academy%20101-20250212_092642-Meeting%20Recording%20(2).mp4?csf=1&amp;web=1&amp;e=UanNmI | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 169 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Add%20Internal%20Use%20Form.mp4?csf=1&amp;web=1&amp;e=3J6djG | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 170 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Form%20Editor/Advanced%20Formatting.mp4?csf=1&amp;web=1&amp;e=1OSCuh | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 171 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Form%20Editor/Archive%20and%20Restore%20Fields.webm?csf=1&amp;web=1&amp;e=ckJWhF | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 172 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 173 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 174 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 175 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Form%20Editor/If_Then%20Logic%20Using%20OrgChart%20Input%20Types.webm?csf=1&amp;web=1&amp;e=QxoEzk | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 176 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 177 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Populate%20a%20Grid%20using%20a%20Uploaded%20File.mp4?csf=1&amp;web=1&amp;e=XmDLfN | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 178 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 179 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 180 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 182 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 183 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/LEAF%20Lunch%20and%20Learn-LEAF%20and%20Lean%20Principles%20.mp4?csf=1&amp;web=1&amp;e=UY6JU5 | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 185 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Form%20Editor/Exporting%20and%20Importing%20Forms.webm?csf=1&amp;web=1&amp;e=zNgxQP | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 186 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Form%20Editor/Sorting%20Form%20Questions.webm?csf=1&amp;web=1&amp;e=Jaa3HZ | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 187 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 190 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 191 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Lunch%20and%20Learns/Oversight%20Committee%20Charter_Aug%2021%202024.webm?csf=1&amp;web=1&amp;e=ACPafO | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 193 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Create%20and%20Set%20Workflow%20Events.webm?csf=1&amp;web=1&amp;e=38UsaB | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 194 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/State%20of%20LEAF/State%20of%20LEAF%20-%20Sept.%2018,%202024.mp4?csf=1&amp;web=1&amp;e=qZp1qG | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 195 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 196 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 199 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Form%20Editor/Special%20Access%20Restrictions.webm?csf=1&amp;web=1&amp;e=8UPNdy | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 200 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 201 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 203 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Grid%20(Table%20with%20rows%20and%20columns)%20and%20Grid%20Splitter.mp4?csf=1&amp;web=1&amp;e=T2KgiU | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 205 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Lunch%20and%20Learns/LEAF%20Lunch%20and%20Learn_Tips%20and%20Tricks_Dec%202024.mp4?csf=1&amp;web=1&amp;e=5gg2dU | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 206 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 207 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 208 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Person%20Designated.mp4?csf=1&amp;web=1&amp;e=GkVYVQ | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 210 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/LEAF%20Site%20Settings.webm?csf=1&amp;web=1&amp;e=w7ZrOj | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 211 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/LEAF%20Lunch%20and%20Learn%20-%20Add%20Requirements-20250115_Trim.mp4?csf=1&amp;web=1&amp;e=fMDn7N | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 213 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/sites/vhaleaf/_layouts/15/stream.aspx?id=%2Fsites%2Fvhaleaf%2FShared%20Documents%2FLEAF%20Stream%20Videos%2FLEAF%20Lunch%20and%20Learn%2FLunch%20and%20Learn%5FIdea%20Portal%202025%2Emp4&amp;referrer=StreamWebApp%2EWeb&amp;referrerScenario=AddressBarCopied%2Eview%2E3f4ee249%2D3711%2D4cbb%2D8bfd%2D1321bdefc0b8 | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 216 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 217 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 218 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Lunch%20and%20Learn%20-%20LEAF%20Reports.mp4?csf=1&amp;web=1&amp;e=LX5SlP | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 219 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Create%20Quickstart%20Link.mp4?csf=1&amp;web=1&amp;e=as7cyP | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 220 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 221 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Lunch%20and%20Learn%20-%20Tips%20and%20Tricks%20(April%202025).mp4?csf=1&amp;web=1&amp;e=3BVPpW | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 222 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Mass%20Action%20-%20Take%20Action.mp4?csf=1&amp;web=1&amp;e=AWxPL3 | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 223 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Updating%20Services.mp4?csf=1&amp;web=1&amp;e=4fL9ex | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 224 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Remove%20Services%20From%20Step%201.mp4?csf=1&amp;web=1&amp;e=avPyyS | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 225 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 226 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Adding%20and%20Removing%20Service%20Lines%20in%20Nexus.mp4?csf=1&amp;web=1&amp;e=0syfL2 | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 227 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Lunch%20and%20Learn_FIle%20Manager_May%202025.mp4?csf=1&amp;web=1&amp;e=fgF0id | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 228 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Lunch%20and%20Learn_Sitemap%20Editor_June%202025.mp4?csf=1&amp;web=1&amp;e=vgCUdi | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 230 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/Export%20Using%20the%20Grid%20Splitter.mp4?csf=1&amp;web=1&amp;e=fFATth | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 232 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Lunch%20and%20Learn%20-%20Mass%20Actions-20250716_113459-Meeting%20Recording.mp4?csf=1&amp;web=1&amp;e=4X1wMt | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 233 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 234 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 235 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 236 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Lunch%20and%20Learn%20-%20Tips%20and%20Tricks-Troubleshooting%20messages_Aug%202025.mp4?csf=1&amp;web=1&amp;e=L0FmIB | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 237 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/LEAF%20-%20Users%20of%20LEAF-Intro.mp4?csf=1&amp;web=1&amp;e=Z4nhJX | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 239 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 240 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 241 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/State%20of%20LEAF/State%20of%20LEAF%20-%20Sept.%2017,%202025.mp4?csf=1&amp;web=1&amp;e=D5XawV | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 242 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 243 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 246 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Other%20Helpful%20Videos/LEAF%20-%20Users%20of%20LEAF-Intro.mp4?csf=1&amp;web=1&amp;e=Z4nhJX | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 247 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Lunch%20and%20Learn_Practical%20Security%20Tips_Nov%2019%202025.mp4?csf=1&amp;web=1&amp;e=bZjkVQ | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 249 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Lunch%20and%20Learn%20-%20Tips%20and%20Tricks%20-%20Dec%202025.mp4?csf=1&amp;web=1&amp;e=NKKMZT | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 250 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/List%20of%20Action_Jan%2021%202025_Lunch%20and%20Learn.mp4?csf=1&amp;web=1&amp;e=KFzS5J | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 251 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Lunch%20and%20Learn_Restore%20Fields.mp4?csf=1&amp;web=1&amp;e=9nBntw | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 253 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 254 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 255 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Lunch%20and%20Learn_Power%20BI_Update.mp4?csf=1&amp;web=1&amp;e=CFaH9R | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 256 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Lunch%20and%20Learn_Editing%20and%20Deleting_April%202026.mp4?csf=1&amp;web=1&amp;e=bmhyRc&amp;nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D | rawEmbed length: 472
+report.php?a=stephanie_test1:1875 [norm] record 258 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 259 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 260 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 261 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 262 — embedSrc type: object | value: Object | videoURL: null | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 263 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Lunch%20and%20Learn/Lunch%20and%20Learn_Dropdown%20from%20file_June_17_2026.mp4?csf=1&amp;web=1&amp;e=cJhRsm | rawEmbed length: 0
+report.php?a=stephanie_test1:1875 [norm] record 264 — embedSrc type: object | value: Object | videoURL: https://dvagov.sharepoint.com/:v:/r/sites/vhaleaf/Shared%20Documents/LEAF%20Stream%20Videos/LEAF%20Form%20Editor/Allow%20Cancellation.mp4?csf=1&amp;web=1&amp;e=rz48Mg | rawEmbed length: 0
