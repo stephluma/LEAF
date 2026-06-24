@@ -1,10 +1,1 @@
-leaf_nav.js:386 [LP Nav] dd-link clicked: <a class=​"dd-link" href=​"/​platform/​ideas/​" target=​"_blank" rel=​"noopener noreferrer">​…​</a>​flex
-leaf_nav.js:387 [LP Nav] modifier keys — ctrl: false meta: false shift: false button: 0
-leaf_nav.js:407 [LP Nav] href: /platform/ideas/
-leaf_nav.js:417 [LP Nav] preventDefault() called — navigation cancelled
-leaf_nav.js:423 [LP Nav] Resolved title: Suggest an idea (opens in new tab)
-leaf_nav.js:344 [LP Panel] openInlinePanel called: /platform/ideas/ Suggest an idea (opens in new tab)
-leaf_nav.js:351 [LP Panel] Elements found: {panel: false, frame: false, panelTitle: false, loading: false}
-leaf_nav.js:359 [LP Panel] ABORT — #lpInlinePanel or #lpInlineFrame not found in DOM. Is the panel HTML in launchpadv3.html?
-openInlinePanel @ leaf_nav.js:359
-(anonymous) @ leaf_nav.js:424
+<footer class="noprint" id="footer"><br><br><a id="versionID" href="?a=about">VA Light Electronic Action Framework<br>Version 1.0.5 rPUBLIC</a></footer>
