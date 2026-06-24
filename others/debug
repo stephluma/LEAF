@@ -1,1 +1,88 @@
-<footer class="noprint" id="footer"><br><br><a id="versionID" href="?a=about">VA Light Electronic Action Framework<br>Version 1.0.5 rPUBLIC</a></footer>
+<div id="header"><div style="float: left"><img class="print nodisplay" style="width: 72px" src="https://leaf.va.gov/platform/help_library/qrcode/?encode=https%3A%2F%2Fleaf.va.gov%2Fplatform%2Fhelp_library%2Freport.php%3Fa%3Dstephanie_test1" alt="QR code"></div><!----><div style="cursor: pointer" onclick="window.location='./'"><!----><span style="position: absolute"><img src="images/VA_icon_small.png" style="width: 80px" alt="VA logo"></span><span id="headerLabel">Office of Information &amp; Technology</span><h1 id="headerDescription">LEAF Help Library</h1></div><span id="headerHelp"><div class="alert" style="display: inline"><span>Do not enter PHI/PII.</span></div>    Welcome, <b>Stephanie Lumagui</b>! | <a href="?a=logout">Sign out</a>
+</span><span id="headerLogin"></span><span id="headerTab"></span><span id="headerTabImg"><img src="images/tab.png" alt="tab"></span><span id="headerMenu" class="noprint">    <a href="./" class="buttonNorm" title="nav to homepage"><img src="dynicons/?img=go-home.svg&amp;w=16" alt="">Main Page</a>
+<div id="headerMenu_container" style="display: inline-block">
+    <a id="button_showLinks" tabindex="0" class="buttonNorm" title="site links" aria-haspopup="true" aria-expanded="false" role="button">Links</a>
+    <div id="headerMenu_links">
+    <ul id="headerMenu_links_list">
+    <li><a href="/platform/orgchart" target="_blank" role="button">
+        <span class="menuButtonSmall" style="background-color: #ffecb7">
+            <img class="menuIconSmall" src="dynicons/?img=applications-internet.svg&amp;w=76" style="position: relative" alt="">
+            <span class="menuTextSmall">LEAF Nexus</span><br>
+            <span class="menuDescSmall">Org. Charts and Employee Information for your facility</span>
+        </span>
+    </a></li>
+
+</ul>    </div>
+</div>
+<div id="headerMenuHelp_container" style="display: inline-block">
+    <a id="button_showHelp" tabindex="0" class="buttonNorm" title="primary admin contact information" aria-haspopup="true" aria-expanded="false" role="button">
+        <img style="vertical-align: sub;" src="dynicons/?img=help-browser.svg&amp;w=16" alt="">&nbsp;Help
+    </a>
+    <div id="headerMenu_help" tabindex="0">
+    For Help contact your primary admin
+<div id="help-primary-admin" style="font-weight:bold;">Searching...</div>
+<script type="text/javascript">
+    let observPrimaryAdmin = new IntersectionObserver(function(entities) {
+        if(entities[0].isIntersecting) {
+            observPrimaryAdmin.disconnect();
+            $.ajax({
+                url: "api/system/primaryadmin",
+                dataType: "json",
+                success: function(response) {
+                    const fullName = ((response['Fname'] || '') + ' ' + (response['Lname'] || '')).trim();
+                    const userName = response["userName"] || '';
+                    const nameDisplay = fullName || userName;
+                    const email = response['Email'] || '';
+
+                    const adminInfo = email !== '' ?
+                        '<div>Primary Admin:</div>' + nameDisplay + ' - <br/><a href="mailto:' + email+ '">' + email + '</a>' :
+                        'Primary Admin has not been set.';
+
+                    $('#help-primary-admin').html('<div id="help_admin_info">' + adminInfo + '</div>');
+                }
+            });
+        }
+    }, {
+        threshold: 1.0
+    });
+    observPrimaryAdmin.observe(document.querySelector('#help-primary-admin'));
+</script>    </div>
+</div>
+     <a href="./admin/" class="buttonNorm" role="button"><img src="dynicons/?img=applications-system.svg&amp;w=16" alt="">Admin Panel</a>
+
+<script>
+    function focusout(e) {
+        e.stopPropagation();
+        let parEl = e.currentTarget.parentNode;
+        let anchor = parEl?.querySelector('a');
+        if (anchor) {
+            e.currentTarget.style.display = 'none';
+            anchor.setAttribute('aria-expanded', 'false');
+        }
+    }
+    function toggleMenuPopup(e){
+        e.stopPropagation();
+        if(e.keyCode && (parseInt(e.keyCode)=== 32 || parseInt(e.keyCode)=== 13)) {
+            e.preventDefault();
+            let popupEl = document.querySelector('#' + e.currentTarget.id + ' + div');
+            if (popupEl) {
+                if(popupEl.style.display === '') {
+                    popupEl.style.display = 'block';
+                    e.currentTarget.setAttribute('aria-expanded', 'true');
+                } else {
+                    curDisplay = popupEl.style.display;
+                    popupEl.style.display = curDisplay === 'block' ? 'none' : 'block';
+                    e.currentTarget.setAttribute('aria-expanded', curDisplay === 'block' ? 'false' : 'true');
+                }
+            }
+        }
+    }
+    $('#button_showLinks').on('keypress', toggleMenuPopup);
+    $('#button_showHelp').on('keypress', toggleMenuPopup);
+    $('#headerMenu_links').on('focusout', focusout);
+    $('#headerMenu_help').on('focusout', focusout);
+</script>
+
+<br>
+<noscript><div class="alert"><span>Javascript must be enabled for this version of software to work!</span></div></noscript>
+</span></div>
