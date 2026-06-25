@@ -1,5 +1,27 @@
-report.php?a=launchpad_v2:632 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
-leaf_nav_v2.js:771 [LP Router] router() hash:  key: 
-leaf_nav_v2.js:771 [LP Router] router() hash: #impact key: impact
-leaf_nav_v2.js:708 [LP Router] loadView: impact → /platform/designs/report.php?a=impact
-leaf_nav_v2.js:753 [LP Router] View loaded: Our Impact
+console.log(
+  "lpSwapHost hidden?",
+  document.getElementById("lpSwapHost").hasAttribute("hidden"),
+);
+console.log(
+  "lpSwapHost innerHTML length:",
+  document.getElementById("lpSwapHost").innerHTML.length,
+);
+console.log(
+  "lp-main hidden?",
+  document.getElementById("lp-main")
+    ? document.getElementById("lp-main").hasAttribute("hidden")
+    : "NOT FOUND",
+);
+console.log(
+  "lp-main id now:",
+  document.getElementById("lp-main")
+    ? document.getElementById("lp-main").id
+    : "NOT FOUND — probably reassigned",
+);
+console.log("main-content el:", document.getElementById("main-content"));
+VM216:1 lpSwapHost hidden? true
+VM216:5 lpSwapHost innerHTML length: 0
+VM216:9 lp-main hidden? NOT FOUND
+VM216:15 lp-main id now: NOT FOUND — probably reassigned
+VM216:21 main-content el: <main id=​"main-content">​…​</main>​
+undefined
