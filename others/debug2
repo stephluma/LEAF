@@ -1,0 +1,100 @@
+(function () {
+  var candidates = [
+    "#content",
+    "#page-content",
+    "#main-content",
+    "#main",
+    "main",
+    ".content",
+    ".page-content",
+    ".programmer-content",
+    "#leafContent",
+    "#leaf-content",
+    "[data-page]",
+    '[role="main"]',
+  ];
+
+  console.log("=== Smarty wrapper candidates ===");
+  candidates.forEach(function (sel) {
+    var el = document.querySelector(sel);
+    if (el) {
+      console.log(
+        "%c FOUND " + sel,
+        "color: green; font-weight: bold",
+        "|",
+        el.tagName +
+          (el.id ? "#" + el.id : "") +
+          (el.className
+            ? "." + el.className.trim().split(/\s+/).join(".")
+            : ""),
+        "| children:",
+        el.children.length,
+        "| ~chars:",
+        el.innerHTML.length,
+      );
+    }
+  });
+
+  console.log("\n=== Body's direct children (top-level structure) ===");
+  Array.from(document.body.children).forEach(function (el) {
+    console.log(
+      el.tagName +
+        (el.id ? "#" + el.id : "") +
+        (el.className ? "." + el.className.trim().split(/\s+/).join(".") : ""),
+      "| ~chars:",
+      el.innerHTML.length,
+    );
+  });
+
+  console.log(
+    "\n=== Elements with substantial content (>500 chars, excluding #header/.lp-nav) ===",
+  );
+  Array.from(document.body.querySelectorAll("*"))
+    .filter(function (el) {
+      var skip = ["SCRIPT", "STYLE", "HEAD"];
+      if (skip.indexOf(el.tagName) > -1) return false;
+      if (
+        el.closest("#header") ||
+        el.closest(".lp-nav") ||
+        el.closest(".lp-breadcrumb")
+      )
+        return false;
+      return el.innerHTML.length > 500 && el.children.length > 0;
+    })
+    .slice(0, 8)
+    .forEach(function (el) {
+      console.log(
+        el.tagName +
+          (el.id ? "#" + el.id : "") +
+          (el.className
+            ? "." + el.className.trim().split(/\s+/).join(".")
+            : ""),
+        "| ~chars:",
+        el.innerHTML.length,
+      );
+    });
+})();
+VM52:17 === Smarty wrapper candidates ===
+VM52:21  FOUND #content | DIV#content | children: 1 | ~chars: 32164
+VM52:21  FOUND #main-content | MAIN#main-content | children: 1 | ~chars: 32188
+VM52:21  FOUND main | MAIN#main-content | children: 1 | ~chars: 32188
+VM52:38 
+=== Body's direct children (top-level structure) ===
+VM52:40 A#lp-skip-nav.lp-skip-link | ~chars: 20
+VM52:40 A#nav-skip-link | ~chars: 20
+VM52:40 HEADER#header | ~chars: 6352
+VM52:40 MAIN#main-content | ~chars: 32188
+VM52:40 FOOTER#footer.noprint | ~chars: 107
+VM52:40 DIV#LeafSession_dialog | ~chars: 395
+VM52:40 DIV#lpInlinePanel.lp-inline-panel | ~chars: 558
+VM52:49 
+=== Elements with substantial content (>500 chars, excluding #header/.lp-nav) ===
+VM52:66 MAIN#main-content | ~chars: 32188
+VM52:66 DIV#content | ~chars: 32164
+VM52:66 DIV#bodyarea | ~chars: 32139
+VM52:66 DIV#lp-root.lp | ~chars: 21135
+VM52:66 MAIN#lp-main | ~chars: 9902
+VM52:66 SECTION.section.section-alt | ~chars: 1284
+VM52:66 DIV.wrap | ~chars: 1240
+VM52:66 DIV.stats | ~chars: 790
+undefined
