@@ -1,11 +1,15 @@
-console.log(
-  "lpSwapHost hidden?",
-  document.getElementById("lpSwapHost").hasAttribute("hidden"),
-);
-console.log(
-  "lpSwapHost innerHTML length:",
-  document.getElementById("lpSwapHost").innerHTML.length,
-);
+leaf_nav_v2.js:309 [LP Nav] Stylesheet injected: /platform/designs/files/leaf_nav.css
+/platform/designs/report.php?a=launchpad_v2#impact:632 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
+leaf_nav_v2.js:813 [LP Router] router() hash: #impact key: impact
+leaf_nav_v2.js:752 [LP Router] loadView: impact → /platform/designs/report.php?a=impact
+leaf_nav_v2.js:665 [LP Router] showSwapView complete — lpSwapHost id now: main-content hidden? false
+leaf_nav_v2.js:570 [LP Router] mountContent: host found — main-content hidden? false
+leaf_nav_v2.js:502 [LP Router] Re-executed external script: https://leaf.va.gov/platform/designs/files/leaf_nav.js
+leaf_nav_v2.js:510 [LP Router] Re-executed inline script (144 chars)
+leaf_nav_v2.js:502 [LP Router] Re-executed external script: https://leaf.va.gov/platform/designs/files/leaf_breadcrumb.js
+leaf_nav_v2.js:510 [LP Router] Re-executed inline script (4456 chars)
+leaf_nav_v2.js:795 [LP Router] View loaded: Our Impact
+console.log("lp-main el:", document.getElementById("lp-main"));
 console.log(
   "lp-main hidden?",
   document.getElementById("lp-main")
@@ -13,15 +17,21 @@ console.log(
     : "NOT FOUND",
 );
 console.log(
-  "lp-main id now:",
+  "lp-main display:",
   document.getElementById("lp-main")
-    ? document.getElementById("lp-main").id
-    : "NOT FOUND — probably reassigned",
+    ? getComputedStyle(document.getElementById("lp-main")).display
+    : "NOT FOUND",
 );
-console.log("main-content el:", document.getElementById("main-content"));
-VM216:1 lpSwapHost hidden? true
-VM216:5 lpSwapHost innerHTML length: 0
-VM216:9 lp-main hidden? NOT FOUND
-VM216:15 lp-main id now: NOT FOUND — probably reassigned
-VM216:21 main-content el: <main id=​"main-content">​…​</main>​
+console.log("nav count:", document.querySelectorAll(".lp-nav").length);
+console.log(
+  "swap host hidden?",
+  document.querySelector("[data-lp-swap-host]")
+    ? document.querySelector("[data-lp-swap-host]").hasAttribute("hidden")
+    : "NOT FOUND",
+);
+VM123:1 lp-main el: <main id=​"lp-main" tabindex=​"-1">​…​</main>​
+VM123:2 lp-main hidden? false
+VM123:8 lp-main display: block
+VM123:14 nav count: 2
+VM123:15 swap host hidden? false
 undefined
