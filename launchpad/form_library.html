@@ -1,0 +1,558 @@
+<!-- Dependencies not loaded by default on programmer pages -->
+<script src="https://leaf.va.gov/app/libs/js/dompurify/dompurify.min.js"></script>
+<script src="https://leaf.va.gov/platform/designs/js/LeafPreview.js"></script>
+
+<style>
+/* ── lf-scope: Form Library chrome ──────────────────────────────────────── */
+.lf-scope {
+  --lf-accent:        #005ea2;
+  --lf-accent-strong: #004a82;
+  --lf-blue-soft:     #d9e8f6;
+  --lf-blue-mid:      #aacdec;
+  --lf-blue-deep:     #8fb8db;
+  --lf-bg:            #f3f3f3;
+  --lf-panel:         #ffffff;
+  --lf-border:        #cfd7e3;
+  --lf-text:          #0f172a;
+  --lf-muted:         #475569;
+  --lf-warning-bg:    #fff8e1;
+  --lf-shadow:        0 4px 16px rgba(15,23,42,0.09);
+  --lf-radius:        12px;
+
+  font-family: 'Source Sans 3', 'Source Sans Pro', sans-serif;
+  color: var(--lf-text);
+  background: var(--lf-bg);
+  padding: 0 0.75rem 2rem;
+  box-sizing: border-box;
+}
+
+.lf-scope *, .lf-scope *::before, .lf-scope *::after {
+  box-sizing: border-box;
+}
+
+/* ── Top bar ─────────────────────────────────────────────────────────────── */
+.lf-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--lf-border);
+  margin-bottom: 1.25rem;
+}
+
+.lf-title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 800 !important;
+  color: var(--lf-accent) !important;
+  line-height: 1.2;
+  font-family: 'Source Sans 3', 'Source Sans Pro', sans-serif !important;
+}
+
+.lf-contribute-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--lf-accent);
+  color: #fff !important;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+  white-space: nowrap;
+}
+
+.lf-contribute-btn:hover {
+  background: var(--lf-accent-strong);
+  box-shadow: 0 4px 12px rgba(0,94,162,0.25);
+  color: #fff;
+  text-decoration: none;
+}
+
+.lf-contribute-btn:focus-visible {
+  outline: 3px solid var(--lf-accent);
+  outline-offset: 3px;
+}
+
+.lf-contribute-btn img {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
+}
+
+/* ── Body layout ─────────────────────────────────────────────────────────── */
+.lf-body {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+/* ── Sidebar ─────────────────────────────────────────────────────────────── */
+.lf-sidebar {
+  flex: 0 0 220px;
+  min-width: 0;
+  background: var(--lf-panel);
+  border: 1px solid var(--lf-border);
+  border-radius: var(--lf-radius);
+  box-shadow: var(--lf-shadow);
+  padding: 1rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lf-sidebar-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--lf-muted);
+  padding: 0.25rem 0.5rem;
+}
+
+.lf-sidebar-divider {
+  border: none;
+  border-top: 1px solid var(--lf-border);
+  margin: 0.25rem 0;
+}
+
+/* Filter buttons */
+.lf-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--lf-text);
+  font-size: 0.9rem;
+  font-weight: 500 !important;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.lf-filter-btn img {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  opacity: 0.75;
+}
+
+.lf-filter-btn:hover {
+  background: var(--lf-blue-soft);
+  border-color: var(--lf-blue-mid);
+}
+
+.lf-filter-btn.active {
+  background: var(--lf-accent);
+  border-color: var(--lf-accent-strong);
+  color: #fff;
+}
+
+.lf-filter-btn.active img {
+  filter: brightness(0) invert(1);
+  opacity: 1;
+}
+
+.lf-filter-btn:focus-visible {
+  outline: 3px solid var(--lf-accent);
+  outline-offset: 2px;
+}
+
+/* ── Main content ────────────────────────────────────────────────────────── */
+.lf-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.lf-search-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--lf-muted);
+  margin-bottom: 0.4rem;
+}
+
+#searchContainer {
+  margin-bottom: 1rem;
+}
+
+.lf-grid-card {
+  background: var(--lf-panel);
+  border: 1px solid var(--lf-border);
+  border-radius: var(--lf-radius);
+  box-shadow: var(--lf-shadow);
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+/* ── Info note ───────────────────────────────────────────────────────────── */
+.lf-info-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  background: var(--lf-blue-soft);
+  border-left: 4px solid var(--lf-accent);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  color: var(--lf-text);
+  line-height: 1.5;
+}
+
+.lf-info-note-icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  color: var(--lf-accent);
+}
+
+/* Featured row highlight */
+.lf-featured-row {
+  background-color: var(--lf-warning-bg) !important;
+}
+
+/* ── Mobile ──────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .lf-body { flex-direction: column; }
+
+  .lf-sidebar {
+    flex: none;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0.6rem 0.75rem;
+    overflow-x: auto;
+    border-radius: 10px;
+  }
+
+  .lf-sidebar-label,
+  .lf-sidebar-divider { display: none; }
+
+  .lf-filter-btn {
+    flex: 0 0 auto;
+    width: auto;
+    padding: 0.35rem 0.85rem;
+    border: 1px solid var(--lf-border);
+    background: var(--lf-panel);
+    border-radius: 999px;
+    font-size: 0.85rem;
+  }
+
+  .lf-filter-btn img { display: none; }
+
+  .lf-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lf-filter-btn,
+  .lf-contribute-btn { transition: none; }
+}
+</style>
+
+<script>
+const LF_BASE        = 'https://leaf.va.gov';
+const LF_LIBRARY_URL = LF_BASE + '/LEAF/library/';
+const LF_ICONS       = LF_BASE + '/app/libs/dynicons/svg/';
+const LF_PLATFORM    = LF_BASE + '/platform/';
+
+/* ── Dialog ──────────────────────────────────────────────────────────────── */
+function buildDialog() {
+    document.body.insertAdjacentHTML('beforeend', `
+        <div id="lfDialog" style="display:none">
+            <div id="lfDialogContent"></div>
+            <span id="lfDialogLoad" style="display:none">Loading…</span>
+            <div style="display:none">
+                <button id="lfDialogSave"></button>
+                <button id="lfDialogCancel"></button>
+            </div>
+        </div>`
+    );
+    return new dialogController(
+        'lfDialog', 'lfDialogContent', 'lfDialogLoad',
+        'lfDialogSave', 'lfDialogCancel'
+    );
+}
+
+/* ── Preview ─────────────────────────────────────────────────────────────── */
+function showPreview(recordID) {
+    var formData = grid.getDataByRecordID(recordID);
+    var title = formData.title;
+    var authors = '';
+    if (formData.s1.id9  != undefined && formData.s1.id9  != '') authors = 'By ' + formData.s1.id9;
+    if (formData.s1.id10 != undefined && formData.s1.id10 != '') authors += ', ' + formData.s1.id10;
+    if (formData.s1.id11 != undefined && formData.s1.id11 != '') authors += '<br />' + formData.s1.id11;
+
+    dialog_simple.setTitle('Preview: ' + title);
+    dialog_simple.setContent(
+        '<div style="font-size:1.1rem;font-weight:700;margin-bottom:0.25rem">' + title + '</div>' +
+        '<div style="color:#475569;margin-bottom:1.25rem">' + authors + '</div>' +
+        '<div id="preview"></div>'
+    );
+    dialog_simple.show();
+
+    preview = new LeafPreview('preview');
+    preview.setLeafDomain(LF_BASE + '/');
+    preview.load(recordID, 1, 0);
+}
+
+/* ── Filters ─────────────────────────────────────────────────────────────── */
+function applyFilter(search, btnEl) {
+    if (filter_id === search) return;
+    filter_id = search;
+    document.querySelectorAll('.lf-filter-btn').forEach(el => el.classList.remove('active'));
+    btnEl.classList.add('active');
+    query.updateDataTerm('data', '3', 'LIKE', '*' + search + '*');
+    query.execute();
+    const sr = document.getElementById('filterStatus');
+    if (sr) sr.setAttribute('aria-label',
+        'Filtering results by ' + (search || 'All Business Lines'));
+}
+
+async function getBusLineOptions() {
+    const res = await fetch(LF_LIBRARY_URL + 'api/form/indicator/list');
+    const list = await res.json();
+    const ind = list.find(i => i.indicatorID === 3);
+    let opts = (ind?.format ?? '').split('\n').slice(1);
+    return opts.filter(
+        o => o.toLowerCase().trim() !== 'other' && o.toLowerCase().trim() !== ''
+    ).toSorted();
+}
+
+function addBusLineFilters(options = []) {
+    const icons = [
+        'applications-office.svg',  'edit-paste.svg',
+        'x-office-spreadsheet.svg', 'x-office-presentation.svg',
+        'system-users.svg',         'network-idle.svg',
+        'package-x-generic.svg',    'application-x-executable.svg',
+    ];
+    const menuEl = document.getElementById('menu');
+    if (!menuEl) return;
+
+    options.forEach((o, idx) => {
+        const label = o.toLowerCase().startsWith('clinic profile') ? 'Clinic Profile' : o;
+
+        const img = document.createElement('img');
+        img.src = LF_ICONS + (icons[idx] ?? 'document-open.svg');
+        img.alt = '';
+        img.setAttribute('aria-hidden', 'true');
+
+        const btn = document.createElement('button');
+        btn.classList.add('lf-filter-btn');
+        btn.type = 'button';
+        btn.title = label;
+        btn.appendChild(img);
+        btn.appendChild(document.createTextNode(label));
+        btn.addEventListener('click', () => applyFilter(o, btn));
+
+        menuEl.appendChild(btn);
+    });
+}
+
+/* ── Main ────────────────────────────────────────────────────────────────── */
+async function main() {
+    dialog_simple = buildDialog();
+    $('#lfDialog').dialog({
+        width: 600,
+        maxHeight: Math.floor(window.innerHeight * 0.75),
+        open: function() {
+            // Make the content area scrollable so form preview doesn't get clipped
+            $(this).css({ 'overflow-y': 'auto', 'max-height': Math.floor(window.innerHeight * 0.65) + 'px' });
+        }
+    });
+
+    const buslineOptions = await getBusLineOptions();
+    addBusLineFilters(buslineOptions);
+
+    query = new LeafFormQuery();
+    query.setRootURL(LF_LIBRARY_URL);
+    query.onSuccess(function (res) {
+        data = res;
+        let tData = [];
+        for (let i in res) tData.push(res[i]);
+        tData.sort((a, b) => {
+            if (a.s1.id53 == 'Yes' && b.s1.id53 != 'Yes') return -1;
+            if (a.s1.id53 != 'Yes' && b.s1.id53 == 'Yes') return  1;
+            return 0;
+        });
+
+        grid = new LeafFormGrid('forms', { readOnly: true });
+        grid.setRootURL(LF_PLATFORM);
+        grid.hideIndex();
+        grid.importQueryResult(tData);
+        grid.setHeaders([
+            {
+                name: 'Form', indicatorID: 'form', editable: false, sortable: true,
+                callback: function (d, blob) {
+                    if (blob[d.index].s1.id53 == 'Yes') {
+                        $('#' + grid.getPrefixID() + 'tbody_tr' + d.recordID)
+                            .addClass('lf-featured-row');
+                    }
+                    $('#' + d.cellContainerID).html(
+                        '<span style="font-weight:bold">' + blob[d.index].title + '</span>'
+                    );
+                }
+            },
+            { name: 'Description', indicatorID: 5, editable: false, sortable: true },
+            {
+                name: 'Author(s)', indicatorID: 'authors', editable: false, sortable: true,
+                callback: function (d, blob) {
+                    var a = '';
+                    if (blob[d.index].s1.id9  != undefined && blob[d.index].s1.id9  != '') a = blob[d.index].s1.id9;
+                    if (blob[d.index].s1.id10 != undefined && blob[d.index].s1.id10 != '') a += ', ' + blob[d.index].s1.id10;
+                    $('#' + d.cellContainerID).html(a);
+                }
+            },
+            {
+                name: 'Workflow Example', indicatorID: 6, editable: false, sortable: false,
+                callback: function (d, blob) {
+                    if (blob[d.index].s1.id6 != undefined && blob[d.index].s1.id6 != '') {
+                        var imgURL = LF_LIBRARY_URL + 'image.php?form=' +
+                            blob[d.index].recordID + '&id=6&series=1&file=0';
+                        $('#' + d.cellContainerID).html(
+                            '<img id="wfImg_' + blob[d.index].recordID + '" src="' + imgURL +
+                            '" alt="Screenshot of workflow" ' +
+                            'style="border:1px solid #cfd7e3;border-radius:6px;max-width:150px;cursor:pointer" />'
+                        );
+                        $('#wfImg_' + blob[d.index].recordID).on('click', function () {
+                            dialog_simple.setTitle(blob[d.index].title + ' (example workflow)');
+                            dialog_simple.setContent(
+                                '<a href="' + imgURL + '" target="_blank">' +
+                                '<img src="' + imgURL + '" alt="Screenshot of workflow" ' +
+                                'style="cursor:zoom-in;border:1px solid #cfd7e3;border-radius:6px;width:540px" /></a>'
+                            );
+                            dialog_simple.show();
+                        });
+                    }
+                }
+            },
+            {
+                name: 'Preview', indicatorID: 'preview', editable: false, sortable: false,
+                callback: function (d, blob) {
+                    $('#' + d.cellContainerID).html(
+                        '<button type="button" class="buttonNorm" onclick="showPreview(' +
+                        blob[d.index].recordID + ')">' +
+                        '<img src="../dynicons/?img=edit-find.svg&w=32" alt="" /> Preview</button>'
+                    );
+                }
+            }
+        ]);
+
+        grid.setPostRenderFunc(function () {
+            $('#' + grid.getPrefixID() + 'table > tbody > tr > td').css({
+                'border-right': '0px', 'border-left': '0px'
+            });
+        });
+        grid.renderBody();
+    });
+
+    var leafSearch = new LeafFormSearch('searchContainer');
+    leafSearch.setRootURL(LF_PLATFORM);
+    leafSearch.setSearchFunc(function (search) {
+        query.clearTerms();
+        query.importQuery({
+            terms: [
+                { id: 'categoryID',   operator: '=',    match: 'form_68aa4' },
+                { id: 'dependencyID', indicatorID: '9', operator: '=', match: '1' },
+                { id: 'deleted',      operator: '=',    match: 0 }
+            ],
+            getData: ['3','5','4','1','9','10','11','6','53']
+        });
+        query.addDataTerm('data', '0', 'LIKE', '*' + search + '*');
+        query.execute();
+    });
+
+    leafSearch.init();
+    $('#' + leafSearch.getPrefixID() + 'advancedSearchButton').css('display', 'none');
+}
+
+let filter_id = '';
+var query, grid, preview, data, dialog_simple;
+
+$(function () { main(); });
+</script>
+
+<!-- ── Markup ─────────────────────────────────────────────────────────────── -->
+<div class="lf-scope">
+
+    <!-- Top bar: title + CTA -->
+    <div class="lf-topbar">
+        <h2 class="lf-title">LEAF Form Library</h2>
+        <a class="lf-contribute-btn"
+           href="https://leaf.va.gov/LEAF/library/?a=newform"
+           target="_blank" rel="noopener noreferrer">
+            <img src="https://leaf.va.gov/app/libs/dynicons/svg/list-add.svg"
+                 alt="" aria-hidden="true" />
+            Contribute My Form
+        </a>
+    </div>
+
+    <!-- Info note -->
+    <div class="lf-info-note" role="note">
+        <svg class="lf-info-note-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span>
+            This is a read-only preview of the Form Library. If you're a site administrator,
+            you can access this page directly from the <strong>Admin Panel</strong>,
+            where you can preview and import any form below into your site in one click.
+        </span>
+    </div>
+
+    <!-- Body -->
+    <div class="lf-body">
+
+        <!-- Sidebar -->
+        <nav class="lf-sidebar" aria-label="Filter forms by business line">
+            <span style="position:absolute;color:transparent"
+                  aria-atomic="true" aria-live="assertive"
+                  id="filterStatus" role="status"></span>
+
+            <div class="lf-sidebar-label">Filter by Business Line</div>
+            <hr class="lf-sidebar-divider" />
+
+            <button type="button" class="lf-filter-btn active"
+                    onclick="applyFilter('', this)">
+                <img src="https://leaf.va.gov/app/libs/dynicons/svg/Accessories-dictionary.svg"
+                     alt="" aria-hidden="true" />
+                All Business Lines
+            </button>
+
+            <!-- Dynamic filters injected here -->
+            <div id="menu"></div>
+        </nav>
+
+        <!-- Content -->
+        <div class="lf-content">
+            <div class="lf-search-label">Search Form Library</div>
+            <div id="searchContainer"></div>
+            <div class="lf-grid-card">
+                <div style="display:flex;justify-content:flex-end;align-items:center;gap:0.5rem;margin-bottom:0.6rem;font-size:0.8rem;color:var(--lf-muted);">
+                    <span style="display:inline-block;width:14px;height:14px;background:#fff8e1;border:1px solid #e8d9a0;border-radius:3px;flex-shrink:0;"></span>
+                    Newly added to the library
+                </div>
+                <div id="forms"></div>
+            </div>
+        </div>
+
+    </div><!-- /.lf-body -->
+
+    <div id="previewShim" style="display:none"></div>
+</div><!-- /.lf-scope -->
