@@ -1,3 +1,6 @@
-leaf_nav_v2.js:640 Uncaught SyntaxError: Unexpected token ')' (at leaf_nav_v2.js:640:72)
-/platform/designs/report.php?a=launchpad_v2#impact:283 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
-/platform/designs/report.php?a=launchpad_v2#impact:632 [Intervention] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/s/materialsymbolsoutlined/v354/kJF4BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZZLsYEpzC_1ver5Y0J1Llf.woff2
+leaf_nav.js:673 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
+VM768:8 [LEAF Breadcrumb Debug] window.LEAF_BREADCRUMB = [{"label":"What is LEAF?","href":"/platform/?a=what-is-leaf"},{"label":"Our Impact"}]
+VM768:17 [LEAF Breadcrumb Debug] FAIL — #lp-breadcrumb-host not found in DOM
+eval @ VM768:17
+VM768:36 [LEAF Breadcrumb Debug] OK — #lpNav found
+VM768:70 [LEAF Breadcrumb Debug] OK — leaf_breadcrumb.js script tag found in DOM
