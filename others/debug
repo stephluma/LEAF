@@ -1,25 +1,9 @@
-ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252  GET https://leaf.va.gov/platform/service_requests_launchpad/api/form/query?q[0][id]=1&q[0][operator]==&q[0][operand]=1&indicators[]=REPLACE_ME_LINK_NAME_INDICATOR_ID&indicators[]=REPLACE_ME_LINK_URL_INDICATOR_ID&format=json 500 (Internal Server Error)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-fetch @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
-wa @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:277
-fetchLeafTeamLinks @ leaf_nav.js:771
-inject @ leaf_nav.js:1012
+/platform/service_requests_launchpad/api/form/query?q[0][id]=1&q[0][operator]==&q[0][operand]=1&indicators[]=REPLACE_ME_LINK_NAME_INDICATOR_ID&indicators[]=REPLACE_ME_LINK_URL_INDICATOR_ID&format=json:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)
 leaf_nav.js:813 [LP Nav] LEAF Team links fetch failed: HTTP 500
 (anonymous) @ leaf_nav.js:813
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-Kb @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:279
-Za.<computed> @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-then @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
-fetchLeafTeamLinks @ leaf_nav.js:812
-inject @ leaf_nav.js:1012
 ideas_v2.js:110 IdeaPortal debug: [resolveVoterEmail] orgchart API resolved: Stephanie.Lumagui@va.gov
-ideas_v2.js:110 IdeaPortal debug: Fetch duration (ms) 682
+ideas_v2.js:110 IdeaPortal debug: Fetch duration (ms) 502
 
-🔬 IDEA PORTAL DEBUG
-▼
 🌐 DOM readyState: interactive
 📦 LeafFormQuery: available ✅
 👤 userID: oitauslumags
