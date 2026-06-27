@@ -1,10 +1,23 @@
-console.log(
-  "userID:",
-  typeof userID !== "undefined" ? userID : "NOT SET",
-  "| CSRFToken:",
-  typeof CSRFToken !== "undefined" ? CSRFToken.slice(0, 8) + "..." : "NOT SET",
-  "| leafIdeaPortal:",
-  JSON.stringify(window.leafIdeaPortal || null),
-);
-VM113:1 userID: NOT SET | CSRFToken: 01e8f393... | leafIdeaPortal: null
-undefined
+$.ajax({
+  type: "GET",
+  url: "./api/form/query",
+  data: {
+    q: JSON.stringify({
+      terms: [
+        { id: "categoryID", operator: "=", match: "form_57e89", gate: "AND" },
+        { id: "deleted", operator: "=", match: 0, gate: "AND" },
+      ],
+      joins: [],
+      getData: ["2", "3"],
+    }),
+    "x-filterData": "recordID,s1",
+  },
+  dataType: "json",
+  cache: false,
+  success: function (res) {
+    var first = Object.values(res)[0];
+    console.log("Sample vote s1:", JSON.stringify(first?.s1));
+  },
+});
+{readyState: 1, getResponseHeader: ƒ, getAllResponseHeaders: ƒ, setRequestHeader: ƒ, overrideMimeType: ƒ, …}
+VM118:19 Sample vote s1: {"id2":"5","id3":"oitauslumags"}
