@@ -1,44 +1,10 @@
-index.php?a=printview&recordID=1:2375 🌿 LEAF Ideas Debug — print_form_ideas.tpl
-index.php?a=printview&recordID=1:2376 Smarty vars: {canWrite: '1', is_admin: '1', userID: 'oitauslumags', initiatorID: '', submitted: '1771716826', …}
-index.php?a=printview&recordID=1:2379 #formcontent exists in DOM: false
-index.php?a=printview&recordID=1:2439 Uncaught ReferenceError: recID is not defined
-    at index.php?a=printview&recordID=1:2439:44
-(anonymous) @ index.php?a=printview&recordID=1:2439
-ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:386  GET https://leaf.va.gov/platform/ideas/api/form/1/accessible?_=1782592730469 400 (Bad Request)
-He @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:386
-Va.t.send @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:393
-send @ jquery.min.js:2
-ajax @ jquery.min.js:2
-pvDebug @ index.php?a=printview&recordID=1:2421
-(anonymous) @ index.php?a=printview&recordID=1:2435
-index.php?a=printview&recordID=1:2429 api/form/accessible failed: 400 "Controller is undefined."
-error @ index.php?a=printview&recordID=1:2429
-c @ jquery.min.js:2
-fireWith @ jquery.min.js:2
-l @ jquery.min.js:2
-(anonymous) @ jquery.min.js:2
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-handleEventCallback @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:425
-L @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:398
-C.t.<computed> @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:398
-XMLHttpRequest.send
-He @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:386
-Va.t.send @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:393
-send @ jquery.min.js:2
-ajax @ jquery.min.js:2
-pvDebug @ index.php?a=printview&recordID=1:2421
-(anonymous) @ index.php?a=printview&recordID=1:2435
-index.php?a=printview&recordID=1:2412 Raw getprintindicator response (indicatorID 5):                                                                     <span class="printResponse" id="data_5_1">
-                Test Idea
-            </span>
-            
-            <script>
-                if(typeof enableUserContentLinks === 'function') {
-                    const element = document.getElementById("data_5_1");
-                    enableUserContentLinks(element);
-                }
-            </script>
-                                                                                                                                        
-index.php?a=printview&recordID=1:2394 api/form/query result for record: {recordID: 1, date: 1771716789, serviceID: 0, userID: 'oitauslumags', title: 'Test', …}
-index.php?a=printview&recordID=1:2396 categoryIDsUnabridged: ['form_ae642']
-index.php?a=printview&recordID=1:2397 categoryNamesUnabridged: ['Idea Submission']
+console.log(
+  "userID:",
+  typeof userID !== "undefined" ? userID : "NOT SET",
+  "| CSRFToken:",
+  typeof CSRFToken !== "undefined" ? CSRFToken.slice(0, 8) + "..." : "NOT SET",
+  "| leafIdeaPortal:",
+  JSON.stringify(window.leafIdeaPortal || null),
+);
+VM113:1 userID: NOT SET | CSRFToken: 01e8f393... | leafIdeaPortal: null
+undefined
