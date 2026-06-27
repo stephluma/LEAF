@@ -6,7 +6,6 @@ $.ajax({
       terms: [
         { id: "categoryID", operator: "=", match: "form_57e89", gate: "AND" },
         { id: "deleted", operator: "=", match: 0, gate: "AND" },
-        { id: "data", operator: "=", match: "1" },
       ],
       joins: [],
       getData: ["2", "3"],
@@ -16,11 +15,16 @@ $.ajax({
   dataType: "json",
   cache: false,
   success: function (res) {
+    var forIdea1 = Object.values(res).filter(function (v) {
+      return String(v.s1?.id2) === "1";
+    });
     console.log(
-      "All id3 values for idea 1:",
-      Object.values(res).map((v) => v.s1?.id3),
+      "Votes for idea 1:",
+      forIdea1.map(function (v) {
+        return { id2: v.s1?.id2, id3: v.s1?.id3 };
+      }),
     );
   },
 });
 {readyState: 1, getResponseHeader: ƒ, getAllResponseHeaders: ƒ, setRequestHeader: ƒ, overrideMimeType: ƒ, …}
-VM63:19 All id3 values for idea 1: [undefined]
+VM61:21 Votes for idea 1: (2) [{…}, {…}]
