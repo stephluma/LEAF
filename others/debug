@@ -1,14 +1,21 @@
-idea_v2.js:1931 IdeaPortal: jQuery is loaded but no longer required.
-initPortal @ idea_v2.js:1931
-idea_v2.js:99 IdeaPortal debug: Fetch duration (ms) 244
-idea_v2.js:99 IdeaPortal debug: Render duration (ms) 1
-idea_v2.js:99 IdeaPortal debug: Counts {ideas: 0, votes: 3}
+report.php?a=v3:2202 [Intervention] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://fonts.gstatic.com/s/materialsymbolsoutlined/v354/kJF4BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzazHD_dY43zj-jCxv3fzvRNU22ZZLsYEpzC_1ver5Y0.woff2
+/platform/ideas/api/orgchart/employee/search?q=userName:oitauslumags&noLimit=0&_=1782587349674:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+ideas_v2.js:1301 [resolveVoterEmail] Could not resolve email; falling back to userID: oitauslumags
+resolveVoterEmail @ ideas_v2.js:1301
+/platform/service_requests_launchpad/api/form/query?q[0][id]=1&q[0][operator]==&q[0][operand]=1&indicators[]=REPLACE_ME_LINK_NAME_INDICATOR_ID&indicators[]=REPLACE_ME_LINK_URL_INDICATOR_ID&format=json:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+leaf_nav.js:813 [LP Nav] LEAF Team links fetch failed: HTTP 500
+(anonymous) @ leaf_nav.js:813
+ideas_v2.js:110 IdeaPortal debug: Fetch duration (ms) 318
 
+🔬 IDEA PORTAL DEBUG
+▼
 🌐 DOM readyState: interactive
 📦 LeafFormQuery: available ✅
 👤 userID: oitauslumags
+📧 email candidates: [0] (not rendered) | [1] (not rendered) | [2] (not rendered)
+🗳️ resolvedVoterEmail: "oitauslumags" (no @ — check)
 🔧 init fired: yes ✅
-✅ Ideas query: success
+✅ Ideas query: success — 0 records
 ✅ Votes query: success — 3 records
 📊 Stats → total: 0 | implemented: 0 | votes: 3
-📋 Rows rendered → All: 0 | Top10: 0 | Mine: 16
+📋 Rows rendered → All: 0 | Top10: 0 | Mine: 0
