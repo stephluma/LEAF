@@ -1,6 +1,26 @@
-index.php?a=printview&recordID=21&iframe:1136 [pvIdeaVotes] error: Error: Unexpected response: "26"
-    at index.php?a=printview&recordID=21&iframe:1132:23
-    at Object.dtAWF [as aWF] (ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252:107)
-    at Object.Jb (ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:279:37)
-    at Za.<computed> (ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274:84)
-(anonymous) @ index.php?a=printview&recordID=21&iframe:1136
+$.ajax({
+  type: "GET",
+  url: "./api/form/query",
+  data: {
+    q: JSON.stringify({
+      terms: [
+        { id: "categoryID", operator: "=", match: "form_57e89", gate: "AND" },
+        { id: "deleted", operator: "=", match: 0, gate: "AND" },
+        { id: "data", operator: "=", match: "1" },
+      ],
+      joins: [],
+      getData: ["2", "3"],
+    }),
+    "x-filterData": "recordID,s1",
+  },
+  dataType: "json",
+  cache: false,
+  success: function (res) {
+    console.log(
+      "All id3 values for idea 1:",
+      Object.values(res).map((v) => v.s1?.id3),
+    );
+  },
+});
+{readyState: 1, getResponseHeader: ƒ, getAllResponseHeaders: ƒ, setRequestHeader: ƒ, overrideMimeType: ƒ, …}
+VM63:19 All id3 values for idea 1: [undefined]
