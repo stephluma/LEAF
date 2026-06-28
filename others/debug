@@ -1,30 +1,29 @@
-$.ajax({
-  type: "GET",
-  url: "./api/form/query",
-  data: {
-    q: JSON.stringify({
-      terms: [
-        { id: "categoryID", operator: "=", match: "form_57e89", gate: "AND" },
-        { id: "deleted", operator: "=", match: 0, gate: "AND" },
-      ],
-      joins: [],
-      getData: ["2", "3"],
-    }),
-    "x-filterData": "recordID,s1",
-  },
-  dataType: "json",
-  cache: false,
-  success: function (res) {
-    var forIdea1 = Object.values(res).filter(function (v) {
-      return String(v.s1?.id2) === "1";
-    });
-    console.log(
-      "Votes for idea 1:",
-      forIdea1.map(function (v) {
-        return { id2: v.s1?.id2, id3: v.s1?.id3 };
-      }),
-    );
-  },
-});
-{readyState: 1, getResponseHeader: ƒ, getAllResponseHeaders: ƒ, setRequestHeader: ƒ, overrideMimeType: ƒ, …}abort: ƒ (e)always: ƒ ()catch: ƒ (e)done: ƒ ()fail: ƒ ()getAllResponseHeaders: ƒ ()getResponseHeader: ƒ (e)overrideMimeType: ƒ (e)pipe: ƒ ()progress: ƒ ()promise: ƒ (e)readyState: 4responseJSON: {9: {…}, 18: {…}, 19: {…}, 20: {…}, 25: {…}, 26: {…}, 27: {…}, 28: {…}}responseText: "{\"9\":{\"recordID\":9,\"s1\":{\"id2\":\"5\",\"id3\":\"oitauslumags\"}},\"18\":{\"recordID\":18,\"s1\":{\"id2\":\"1\",\"id3\":\"oitauslumags\"}},\"19\":{\"recordID\":19,\"s1\":{\"id2\":\"1\",\"id3\":\"vhahongardns\"}},\"20\":{\"recordID\":20,\"s1\":{\"id2\":\"11\",\"id3\":\"Stephanie.Lumagui@va.gov\"}},\"25\":{\"recordID\":25,\"s1\":{\"id2\":\"15\",\"id3\":\"Stephanie.Lumagui@va.gov\"}},\"26\":{\"recordID\":26,\"s1\":{\"id2\":\"21\",\"id3\":\"oitauslumags\"}},\"27\":{\"recordID\":27,\"s1\":{\"id2\":\"23\",\"id3\":\"oitauslumags\"}},\"28\":{\"recordID\":28,\"s1\":{\"id2\":\"23\",\"id3\":\"Stephanie.Lumagui@va.gov\"}}}"setRequestHeader: ƒ (e,t)state: ƒ ()status: 200statusCode: ƒ (e)statusText: "OK"then: ƒ (t,n,r)[[Prototype]]: Object
-VM61:21 Votes for idea 1: (2) [{…}, {…}]0: id2: "1"id3: "oitauslumags"[[Prototype]]: Object1: id2: "1"id3: "vhahongardns"[[Prototype]]: Objectlength: 2[[Prototype]]: Array(0)at: ƒ at()concat: ƒ concat()constructor: ƒ Array()copyWithin: ƒ copyWithin()entries: ƒ entries()every: ƒ every()fill: ƒ fill()filter: ƒ filter()find: ƒ find()findIndex: ƒ findIndex()findLast: ƒ findLast()findLastIndex: ƒ findLastIndex()flat: ƒ flat()flatMap: ƒ flatMap()forEach: ƒ forEach()includes: ƒ includes()indexOf: ƒ indexOf()join: ƒ join()keys: ƒ keys()lastIndexOf: ƒ lastIndexOf()length: 0map: ƒ map()pop: ƒ pop()push: ƒ push()reduce: ƒ reduce()reduceRight: ƒ reduceRight()reverse: ƒ reverse()shift: ƒ shift()slice: ƒ slice()some: ƒ some()sort: ƒ sort()splice: ƒ splice()toLocaleString: ƒ toLocaleString()toReversed: ƒ toReversed()toSorted: ƒ toSorted()toSpliced: ƒ toSpliced()toString: ƒ toString()unshift: ƒ unshift()values: ƒ values()with: ƒ with()Symbol(Symbol.iterator): ƒ values()Symbol(Symbol.unscopables): {at: true, copyWithin: true, entries: true, fill: true, find: true, …}[[Prototype]]: Object
+Prompt:
+I need two specific fixes applied to this file. Do not change anything else.
+Fix 1 — Remove the #header/#footer CSS suppression rule.
+Find this in the <style> block:
+css#header, #footer { display: none !important; }
+Replace it with this comment:
+css/* NOTE: #header/#footer suppression intentionally omitted —
+   suppressChrome() in leaf_nav.js handles this when hash-routed.
+   Adding it here bleeds into the outer document via #lpSwapHost. */
+Fix 2 — Add a guard to the window.LEAF_BREADCRUMB assignment.
+Find the breadcrumb script block. It will look something like this (exact label/href values may differ — match whatever is currently in the file):
+html<script>
+  window.LEAF_BREADCRUMB = [
+    { label: 'Resources', href: '...' },
+    { label: 'Idea Portal' }
+  ];
+</script>
+Wrap the assignment in a guard so it only fires when the page is loaded standalone, not when injected via the launchpad hash router. Keep whatever label and href values are already in the file — only add the guard and the comment:
+html<!-- Breadcrumb guard — only render standalone, not when hash-routed.
+     When hash-routed, leaf_nav.js injects its own breadcrumb into #lpSwapHost
+     and leaf_breadcrumb.js is blocklisted from re-execution. -->
+<script>
+  if (!document.getElementById('lpSwapHost')) {
+    window.LEAF_BREADCRUMB = [
+      /* ...existing values unchanged... */
+    ];
+  }
+</script>
+That's all. No other changes.
