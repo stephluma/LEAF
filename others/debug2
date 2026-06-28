@@ -1,123 +1,2022 @@
-designs/#stephanie_test1:281 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
-leaf_nav.js:1253 [LP] Lazy-loading LEAF UI deps for fetched page: (2) ['https://leaf.va.gov/platform/libs/js/jquery/jquery-ui.custom.min.js', 'https://leaf.va.gov/platform/designs/js/dialogController.js']
-ensureLeafUIDeps @ leaf_nav.js:1253
-mountContent @ leaf_nav.js:1561
-(anonymous) @ leaf_nav.js:1680
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-Jb @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:279
-Za.<computed> @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-then @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
-loadView @ leaf_nav.js:1665
-router @ leaf_nav.js:1709
-wireRouter @ leaf_nav.js:1780
-inject @ leaf_nav.js:1083
-leaf_nav.js:1341 [LP] Inline script execution error: Illegal invocation
-(anonymous) @ leaf_nav.js:1341
-reExecuteScripts @ leaf_nav.js:1265
-(anonymous) @ leaf_nav.js:1562
-Promise.then
-mountContent @ leaf_nav.js:1561
-(anonymous) @ leaf_nav.js:1680
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-Jb @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:279
-Za.<computed> @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-then @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
-loadView @ leaf_nav.js:1665
-router @ leaf_nav.js:1709
-wireRouter @ leaf_nav.js:1780
-inject @ leaf_nav.js:1083
+<!--{if $deleted > 0}-->
+    <div style="font-size: 36px"><img src="dynicons/?img=emblem-unreadable.svg&amp;w=96" alt=""
+            style="float: left" /> Notice: This request has been marked as cancelled and will be permanently deleted.<br />
+        <span class="buttonNorm" onclick="restoreRequest(<!--{$recordID|strip_tags}-->)"><img
+                src="dynicons/?img=document-open.svg&amp;w=32" /> Restore request</span>
+    </div><br style="clear: both" />
+    <hr />
+<!--{/if}-->
 
+<!-- Main content area (anything under the heading) -->
+<div id="maincontent">
+    <div id="workflow_body">
+        <!--{if $submitted == 0}-->
+            <div id="progressSidebar" style="border: 1px solid black">
+                <div
+                    style="background-color: #b74141; padding: 8px; margin: 0px; color: white; text-shadow: black 0.1em 0.1em 0.2em; font-weight: bold; text-align: center; font-size: 120%">
+                    Form completion progress</div>
+                <div id="progressControl"
+                    style="padding: 16px; text-align: center; background-color: #ffaeae; font-weight: bold; font-size: 120%">
+                    <div tabIndex="0" id="progressBar" title="Progress Bar"
+                        style="height: 30px; border: 1px solid black; text-align: center; width: 80%; margin: auto">
+                        <div style="width: 100%; line-height: 200%; float: left; font-size: 14px" id="progressLabel"></div>
+                    </div>
+                    <div style="line-height: 30%">
+                        <!-- ie7 workaround -->
+                    </div>
+                </div>
+            </div>
+        <!--{/if}-->
+        <span
+            style="position: absolute; width: 60%; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); border: 0;"
+            aria-atomic="true" aria-live="polite" id="submitStatus" role="status"></span>
+        <div id="submitContent" class="noprint"></div>
+        <div id="workflowcontent"></div>
+    </div>
+    <div id="formcontent">
+        <div
+            style="border: 2px solid black; text-align: center; font-size: 24px; font-weight: bold; background: white; padding: 16px; width: 95%">
+            Loading... <img src="images/largespinner.gif" alt="" /></div>
+    </div>
+</div>
 
-designs/#steph_search:281 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
-leaf_nav.js:1253 [LP] Lazy-loading LEAF UI deps for fetched page: (2) ['https://leaf.va.gov/platform/libs/js/jquery/jquery-ui.custom.min.js', 'https://leaf.va.gov/platform/designs/js/dialogController.js']
-ensureLeafUIDeps @ leaf_nav.js:1253
-mountContent @ leaf_nav.js:1561
-(anonymous) @ leaf_nav.js:1680
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-Jb @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:279
-Za.<computed> @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-then @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
-loadView @ leaf_nav.js:1665
-router @ leaf_nav.js:1709
-wireRouter @ leaf_nav.js:1780
-inject @ leaf_nav.js:1083
-jquery.min.js:2 jQuery.Deferred exception: Illegal invocation TypeError: Illegal invocation
-    at HTMLDocument.eval (eval at <anonymous> (https://leaf.va.gov/platform/designs/files/leaf_nav.js:1333:20), <anonymous>:353:14)
-    at e (https://leaf.va.gov/app/libs/js/jquery/jquery.min.js:2:30038)
-    at t (https://leaf.va.gov/app/libs/js/jquery/jquery.min.js:2:30340) undefined
-S.Deferred.exceptionHook @ jquery.min.js:2
-t @ jquery.min.js:2
-setTimeout
-(anonymous) @ jquery.min.js:2
-c @ jquery.min.js:2
-add @ jquery.min.js:2
-(anonymous) @ jquery.min.js:2
-Deferred @ jquery.min.js:2
-then @ jquery.min.js:2
-S.fn.ready @ jquery.min.js:2
-S.fn.init @ jquery.min.js:2
-S @ jquery.min.js:2
-eval @ VM156:352
-eval @ VM156:419
-(anonymous) @ leaf_nav.js:1339
-reExecuteScripts @ leaf_nav.js:1265
-(anonymous) @ leaf_nav.js:1562
-Promise.then
-mountContent @ leaf_nav.js:1561
-(anonymous) @ leaf_nav.js:1680
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-Jb @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:279
-Za.<computed> @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-then @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
-loadView @ leaf_nav.js:1665
-router @ leaf_nav.js:1709
-wireRouter @ leaf_nav.js:1780
-inject @ leaf_nav.js:1083
-jquery.min.js:2 Uncaught TypeError: Illegal invocation
-    at HTMLDocument.eval (eval at <anonymous> (leaf_nav.js:1333:20), <anonymous>:353:14)
-    at e (jquery.min.js:2:30038)
-    at t (jquery.min.js:2:30340)
-eval @ VM156:353
-e @ jquery.min.js:2
-t @ jquery.min.js:2
-setTimeout
-(anonymous) @ jquery.min.js:2
-c @ jquery.min.js:2
-add @ jquery.min.js:2
-(anonymous) @ jquery.min.js:2
-Deferred @ jquery.min.js:2
-then @ jquery.min.js:2
-S.fn.ready @ jquery.min.js:2
-S.fn.init @ jquery.min.js:2
-S @ jquery.min.js:2
-eval @ VM156:352
-eval @ VM156:419
-(anonymous) @ leaf_nav.js:1339
-reExecuteScripts @ leaf_nav.js:1265
-(anonymous) @ leaf_nav.js:1562
-Promise.then
-mountContent @ leaf_nav.js:1561
-(anonymous) @ leaf_nav.js:1680
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-Jb @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:279
-Za.<computed> @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-then @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
-loadView @ leaf_nav.js:1665
-router @ leaf_nav.js:1709
-wireRouter @ leaf_nav.js:1780
-inject @ leaf_nav.js:1083
+<style type="text/css">
+    .pm-transfer-wrap {
+        padding-bottom: 12px;
+    }
+    .pm-transfer-btn {
+        background: #c5ee93 !important;
+        color: #000 !important;
+        cursor: pointer;
+    }
+    .pm-transfer-btn:hover,
+    .pm-transfer-btn:focus {
+        background: #7fb135 !important;
+        color: #fff !important;
+        cursor: pointer;
+    }
+    /* Transfer modal */
+    .pm-transferOverlay{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;}
+    .pm-transferOverlay[hidden]{display:none!important;}
+    .pm-transferBackdrop{position:absolute;inset:0;background:rgba(0,0,0,.45);}
+    .pm-transferDialog{position:relative;width:min(92vw,440px);background:#fff;border-radius:16px;border:1px solid rgba(0,0,0,.12);box-shadow:0 6px 16px rgba(15,23,42,.12);display:flex;flex-direction:column;animation:pmFadeIn .15s ease;}
+    @keyframes pmFadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+    .pm-transferHeader{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:#f8fafc;border-bottom:1px solid #dbe1e8;border-radius:16px 16px 0 0;}
+    .pm-transferTitle{font-weight:900;font-size:1rem;color:#1f2933;margin:0;}
+    .pm-transferClose{border:0;background:transparent;font-size:18px;cursor:pointer;min-width:36px;min-height:36px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;color:#3f4a57;line-height:1;}
+    .pm-transferClose:hover{background:#dbe1e8;color:#1f2933;}
+    .pm-transferBody{padding:16px;}
+    .pm-transferPrompt{margin:0 0 12px;color:#3f4a57;font-size:.95rem;}
+    .pm-transferChoices{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .pm-transferChoice{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 12px;border:2px solid #dbe1e8;border-radius:12px;background:#fff;cursor:pointer;font-weight:700;font-size:.95rem;color:#1f2933;text-align:center;transition:border-color .15s,background .15s,box-shadow .15s;box-shadow:0 1px 2px rgba(16,24,40,.08);}
+    .pm-transferChoice:hover{border-color:#2563eb;background:#e7efff;color:#1d4ed8;box-shadow:0 4px 12px rgba(37,99,235,.15);}
+    .pm-transferChoice:focus-visible{outline:2px solid #0b5cab;outline-offset:2px;}
+    .pm-transferChoice:active{transform:translateY(1px);}
+    .pm-transferChoiceIcon{font-size:28px;line-height:1;}
+    .pm-transferChoiceLabel{font-weight:800;font-size:1rem;}
+    .pm-transferChoiceDesc{font-weight:400;font-size:.82rem;color:#3f4a57;line-height:1.35;}
+    .pm-transferChoice:hover .pm-transferChoiceDesc{color:#1d4ed8;}
+</style>
+
+<!-- Toolbar -->
+<div id="toolbar" class="toolbar_right toolbar noprint">
+    <!--{if $empMembership['groupID'][226]}-->
+        <div class="pm-transfer-wrap">
+            <button type="button" class="tools pm-transfer-btn" onclick="transferToPMDashboard()" title="Transfer to LEAF Projects">
+                <img src="dynicons/?img=go-next.svg&amp;w=32" alt="" aria-hidden="true" style="vertical-align: middle" /> Transfer to LEAF Projects
+            </button>
+        </div>
+    <!--{/if}-->
+    <div id="tools" class="tools">
+        <h1>Tools</h1>
+        <!--{if $submitted == 0}-->
+            <button type="button" class="tools" onclick="window.location='?a=view&amp;recordID=<!--{$recordID|strip_tags}-->'"><img
+                    src="dynicons/?img=edit-find-replace.svg&amp;w=32" alt="" title="Guided editor" aria-hidden="true"
+                    style="vertical-align: middle" /> Edit this form</button>
+            <br />
+            <br />
+        <!--{/if}-->
+        <button type="button" class="tools" onclick="viewHistory()"><img title="View History" aria-hidden="true"
+                src="dynicons/?img=appointment.svg&amp;w=32" alt="" style="vertical-align: middle" /> View
+            History</button>
+        <button type="button" class="tools"
+            onclick="window.location='mailto:?subject=FW:%20Request%20%23<!--{$recordID|strip_tags}-->%20-%20<!--{$title|escape:'url'}-->&amp;body=Request%20URL:%20<!--{if $smarty.server.HTTPS == on}-->https<!--{else}-->http<!--{/if}-->://<!--{$smarty.server.SERVER_NAME}--><!--{$smarty.server.REQUEST_URI|escape:'url'}-->%0A%0A'"><img
+                src="dynicons/?img=internet-mail.svg&amp;w=32" title="Write Email" alt="" aria-hidden="true" style="vertical-align: middle" /> Write
+            Email</button>
+        <button type="button" class="tools" id="btn_printForm" title="Print this Form"><img
+                src="dynicons/?img=printer.svg&amp;w=32" alt="" style="vertical-align: middle" /> Print
+            to PDF <span
+                style="font-style: italic; background-color: white; color: #d00; border: 1px solid black; padding: 4px">BETA</span></button>
+        <input type='hidden' id='abs_portal_path' value='<!--{$abs_portal_path}-->' />
+        <!--{if $bookmarked == ''}-->
+            <button type="button" class="tools" onclick="toggleBookmark()" id="tool_bookmarkText" title="Add Bookmark">
+                <img src="dynicons/?img=bookmark-new.svg&amp;w=32" alt=""
+                    style="vertical-align: middle" /> <span role="status" aria-live="polite">Add Bookmark</span></button>
+        <!--{else}-->
+            <button type="button" class="tools" onclick="toggleBookmark()" id="tool_bookmarkText" title="Delete Bookmark">
+                <img src="dynicons/?img=bookmark-new.svg&amp;w=32" alt=""
+                    style="vertical-align: middle" /> <span role="status" aria-live="polite">Delete Bookmark</span></button>
+        <!--{/if}-->
+        <button type="button" class="tools" onclick="copyRequest()" title="Copy Request"
+            style="vertical-align: middle; background-image: url(dynicons/?img=edit-copy.svg&amp;w=32); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 35px; height: 38px">
+            Copy Request</button>
+        <br />
+        <br />
+        <!--{if $submitted == 0 || $is_admin || $allowCancel}-->
+        <button type="button" class="tools" id="btn_cancelRequest" title="Cancel Request" onclick="cancelRequest()"><img
+                src="dynicons/?img=process-stop.svg&amp;w=16" alt="" style="vertical-align: middle" />
+            Cancel Request</button>
+        <!--{/if}-->
+    </div>
+
+    <div id="comments" style="display: none">
+        <h1 id='comment_header'><label for="note">Comments</label></h1>
+        <div id="notes">
+            <form id='note_form'>
+                <input type='text' id='note' name='note' placeholder='Enter a note!' />
+                <button type="button" id='add_note' class='button' onclick="submitNote(<!--{$recordID|strip_tags}-->)">Post</button>
+            </form>
+        </div>
+        <!--{section name=i loop=$comments}-->
+            <div class='comment_block'>
+                <span class="comments_time">
+                    <!--{$comments[i].time|date_format:' %b %e'|escape}-->
+                </span>
+                <span class="comments_name">
+                    <!--{$comments[i].actionTextPasttense|sanitize}-->
+                    <!--{if $comments[i].name != ''}--> by
+                    <!--{/if}-->
+                    <!--{$comments[i].name}-->
+                </span>
+                <div class="comments_message">
+                    <!--{$comments[i].comment|sanitize}-->
+                </div>
+            </div>
+        <!--{/section}-->
+    </div>
+
+    <div id="category_list">
+        <h1>Internal Use</h1>
+        <button class="IUbutton"
+            onclick="scrollPage('formcontent');openContent('ajaxIndex.php?a=printview&amp;recordID=<!--{$recordID|strip_tags}-->'); "
+            style="vertical-align: middle; background-image: url(dynicons/?img=text-x-generic.svg&amp;w=16); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 20px;">
+            Main Request</button>
+        <!--{section name=i loop=$childforms}-->
+            <button class="IUbutton"
+                onclick="scrollPage('formcontent');openContent('ajaxIndex.php?a=internalonlyview&amp;recordID=<!--{$recordID|strip_tags}-->&amp;childCategoryID=<!--{$childforms[i].childCategoryID|strip_tags}-->');"
+                style="vertical-align: middle; background-image: url(dynicons/?img=text-x-generic.svg&amp;w=16); background-repeat: no-repeat; background-position: left; text-align: center">
+                <!--{$childforms[i].childCategoryName|sanitize}-->
+            </button>
+        <!--{/section}-->
+    </div>
+
+    <div id="metaContainer" style="display: none">
+        <div id="metaLabel"></div>
+        <div id="metaContent"></div>
+    </div>
+
+    <!--{if $is_admin}-->
+        <div id="adminTools" class="tools">
+            <h1>Administrative Tools</h1>
+            <!--{if $submitted != 0}-->
+                <button class="AdminButton" onclick="admin_changeStep()" title="Change Current Step"
+                    style="vertical-align: middle; background-image: url(dynicons/?img=go-jump.svg&w=32); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 35px; height: 38px">
+                    Change Current Step</button>
+            <!--{/if}-->
+            <button class="AdminButton" onclick="changeService()" title="Change Service"
+                style="vertical-align: middle; background-image: url(dynicons/?img=user-home.svg&amp;w=32); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 35px; height: 38px">
+                Change Service</button>
+            <button class="AdminButton" onclick="admin_changeForm()" title="Change Forms"
+                style="vertical-align: middle; background-image: url(dynicons/?img=system-file-manager.svg&amp;w=32); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 35px; height: 38px">
+                Change Form(s)</button>
+            <button class="AdminButton" onclick="admin_changeInitiator()" title="Change Initiator"
+                style="vertical-align: middle; background-image: url(dynicons/?img=gnome-stock-person.svg&amp;w=32); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 35px; height: 38px">
+                Change Initiator</button>
+        </div>
+    <!--{/if}-->
+    <div class="toolbar_security">
+        <h1 role="heading">Security Permissions</h1>
+        <button class="buttonPermission" onclick="viewAccessLogsRead()">
+            <!--{if $canRead}-->
+                <img src="dynicons/?img=edit-find.svg&amp;w=32" alt="" style="vertical-align: middle" /> You have
+                read access
+            <!--{else}-->
+                <img src="dynicons/?img=emblem-readonly.svg&amp;w=32" alt="" style="vertical-align: middle"
+                    tabindex="0" /> You do not have read access
+            <!--{/if}-->
+        </button>
+        <button class="buttonPermission" onclick="viewAccessLogsWrite()">
+            <!--{if $canWrite}-->
+                <img src="dynicons/?img=accessories-text-editor.svg&amp;w=32" alt=""
+                    style="vertical-align: middle" /> You have write access
+            <!--{else}-->
+                <img src="dynicons/?img=emblem-readonly.svg&amp;w=32" alt=""
+                    style="vertical-align: middle" /> You do not have write access
+            <!--{/if}-->
+        </button>
+    </div>
+</div>
+
+<!-- DIALOG BOXES -->
+<div id="formContainer"></div>
+<!--{include file="site_elements/generic_xhrDialog.tpl"}-->
+<!--{include file="site_elements/generic_confirm_xhrDialog.tpl"}-->
+<!--{include file="site_elements/generic_dialog.tpl"}-->
+<!--{include file="site_elements/generic_OkDialog.tpl"}-->
+
+<script type="text/javascript" src="js/functions/toggleZoom.js"></script>
+<script type="text/javascript" src="<!--{$app_js_path}-->/LEAF/sensitiveIndicator.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        let step = parseInt(<!--{$stepID|strip_tags}-->);
+
+        $(window).keydown(function(event) {
+            if (event.keyCode == 13 && ($('#note').is(":focus") || $('#add_note').is(":focus"))) {
+                event.preventDefault();
+                submitNote(<!--{$recordID|strip_tags}-->);
+                return false;
+            }
+        });
+
+        if (step > 0) {
+            $('#comments').css({'display': "block"});
+            $('#notes').css({'display': "block"});
+        } else if (step == 0 && $(".comment_block")[0]) {
+            $('#comments').css({'display': "block"});
+            $('#notes').css({'display': "none"});
+        } else {
+            $('#comments').css({'display': "none"});
+            $('#notes').css({'display': "none"});
+        }
+        initPortalLinkWatcher();
+    });
+
+    let currIndicatorID;
+    let currSeries;
+    var recordID = <!--{$recordID|strip_tags}-->;
+    var serviceID = <!--{$serviceID|strip_tags}-->;
+    const requestTitle = <!--{$title|json_encode}-->;
+    let CSRFToken = '<!--{$CSRFToken}-->';
+    let formPrintConditions = {};
+
+    // ── PM Transfer ──────────────────────────────────────────────────────────
+
+    function transferToPMDashboard() {
+        var params = new URLSearchParams(window.location.search || "");
+        var id = params.get("recordID");
+        if (!id) return;
+        var modal = document.getElementById('pmTransferModal');
+        if (!modal) return;
+        modal.dataset.recordId = id;
+        modal.hidden = false;
+        document.getElementById('pmTransferChoiceTask').focus();
+    }
+
+    function doTransferAs(type) {
+        var modal = document.getElementById('pmTransferModal');
+        var id = modal ? modal.dataset.recordId : '';
+        if (!id) return;
+        modal.hidden = true;
+        var param = type === 'project' ? 'transferProjectFromSupport' : 'transferFromSupport';
+        window.location.href =
+            'https://leaf.va.gov/platform/projects/?tab=' + (type === 'project' ? 'projects' : 'tasks') +
+            '&' + param + '=' + encodeURIComponent(id);
+    }
+
+    function closeTransferModal() {
+        var modal = document.getElementById('pmTransferModal');
+        if (modal) modal.hidden = true;
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeTransferModal();
+    });
+
+    // ── Portal link watcher ───────────────────────────────────────────────────
+
+    function wirePortalLink148() {
+        var nodes = document.querySelectorAll("[id^='xhrIndicator_148_']");
+        if (!nodes || !nodes.length) return;
+        nodes.forEach(function(el) {
+            if (!el || el.querySelector("a.pm-portal-link")) return;
+            var text = (el.textContent || "").trim();
+            var match = text.match(/^(Support|UX)\s*Ticket\s*#(\d+)/i);
+            if (!match) return;
+            var ticketType = match[1].toLowerCase();
+            var ticketId = match[2];
+            var urlBase =
+                ticketType === "ux"
+                    ? "/platform/ux/index.php?a=printview&recordID="
+                    : "/platform/support/index.php?a=printview&recordID=";
+            var url = urlBase + encodeURIComponent(ticketId);
+            var link = document.createElement("a");
+            link.href = "#";
+            link.className = "pm-portal-link";
+            link.setAttribute("data-portal-url", url);
+            link.textContent =
+                (ticketType === "ux" ? "UX Ticket #" : "Support Ticket #") + ticketId;
+            el.innerHTML = "";
+            el.appendChild(link);
+        });
+    }
+
+    function initPortalLinkWatcher() {
+        var target = document.getElementById("formcontent");
+        if (!target || target.__pmPortalLinkObserver) return;
+        var observer = new MutationObserver(function() {
+            wirePortalLink148();
+        });
+        observer.observe(target, {
+            childList: true,
+            subtree: true,
+            characterData: true
+        });
+        target.__pmPortalLinkObserver = observer;
+    }
+
+    document.addEventListener("click", function(event) {
+        var link = event.target.closest("a.pm-portal-link");
+        if (!link) return;
+        event.preventDefault();
+        var portalUrl = link.getAttribute("data-portal-url") || "";
+        if (!portalUrl) return;
+        var linkText = (link.textContent || "").trim();
+        if (window.parent && window.parent !== window) {
+            window.parent.postMessage(
+                { type: "pm-open-modal", title: linkText, url: portalUrl },
+                window.location.origin
+            );
+        } else {
+            window.location.href = portalUrl;
+        }
+    });
+
+    // ── Form submit ───────────────────────────────────────────────────────────
+
+    function doSubmit(recordID) {
+        $('#submitControl').empty().html('<img alt="" src="./images/indicator.gif" />Submitting...');
+        $.ajax({
+            type: 'POST',
+            url: `./api/form/${recordID}/submit`,
+            data: {CSRFToken: '<!--{$CSRFToken}-->'},
+            success: function(response) {
+                if (response?.errors?.length === 0) {
+                    $('#submitStatus').text('Request submitted');
+                    $('#submitControl').empty().html('Submitted');
+                    $('#submitContent').hide('blind', 500);
+                    $('#comments').css({'display': "block"});
+                    $('#notes').css({'display': "block"});
+                    const isAdmin = '<!--{$is_admin}-->';
+                    const allowCancel = '<!--{$allowCancel}-->';
+                    if (isAdmin != "1" && allowCancel != "1") {
+                        $('#btn_cancelRequest').hide();
+                    }
+                    workflow.setExtraParams('masquerade=nonAdmin');
+                    workflow.getWorkflow(recordID);
+                } else {
+                    let errors = '';
+                    for (let i in response.errors) {
+                        errors += response.errors[i] + '<br />';
+                    }
+                    $('#submitControl').empty().html(`Error: ${errors}`);
+                    $('#submitStatus').text('Request can not be submitted');
+                }
+            },
+            error: function(res) {
+                console.log(res);
+            }
+        });
+    }
+
+    // ── Notes ─────────────────────────────────────────────────────────────────
+
+    async function submitNote(recordID) {
+        const noteEl = document.getElementById('note');
+
+        if (noteEl.value.trim() !== '') {
+            const postData = new URLSearchParams();
+            postData.append('note', noteEl.value);
+            postData.append('CSRFToken', '<!--{$CSRFToken}-->');
+
+            try {
+                const response = await fetch(`./api/note/${recordID}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    body: postData
+                });
+
+                if (!response.ok) {
+                    const error = await response.text();
+                    throw new Error(error);
+                }
+
+                const data = await response.json();
+                noteEl.value = '';
+                addNote(data);
+
+                dialog_ok.setTitle('Note Posted Successfully');
+                dialog_ok.setContent(
+                    'Your note has been posted. <b style="color: red">Please keep in mind this does not send notifications.</b>'
+                );
+                dialog_ok.setSaveHandler(function() {
+                    dialog_ok.clearDialog();
+                    dialog_ok.hide();
+                });
+                dialog_ok.show();
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+
+    function addNote(response) {
+        if (typeof response === 'object' && response !== null) {
+            const new_note = `<div class="comment_block">
+                <span class="comments_time">${response.date}</span>
+                <span class="comments_name">Note Added by ${response.user_name}</span>
+                <div class="comments_message">${response.note}</div>
+            </div>`;
+            $(new_note).insertAfter("#notes");
+        } else {
+            console.log('An object was not returned');
+        }
+    }
+
+    // ── Tags / bookmarks ──────────────────────────────────────────────────────
+
+    function updateTags() {
+        $('#tags').fadeOut(250);
+        $.ajax({
+            type: 'GET',
+            url: "./api/form/<!--{$recordID|strip_tags}-->/tags",
+            success: function(res) {
+                let buffer = '';
+                if (res.length > 0) {
+                    buffer = res.length + ' Bookmarks';
+                }
+                let tags = $('#tags');
+                tags.empty().html(buffer);
+                tags.fadeIn(250);
+            },
+            cache: false
+        });
+    }
+
+    // ── Form helpers ──────────────────────────────────────────────────────────
+
+    function getForm(indicatorID, series) {
+        form.dialog().show();
+        form.setPostModifyCallback(function() {
+            getIndicator(indicatorID, series);
+            updateProgress();
+            form.dialog().hide();
+        });
+        form.getForm(indicatorID, series);
+    }
+
+    function getIndicatorLog(indicatorID, series) {
+        dialog_message.setContent(
+            `Modifications made to this field:<table class="agenda" style="background-color: white"><thead><tr><th>Date/Author</th><th>Data</th></tr></thead><tbody id="history_${indicatorID}"></tbody></table>`
+        );
+        dialog_message.indicateBusy();
+        dialog_message.show();
+
+        $.ajax({
+            type: 'GET',
+            url: `api/form/<!--{$recordID|strip_tags}-->/${indicatorID}/${series}/history`,
+            success: function(res) {
+                let numChanges = res.length;
+                let prev = '';
+                for (let i = 0; i < numChanges; i++) {
+                    curr = res.pop();
+                    date = new Date(curr.timestamp * 1000);
+                    data = curr.data;
+                    if (i != 0) {
+                        data = diffString(prev, data);
+                    }
+                    $(`#history_${indicatorID}`).prepend(
+                        `<tr><td>${date.toString()}<br /><b>${curr.name}</b></td><td><span class="printResponse" style="font-size: 16px">${data}</span></td></tr>`
+                    );
+                    prev = curr.data;
+                }
+                dialog_message.indicateIdle();
+            },
+            error: function(res) {
+                dialog_message.setContent(res);
+                dialog_message.indicateIdle();
+            },
+            cache: false
+        });
+    }
+
+    function getIndicator(indicatorID, series) {
+        $.ajax({
+            type: 'GET',
+            url: `ajaxIndex.php?a=getprintindicator&recordID=<!--{$recordID|strip_tags}-->&indicatorID=${indicatorID}&series=${series}`,
+            dataType: 'text',
+            success: function(response) {
+                let currentPHindicator = $(`#PHindicator_${indicatorID}_${series}`);
+                if (currentPHindicator.hasClass("printheading_missing")) {
+                    currentPHindicator.removeClass("printheading_missing");
+                    currentPHindicator.addClass("printheading");
+                }
+                let xhrIndicator = $(`#xhrIndicator_${indicatorID}_${series}`);
+                xhrIndicator.empty().html(response);
+                xhrIndicator.fadeOut(250, function() {
+                    xhrIndicator.fadeIn(250);
+                });
+                handlePrintConditionalIndicators(formPrintConditions);
+            },
+            error: function() { console.log('There was an error getting the indicator!'); },
+            cache: false
+        });
+    }
+
+    function updateProgress() {
+        $.ajax({
+            type: 'GET',
+            url: "./api/form/<!--{$recordID|strip_tags}-->/progress",
+            dataType: 'json',
+            success: function(response) {
+                if (response < 100) {
+                    $('#progressBar').progressbar('option', 'value', response);
+                    $('#progressLabel').text(`${response}%`);
+                } else if ('<!--{$submitted}-->' == '0') {
+                    $('#progressBar').progressbar('option', 'value', response);
+                    $('#progressLabel').text(`${response}%`);
+                    $('#progressSidebar').slideUp(500);
+                    $.ajax({
+                        type: 'GET',
+                        url: "ajaxIndex.php?a=getsubmitcontrol&recordID=<!--{$recordID|strip_tags}-->",
+                        dataType: 'text',
+                        success: function(response) {
+                            let submitContent = $("#submitContent");
+                            submitContent.empty().html(response);
+                            submitContent.css({
+                                'border': '1px solid black',
+                                'text-align': 'center',
+                                'background-color': '#ffaeae'
+                            });
+                            $("#workflowcontent").css({
+                                'font-size': "80%",
+                                'padding-top': "8px"
+                            });
+                        },
+                        error: function(response) {
+                            $("#xhr").html(`Error: ${response}`);
+                        },
+                        cache: false
+                    });
+                }
+            },
+            error: function() { console.log('There was an error getting the progress!'); },
+            cache: false
+        });
+    }
+
+    function hideForm() {
+        dialog.hide();
+    }
+
+    function restoreRequest() {
+        $.ajax({
+            type: 'POST',
+            url: "ajaxIndex.php?a=restore",
+            data: {
+                restore: <!--{$recordID|strip_tags|escape}-->,
+                CSRFToken: '<!--{$CSRFToken}-->'
+            },
+            success: function(response) {
+                if (response > 0) {
+                    window.location.href = "index.php?a=printview&recordID=<!--{$recordID|strip_tags}-->";
+                }
+            },
+            error: function() { console.log('There was an error restoring the request!'); }
+        });
+    }
+
+    <!--{if $bookmarked == ''}-->
+        let bookmarkStatus = 0;
+    <!--{else}-->
+        let bookmarkStatus = 1;
+    <!--{/if}-->
+
+    function toggleBookmark() {
+        if (bookmarkStatus == 0) {
+            addBookmark();
+            bookmarkStatus = 1;
+            $('#tool_bookmarkText span').empty().html('Delete Bookmark');
+        } else {
+            removeBookmark();
+            bookmarkStatus = 0;
+            $('#tool_bookmarkText span').empty().html('Add Bookmark');
+        }
+    }
+
+    function addBookmark() {
+        $.ajax({
+            type: 'POST',
+            url: "ajaxIndex.php?a=addbookmark&recordID=<!--{$recordID|strip_tags}-->",
+            data: { CSRFToken: '<!--{$CSRFToken}-->' },
+            success: function() { updateTags(); },
+            error: function() { console.log('There was an error adding the bookmark!'); }
+        });
+    }
+
+    function removeBookmark() {
+        $.ajax({
+            type: 'POST',
+            url: "ajaxIndex.php?a=removebookmark&recordID=<!--{$recordID|strip_tags}-->",
+            data: { CSRFToken: '<!--{$CSRFToken}-->' },
+            success: function() { updateTags(); },
+            error: function() { console.log('There was an error removing the bookmark!'); }
+        });
+    }
+
+    // ── Conditional indicators ────────────────────────────────────────────────
+
+    const valIncludesMultiselOption = (values = [], arrOptions = []) => {
+        let result = false;
+        let vals = values.map(v => v.replaceAll('\r', '').trim());
+        vals.forEach(v => {
+            if (arrOptions.includes(v)) {
+                result = true;
+            }
+        });
+        return result;
+    };
+
+    function handlePrintConditionalIndicators(formPrintConditions = {}) {
+        const multiChoiceFormats = ['multiselect', 'checkboxes'];
+
+        for (let c in formPrintConditions) {
+            const childFormat = formPrintConditions[c].format;
+            const childFormatIsEnabled = childFormat !== 'raw_data';
+            const conditions = formPrintConditions[c].conditions;
+
+            let comparison = false;
+
+            for (let i in conditions) {
+                let outcomes = [];
+                if (conditions.some(c => c.selectedOutcome.toLowerCase() === "hide")) outcomes.push("hide");
+                if (conditions.some(c => c.selectedOutcome.toLowerCase() === "show")) outcomes.push("show");
+                if (outcomes.length > 1) {
+                    console.warn("Conflicting display conditions: check setup for", c);
+                }
+                if (outcomes.length < 1) {
+                    continue;
+                }
+                const outcome = outcomes[0];
+
+                const parentFormat = conditions[i].parentFormat.toLowerCase();
+                const elParentInd = document.getElementById(`data_${conditions[i].parentIndID}_1`);
+                const selectedParentOptionsLI = Array.from(document.querySelectorAll(`#xhrIndicator_${conditions[i].parentIndID}_1 > span > ul > li`));
+
+                let arrParVals = [];
+                selectedParentOptionsLI.forEach(li => arrParVals.push(li.textContent.trim()));
+
+                const elChildInd = document.getElementById(`subIndicator_${conditions[i].childIndID}_1`);
+
+                if (childFormatIsEnabled && (elParentInd !== null || selectedParentOptionsLI !== null)) {
+                    if (comparison !== true) {
+                        let val = multiChoiceFormats.includes(parentFormat)
+                            ? arrParVals
+                            : [(elParentInd?.textContent || '').trim()];
+                        val = val.filter(v => v !== '');
+
+                        let compVal = $('<div/>').html(conditions[i].selectedParentValue).text().trim().split('\n');
+                        compVal = compVal.map(v => v.trim());
+
+                        const op = conditions[i].selectedOp;
+                        switch (op) {
+                            case '==':
+                                comparison = valIncludesMultiselOption(val, compVal);
+                                break;
+                            case '!=':
+                                comparison = !valIncludesMultiselOption(val, compVal);
+                                break;
+                            case 'lt':
+                            case 'lte':
+                            case 'gt':
+                            case 'gte':
+                                const arrNumVals = val.filter(v => !isNaN(v)).map(v => +v);
+                                const arrNumComp = compVal.filter(v => !isNaN(v)).map(v => +v);
+                                const orEq = op.includes('e');
+                                const gtr = op.includes('g');
+                                if (arrNumComp.length > 0) {
+                                    for (let i = 0; i < arrNumVals.length; i++) {
+                                        const currVal = arrNumVals[i];
+                                        if (gtr === true) {
+                                            comparison = orEq === true ? currVal >= Math.max(...arrNumComp) : currVal > Math.max(...arrNumComp);
+                                        } else {
+                                            comparison = orEq === true ? currVal <= Math.min(...arrNumComp) : currVal < Math.min(...arrNumComp);
+                                        }
+                                        if (comparison === true) break;
+                                    }
+                                }
+                                break;
+                            default:
+                                console.log(conditions[i].selectedOp);
+                                break;
+                        }
+                    }
+
+                    switch (outcome) {
+                        case 'hide':
+                            if (elChildInd !== null) {
+                                elChildInd.style.display = comparison === true ? 'none' : 'block';
+                            }
+                            break;
+                        case 'show':
+                            if (elChildInd !== null) {
+                                elChildInd.style.display = comparison === true ? 'block' : 'none';
+                            }
+                            break;
+                        default:
+                            console.log(conditions[i].selectedOutcome);
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    // ── Content loading ───────────────────────────────────────────────────────
+
+    function openContent(url) {
+        $("#formcontent").html(
+            '<div style="border: 2px solid black; text-align: center; font-size: 24px; font-weight: bold; background: white; padding: 16px; width: 95%">Loading... <img src="images/largespinner.gif" alt="" /></div>'
+        );
+        $.ajax({
+            type: 'GET',
+            url: url,
+            dataType: 'text',
+            success: function(res) {
+                $('#formcontent').empty().html(res);
+                $('.printmainblock').each(function() {
+                    let boxSizer = {};
+                    $(this).find('.printsubheading').each(function() {
+                        layer = $(this).position().top;
+                        if (boxSizer[layer] == undefined) {
+                            boxSizer[layer] = $(this).height();
+                        }
+                        if ($(this).height() > boxSizer[layer]) {
+                            boxSizer[layer] = $(this).height();
+                        }
+                    });
+                    $(this).find('.printsubheading').each(function() {
+                        layer = $(this).position().top;
+                        if (boxSizer[layer] != undefined) {
+                            $(this).height(boxSizer[layer]);
+                        }
+                    });
+                });
+                handlePrintConditionalIndicators(formPrintConditions);
+                wirePortalLink148();
+            },
+            error: function(res) {
+                $('#formcontent').empty().html(res);
+            },
+            cache: false,
+        });
+    }
+
+    function openContentForPrint() {
+        $('#formcontent').empty().html('');
+        $.ajax({
+            type: 'GET',
+            url: 'ajaxIndex.php?a=printview&recordID=<!--{$recordID|strip_tags}-->',
+            dataType: 'text',
+            success: function(res) {
+                $('#formcontent').append(res);
+                $('.printmainblock').each(function() {
+                    let boxSizer = {};
+                    $(this).find('.printsubheading').each(function() {
+                        layer = $(this).position().top;
+                        if (boxSizer[layer] == undefined) {
+                            boxSizer[layer] = $(this).height();
+                        }
+                        if ($(this).height() > boxSizer[layer]) {
+                            boxSizer[layer] = $(this).height();
+                        }
+                    });
+                    $(this).find('.printsubheading').each(function() {
+                        layer = $(this).position().top;
+                        if (boxSizer[layer] != undefined) {
+                            $(this).height(boxSizer[layer]);
+                        }
+                    });
+                });
+                handlePrintConditionalIndicators(formPrintConditions);
+                wirePortalLink148();
+            },
+            error: function(res) {
+                $('#formcontent').empty().html(res);
+            },
+            cache: false,
+            async: false,
+        });
+
+        <!--{section name=i loop=$childforms}-->
+            $.ajax({
+                type: 'GET',
+                url: 'ajaxIndex.php?a=internalonlyview&recordID=<!--{$recordID|strip_tags}-->&childCategoryID=<!--{$childforms[i].childCategoryID|strip_tags}-->',
+                dataType: 'text',
+                success: function(res) {
+                    $('#formcontent').append(res);
+                    $('.printmainblock').each(function() {
+                        let boxSizer = {};
+                        $(this).find('.printsubheading').each(function() {
+                            layer = $(this).position().top;
+                            if (boxSizer[layer] == undefined) {
+                                boxSizer[layer] = $(this).height();
+                            }
+                            if ($(this).height() > boxSizer[layer]) {
+                                boxSizer[layer] = $(this).height();
+                            }
+                        });
+                        $(this).find('.printsubheading').each(function() {
+                            layer = $(this).position().top;
+                            if (boxSizer[layer] != undefined) {
+                                $(this).height(boxSizer[layer]);
+                            }
+                        });
+                    });
+                    handlePrintConditionalIndicators(formPrintConditions);
+                },
+                error: function(res) {
+                    //$('#formcontent').empty().html(res);
+                },
+                cache: false,
+                async: false,
+            });
+        <!--{/section}-->
+    }
+
+    // ── Access logs ───────────────────────────────────────────────────────────
+
+    function viewAccessLogsRead() {
+        let viewAccessLogsRead = '<!--{foreach from=$accessLogs["read"] item=log}--> <li><!--{$log}--></li> <!--{/foreach}-->';
+        dialog_message.setTitle('Security Permissions');
+        dialog_message.setContent(viewAccessLogsRead);
+        dialog_message.show();
+        dialog_message.indicateIdle();
+        $('div[role="dialog"]').css('height', '20%');
+    }
+
+    function viewAccessLogsWrite() {
+        let viewAccessLogsWrite = '<!--{foreach from=$accessLogs["write"] item=log}--> <li><!--{$log}--></li> <!--{/foreach}-->';
+        dialog_message.setTitle('Access Logs');
+        dialog_message.setContent(viewAccessLogsWrite);
+        dialog_message.show();
+        dialog_message.indicateIdle();
+        $('div[role="dialog"]').css('height', '20%');
+    }
+
+    // ── View History (updated) ────────────────────────────────────────────────
+
+    const recordHistoryState = {
+        page: 1,
+        pageSize: 20,
+        types: ['workflow'],
+        items: [],
+        requestID: 0,
+        isLoadingMore: false,
+        sortKey: 'timestampText',
+        sortOrder: 'asc'
+    };
+    let recordHistoryGrid = null;
+    let recordHistoryGridColumnCount = 0;
+
+    function buildRecordHistoryDialogContent() {
+        return `
+            <div id="record-history-dialog">
+                <style>
+                    #record-history-dialog {
+                        box-sizing: border-box;
+                        font-family: verdana;
+                        max-width: calc(100vw - 4rem);
+                        width: 620px;
+                    }
+                    #record-history-summary {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: flex-start;
+                        gap: 1rem;
+                        margin-bottom: 0.75rem;
+                    }
+                    #record-history-summary .history-request-summary {
+                        flex: 1 1 auto;
+                    }
+                    #record-history-summary .history-print-button {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.35rem;
+                        margin-top: 0.15rem;
+                        white-space: nowrap;
+                    }
+                    #record-history-summary .history-request-meta {
+                        font-size: 14px;
+                        line-height: 1.35;
+                    }
+                    #record-history-filters {
+                        margin: 0 0 0.75rem 0;
+                        padding: 0;
+                        border: 0;
+                    }
+                    #record-history-filters legend {
+                        font-size: 15px;
+                        font-weight: bold;
+                        padding: 0;
+                        margin: 0 0 0.45rem 0;
+                    }
+                    #record-history-filters .history-filter-list {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 0.65rem 1.5rem;
+                    }
+                    #record-history-filters .history-filter {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 0.35rem;
+                        font-size: 14px;
+                        font-weight: normal;
+                    }
+                    #record-history-status {
+                        margin: 0 0 0.5rem 0;
+                        padding: 0;
+                        font-size: 14px;
+                    }
+                    #record-history-table-wrapper {
+                        max-height: none;
+                        overflow-y: visible;
+                        padding: 0;
+                    }
+                    #record-history-table-wrapper table.leaf_grid {
+                        border: 1px solid #666;
+                        border-collapse: collapse;
+                        border-spacing: 0;
+                        margin: 0;
+                        width: 100%;
+                    }
+                    #record-history-table-wrapper table.leaf_grid th {
+                        background-color: #d7e3ff;
+                        border: 1px solid #666;
+                        font-weight: bold;
+                        padding: 6px 8px;
+                    }
+                    #record-history-table-wrapper table.leaf_grid th:hover,
+                    #record-history-table-wrapper table.leaf_grid th:focus {
+                        background-color: #d7e3ff;
+                    }
+                    #record-history-table-wrapper table.leaf_grid td {
+                        border: 1px solid #666;
+                        padding: 8px 10px;
+                        vertical-align: top;
+                    }
+                </style>
+                <div id="record-history-summary">
+                    <div class="history-request-summary">
+                        <div class="history-request-meta">Service: <!--{$service|sanitize}--></div>
+                        <div class="history-request-meta">Title of Request: <a href="?a=printview&amp;recordID=<!--{$recordID|strip_tags|escape}-->"><!--{$title|sanitize}--></a></div>
+                    </div>
+                    <a class="buttonNorm history-print-button" href="?a=status&amp;recordID=<!--{$recordID|strip_tags}-->">
+                        <img src="dynicons/?img=printer.svg&amp;w=16" alt="" /> Print
+                    </a>
+                </div>
+                <fieldset id="record-history-filters" aria-label="Record history filters">
+                    <legend>Request Data</legend>
+                    <div class="history-filter-list">
+                        <label class="history-filter"><input type="checkbox" class="history-filter-input" data-history-type="workflow" checked="checked" />Action</label>
+                        <label class="history-filter"><input type="checkbox" class="history-filter-input" data-history-type="notes" />Notes</label>
+                        <label class="history-filter"><input type="checkbox" class="history-filter-input" data-history-type="email" />Email Delivery</label>
+                    </div>
+                </fieldset>
+                <div id="record-history-status"></div>
+                <div id="record-history-table-wrapper">
+                    <div id="record-history-grid"></div>
+                </div>
+            </div>
+        `;
+    }
+
+    function escapeHistoryHTML(value) {
+        if (value == null || value === '') return '';
+        return DOMPurify.sanitize(String(value), {
+            ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'ol', 'ul', 'li', 'a'],
+            ALLOWED_ATTR: ['href', 'target']
+        });
+    }
+
+    function formatHistoryTimestamp(timestamp) {
+        const date = new Date(timestamp * 1000);
+        const monthName = date.toLocaleString(undefined, {month: 'long'});
+        const day = date.getDate();
+        const year = date.getFullYear();
+        let hour = date.getHours();
+        const minute = String(date.getMinutes()).padStart(2, '0');
+        const meridiem = hour >= 12 ? 'PM' : 'AM';
+        const tz = Intl.DateTimeFormat(undefined, {timeZoneName: 'short'})
+            .formatToParts(new Date())
+            .find(part => part.type === 'timeZoneName').value;
+        hour = hour % 12 || 12;
+        return `${monthName} ${day}, ${year}. ${hour}:${minute} ${meridiem} ${tz}`;
+    }
+
+    function getRecordHistoryTimestampMinute(timestamp) {
+        return Math.floor((Number(timestamp) || 0) / 60);
+    }
+
+    function renderHistoryComment(item) {
+        if (!item.comment) return '';
+        const escapedComment = escapeHistoryHTML(item.comment).replace(/\n/g, '<br />');
+        if (item.historyType === 'email') {
+            return `<div style="margin-top:0.35rem;">${escapedComment}</div>`;
+        }
+        return `<div style="margin-top:0.35rem;">Comment: ${escapedComment}</div>`;
+    }
+
+    function getRecordHistoryItemTypeLabel(item) {
+        if (item.historyType === 'email') return 'Email Delivery';
+        if (item.historyType === 'notes') return 'Notes';
+        return 'Action';
+    }
+
+    function getRecordHistoryGridHeaders() {
+        const headers = [
+            {
+                name: 'Timestamp',
+                indicatorID: 'timestampText',
+                editable: false,
+                callback: function(data, blob) {
+                    $(`#${data.cellContainerID}`).text(blob[data.recordID].timestampDisplay);
+                }
+            }
+        ];
+
+        if (recordHistoryState.types.length > 1) {
+            headers.push({
+                name: 'Type',
+                indicatorID: 'typeLabel',
+                editable: false,
+                callback: function(data, blob) {
+                    $(`#${data.cellContainerID}`).text(blob[data.recordID].typeLabel);
+                }
+            });
+        }
+
+        headers.push({
+            name: 'Action Taken',
+            indicatorID: 'actionDisplay',
+            editable: false,
+            callback: function(data, blob) {
+                $(`#${data.cellContainerID}`).html(blob[data.recordID].actionDisplay);
+            }
+        });
+
+        return headers;
+    }
+
+    function setRecordHistoryGridMessage(message) {
+        if (!recordHistoryGrid) return;
+        const tbody = document.getElementById(`${recordHistoryGrid.getPrefixID()}tbody`);
+        if (tbody) {
+            tbody.innerHTML = `<tr><td colspan="${recordHistoryGrid.headers().length}" style="text-align:center;">${escapeHistoryHTML(message)}</td></tr>`;
+        }
+    }
+
+    function sortRecordHistoryItems(items) {
+        if (!Array.isArray(items)) return [];
+
+        const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+        const sortKey = recordHistoryState.sortKey || 'timestampText';
+        const sortOrder = recordHistoryState.sortOrder === 'asc' ? 'asc' : 'desc';
+
+        return items.slice().sort(function(a, b) {
+            let comparison = 0;
+
+            if (sortKey === 'timestampText') {
+                comparison = getRecordHistoryTimestampMinute(a.timestamp) - getRecordHistoryTimestampMinute(b.timestamp);
+                if (comparison === 0) {
+                    const sortOrderComparison = (Number(a.sortOrder) || 0) - (Number(b.sortOrder) || 0);
+                    const timestampComparison = (Number(a.timestamp) || 0) - (Number(b.timestamp) || 0);
+                    const fallbackComparison = sortOrderComparison !== 0 ? sortOrderComparison : timestampComparison;
+                    return sortOrder === 'asc' ? fallbackComparison : fallbackComparison * -1;
+                }
+            } else if (sortKey === 'typeLabel') {
+                comparison = collator.compare(
+                    getRecordHistoryItemTypeLabel(a),
+                    getRecordHistoryItemTypeLabel(b)
+                );
+            } else {
+                const actionA = `${a.description || ''} ${a.comment || ''}`;
+                const actionB = `${b.description || ''} ${b.comment || ''}`;
+                comparison = collator.compare(actionA, actionB);
+            }
+
+            return sortOrder === 'asc' ? comparison : comparison * -1;
+        });
+    }
+
+    function sortRecordHistoryGridRows(rows, key, order) {
+        if (!Array.isArray(rows) || key !== 'timestampText') return rows;
+
+        const sortOrder = order === 'asc' ? 'asc' : 'desc';
+
+        return rows.slice().sort(function(a, b) {
+            const comparison = getRecordHistoryTimestampMinute(a.timestampText) - getRecordHistoryTimestampMinute(b.timestampText);
+
+            if (comparison === 0) {
+                const sortOrderComparison = (Number(a.sortOrder) || 0) - (Number(b.sortOrder) || 0);
+                const timestampComparison = (Number(a.timestampText) || 0) - (Number(b.timestampText) || 0);
+                const fallbackComparison = sortOrderComparison !== 0 ? sortOrderComparison : timestampComparison;
+                return sortOrder === 'asc' ? fallbackComparison : fallbackComparison * -1;
+            }
+
+            return sortOrder === 'asc' ? comparison : comparison * -1;
+        });
+    }
+
+    function renderRecordHistoryGrid(items) {
+        const nextColumnCount = recordHistoryState.types.length > 1 ? 3 : 2;
+        const gridData = {};
+        const sortedItems = sortRecordHistoryItems(items);
+        const gridRows = sortedItems.map(function(item, index) {
+            const recID = index + 1;
+            const userText = item.userName ? ` by ${escapeHistoryHTML(item.userName)}` : '';
+            const timestampText = formatHistoryTimestamp(item.timestamp);
+            const descriptionText = escapeHistoryHTML(item.description);
+
+            gridData[recID] = {
+                recordID: recID,
+                timestampText: item.timestamp,
+                timestampDisplay: timestampText,
+                typeLabel: getRecordHistoryItemTypeLabel(item),
+                actionDisplay: `<div><b>${descriptionText}</b>${userText}</div>${renderHistoryComment(item)}`
+            };
+
+            return {
+                recordID: recID,
+                timestampText: item.timestamp,
+                sortOrder: item.sortOrder,
+                typeLabel: gridData[recID].typeLabel,
+                actionDisplay: gridData[recID].actionDisplay
+            };
+        });
+
+        document.getElementById('record-history-grid').innerHTML = '';
+        recordHistoryGrid = new LeafFormGrid('record-history-grid', {readOnly: true});
+        recordHistoryGrid.hideIndex();
+        recordHistoryGrid.setPostSortRequestFunc(function(key, order) {
+            recordHistoryState.sortKey = key;
+            recordHistoryState.sortOrder = order;
+            recordHistoryGrid.setData(sortRecordHistoryGridRows(recordHistoryGrid.getCurrentData(), key, order));
+        });
+        recordHistoryGridColumnCount = nextColumnCount;
+
+        recordHistoryGrid.setHeaders(getRecordHistoryGridHeaders());
+        recordHistoryGrid.setDataBlob(gridData);
+        recordHistoryGrid.setData(gridRows);
+        if (recordHistoryState.sortKey) {
+            recordHistoryGrid.sort(recordHistoryState.sortKey, recordHistoryState.sortOrder);
+            recordHistoryGrid.setData(sortRecordHistoryGridRows(recordHistoryGrid.getCurrentData(), recordHistoryState.sortKey, recordHistoryState.sortOrder));
+        }
+        recordHistoryGrid.renderBody(0, Infinity);
+
+        $(`#${recordHistoryGrid.getPrefixID()}table`).css('width', '100%');
+
+        if (gridRows.length === 0) {
+            setRecordHistoryGridMessage('No history to show.');
+        }
+    }
+
+    function getRecordHistoryTypeLabel(types) {
+        if (!Array.isArray(types) || types.length === 0) return 'Action';
+        if (types.length === 3) return 'All';
+        return types.map(function(type) {
+            if (type === 'email') return 'Email Delivery';
+            if (type === 'notes') return 'Notes';
+            return 'Action';
+        }).join(', ');
+    }
+
+    function updateRecordHistoryFilterSelection() {
+        document.querySelectorAll('#record-history-filters .history-filter-input').forEach(function(input) {
+            input.checked = recordHistoryState.types.includes(input.dataset.historyType);
+        });
+
+        const dialog = document.getElementById('record-history-dialog');
+        if (dialog) {
+            dialog.classList.toggle('multi-type-history', recordHistoryState.types.length > 1);
+        }
+    }
+
+    function updateRecordHistoryStatus() {
+        const status = document.getElementById('record-history-status');
+        if (status) {
+            const typeLabel = getRecordHistoryTypeLabel(recordHistoryState.types);
+            const loadingSuffix = recordHistoryState.isLoadingMore ? ' Loading more...' : '';
+            status.textContent = `Showing ${typeLabel} History: ${recordHistoryState.items.length} Loaded${loadingSuffix}`;
+        }
+    }
+
+    async function fetchRecordHistoryPage(page) {
+        const params = new URLSearchParams({
+            types: recordHistoryState.types.join(','),
+            page: page,
+            pageSize: recordHistoryState.pageSize
+        });
+
+        const response = await fetch(`api/form/<!--{$recordID|strip_tags}-->/history?${params.toString()}`, {
+            headers: { 'Accept': 'application/json' }
+        });
+
+        if (!response.ok) {
+            throw new Error(`History request failed with status ${response.status}`);
+        }
+
+        return response.json();
+    }
+
+    async function loadRemainingRecordHistoryPages(requestID, startPage) {
+        let nextPage = startPage;
+
+        while (recordHistoryState.requestID === requestID && recordHistoryState.isLoadingMore) {
+            const res = await fetchRecordHistoryPage(nextPage);
+            if (recordHistoryState.requestID !== requestID) return;
+
+            recordHistoryState.items = recordHistoryState.items.concat(res.items || []);
+            renderRecordHistoryGrid(recordHistoryState.items);
+            updateRecordHistoryFilterSelection();
+            updateRecordHistoryStatus();
+
+            if (!res.hasNext) {
+                recordHistoryState.isLoadingMore = false;
+                updateRecordHistoryStatus();
+                return;
+            }
+
+            nextPage += 1;
+        }
+    }
+
+    async function loadRecordHistoryPage() {
+        const gridContainer = document.getElementById('record-history-grid');
+        if (!gridContainer) return;
+
+        recordHistoryState.requestID += 1;
+        const requestID = recordHistoryState.requestID;
+        recordHistoryState.items = [];
+        recordHistoryState.page = 1;
+        recordHistoryState.isLoadingMore = false;
+        renderRecordHistoryGrid([]);
+        setRecordHistoryGridMessage('Loading history...');
+        dialog_message.indicateBusy();
+
+        try {
+            const res = await fetchRecordHistoryPage(1);
+            if (recordHistoryState.requestID !== requestID) return;
+
+            recordHistoryState.items = res.items || [];
+            renderRecordHistoryGrid(recordHistoryState.items);
+            updateRecordHistoryFilterSelection();
+            recordHistoryState.isLoadingMore = res.hasNext;
+            updateRecordHistoryStatus();
+
+            if (res.hasNext) {
+                loadRemainingRecordHistoryPages(requestID, 2).catch(function(error) {
+                    if (recordHistoryState.requestID !== requestID) return;
+                    console.error('There was an error collecting the remaining history!', error);
+                    recordHistoryState.isLoadingMore = false;
+                    updateRecordHistoryStatus();
+                });
+            }
+        } catch (error) {
+            console.error('There was an error collecting the history!', error);
+            renderRecordHistoryGrid([]);
+            setRecordHistoryGridMessage('There was an error collecting the history.');
+        } finally {
+            dialog_message.indicateIdle();
+        }
+    }
+
+    function initializeRecordHistoryDialog() {
+        document.querySelectorAll('#record-history-filters .history-filter-input').forEach(function(input) {
+            input.addEventListener('change', function() {
+                const historyType = input.dataset.historyType || 'workflow';
+                const nextTypes = recordHistoryState.types.filter(function(type) {
+                    return type !== historyType;
+                });
+
+                if (input.checked) {
+                    nextTypes.push(historyType);
+                }
+
+                if (nextTypes.length === 0) {
+                    input.checked = true;
+                    return;
+                }
+
+                recordHistoryState.types = ['workflow', 'notes', 'email'].filter(function(type) {
+                    return nextTypes.includes(type);
+                });
+                loadRecordHistoryPage();
+            });
+        });
+
+        updateRecordHistoryFilterSelection();
+        loadRecordHistoryPage();
+    }
+
+    function viewHistory() {
+        recordHistoryState.page = 1;
+        recordHistoryState.types = ['workflow'];
+        recordHistoryGrid = null;
+        recordHistoryGridColumnCount = 0;
+        dialog_message.setTitle('View History of Request ID#: <!--{$recordID|sanitize}-->');
+        dialog_message.setContent(buildRecordHistoryDialogContent());
+        dialog_message.show();
+        initializeRecordHistoryDialog();
+    }
+
+    // ── Cancel request (updated) ──────────────────────────────────────────────
+
+    function cancelRequest() {
+        const admin = '<!--{$is_admin}-->';
+        const submitted = '<!--{$submitted}-->';
+        const allowCancel = '<!--{$allowCancel}-->';
+        const requireComment = admin != '1' && +submitted > 0 && allowCancel == '1';
+
+        const requiredAttr = requireComment === true ? ' required' : '';
+        const requiredHTML = requireComment === true
+            ? ' <span id="cancel_comment_required" style="color:#b00;font-weight:bold;"> (*required)</span>'
+            : '';
+
+        dialog_confirm.setContent(
+            `<div style="margin-left:-0.75rem;">
+                <div style="display:flex;align-items:center;gap:0.75rem;">
+                    <img src="dynicons/?img=process-stop.svg&amp;w=48" alt="">
+                    Are you sure you want to cancel this request?
+                </div>
+                <br>
+                <label for="cancel_comment" style="font-size:14px;">Comments${requiredHTML}:</label><br>
+                <textarea id="cancel_comment" cols=30 rows=3 placeholder="Enter Comment"
+                    style="width:100%;resize: vertical;" ${requiredAttr}></textarea>
+            </div>`
+        );
+
+        const handleCancel = () => {
+            let comment = $('#cancel_comment').val();
+            if (comment.trim() === '' && requireComment === true) {
+                let errEl = document.getElementById('cancel_comment_required');
+                if (errEl !== null) {
+                    errEl.style.backgroundColor = '#b00';
+                    errEl.style.color = '#fff';
+                }
+                setTimeout(() => {
+                    dialog_confirm?.setSaveHandler(handleCancel);
+                });
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: 'api/form/<!--{$recordID|strip_tags|escape}-->/cancel',
+                    data: {
+                        CSRFToken: '<!--{$CSRFToken}-->',
+                        comment: comment
+                    },
+                    success: function(response) {
+                        if (response == 1) {
+                            window.location.href = "index.php?a=cancelled_request&cancelled=<!--{$recordID|strip_tags}-->";
+                        } else {
+                            alert(response);
+                        }
+                    },
+                    error: function() { console.log('There was an error canceling the request!'); },
+                    cache: false
+                });
+            }
+        };
+
+        dialog_confirm.setSaveHandler(handleCancel);
+        dialog_confirm.show();
+        $('#cancel_comment').focus();
+    }
+
+    // ── Change title ──────────────────────────────────────────────────────────
+
+    function changeTitle() {
+        dialog.setContent('<label for="title">Title:</label><br><input type="text" id="title" style="width: 300px" name="title" /><input type="hidden" id="CSRFToken" name="CSRFToken" value="<!--{$CSRFToken}-->" />');
+        document.getElementById('title').value = requestTitle;
+
+        dialog.show();
+        dialog.setSaveHandler(function() {
+            $.ajax({
+                type: 'POST',
+                url: 'api/form/<!--{$recordID|strip_tags}-->/title',
+                data: {
+                    title: $('#title').val(),
+                    CSRFToken: '<!--{$CSRFToken}-->'
+                },
+                success: function(res) {
+                    if (res != null) {
+                        document.getElementById('requestTitle').textContent = res;
+                    }
+                    dialog.hide();
+                },
+                error: function() { console.log('There was an error changing the title!'); }
+            });
+        });
+    }
+
+    // ── Copy request ──────────────────────────────────────────────────────────
+
+    function getChildrenIndicatorIDs(indicators) {
+        let children = [];
+        if (indicators !== null && typeof indicators === 'object') {
+            Object.values(indicators).forEach(function(indicator) {
+                if (indicator.indicatorID !== undefined) {
+                    children.push(indicator.indicatorID);
+                }
+                if (indicator.child !== undefined) {
+                    let subchildren = getChildrenIndicatorIDs(indicator.child);
+                    children = children.concat(subchildren);
+                }
+            });
+        }
+        return children;
+    }
+
+    function copyRequest() {
+        $('body').on('click', '.pickAndChooseAll', function(event) {
+            $(".pickAndChoose").prop("checked", event.target.checked);
+        }).on('click', '.pickAndChoose', function() {
+            if ($(".pickAndChoose").length === $(".pickAndChoose:checked").length) {
+                $(".pickAndChooseAll").prop("checked", true);
+            } else {
+                $(".pickAndChooseAll").prop("checked", false);
+            }
+        });
+
+        dialog.setTitle(`Copy Request ${requestTitle}`);
+        dialog.show();
+        dialog.indicateBusy();
+
+        let serviceOptions = '';
+        let series = 1;
+        let pickAndChoose = [];
+        let pickAndChooseOptions =
+            '<label class="checkable leaf_check" style="float: none"> <input class="ischecked leaf_check pickAndChooseAll" checked="checked" type="checkbox"> <span class="leaf_check"> </span>All</label>';
+
+        let createData = { CSRFToken: '<!--{$CSRFToken}-->' };
+
+        const requestInformation = [
+            $.ajax({
+                type: 'GET',
+                url: 'api/service',
+                success: function(res) {
+                    Object.values(res).forEach(function(resultValue) {
+                        let selected = (parseInt(resultValue.serviceID) === parseInt(serviceID)) ? 'selected="selected"' : '';
+                        serviceOptions += `<option value="${resultValue.serviceID}" ${selected}>${resultValue.service}</option>`;
+                    });
+                },
+                error: function() { console.log('Failed to gather services for dropdown!'); }
+            }),
+            $.ajax({
+                type: 'GET',
+                url: 'api/form/<!--{$recordID|strip_tags}-->/recordinfo',
+                success: function(res) {
+                    const categories = Object.values(res.categories);
+                    categories.forEach(c => createData[`num${c}`] = `num${c}`);
+                },
+                error: function() { console.log('Failed to gather categories before creating new form'); }
+            }),
+            $.ajax({
+                type: 'GET',
+                url: 'api/form/<!--{$recordID|strip_tags}-->/data/tree',
+                success: function(res) {
+                    Object.values(res).forEach(function(resultValue) {
+                        let children = getChildrenIndicatorIDs(resultValue.child);
+                        pickAndChoose.push({
+                            'name': resultValue.name,
+                            'children': children.concat(resultValue.indicatorID)
+                        });
+                    });
+                },
+                error: function() { console.log('Failed to gather data to copy as well as make dropdowns'); }
+            }),
+        ];
+
+        Promise.all(requestInformation).then(res => {
+            if (pickAndChoose.length > 0) {
+                pickAndChoose.forEach(function(option) {
+                    let doc = new DOMParser().parseFromString(option.name, 'text/html');
+                    let finalName = doc.body.textContent || "";
+                    finalName = XSSHelpers.stripAllTags(finalName);
+                    pickAndChooseOptions += `<label class="checkable leaf_check" style="float: none"> <input checked="checked" class="ischecked leaf_check pickAndChoose" name="pickAndChoose[]" type="checkbox" value="${JSON.stringify(option.children)}"> <span class="leaf_check"> </span>${finalName}</label>`;
+                });
+            }
+
+            dialog.setContent(
+                `<div id="copy_request_error" style="display:none;margin:0.5rem 0;padding:0.5rem;background-color:#ffc;line-height:1.5"></div>
+                <label for="title">Title:</label><br />
+                <input id="title" name="title" type="text" style="width:200px;"/><br /><br />
+                <div id="serviceWrapper"><label for="service">Service:</label><br />
+                <select class="chosen" id="service" name="service">${serviceOptions}</select><br /><br /></div>
+                <label for="priority">Priority:</label><br />
+                <select class="chosen" id="priority" name="priority"><option value="-10">EMERGENCY</option><option value="0" selected="selected">Normal</option></select><br /><br />
+                <fieldset><legend>Sections to Copy:</legend>${pickAndChooseOptions}</fieldset><br /><br />`
+            );
+            document.getElementById('title').value = requestTitle;
+
+            dialog.indicateIdle();
+
+            if (!(serviceOptions.length > 0)) {
+                $('#serviceWrapper').hide();
+            }
+            $('.chosen').chosen({ disable_search_threshold: 6 });
+
+            dialog.setSaveHandler(function() {
+                createData = {
+                    ...createData,
+                    title: $('#title').val(),
+                    service: $('#service').val(),
+                    priority: $('#priority').val(),
+                };
+                let updateData = {
+                    series: series,
+                    CSRFToken: '<!--{$CSRFToken}-->'
+                };
+
+                let chosenSections = [];
+                let pickAndChooseValues = $("input[name='pickAndChoose[]']:checked")
+                    .map(function(el) {
+                        return chosenSections.concat(JSON.parse($(this).val()));
+                    }).get();
+
+                $.ajax({
+                    type: 'POST',
+                    url: './api/form/new',
+                    data: createData,
+                    success: function(res) {
+                        let newRecordID = +res;
+                        if (newRecordID > 0) {
+                            if (pickAndChooseValues.length > 0) {
+                                let fileData = [];
+                                $.ajax({
+                                    type: 'GET',
+                                    url: 'api/form/<!--{$recordID|strip_tags}-->/data',
+                                    async: false,
+                                    success: function(res) {
+                                        Object.values(res).forEach(function(resultValue) {
+                                            if (pickAndChooseValues.includes(resultValue[series].indicatorID)) {
+                                                if ((resultValue[series].format == 'fileupload' || resultValue[series].format == 'image') && Array.isArray(resultValue[series].value)) {
+                                                    resultValue[series].value.forEach(function(currentFile) {
+                                                        fileData.push({
+                                                            fileName: currentFile,
+                                                            series: series,
+                                                            indicatorID: resultValue[series].indicatorID
+                                                        });
+                                                    });
+                                                    updateData[resultValue[series].indicatorID] = resultValue[series].value.join('\r\n');
+                                                } else {
+                                                    updateData[resultValue[series].indicatorID] = resultValue[series].value;
+                                                }
+                                            }
+                                        });
+                                    },
+                                    error: function() { console.log('Failed to gather data to copy as well as make dropdowns'); }
+                                });
+
+                                $.ajax({
+                                    type: 'POST',
+                                    url: `./api/form/${newRecordID}`,
+                                    data: updateData,
+                                    async: false,
+                                    success: function() { console.log('Questions copied over to new record.'); },
+                                    error: function() { console.log('Failed to copy data to new form!'); }
+                                });
+
+                                if (fileData.length > 0) {
+                                    fileData.forEach(function(theFile) {
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: './api/form/files/copy',
+                                            data: {
+                                                CSRFToken: '<!--{$CSRFToken}-->',
+                                                recordID: <!--{$recordID|strip_tags}-->,
+                                                newRecordID: newRecordID,
+                                                indicatorID: theFile.indicatorID,
+                                                fileName: theFile.fileName,
+                                                series: theFile.series
+                                            },
+                                            async: false,
+                                            success: function() { console.log('Files copied over to new record.'); },
+                                            error: function() { console.log('Failed to copy data to new form!'); }
+                                        });
+                                    });
+                                }
+                            }
+
+                            window.location = `index.php?a=view&recordID=${newRecordID}`;
+                            dialog.hide();
+                        } else {
+                            let elError = document.getElementById('copy_request_error');
+                            if (elError !== null) {
+                                elError.style.display = 'block';
+                                elError.innerHTML = `<b>Request could not be copied:</b><br>${res}`;
+                            }
+                        }
+                    },
+                    error: function() { console.log('Failed to create new form!'); }
+                });
+            });
+        }).catch(err => console.log('an error has occurred', err));
+    }
+
+    // ── Change service ────────────────────────────────────────────────────────
+
+    function changeService() {
+        dialog.setTitle('Change Service');
+        dialog.setContent('<label id="newService_label" for="newService">Select new service: </label><br><div id="changeService"></div>');
+        dialog.show();
+        dialog.indicateBusy();
+        dialog.setSaveHandler(function() {
+            alert('Please wait for service list to load.');
+        });
+        $.ajax({
+            type: 'GET',
+            url: './api/system/services',
+            dataType: 'json',
+            success: function(res) {
+                let services = '<select id="newService" class="chosen" style="width: 250px">';
+                for (let i in res) {
+                    services += `<option value="${res[i].groupID}">${res[i].groupTitle}</option>`;
+                }
+                services += '</select>';
+                $('#changeService').html(services);
+                $('.chosen').chosen({ disable_search_threshold: 6 });
+                $('#newService_chosen input.chosen-search-input').attr('role', 'combobox');
+                $('#newService_chosen input.chosen-search-input').attr('aria-labelledby', 'newService_label');
+                dialog.indicateIdle();
+                dialog.setSaveHandler(function() {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'api/form/<!--{$recordID|strip_tags}-->/service',
+                        data: {
+                            serviceID: $('#newService').val(),
+                            CSRFToken: CSRFToken
+                        },
+                        success: function() {
+                            window.location.href = "index.php?a=printview&recordID=<!--{$recordID|strip_tags}-->";
+                        },
+                        error: function() { console.log('Failed to gather services!'); }
+                    });
+                    dialog.hide();
+                });
+            },
+            error: function() { console.log('There was an error changing the service!'); },
+            cache: false
+        });
+    }
+
+    // ── Admin tools ───────────────────────────────────────────────────────────
+
+    <!--{if $is_admin}-->
+        var currentRecordID = <!--{$recordID|strip_tags}-->;
+
+        async function admin_changeStep() {
+            dialog.setTitle('Change Step');
+            dialog.setContent(
+                '<label id="newStep_label" for="newStep">Set to this step:</label> <br />' +
+                '<div id="changeStep"></div><br /><br />' +
+                'Comments:<br />' +
+                '<textarea id="changeStep_comment" type="text" style="width: 90%; padding: 4px" aria-label="Comments"></textarea>' +
+                '<br /><br />' +
+                '<fieldset>' +
+                '<legend>Advanced Options</legend>' +
+                '<input id="showAllSteps" type="checkbox" />' +
+                '<label for="showAllSteps">Show steps from other workflows</label>' +
+                '</fieldset>'
+            );
+            dialog.show();
+            dialog.indicateBusy();
+
+            let currentStepData = await $.ajax({
+                type: 'GET',
+                url: `api/formWorkflow/${currentRecordID}/currentStep`,
+                dataType: 'json',
+                error: function() { console.log('There was an error getting the current step!'); },
+                cache: false
+            });
+
+            let workflows = {};
+            for (let i in currentStepData) {
+                workflows[currentStepData[i].workflowID] = 1;
+            }
+
+            if (Object.keys(workflows).length == 0) {
+                let lastAction = await $.ajax({
+                    type: 'GET',
+                    url: `api/formWorkflow/${currentRecordID}/lastAction`,
+                    dataType: 'json',
+                    error: function() { console.log('There was an error getting the last action!'); },
+                    cache: false
+                });
+                if (lastAction != null) {
+                    workflows[lastAction.workflowID] = 1;
+                }
+            }
+
+            $.ajax({
+                type: 'GET',
+                url: 'api/workflow/steps',
+                dataType: 'json',
+                success: function(res) {
+                    let steps = '<select id="newStep" class="chosen">';
+                    let steps2 = '';
+                    let stepCounter = 0;
+
+                    for (let i in res) {
+                        if (Object.keys(workflows).length == 0 || workflows[res[i].workflowID] != undefined) {
+                            steps += `<option value="${res[i].stepID}">${res[i].description}: ${res[i].stepTitle}</option>`;
+                            stepCounter++;
+                        }
+                        steps2 += `<option value="${res[i].stepID}">${res[i].description} - ${res[i].stepTitle}</option>`;
+                    }
+
+                    if (stepCounter == 0) steps += steps2;
+                    steps += '</select>';
+                    $('#changeStep').html(steps);
+
+                    $('#showAllSteps').on('click', function() {
+                        let newstep = $('#newStep');
+                        if ($('#showAllSteps').is(':checked')) {
+                            newstep.html(steps2);
+                        } else {
+                            newstep.html(steps);
+                        }
+                        newstep.trigger('chosen:updated');
+                    });
+
+                    $('.chosen').chosen({ width: '100%', disable_search_threshold: 6 });
+                    $('#newStep_chosen input.chosen-search-input').attr('role', 'combobox');
+                    $('#newStep_chosen input.chosen-search-input').attr('aria-labelledby', 'newStep_label');
+                    dialog.indicateIdle();
+                    dialog.setSaveHandler(function() {
+                        $.ajax({
+                            type: 'POST',
+                            url: `api/formWorkflow/${currentRecordID}/step`,
+                            data: {
+                                stepID: $('#newStep').val(),
+                                comment: $('#changeStep_comment').val(),
+                                CSRFToken: CSRFToken
+                            },
+                            success: function() {
+                                window.location.href = `index.php?a=printview&recordID=${currentRecordID}`;
+                            },
+                            error: function() { console.log('There was an error saving the workflow step!'); }
+                        });
+                        dialog.hide();
+                    });
+                },
+                error: function() { console.log('There was an error getting workflow steps!'); },
+                cache: false
+            });
+        }
+
+        function admin_changeForm() {
+            dialog.setTitle('Change Form(s)');
+            dialog.setContent('Select Forms: <br /><div id="changeForm"></div>');
+            dialog.show();
+            dialog.indicateBusy();
+            dialog.setSaveHandler(function() {
+                alert('Please wait for service list to load.');
+            });
+            $.ajax({
+                type: 'GET',
+                url: './api/workflow/categoriesUnabridged',
+                dataType: 'json',
+                success: function(res) {
+                    let categories = '';
+                    let adminUnpublishedWarn = '';
+                    for (let i in res) {
+                        adminUnpublishedWarn = res[i].visible === -1
+                            ? '<span style="color:#c00;">&nbsp;(This form is unpublished)</span>'
+                            : '';
+                        categories += `<label class="checkable leaf_check" for="category_${res[i].categoryID}">`;
+                        categories += `<input type="checkbox" class="icheck admin_changeForm leaf_check" id="category_${res[i].categoryID}" name="categories[]" value="${res[i].categoryID}" />`;
+                        categories += `<span class="leaf_check"></span>${res[i].categoryName}${adminUnpublishedWarn}</label>`;
+                    }
+                    $('#changeForm').html(categories);
+                    dialog.indicateIdle();
+                    dialog.setSaveHandler(function() {
+                        let data = { 'categories[]': [], CSRFToken: CSRFToken };
+                        $('.admin_changeForm:checked').each(function() {
+                            data['categories[]'].push($(this).val());
+                        });
+                        $.ajax({
+                            type: 'POST',
+                            url: 'api/form/<!--{$recordID|strip_tags}-->/types',
+                            data: data,
+                            success: function() {
+                                window.location.href = "index.php?a=printview&recordID=<!--{$recordID|strip_tags}-->";
+                            }
+                        });
+                        dialog.hide();
+                    });
+
+                    let query = {terms: [{id: 'recordID', operator: '=', match: '<!--{$recordID|strip_tags}-->'}], joins: ['categoryNameUnabridged']};
+                    $.ajax({
+                        type: 'GET',
+                        url: './api/form/query',
+                        data: { q: JSON.stringify(query) },
+                        dataType: 'json',
+                        success: function(res) {
+                            let arrCatIDs = res[<!--{$recordID|strip_tags|escape}-->].categoryIDsUnabridged;
+                            $('label.checkable input').each(function(idx, input) {
+                                const formIsSelected = arrCatIDs.some(id => id === input.value);
+                                $(`#${input?.id}`).prop('checked', formIsSelected);
+                            });
+                        },
+                        error: function() { console.log('There was an error getting the form via query!'); },
+                        cache: false
+                    });
+                },
+                error: function() { console.log('There was an error getting the categories!'); },
+                cache: false
+            });
+        }
+
+        function admin_changeInitiator() {
+            dialog.setTitle('Change Initiator');
+            dialog.setContent(
+                "Select employee to be set as this request's initiator: <br /><div id=\"empSel_changeInitiator\"></div><input type=\"hidden\" id=\"changeInitiator\" />"
+            );
+            dialog.show();
+            dialog.indicateBusy();
+
+            dialog.setSaveHandler(function() {
+                let changeInitiator = $('#changeInitiator');
+                if (changeInitiator.val() != '') {
+                    $.ajax({
+                        type: 'POST',
+                        url: './api/form/<!--{$recordID|strip_tags}-->/initiator',
+                        data: {
+                            CSRFToken: CSRFToken,
+                            initiator: changeInitiator.val()
+                        },
+                        success: function() { location.reload(); },
+                        error: function() { console.log('There was an error saving the initiator!'); }
+                    });
+                } else {
+                    alert('An employee needs to be selected');
+                }
+            });
+
+            let empSel;
+
+            function init_empSel() {
+                empSel = new employeeSelector('empSel_changeInitiator');
+                empSel.apiPath = '<!--{$orgchartPath}-->/api/';
+                empSel.rootPath = '<!--{$orgchartPath}-->/';
+                empSel.setSelectHandler(function() {
+                    if (empSel.selectionData[empSel.selection] != undefined) {
+                        $('#changeInitiator').val(empSel.selectionData[empSel.selection].userName);
+                    }
+                });
+                empSel.setResultHandler(function() {
+                    if (empSel.selectionData[empSel.selection] != undefined) {
+                        $('#changeInitiator').val(empSel.selectionData[empSel.selection].userName);
+                    }
+                });
+                empSel.initialize();
+                dialog.indicateIdle();
+            }
+
+            if (typeof employeeSelector == 'undefined') {
+                $('head').append('<link type="text/css" rel="stylesheet" href="<!--{$orgchartPath}-->/css/employeeSelector.css" />');
+                $.ajax({
+                    type: 'GET',
+                    url: "<!--{$orgchartPath}-->/js/employeeSelector.js",
+                    dataType: 'script',
+                    success: function() { init_empSel(); },
+                    error: function() { console.log('There was an error getting the employee selector!'); }
+                });
+            } else {
+                init_empSel();
+            }
+        }
+    <!--{/if}-->
+
+    // ── Layout ────────────────────────────────────────────────────────────────
+
+    function scrollPage(id) {
+        if ($(document).height() < $(`#${id}`).offset().top + 100) {
+            $('html, body').animate({scrollTop: $(`#${id}`).offset().top}, 500);
+        }
+    }
+
+    let lastScreenSize = null;
+
+    function sideBar() {
+        if (lastScreenSize != window.innerWidth) {
+            lastScreenSize = window.innerWidth;
+            let toolbar = $('#toolbar');
+            let maincontent = $('#maincontent');
+            if (lastScreenSize < 700) {
+                toolbar.removeClass("toolbar_right");
+                toolbar.addClass("toolbar_inline");
+                maincontent.css("width", "98%");
+                toolbar.css("width", "98%");
+            } else {
+                toolbar.removeClass("toolbar_inline");
+                toolbar.addClass("toolbar_right");
+                mywidth = Math.floor((1 - 250 / lastScreenSize) * 100);
+                maincontent.css("width", mywidth + "%");
+                toolbar.css("width", (98 - mywidth) + "%");
+            }
+        }
+    }
+
+    this.portalAPI = LEAFRequestPortalAPI();
+    this.portalAPI.setBaseURL('api/?a=');
+    this.portalAPI.setCSRFToken('<!--{$CSRFToken}-->');
+
+    $(function() {
+        $('#progressBar').progressbar({max: 100});
+
+        form = new LeafForm('formContainer');
+        print = new printer();
+
+        $('#btn_printForm').on('click', function() {
+            openContentForPrint();
+            print.printForm(recordID);
+        });
+        form.setRecordID(<!--{$recordID|strip_tags|escape}-->);
+
+        workflow = new LeafWorkflow('workflowcontent', '<!--{$CSRFToken}-->');
+        <!--{if $submitted > 0}-->
+            workflow.getWorkflow(<!--{$recordID|strip_tags|escape}-->);
+        <!--{/if}-->
+
+        dialog = new dialogController('xhrDialog', 'xhr', 'loadIndicator', 'button_save', 'button_cancelchange');
+        dialog_message = new dialogController('genericDialog', 'genericDialogxhr', 'genericDialogloadIndicator', 'genericDialogbutton_save', 'genericDialogbutton_cancelchange');
+        dialog_ok = new dialogController('ok_xhrDialog', 'ok_xhr', 'ok_loadIndicator', 'confirm_button_ok', 'confirm_button_cancelchange');
+        dialog_confirm = new dialogController('confirm_xhrDialog', 'confirm_xhr', 'confirm_loadIndicator', 'confirm_button_save', 'confirm_button_cancelchange');
+
+        <!--{if $childCategoryID == ''}-->
+            openContent('ajaxIndex.php?a=printview&recordID=<!--{$recordID|strip_tags}-->');
+        <!--{else}-->
+            openContent('ajaxIndex.php?a=internalonlyview&recordID=<!--{$recordID|strip_tags}-->&childCategoryID=<!--{$childCategoryID|strip_tags}-->');
+        <!--{/if}-->
+
+        sideBar();
+        setInterval("sideBar()", 500);
+
+        <!--{if $submitted == 0}-->
+            updateProgress();
+        <!--{/if}-->
+
+        let elParentForm = document.querySelector('[id^="LeafForm"][id$="_record"]');
+        let elFormMenu = document.getElementById('form-xhr-cancel-save-menu');
+        window.addEventListener('scroll', function() {
+            if (elParentForm && elFormMenu) {
+                let parent_Y = elParentForm.getBoundingClientRect().y;
+                elFormMenu.style.top = parent_Y > 0 ? 0 : (-1 * parent_Y) + "px";
+            }
+        });
+    });
+</script>
+
+<!-- Transfer to LEAF Projects modal -->
+<div id="pmTransferModal" class="pm-transferOverlay" role="dialog" aria-modal="true"
+     aria-labelledby="pmTransferModalTitle" hidden>
+    <div class="pm-transferBackdrop" onclick="closeTransferModal()" aria-hidden="true"></div>
+    <div class="pm-transferDialog">
+        <div class="pm-transferHeader">
+            <h2 class="pm-transferTitle" id="pmTransferModalTitle">Transfer to LEAF Projects</h2>
+            <button type="button" class="pm-transferClose" onclick="closeTransferModal()"
+                    aria-label="Close">&times;</button>
+        </div>
+        <div class="pm-transferBody">
+            <p class="pm-transferPrompt">How would you like to transfer this record?</p>
+            <div class="pm-transferChoices">
+                <button type="button" class="pm-transferChoice" id="pmTransferChoiceTask"
+                        onclick="doTransferAs('task')">
+                    <span class="pm-transferChoiceIcon" aria-hidden="true">&#9989;</span>
+                    <span class="pm-transferChoiceLabel">As a Task</span>
+                    <span class="pm-transferChoiceDesc">Add to the Tasks table with ticket reference</span>
+                </button>
+                <button type="button" class="pm-transferChoice" id="pmTransferChoiceProject"
+                        onclick="doTransferAs('project')">
+                    <span class="pm-transferChoiceIcon" aria-hidden="true">&#128193;</span>
+                    <span class="pm-transferChoiceLabel">As a Project</span>
+                    <span class="pm-transferChoiceDesc">Create a new Project with ticket reference</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
