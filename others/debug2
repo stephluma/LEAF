@@ -719,7 +719,7 @@
         <!-- .pv-pill--category and .pv-pill--impact injected by JS after AJAX load -->
         <span id="pv-category-pill" class="pv-pill pv-pill--category" aria-live="polite" hidden></span>
         <span id="pv-impact-pill"   class="pv-pill pv-pill--impact"   aria-live="polite" hidden></span>
-        <!--{if $submitted == 0 || $is_admin || $allowCancel}-->
+        <!--{if $submitted == 0 || $is_admin}-->
         <button type="button"
                 class="pv-cancel-btn noprint"
                 onclick="cancelRequest()"
@@ -888,17 +888,24 @@ var pvCanEdit = <!--{if $canWrite && ($is_admin || $submitted == 0)}-->true<!--{
     var recordID  = <!--{$recordID|strip_tags|escape:'javascript'}-->;
     var portalURL = '<!--{$portal_url|escape:'javascript'}-->';
 
+    /*
+     * Map of indicatorID -> config
+     *   target  : DOM id to write the text/HTML value into
+     *   onValue : optional callback(rawText) fired once data arrives
+     */
     var fields = [
         { id: 5,  target: 'pv-value-5'  },
         { id: 6,  target: 'pv-value-6'  },
         { id: 7,  target: 'pv-value-7'  },
         { id: 8,  target: 'pv-value-8',
           onValue: function(text) {
+              /* Show the category pill in the meta row */
               var pill = document.getElementById('pv-category-pill');
               if (pill && text.trim() !== '') {
                   pill.textContent = text.trim();
                   pill.removeAttribute('hidden');
               }
+              /* If the user chose "Other", reveal the sub-question slot */
               if (text.trim().toLowerCase() === 'other') {
                   var subq = document.getElementById('pv-subq-13');
                   if (subq) { subq.removeAttribute('hidden'); }
@@ -908,6 +915,7 @@ var pvCanEdit = <!--{if $canWrite && ($is_admin || $submitted == 0)}-->true<!--{
         },
         { id: 9,  target: 'pv-value-9',
           onValue: function(text) {
+              /* Show the impact pill in the meta row */
               var pill = document.getElementById('pv-impact-pill');
               if (pill && text.trim() !== '') {
                   pill.textContent = text.trim();
@@ -918,38 +926,50 @@ var pvCanEdit = <!--{if $canWrite && ($is_admin || $submitted == 0)}-->true<!--{
         { id: 10, target: 'pv-value-10', isAttachment: true }
     ];
 
+    /* ── Extract the clean value from LEAF's indicator response ─────── */
+    /* LEAF appends htmlPrint markup (inputs, scripts) after the value span.
+       We only want the text inside data_N_1, not the whole response.      */
     function extractCleanValue(html, indicatorID) {
         var tmp = document.createElement('div');
         tmp.innerHTML = html;
+        /* Try to find the canonical data span first */
         var span = tmp.querySelector('[id^="data_' + indicatorID + '_"]');
         if (span) {
             return (span.textContent || span.innerText || '').trim();
         }
+        /* Fallback: strip all script/input/button elements then read text */
         var scripts = tmp.querySelectorAll('script, input, button, textarea, select');
         scripts.forEach(function(s) { s.remove(); });
         return (tmp.textContent || tmp.innerText || '').trim();
     }
 
+    /* ── Render a plain-text field (clean value only) ────────────────── */
     function renderText(el, html, indicatorID) {
         var value = extractCleanValue(html, indicatorID);
         if (value === '' || value === 'N/A') {
             el.innerHTML = '<span class="pv-empty">Not provided</span>';
         } else {
+            /* Safely set as text — no raw HTML from LEAF leaks through */
             el.textContent = value;
         }
     }
 
+    /* ── Extract readable text (used by onValue callbacks) ──────────── */
     function extractText(html, indicatorID) {
         return extractCleanValue(html, indicatorID);
     }
 
+    /* ── Render attachments (image or file) from raw AJAX HTML ───────── */
     function renderAttachments(el, html) {
         var tmp = document.createElement('div');
         tmp.innerHTML = html;
 
-        var imgs  = tmp.querySelectorAll('img[src*="image.php"]');
+        /* Collect images */
+        var imgs = tmp.querySelectorAll('img[src*="image.php"]');
+        /* Collect file links */
         var links = tmp.querySelectorAll('a[href*="file.php"]');
 
+        /* No attachments at all */
         if (imgs.length === 0 && links.length === 0) {
             el.innerHTML = '<span class="pv-empty">No attachments provided.</span>';
             return;
@@ -957,11 +977,14 @@ var pvCanEdit = <!--{if $canWrite && ($is_admin || $submitted == 0)}-->true<!--{
 
         var out = '<div class="pv-attach-grid">';
 
+        /* Images ────────────────────────────────────── */
         imgs.forEach(function(img, i) {
-            var src     = img.getAttribute('src') || '';
-            var altRaw  = img.getAttribute('alt') || '';
+            var src    = img.getAttribute('src') || '';
+            var altRaw = img.getAttribute('alt') || '';
+            /* Strip LEAF's "image upload: " prefix from alt text */
             var filename = altRaw.replace(/^image upload:\s*/i, '').trim() || ('Image ' + (i + 1));
-            var fullURL  = src;
+            /* Full-size URL for the popup (same path, larger display) */
+            var fullURL = src;
 
             out += '<figure class="pv-attach-figure">';
             out +=   '<button type="button" class="pv-attach-btn"'
@@ -978,6 +1001,7 @@ var pvCanEdit = <!--{if $canWrite && ($is_admin || $submitted == 0)}-->true<!--{
             out += '</figure>';
         });
 
+        /* File downloads ────────────────────────────── */
         if (links.length > 0) {
             out += '<ul class="pv-file-list" aria-label="Downloadable files">';
             links.forEach(function(a) {
@@ -1002,7 +1026,9 @@ var pvCanEdit = <!--{if $canWrite && ($is_admin || $submitted == 0)}-->true<!--{
         el.innerHTML = out;
     }
 
+    /* ── Core: fetch one indicator via LEAF's AJAX endpoint ─────────── */
     function loadIndicator(indicatorID, cfg) {
+        /* cfg is optional (for the on-demand indicator 13 load) */
         cfg = cfg || { target: 'pv-value-' + indicatorID, isAttachment: false };
 
         var el = document.getElementById(cfg.target || 'pv-value-' + indicatorID);
@@ -1032,18 +1058,23 @@ var pvCanEdit = <!--{if $canWrite && ($is_admin || $submitted == 0)}-->true<!--{
         });
     }
 
+    /* ── Kick off all field loads on DOM ready ───────────────────────── */
     $(function() {
         fields.forEach(function(cfg) {
             loadIndicator(cfg.id, cfg);
         });
     });
 
+    /* ── Expose loadIndicator so pvOpenEdit callback can refresh cards ── */
     window._pvLoadIndicator = loadIndicator;
     window._pvFields        = fields;
 
 }());
 
-/* ── Self-contained vote + share for printview ─────────────────────────── */
+/* ── Self-contained vote + share for printview ───────────────────────────
+   Mirrors ideas_v2.js behavior: resolves email via orgchart before voting
+   and before checking voted state. Falls back to userID for legacy records.
+──────────────────────────────────────────────────────────────────────── */
 (function() {
     var PV_RECORD_ID     = <!--{$recordID|strip_tags|escape:'javascript'}-->;
     var PV_USER_ID       = '<!--{$userID|strip_tags|escape:'javascript'}-->';
@@ -1055,10 +1086,12 @@ var pvCanEdit = <!--{if $canWrite && ($is_admin || $submitted == 0)}-->true<!--{
     var _pvResolvedEmail      = '';
     var _pvEmailResolved      = false;
 
+    /* ── Email guard (mirrors ideas_v2.js isRealEmail) ── */
     function pvIsRealEmail(str) {
         return typeof str === 'string' && str.includes('@') && !str.includes('<!--');
     }
 
+    /* ── Resolve email via orgchart (exact mirror of ideas_v2.js resolveVoterEmail) ── */
     function pvResolveEmail() {
         return new Promise(function(resolve) {
             if (!PV_USER_ID) { resolve(''); return; }
@@ -1090,7 +1123,6 @@ var pvCanEdit = <!--{if $canWrite && ($is_admin || $submitted == 0)}-->true<!--{
                 });
         });
     }
-
     function pvShowToast(msg, isError) {
         var toast = document.getElementById('pvToast');
         if (!toast) { return; }
@@ -1103,6 +1135,7 @@ var pvCanEdit = <!--{if $canWrite && ($is_admin || $submitted == 0)}-->true<!--{
         }, 4000);
     }
 
+    /* ── Clipboard fallback ── */
     function pvCopyFallback(text) {
         try {
             var ta = document.createElement('textarea');
@@ -1119,6 +1152,7 @@ var pvCanEdit = <!--{if $canWrite && ($is_admin || $submitted == 0)}-->true<!--{
         }
     }
 
+    /* ── Set voted visual state ── */
     function pvSetVoted(isVoted) {
         var btn = document.getElementById('pv-vote-btn');
         if (!btn) { return; }
@@ -1129,6 +1163,7 @@ var pvCanEdit = <!--{if $canWrite && ($is_admin || $submitted == 0)}-->true<!--{
         btn.title = isVoted ? 'You\'ve already voted for this idea' : 'Vote for this idea';
     }
 
+    /* ── Check if current user already voted (runs after email resolved) ── */
     function pvCheckVoted() {
         if (!PV_USER_ID) { return; }
         var q = {
@@ -1147,6 +1182,7 @@ var pvCanEdit = <!--{if $canWrite && ($is_admin || $submitted == 0)}-->true<!--{
             cache: false,
             success: function(res) {
                 var ideaKey  = String(PV_RECORD_ID);
+                /* Match against resolved email (new votes) OR raw userID (legacy) */
                 var emailKey = _pvResolvedEmail ? _pvResolvedEmail.toLowerCase() : '';
                 var userKey  = PV_USER_ID.toLowerCase();
                 var hasVoted = false;
@@ -1155,7 +1191,7 @@ var pvCanEdit = <!--{if $canWrite && ($is_admin || $submitted == 0)}-->true<!--{
                     var voter      = String((vote.s1 && vote.s1['id' + PV_VOTE_IND_USER]) || '').toLowerCase();
                     if (linkedIdea === ideaKey && (voter === emailKey || voter === userKey)) {
                         hasVoted = true;
-                        return false;
+                        return false; /* break */
                     }
                 });
                 if (hasVoted) { pvSetVoted(true); }
@@ -1164,6 +1200,7 @@ var pvCanEdit = <!--{if $canWrite && ($is_admin || $submitted == 0)}-->true<!--{
         });
     }
 
+    /* ── Submit vote ── */
     function pvIdeaVotes() {
         if (_pvVotingInProgress) { return; }
         var btn = document.getElementById('pv-vote-btn');
@@ -1172,8 +1209,9 @@ var pvCanEdit = <!--{if $canWrite && ($is_admin || $submitted == 0)}-->true<!--{
             return;
         }
         _pvVotingInProgress = true;
-        pvSetVoted(true);
+        pvSetVoted(true); /* optimistic */
 
+        /* Ensure email resolved before submitting */
         var doSubmit = function(voterIdentity) {
             var payload = new URLSearchParams();
             payload.append('service', '');
@@ -1217,6 +1255,7 @@ var pvCanEdit = <!--{if $canWrite && ($is_admin || $submitted == 0)}-->true<!--{
         }
     }
 
+    /* ── Share ── */
     function pvShare() {
         var btn  = document.getElementById('pv-share-btn');
         var link = btn ? btn.getAttribute('data-record-link') : window.location.href;
@@ -1230,12 +1269,14 @@ var pvCanEdit = <!--{if $canWrite && ($is_admin || $submitted == 0)}-->true<!--{
         }
     }
 
+    /* ── Init on DOM ready: resolve email first, then check voted state ── */
     $(function() {
         var voteBtn  = document.getElementById('pv-vote-btn');
         var shareBtn = document.getElementById('pv-share-btn');
         if (voteBtn)  { voteBtn.addEventListener('click',  pvIdeaVotes); }
         if (shareBtn) { shareBtn.addEventListener('click', pvShare); }
 
+        /* Resolve email then check voted — parallel with page-load vote count fetch */
         pvResolveEmail().then(function() {
             pvCheckVoted();
         });
@@ -1252,6 +1293,7 @@ function pvOpenEdit(indicatorID) {
         console.warn('pvOpenEdit: LeafForm not ready yet');
         return;
     }
+    /* After save, refresh the matching public-view card */
     form.setPostModifyCallback(function() {
         var fields  = window._pvFields || [];
         var loadFn  = window._pvLoadIndicator;
@@ -1259,8 +1301,10 @@ function pvOpenEdit(indicatorID) {
         for (var i = 0; i < fields.length; i++) {
             if (fields[i].id === indicatorID) { cfg = fields[i]; break; }
         }
+        /* indicator 13 (sub-question) is loaded on-demand, handle separately */
         if (!cfg) { cfg = { id: indicatorID, target: 'pv-value-' + indicatorID }; }
         if (typeof loadFn === 'function') { loadFn(indicatorID, cfg); }
+        /* Also refresh category pill / impact pill / sub-question visibility */
         if (indicatorID === 8 || indicatorID === 9) {
             var parentCfg = null;
             for (var j = 0; j < fields.length; j++) {
@@ -1326,7 +1370,7 @@ function pvOpenEdit(indicatorID) {
             Copy Request
         </button>
         <br /><br />
-        <!--{if $submitted == 0 || $is_admin || $allowCancel}-->
+        <!--{if $submitted == 0 || $is_admin}-->
             <button type="button" class="tools" id="btn_cancelRequest" title="Cancel Request" onclick="cancelRequest()">
                 <img src="dynicons/?img=process-stop.svg&amp;w=16" alt="" style="vertical-align: middle" />
                 Cancel Request
@@ -1338,6 +1382,7 @@ function pvOpenEdit(indicatorID) {
         <h1 id='comment_header'><label for="note">Comments</label></h1>
         <div id="notes">
             <form id='note_form'>
+                <input type='hidden' name='userID' value='<!--{$userID|strip_tags}-->' />
                 <input type='text' id='note' name='note' placeholder='Enter a note!' />
                 <button type="button" id='add_note' class='button' onclick="submitNote(<!--{$recordID|strip_tags}-->)">Post</button>
             </form>
@@ -1459,58 +1504,55 @@ function pvOpenEdit(indicatorID) {
                 event.preventDefault();
                 submitNote(<!--{$recordID|strip_tags}-->);
                 return false;
-            }
-        });
-
-        if (step > 0) {
-            $('#comments').css({'display': "block"});
-            $('#notes').css({'display': "block"});
-        } else if (step == 0 && $(".comment_block")[0]) {
-            $('#comments').css({'display': "block"});
-            $('#notes').css({'display': "none"});
-        } else {
-            $('#comments').css({'display': "none"});
-            $('#notes').css({'display': "none"});
         }
     });
 
-    let currIndicatorID;
-    let currSeries;
-    var recordID  = <!--{$recordID|strip_tags}-->;
-    var serviceID = <!--{$serviceID|strip_tags}-->;
-    const requestTitle = <!--{$title|json_encode}-->;
-    let CSRFToken = '<!--{$CSRFToken}-->';
-    let formPrintConditions = {};
+    if (step > 0) {
+        $('#comments').css({'display': "block"});
+        $('#notes').css({'display': "block"});
+    } else if (step == 0 && $(".comment_block")[0]) {
+        $('#comments').css({'display': "block"});
+        $('#notes').css({'display': "none"});
+    } else {
+        $('#comments').css({'display': "none"});
+        $('#notes').css({'display': "none"});
+    }
+});
 
-    // ── Form submit ───────────────────────────────────────────────────────────
+let currIndicatorID;
+let currSeries;
+var recordID = <!--{$recordID|strip_tags}-->;
+var serviceID = <!--{$serviceID|strip_tags}-->;
+let CSRFToken = '<!--{$CSRFToken}-->';
+let formPrintConditions = {};
 
-    function doSubmit(recordID) {
-        $('#submitControl').empty().html('<img alt="" src="./images/indicator.gif" />Submitting...');
-        $.ajax({
-            type: 'POST',
-            url: `./api/form/${recordID}/submit`,
-            data: {CSRFToken: '<!--{$CSRFToken}-->'},
-            success: function(response) {
-                if (response?.errors?.length === 0) {
-                    $('#submitStatus').text('Request submitted');
-                    $('#submitControl').empty().html('Submitted');
-                    $('#submitContent').hide('blind', 500);
-                    $('#comments').css({'display': "block"});
-                    $('#notes').css({'display': "block"});
-                    const isAdmin    = '<!--{$is_admin}-->';
-                    const allowCancel = '<!--{$allowCancel}-->';
-                    if (isAdmin != "1" && allowCancel != "1") {
-                        $('#btn_cancelRequest').hide();
-                    }
-                    workflow.setExtraParams('masquerade=nonAdmin');
-                    workflow.getWorkflow(recordID);
-                } else {
-                    let errors = '';
-                    for (let i in response.errors) {
-                        errors += response.errors[i] + '<br />';
-                    }
-                    $('#submitControl').empty().html(`Error: ${errors}`);
-                    $('#submitStatus').text('Request can not be submitted');
+function doSubmit(recordID) {
+    $('#submitControl').empty().html('<img alt="" src="./images/indicator.gif" />Submitting...');
+    $.ajax({
+        type: 'POST',
+        url: "./api/form/" + recordID + "/submit",
+        data: {CSRFToken: '<!--{$CSRFToken}-->'},
+        success: function(response) {
+            if(response?.errors?.length === 0) {
+                $('#submitStatus').text('Request submmited');
+                $('#submitControl').empty().html('Submitted');
+                $('#submitContent').hide('blind', 500);
+                $('#comments').css({'display': "block"});
+                $('#notes').css({'display': "block"});
+                const isAdmin = '<!--{$is_admin}-->';
+                if (isAdmin !== "1") {
+                    $('#btn_cancelRequest').hide();
+                }
+                workflow.setExtraParams('masquerade=nonAdmin');
+                workflow.getWorkflow(recordID);
+            } else {
+                let errors = '';
+                for(let i in response.errors) {
+                    errors += response.errors[i] + '<br />';
+                }
+
+                $('#submitControl').empty().html('Error: ' + errors);
+                $('#submitStatus').text('Request can not be submmited');
                 }
             },
             error: function(res) {
@@ -1519,63 +1561,51 @@ function pvOpenEdit(indicatorID) {
         });
     }
 
-    // ── Notes ─────────────────────────────────────────────────────────────────
+    function submitNote(recordID) {
+        if ($('#note').val().trim() !== '') {
+            var form = $("#note_form").serialize();
 
-    async function submitNote(recordID) {
-        const noteEl = document.getElementById('note');
+            $.ajax({
+                type: 'POST',
+                url: "./api/note/" + recordID,
+                data: {form,
+                CSRFToken: '<!--{$CSRFToken}-->'},
+                success: function(response) {
+                    $("#note").val('');
 
-        if (noteEl.value.trim() !== '') {
-            const postData = new URLSearchParams();
-            postData.append('note', noteEl.value);
-            postData.append('CSRFToken', '<!--{$CSRFToken}-->');
+                    addNote(response);
 
-            try {
-                const response = await fetch(`./api/note/${recordID}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                    },
-                    body: postData
-                });
-
-                if (!response.ok) {
-                    const error = await response.text();
-                    throw new Error(error);
+                    dialog_ok.setTitle('Note Posted Successfully');
+                    dialog_ok.setContent(
+                        'Your note has been posted. <b style="color: red">Please keep in mind this does not send notifications.</b>'
+                    );
+                    dialog_ok.setSaveHandler(function() {
+                        dialog_ok.clearDialog();
+                        dialog_ok.hide();
+                    });
+                    dialog_ok.show();
+                },
+                error: function(res) {
+                    console.log(res);
                 }
-
-                const data = await response.json();
-                noteEl.value = '';
-                addNote(data);
-
-                dialog_ok.setTitle('Note Posted Successfully');
-                dialog_ok.setContent(
-                    'Your note has been posted. <b style="color: red">Please keep in mind this does not send notifications.</b>'
-                );
-                dialog_ok.setSaveHandler(function() {
-                    dialog_ok.clearDialog();
-                    dialog_ok.hide();
-                });
-                dialog_ok.show();
-            } catch (error) {
-                console.log(error);
-            }
+            });
         }
     }
 
     function addNote(response) {
         if (typeof response === 'object' && response !== null) {
-            const new_note = `<div class="comment_block">
-                <span class="comments_time">${response.date}</span>
-                <span class="comments_name">Note Added by ${response.user_name}</span>
-                <div class="comments_message">${response.note}</div>
-            </div>`;
+            let new_note;
+
+            new_note = '<div class="comment_block"> <span class="comments_time"> ' + response.date +
+                '</span> <span class="comments_name">Note Added by ' + response.user_name +
+                '</span> <div class="comments_message">' + response.note + '</div> </div>';
+
             $(new_note).insertAfter("#notes");
         } else {
             console.log('An object was not returned');
         }
-    }
 
-    // ── Tags / bookmarks ──────────────────────────────────────────────────────
+    }
 
     function updateTags() {
         $('#tags').fadeOut(250);
@@ -1585,7 +1615,7 @@ function pvOpenEdit(indicatorID) {
             success: function(res) {
                 let buffer = '';
                 if (res.length > 0) {
-                    buffer = res.length + ' Bookmarks';
+                    buffer = res.length + ' Bookmarks'
                 }
                 let tags = $('#tags');
                 tags.empty().html(buffer);
@@ -1594,8 +1624,6 @@ function pvOpenEdit(indicatorID) {
             cache: false
         });
     }
-
-    // ── Form helpers ──────────────────────────────────────────────────────────
 
     function getForm(indicatorID, series) {
         form.dialog().show();
@@ -1609,14 +1637,14 @@ function pvOpenEdit(indicatorID) {
 
     function getIndicatorLog(indicatorID, series) {
         dialog_message.setContent(
-            `Modifications made to this field:<table class="agenda" style="background-color: white"><thead><tr><th>Date/Author</th><th>Data</th></tr></thead><tbody id="history_${indicatorID}"></tbody></table>`
-        );
+            'Modifications made to this field:<table class="agenda" style="background-color: white"><thead><tr><th>Date/Author</th><th>Data</th></tr></thead><tbody id="history_' +
+            indicatorID + '"></tbody></table>');
         dialog_message.indicateBusy();
         dialog_message.show();
 
         $.ajax({
             type: 'GET',
-            url: `api/form/<!--{$recordID|strip_tags}-->/${indicatorID}/${series}/history`,
+            url: "api/form/<!--{$recordID|strip_tags}-->/" + indicatorID + "/" + series + '/history',
             success: function(res) {
                 let numChanges = res.length;
                 let prev = '';
@@ -1624,14 +1652,17 @@ function pvOpenEdit(indicatorID) {
                     curr = res.pop();
                     date = new Date(curr.timestamp * 1000);
                     data = curr.data;
+
                     if (i != 0) {
                         data = diffString(prev, data);
                     }
-                    $(`#history_${indicatorID}`).prepend(
-                        `<tr><td>${date.toString()}<br /><b>${curr.name}</b></td><td><span class="printResponse" style="font-size: 16px">${data}</span></td></tr>`
-                    );
+
+                    $('#history_' + indicatorID).prepend('<tr><td>' + date.toString() + '<br /><b>' + curr
+                        .name + '</b></td><td><span class="printResponse" style="font-size: 16px">' +
+                        data + '</span></td></tr>');
                     prev = curr.data;
                 }
+
                 dialog_message.indicateIdle();
             },
             error: function(res) {
@@ -1645,20 +1676,23 @@ function pvOpenEdit(indicatorID) {
     function getIndicator(indicatorID, series) {
         $.ajax({
             type: 'GET',
-            url: `ajaxIndex.php?a=getprintindicator&recordID=<!--{$recordID|strip_tags}-->&indicatorID=${indicatorID}&series=${series}`,
+            url: "ajaxIndex.php?a=getprintindicator&recordID=<!--{$recordID|strip_tags}-->&indicatorID=" + indicatorID + "&series=" + series,
             dataType: 'text',
             success: function(response) {
-                let currentPHindicator = $(`#PHindicator_${indicatorID}_${series}`);
+                let currentPHindicator = $("#PHindicator_" + indicatorID + "_" + series);
                 if (currentPHindicator.hasClass("printheading_missing")) {
                     currentPHindicator.removeClass("printheading_missing");
                     currentPHindicator.addClass("printheading");
                 }
-                let xhrIndicator = $(`#xhrIndicator_${indicatorID}_${series}`);
+                let xhrIndicator = $("#xhrIndicator_" + indicatorID + "_" + series);
                 xhrIndicator.empty().html(response);
                 xhrIndicator.fadeOut(250, function() {
                     xhrIndicator.fadeIn(250);
                 });
                 handlePrintConditionalIndicators(formPrintConditions);
+            },
+            error: function(res) {
+                console.log(res);
             },
             error: function() { console.log('There was an error getting the indicator!'); },
             cache: false
@@ -1667,16 +1701,17 @@ function pvOpenEdit(indicatorID) {
 
     function updateProgress() {
         $.ajax({
-            type: 'GET',
-            url: "./api/form/<!--{$recordID|strip_tags}-->/progress",
-            dataType: 'json',
-            success: function(response) {
-                if (response < 100) {
+                type: 'GET',
+                url: "./api/form/<!--{$recordID|strip_tags}-->/progress",
+                dataType: 'json',
+                success: function(response) {
+                    if (response < 100) {
+                        $('#progressBar').progressbar('option', 'value', response);
+                        $('#progressLabel').text(response + '%');
+                    }
+                    else if('<!--{$submitted}-->' == '0') {
                     $('#progressBar').progressbar('option', 'value', response);
-                    $('#progressLabel').text(`${response}%`);
-                } else if ('<!--{$submitted}-->' == '0') {
-                    $('#progressBar').progressbar('option', 'value', response);
-                    $('#progressLabel').text(`${response}%`);
+                    $('#progressLabel').text(response + '%');
                     $('#progressSidebar').slideUp(500);
                     $.ajax({
                         type: 'GET',
@@ -1696,7 +1731,7 @@ function pvOpenEdit(indicatorID) {
                             });
                         },
                         error: function(response) {
-                            $("#xhr").html(`Error: ${response}`);
+                            $("#xhr").html("Error: " + response);
                         },
                         cache: false
                     });
@@ -1707,6 +1742,9 @@ function pvOpenEdit(indicatorID) {
         });
     }
 
+    /**
+     * Is this even used? I do not see it called here. are there external things that could rely on it?
+     */
     function hideForm() {
         dialog.hide();
     }
@@ -1721,7 +1759,7 @@ function pvOpenEdit(indicatorID) {
             },
             success: function(response) {
                 if (response > 0) {
-                    window.location.href = "index.php?a=printview&recordID=<!--{$recordID|strip_tags}-->";
+                    window.location.href="index.php?a=printview&recordID=<!--{$recordID|strip_tags}-->";
                 }
             },
             error: function() { console.log('There was an error restoring the request!'); }
@@ -1750,8 +1788,12 @@ function pvOpenEdit(indicatorID) {
         $.ajax({
             type: 'POST',
             url: "ajaxIndex.php?a=addbookmark&recordID=<!--{$recordID|strip_tags}-->",
-            data: { CSRFToken: '<!--{$CSRFToken}-->' },
-            success: function() { updateTags(); },
+            data: {
+                CSRFToken: '<!--{$CSRFToken}-->'
+            },
+            success: function() {
+                updateTags();
+            },
             error: function() { console.log('There was an error adding the bookmark!'); }
         });
     }
@@ -1760,13 +1802,13 @@ function pvOpenEdit(indicatorID) {
         $.ajax({
             type: 'POST',
             url: "ajaxIndex.php?a=removebookmark&recordID=<!--{$recordID|strip_tags}-->",
-            data: { CSRFToken: '<!--{$CSRFToken}-->' },
-            success: function() { updateTags(); },
+            data: {CSRFToken: '<!--{$CSRFToken}-->'},
+            success: function() {
+                updateTags();
+            },
             error: function() { console.log('There was an error removing the bookmark!'); }
         });
     }
-
-    // ── Conditional indicators ────────────────────────────────────────────────
 
     const valIncludesMultiselOption = (values = [], arrOptions = []) => {
         let result = false;
@@ -1777,19 +1819,22 @@ function pvOpenEdit(indicatorID) {
             }
         });
         return result;
-    };
+    }
 
     function handlePrintConditionalIndicators(formPrintConditions = {}) {
         const multiChoiceFormats = ['multiselect', 'checkboxes'];
 
         for (let c in formPrintConditions) {
-            const childFormat = formPrintConditions[c].format;
+            const childFormat = formPrintConditions[c].format; //current format of the controlled question
             const childFormatIsEnabled = childFormat !== 'raw_data';
             const conditions = formPrintConditions[c].conditions;
 
             let comparison = false;
 
             for (let i in conditions) {
+                /* Validate outcome:
+                confirm child, i, has hide/show conditions that need to be processed.
+                Log a message to assist with debugging if it is configured with both directives. */
                 let outcomes = [];
                 if (conditions.some(c => c.selectedOutcome.toLowerCase() === "hide")) outcomes.push("hide");
                 if (conditions.some(c => c.selectedOutcome.toLowerCase() === "show")) outcomes.push("show");
@@ -1802,19 +1847,24 @@ function pvOpenEdit(indicatorID) {
                 const outcome = outcomes[0];
 
                 const parentFormat = conditions[i].parentFormat.toLowerCase();
-                const elParentInd = document.getElementById(`data_${conditions[i].parentIndID}_1`);
-                const selectedParentOptionsLI = Array.from(document.querySelectorAll(`#xhrIndicator_${conditions[i].parentIndID}_1 > span > ul > li`));
+                const elParentInd = document.getElementById('data_' + conditions[i].parentIndID +
+                    '_1'); //dropdown, text and radio elements
+                const selectedParentOptionsLI = Array.from(document.querySelectorAll(`#xhrIndicator_${conditions[i].parentIndID}_1 > span > ul > li`)); //multiselect and checkboxes li elements
 
                 let arrParVals = [];
                 selectedParentOptionsLI.forEach(li => arrParVals.push(li.textContent.trim()));
 
-                const elChildInd = document.getElementById(`subIndicator_${conditions[i].childIndID}_1`);
+                const elChildInd = document.getElementById('subIndicator_' + conditions[i].childIndID + '_1');
 
-                if (childFormatIsEnabled && (elParentInd !== null || selectedParentOptionsLI !== null)) {
-                    if (comparison !== true) {
-                        let val = multiChoiceFormats.includes(parentFormat)
-                            ? arrParVals
-                            : [(elParentInd?.textContent || '').trim()];
+                if (childFormatIsEnabled && (elParentInd !== null ||
+                        selectedParentOptionsLI !== null)) {
+
+                    if (comparison !== true) { //no need to re-assess if it has already become true
+                        let val = multiChoiceFormats.includes(parentFormat) ?
+                            arrParVals :
+                            [
+                                (elParentInd?.textContent || '').trim()
+                            ];
                         val = val.filter(v => v !== '');
 
                         let compVal = $('<div/>').html(conditions[i].selectedParentValue).text().trim().split('\n');
@@ -1832,19 +1882,26 @@ function pvOpenEdit(indicatorID) {
                             case 'lte':
                             case 'gt':
                             case 'gte':
-                                const arrNumVals = val.filter(v => !isNaN(v)).map(v => +v);
-                                const arrNumComp = compVal.filter(v => !isNaN(v)).map(v => +v);
+                                const arrNumVals = val
+                                    .filter(v => !isNaN(v))
+                                    .map(v => +v);
+                                const arrNumComp = compVal
+                                    .filter(v => !isNaN(v))
+                                    .map(v => +v);
                                 const orEq = op.includes('e');
                                 const gtr = op.includes('g');
-                                if (arrNumComp.length > 0) {
+                                if(arrNumComp.length > 0) {
                                     for (let i = 0; i < arrNumVals.length; i++) {
                                         const currVal = arrNumVals[i];
-                                        if (gtr === true) {
+                                        if(gtr === true) {
+                                            //unlikely to be set up with more than one comp val, but checking just in case
                                             comparison = orEq === true ? currVal >= Math.max(...arrNumComp) : currVal > Math.max(...arrNumComp);
                                         } else {
                                             comparison = orEq === true ? currVal <= Math.min(...arrNumComp) : currVal < Math.min(...arrNumComp);
                                         }
-                                        if (comparison === true) break;
+                                        if(comparison === true) {
+                                            break;
+                                        }
                                     }
                                 }
                                 break;
@@ -1874,8 +1931,6 @@ function pvOpenEdit(indicatorID) {
         }
     }
 
-    // ── Content loading ───────────────────────────────────────────────────────
-
     function openContent(url) {
         $("#formcontent").html(
             '<div style="border: 2px solid black; text-align: center; font-size: 24px; font-weight: bold; background: white; padding: 16px; width: 95%">Loading... <img src="images/largespinner.gif" alt="" /></div>'
@@ -1883,9 +1938,10 @@ function pvOpenEdit(indicatorID) {
         $.ajax({
             type: 'GET',
             url: url,
-            dataType: 'text',
+            dataType: 'text', // IE9 issue
             success: function(res) {
                 $('#formcontent').empty().html(res);
+                // make box size more predictable
                 $('.printmainblock').each(function() {
                     let boxSizer = {};
                     $(this).find('.printsubheading').each(function() {
@@ -1913,8 +1969,7 @@ function pvOpenEdit(indicatorID) {
         });
     }
 
-    // ── Vote count fetch (admin only) ─────────────────────────────────────────
-
+    /* ── Vote count fetch: called on page load for admins ───────────── */
     <!--{if $is_admin}-->
     function fetchVoteCount() {
         var ideaKey = String(<!--{$recordID|strip_tags|escape}-->);
@@ -1938,7 +1993,7 @@ function pvOpenEdit(indicatorID) {
                     if (String((vote.s1 && vote.s1['id2']) || '') === ideaKey) { count++; }
                 });
                 var lbl = document.getElementById('btn-votes-label');
-                if (lbl) { lbl.textContent = `Votes (${count})`; }
+                if (lbl) { lbl.textContent = 'Votes (' + count + ')'; }
                 window._pvVoteCount = count;
             },
             error: function() { /* silently fail — button still works */ }
@@ -1946,8 +2001,7 @@ function pvOpenEdit(indicatorID) {
     }
     <!--{/if}-->
 
-    // ── Toggle votes panel ────────────────────────────────────────────────────
-
+    /* ── toggleVotes: writes into #formcontent like openContent() ───────── */
     var _pvVotesLoaded   = false;
     var _pvAllVoters     = [];
     var _pvVotesExpanded = false;
@@ -1967,11 +2021,13 @@ function pvOpenEdit(indicatorID) {
             return;
         }
 
+        /* If already fetched, just re-render */
         if (_pvVotesLoaded) {
             _pvRenderVotes(fc);
             return;
         }
 
+        /* First open — fetch */
         fc.innerHTML = '<div style="padding:16px;font-size:15px;color:#475569;">Loading votes&hellip;</div>';
 
         var q = {
@@ -2016,45 +2072,46 @@ function pvOpenEdit(indicatorID) {
         var total    = _pvAllVoters.length;
         var showList = _pvShowAll ? _pvAllVoters : _pvAllVoters.slice(0, PV_VOTE_CAP);
         var rows     = showList.map(function(v, i) {
-            return `<tr>
-                <td style="width:32px;color:#94a3b8;padding:7px 10px;border-top:1px solid #f1f5f9;">${i + 1}</td>
-                <td style="padding:7px 10px;border-top:1px solid #f1f5f9;color:#0f172a;">${$('<div/>').text(v).html()}</td>
-            </tr>`;
+            return '<tr>'
+                + '<td style="width:32px;color:#94a3b8;padding:7px 10px;border-top:1px solid #f1f5f9;">' + (i + 1) + '</td>'
+                + '<td style="padding:7px 10px;border-top:1px solid #f1f5f9;color:#0f172a;">' + $('<div/>').text(v).html() + '</td>'
+                + '</tr>';
         }).join('');
 
         var footer = '';
         if (!_pvShowAll && total > PV_VOTE_CAP) {
-            footer = `<div class="pv-votes-footer">
-                <button type="button" class="pv-votes-showall" onclick="_pvShowAll=true;_pvRenderVotes(document.getElementById('formcontent'));">
-                    Show all ${total} votes
-                </button></div>`;
+            footer = '<div class="pv-votes-footer">'
+                + '<button type="button" class="pv-votes-showall" onclick="_pvShowAll=true;_pvRenderVotes(document.getElementById(\'formcontent\'));">'
+                + 'Show all ' + total + ' votes'
+                + '</button></div>';
         } else if (_pvShowAll && total > PV_VOTE_CAP) {
-            footer = `<div class="pv-votes-footer">
-                <button type="button" class="pv-votes-showall" onclick="_pvShowAll=false;_pvRenderVotes(document.getElementById('formcontent'));">
-                    Show fewer
-                </button></div>`;
+            footer = '<div class="pv-votes-footer">'
+                + '<button type="button" class="pv-votes-showall" onclick="_pvShowAll=false;_pvRenderVotes(document.getElementById(\'formcontent\'));">'
+                + 'Show fewer'
+                + '</button></div>';
         }
 
         fc.innerHTML =
-            `<div class="pv-votes-table-wrap">
-                <table style="width:100%;border-collapse:collapse;font-size:14px;">
-                    <thead><tr style="background:#f8fafc;position:sticky;top:0;">
-                        <th style="padding:7px 10px;text-align:left;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;width:32px;">#</th>
-                        <th style="padding:7px 10px;text-align:left;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;">Voter</th>
-                    </tr></thead>
-                    <tbody>${rows}</tbody>
-                </table>
-            </div>${footer}`;
+            '<div class="pv-votes-table-wrap">'
+            + '<table style="width:100%;border-collapse:collapse;font-size:14px;">'
+            + '<thead><tr style="background:#f8fafc;position:sticky;top:0;">'
+            + '<th style="padding:7px 10px;text-align:left;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;width:32px;">#</th>'
+            + '<th style="padding:7px 10px;text-align:left;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;">Voter</th>'
+            + '</tr></thead>'
+            + '<tbody>' + rows + '</tbody></table>'
+            + '</div>'
+            + footer;
     }
 
-    function openContentForPrint() {
+    function openContentForPrint(){
         $('#formcontent').empty().html('');
         $.ajax({
             type: 'GET',
             url: 'ajaxIndex.php?a=printview&recordID=<!--{$recordID|strip_tags}-->',
-            dataType: 'text',
+            dataType: 'text', // IE9 issue
             success: function(res) {
                 $('#formcontent').append(res);
+                // make box size more predictable
                 $('.printmainblock').each(function() {
                     let boxSizer = {};
                     $(this).find('.printsubheading').each(function() {
@@ -2081,14 +2138,15 @@ function pvOpenEdit(indicatorID) {
             cache: false,
             async: false,
         });
-
+      
         <!--{section name=i loop=$childforms}-->
             $.ajax({
                 type: 'GET',
                 url: 'ajaxIndex.php?a=internalonlyview&recordID=<!--{$recordID|strip_tags}-->&childCategoryID=<!--{$childforms[i].childCategoryID|strip_tags}-->',
-                dataType: 'text',
+                dataType: 'text', // IE9 issue
                 success: function(res) {
                     $('#formcontent').append(res);
+                    // make box size more predictable
                     $('.printmainblock').each(function() {
                         let boxSizer = {};
                         $(this).find('.printsubheading').each(function() {
@@ -2116,11 +2174,11 @@ function pvOpenEdit(indicatorID) {
                 async: false,
             });
         <!--{/section}-->
+
     }
 
-    // ── Access logs ───────────────────────────────────────────────────────────
-
     function viewAccessLogsRead() {
+        // presents logs as bullet points in a message window
         let viewAccessLogsRead = '<!--{foreach from=$accessLogs["read"] item=log}--> <li><!--{$log}--></li> <!--{/foreach}-->';
         dialog_message.setTitle('Security Permissions');
         dialog_message.setContent(viewAccessLogsRead);
@@ -2130,6 +2188,7 @@ function pvOpenEdit(indicatorID) {
     }
 
     function viewAccessLogsWrite() {
+        // presents logs as bullet points in a message window
         let viewAccessLogsWrite = '<!--{foreach from=$accessLogs["write"] item=log}--> <li><!--{$log}--></li> <!--{/foreach}-->';
         dialog_message.setTitle('Access Logs');
         dialog_message.setContent(viewAccessLogsWrite);
@@ -2138,471 +2197,24 @@ function pvOpenEdit(indicatorID) {
         $('div[role="dialog"]').css('height', '20%');
     }
 
-    // ── View History (updated) ────────────────────────────────────────────────
-
-    const recordHistoryState = {
-        page: 1,
-        pageSize: 20,
-        types: ['workflow'],
-        items: [],
-        requestID: 0,
-        isLoadingMore: false,
-        sortKey: 'timestampText',
-        sortOrder: 'asc'
-    };
-    let recordHistoryGrid = null;
-    let recordHistoryGridColumnCount = 0;
-
-    function buildRecordHistoryDialogContent() {
-        return `
-            <div id="record-history-dialog">
-                <style>
-                    #record-history-dialog {
-                        box-sizing: border-box;
-                        font-family: verdana;
-                        max-width: calc(100vw - 4rem);
-                        width: 620px;
-                    }
-                    #record-history-summary {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: flex-start;
-                        gap: 1rem;
-                        margin-bottom: 0.75rem;
-                    }
-                    #record-history-summary .history-request-summary { flex: 1 1 auto; }
-                    #record-history-summary .history-print-button {
-                        display: inline-flex;
-                        align-items: center;
-                        gap: 0.35rem;
-                        margin-top: 0.15rem;
-                        white-space: nowrap;
-                    }
-                    #record-history-summary .history-request-meta {
-                        font-size: 14px;
-                        line-height: 1.35;
-                    }
-                    #record-history-filters {
-                        margin: 0 0 0.75rem 0;
-                        padding: 0;
-                        border: 0;
-                    }
-                    #record-history-filters legend {
-                        font-size: 15px;
-                        font-weight: bold;
-                        padding: 0;
-                        margin: 0 0 0.45rem 0;
-                    }
-                    #record-history-filters .history-filter-list {
-                        display: flex;
-                        flex-wrap: wrap;
-                        gap: 0.65rem 1.5rem;
-                    }
-                    #record-history-filters .history-filter {
-                        display: inline-flex;
-                        align-items: center;
-                        gap: 0.35rem;
-                        font-size: 14px;
-                        font-weight: normal;
-                    }
-                    #record-history-status {
-                        margin: 0 0 0.5rem 0;
-                        padding: 0;
-                        font-size: 14px;
-                    }
-                    #record-history-table-wrapper {
-                        max-height: none;
-                        overflow-y: visible;
-                        padding: 0;
-                    }
-                    #record-history-table-wrapper table.leaf_grid {
-                        border: 1px solid #666;
-                        border-collapse: collapse;
-                        border-spacing: 0;
-                        margin: 0;
-                        width: 100%;
-                    }
-                    #record-history-table-wrapper table.leaf_grid th {
-                        background-color: #d7e3ff;
-                        border: 1px solid #666;
-                        font-weight: bold;
-                        padding: 6px 8px;
-                    }
-                    #record-history-table-wrapper table.leaf_grid th:hover,
-                    #record-history-table-wrapper table.leaf_grid th:focus {
-                        background-color: #d7e3ff;
-                    }
-                    #record-history-table-wrapper table.leaf_grid td {
-                        border: 1px solid #666;
-                        padding: 8px 10px;
-                        vertical-align: top;
-                    }
-                </style>
-                <div id="record-history-summary">
-                    <div class="history-request-summary">
-                        <div class="history-request-meta">Service: <!--{$service|sanitize}--></div>
-                        <div class="history-request-meta">Title of Request: <a href="?a=printview&amp;recordID=<!--{$recordID|strip_tags|escape}-->"><!--{$title|sanitize}--></a></div>
-                    </div>
-                    <a class="buttonNorm history-print-button" href="?a=status&amp;recordID=<!--{$recordID|strip_tags}-->">
-                        <img src="dynicons/?img=printer.svg&amp;w=16" alt="" /> Print
-                    </a>
-                </div>
-                <fieldset id="record-history-filters" aria-label="Record history filters">
-                    <legend>Request Data</legend>
-                    <div class="history-filter-list">
-                        <label class="history-filter"><input type="checkbox" class="history-filter-input" data-history-type="workflow" checked="checked" />Action</label>
-                        <label class="history-filter"><input type="checkbox" class="history-filter-input" data-history-type="notes" />Notes</label>
-                        <label class="history-filter"><input type="checkbox" class="history-filter-input" data-history-type="email" />Email Delivery</label>
-                    </div>
-                </fieldset>
-                <div id="record-history-status"></div>
-                <div id="record-history-table-wrapper">
-                    <div id="record-history-grid"></div>
-                </div>
-            </div>
-        `;
-    }
-
-    function escapeHistoryHTML(value) {
-        if (value == null || value === '') return '';
-        return DOMPurify.sanitize(String(value), {
-            ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'ol', 'ul', 'li', 'a'],
-            ALLOWED_ATTR: ['href', 'target']
-        });
-    }
-
-    function formatHistoryTimestamp(timestamp) {
-        const date = new Date(timestamp * 1000);
-        const monthName = date.toLocaleString(undefined, {month: 'long'});
-        const day = date.getDate();
-        const year = date.getFullYear();
-        let hour = date.getHours();
-        const minute = String(date.getMinutes()).padStart(2, '0');
-        const meridiem = hour >= 12 ? 'PM' : 'AM';
-        const tz = Intl.DateTimeFormat(undefined, {timeZoneName: 'short'})
-            .formatToParts(new Date())
-            .find(part => part.type === 'timeZoneName').value;
-        hour = hour % 12 || 12;
-        return `${monthName} ${day}, ${year}. ${hour}:${minute} ${meridiem} ${tz}`;
-    }
-
-    function getRecordHistoryTimestampMinute(timestamp) {
-        return Math.floor((Number(timestamp) || 0) / 60);
-    }
-
-    function renderHistoryComment(item) {
-        if (!item.comment) return '';
-        const escapedComment = escapeHistoryHTML(item.comment).replace(/\n/g, '<br />');
-        if (item.historyType === 'email') {
-            return `<div style="margin-top:0.35rem;">${escapedComment}</div>`;
-        }
-        return `<div style="margin-top:0.35rem;">Comment: ${escapedComment}</div>`;
-    }
-
-    function getRecordHistoryItemTypeLabel(item) {
-        if (item.historyType === 'email') return 'Email Delivery';
-        if (item.historyType === 'notes') return 'Notes';
-        return 'Action';
-    }
-
-    function getRecordHistoryGridHeaders() {
-        const headers = [
-            {
-                name: 'Timestamp',
-                indicatorID: 'timestampText',
-                editable: false,
-                callback: function(data, blob) {
-                    $(`#${data.cellContainerID}`).text(blob[data.recordID].timestampDisplay);
-                }
-            }
-        ];
-
-        if (recordHistoryState.types.length > 1) {
-            headers.push({
-                name: 'Type',
-                indicatorID: 'typeLabel',
-                editable: false,
-                callback: function(data, blob) {
-                    $(`#${data.cellContainerID}`).text(blob[data.recordID].typeLabel);
-                }
-            });
-        }
-
-        headers.push({
-            name: 'Action Taken',
-            indicatorID: 'actionDisplay',
-            editable: false,
-            callback: function(data, blob) {
-                $(`#${data.cellContainerID}`).html(blob[data.recordID].actionDisplay);
-            }
-        });
-
-        return headers;
-    }
-
-    function setRecordHistoryGridMessage(message) {
-        if (!recordHistoryGrid) return;
-        const tbody = document.getElementById(`${recordHistoryGrid.getPrefixID()}tbody`);
-        if (tbody) {
-            tbody.innerHTML = `<tr><td colspan="${recordHistoryGrid.headers().length}" style="text-align:center;">${escapeHistoryHTML(message)}</td></tr>`;
-        }
-    }
-
-    function sortRecordHistoryItems(items) {
-        if (!Array.isArray(items)) return [];
-        const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
-        const sortKey   = recordHistoryState.sortKey || 'timestampText';
-        const sortOrder = recordHistoryState.sortOrder === 'asc' ? 'asc' : 'desc';
-
-        return items.slice().sort(function(a, b) {
-            let comparison = 0;
-            if (sortKey === 'timestampText') {
-                comparison = getRecordHistoryTimestampMinute(a.timestamp) - getRecordHistoryTimestampMinute(b.timestamp);
-                if (comparison === 0) {
-                    const sortOrderComparison = (Number(a.sortOrder) || 0) - (Number(b.sortOrder) || 0);
-                    const timestampComparison = (Number(a.timestamp) || 0) - (Number(b.timestamp) || 0);
-                    const fallbackComparison  = sortOrderComparison !== 0 ? sortOrderComparison : timestampComparison;
-                    return sortOrder === 'asc' ? fallbackComparison : fallbackComparison * -1;
-                }
-            } else if (sortKey === 'typeLabel') {
-                comparison = collator.compare(getRecordHistoryItemTypeLabel(a), getRecordHistoryItemTypeLabel(b));
-            } else {
-                const actionA = `${a.description || ''} ${a.comment || ''}`;
-                const actionB = `${b.description || ''} ${b.comment || ''}`;
-                comparison = collator.compare(actionA, actionB);
-            }
-            return sortOrder === 'asc' ? comparison : comparison * -1;
-        });
-    }
-
-    function sortRecordHistoryGridRows(rows, key, order) {
-        if (!Array.isArray(rows) || key !== 'timestampText') return rows;
-        const sortOrder = order === 'asc' ? 'asc' : 'desc';
-        return rows.slice().sort(function(a, b) {
-            const comparison = getRecordHistoryTimestampMinute(a.timestampText) - getRecordHistoryTimestampMinute(b.timestampText);
-            if (comparison === 0) {
-                const sortOrderComparison = (Number(a.sortOrder) || 0) - (Number(b.sortOrder) || 0);
-                const timestampComparison = (Number(a.timestampText) || 0) - (Number(b.timestampText) || 0);
-                const fallbackComparison  = sortOrderComparison !== 0 ? sortOrderComparison : timestampComparison;
-                return sortOrder === 'asc' ? fallbackComparison : fallbackComparison * -1;
-            }
-            return sortOrder === 'asc' ? comparison : comparison * -1;
-        });
-    }
-
-    function renderRecordHistoryGrid(items) {
-        const nextColumnCount = recordHistoryState.types.length > 1 ? 3 : 2;
-        const gridData  = {};
-        const sortedItems = sortRecordHistoryItems(items);
-        const gridRows  = sortedItems.map(function(item, index) {
-            const recID           = index + 1;
-            const userText        = item.userName ? ` by ${escapeHistoryHTML(item.userName)}` : '';
-            const timestampText   = formatHistoryTimestamp(item.timestamp);
-            const descriptionText = escapeHistoryHTML(item.description);
-
-            gridData[recID] = {
-                recordID:         recID,
-                timestampText:    item.timestamp,
-                timestampDisplay: timestampText,
-                typeLabel:        getRecordHistoryItemTypeLabel(item),
-                actionDisplay:    `<div><b>${descriptionText}</b>${userText}</div>${renderHistoryComment(item)}`
-            };
-
-            return {
-                recordID:      recID,
-                timestampText: item.timestamp,
-                sortOrder:     item.sortOrder,
-                typeLabel:     gridData[recID].typeLabel,
-                actionDisplay: gridData[recID].actionDisplay
-            };
-        });
-
-        document.getElementById('record-history-grid').innerHTML = '';
-        recordHistoryGrid = new LeafFormGrid('record-history-grid', {readOnly: true});
-        recordHistoryGrid.hideIndex();
-        recordHistoryGrid.setPostSortRequestFunc(function(key, order) {
-            recordHistoryState.sortKey   = key;
-            recordHistoryState.sortOrder = order;
-            recordHistoryGrid.setData(sortRecordHistoryGridRows(recordHistoryGrid.getCurrentData(), key, order));
-        });
-        recordHistoryGridColumnCount = nextColumnCount;
-
-        recordHistoryGrid.setHeaders(getRecordHistoryGridHeaders());
-        recordHistoryGrid.setDataBlob(gridData);
-        recordHistoryGrid.setData(gridRows);
-        if (recordHistoryState.sortKey) {
-            recordHistoryGrid.sort(recordHistoryState.sortKey, recordHistoryState.sortOrder);
-            recordHistoryGrid.setData(sortRecordHistoryGridRows(recordHistoryGrid.getCurrentData(), recordHistoryState.sortKey, recordHistoryState.sortOrder));
-        }
-        recordHistoryGrid.renderBody(0, Infinity);
-        $(`#${recordHistoryGrid.getPrefixID()}table`).css('width', '100%');
-
-        if (gridRows.length === 0) {
-            setRecordHistoryGridMessage('No history to show.');
-        }
-    }
-
-    function getRecordHistoryTypeLabel(types) {
-        if (!Array.isArray(types) || types.length === 0) return 'Action';
-        if (types.length === 3) return 'All';
-        return types.map(function(type) {
-            if (type === 'email') return 'Email Delivery';
-            if (type === 'notes') return 'Notes';
-            return 'Action';
-        }).join(', ');
-    }
-
-    function updateRecordHistoryFilterSelection() {
-        document.querySelectorAll('#record-history-filters .history-filter-input').forEach(function(input) {
-            input.checked = recordHistoryState.types.includes(input.dataset.historyType);
-        });
-        const dialog = document.getElementById('record-history-dialog');
-        if (dialog) {
-            dialog.classList.toggle('multi-type-history', recordHistoryState.types.length > 1);
-        }
-    }
-
-    function updateRecordHistoryStatus() {
-        const status = document.getElementById('record-history-status');
-        if (status) {
-            const typeLabel      = getRecordHistoryTypeLabel(recordHistoryState.types);
-            const loadingSuffix  = recordHistoryState.isLoadingMore ? ' Loading more...' : '';
-            status.textContent   = `Showing ${typeLabel} History: ${recordHistoryState.items.length} Loaded${loadingSuffix}`;
-        }
-    }
-
-    async function fetchRecordHistoryPage(page) {
-        const params = new URLSearchParams({
-            types:    recordHistoryState.types.join(','),
-            page:     page,
-            pageSize: recordHistoryState.pageSize
-        });
-
-        const response = await fetch(`api/form/<!--{$recordID|strip_tags}-->/history?${params.toString()}`, {
-            headers: { 'Accept': 'application/json' }
-        });
-
-        if (!response.ok) {
-            throw new Error(`History request failed with status ${response.status}`);
-        }
-
-        return response.json();
-    }
-
-    async function loadRemainingRecordHistoryPages(requestID, startPage) {
-        let nextPage = startPage;
-
-        while (recordHistoryState.requestID === requestID && recordHistoryState.isLoadingMore) {
-            const res = await fetchRecordHistoryPage(nextPage);
-            if (recordHistoryState.requestID !== requestID) return;
-
-            recordHistoryState.items = recordHistoryState.items.concat(res.items || []);
-            renderRecordHistoryGrid(recordHistoryState.items);
-            updateRecordHistoryFilterSelection();
-            updateRecordHistoryStatus();
-
-            if (!res.hasNext) {
-                recordHistoryState.isLoadingMore = false;
-                updateRecordHistoryStatus();
-                return;
-            }
-
-            nextPage += 1;
-        }
-    }
-
-    async function loadRecordHistoryPage() {
-        const gridContainer = document.getElementById('record-history-grid');
-        if (!gridContainer) return;
-
-        recordHistoryState.requestID += 1;
-        const requestID = recordHistoryState.requestID;
-        recordHistoryState.items         = [];
-        recordHistoryState.page          = 1;
-        recordHistoryState.isLoadingMore = false;
-        renderRecordHistoryGrid([]);
-        setRecordHistoryGridMessage('Loading history...');
-        dialog_message.indicateBusy();
-
-        try {
-            const res = await fetchRecordHistoryPage(1);
-            if (recordHistoryState.requestID !== requestID) return;
-
-            recordHistoryState.items         = res.items || [];
-            recordHistoryState.isLoadingMore = res.hasNext;
-            renderRecordHistoryGrid(recordHistoryState.items);
-            updateRecordHistoryFilterSelection();
-            updateRecordHistoryStatus();
-
-            if (res.hasNext) {
-                loadRemainingRecordHistoryPages(requestID, 2).catch(function(error) {
-                    if (recordHistoryState.requestID !== requestID) return;
-                    console.error('There was an error collecting the remaining history!', error);
-                    recordHistoryState.isLoadingMore = false;
-                    updateRecordHistoryStatus();
-                });
-            }
-        } catch (error) {
-            console.error('There was an error collecting the history!', error);
-            renderRecordHistoryGrid([]);
-            setRecordHistoryGridMessage('There was an error collecting the history.');
-        } finally {
-            dialog_message.indicateIdle();
-        }
-    }
-
-    function initializeRecordHistoryDialog() {
-        document.querySelectorAll('#record-history-filters .history-filter-input').forEach(function(input) {
-            input.addEventListener('change', function() {
-                const historyType = input.dataset.historyType || 'workflow';
-                const nextTypes   = recordHistoryState.types.filter(function(type) {
-                    return type !== historyType;
-                });
-
-                if (input.checked) {
-                    nextTypes.push(historyType);
-                }
-
-                if (nextTypes.length === 0) {
-                    input.checked = true;
-                    return;
-                }
-
-                recordHistoryState.types = ['workflow', 'notes', 'email'].filter(function(type) {
-                    return nextTypes.includes(type);
-                });
-                loadRecordHistoryPage();
-            });
-        });
-
-        updateRecordHistoryFilterSelection();
-        loadRecordHistoryPage();
-    }
-
     function viewHistory() {
-        recordHistoryState.page          = 1;
-        recordHistoryState.types         = ['workflow'];
-        recordHistoryGrid                = null;
-        recordHistoryGridColumnCount     = 0;
-        dialog_message.setTitle(`View History of Request ID#: <!--{$recordID|sanitize}-->`);
-        dialog_message.setContent(buildRecordHistoryDialogContent());
+        dialog_message.setContent('');
         dialog_message.show();
-        initializeRecordHistoryDialog();
+        dialog_message.indicateBusy();
+        $.ajax({
+            type: 'GET',
+            url: 'ajaxIndex.php?a=getstatus&recordID=<!--{$recordID|strip_tags}-->',
+            dataType: 'text',
+            success: function(res) {
+                dialog_message.setContent(res);
+                dialog_message.indicateIdle();
+            },
+            error: function() { console.log('There was an error collecting the history!'); },
+            cache: false
+        });
     }
-
-    // ── Cancel request (updated) ──────────────────────────────────────────────
 
     function cancelRequest() {
-        const admin       = '<!--{$is_admin}-->';
-        const submitted   = '<!--{$submitted}-->';
-        const allowCancel = '<!--{$allowCancel}-->';
-        const requireComment = admin != '1' && +submitted > 0 && allowCancel == '1';
-
-        const requiredAttr = requireComment === true ? ' required' : '';
-        const requiredHTML = requireComment === true
-            ? ' <span id="cancel_comment_required" style="color:#b00;font-weight:bold;"> (*required)</span>'
-            : '';
-
         dialog_confirm.setContent(
             `<div style="margin-left:-0.75rem;">
                 <div style="display:flex;align-items:center;gap:0.75rem;">
@@ -2610,67 +2222,48 @@ function pvOpenEdit(indicatorID) {
                     Are you sure you want to cancel this request?
                 </div>
                 <br>
-                <label for="cancel_comment" style="font-size:14px;">Comments${requiredHTML}:</label><br>
+                <label for="cancel_comment" style="font-size:14px;">Comments:</label><br>
                 <textarea id="cancel_comment" cols=30 rows=3 placeholder="Enter Comment"
-                    style="width:100%;resize: vertical;" ${requiredAttr}></textarea>
+                    style="width:100%;resize: vertical;"></textarea>
             </div>`
         );
 
-        const handleCancel = () => {
+        dialog_confirm.setSaveHandler(function() {
             let comment = $('#cancel_comment').val();
-            if (comment.trim() === '' && requireComment === true) {
-                let errEl = document.getElementById('cancel_comment_required');
-                if (errEl !== null) {
-                    errEl.style.backgroundColor = '#b00';
-                    errEl.style.color = '#fff';
-                }
-                setTimeout(() => {
-                    dialog_confirm?.setSaveHandler(handleCancel);
-                });
-            } else {
-                $.ajax({
-                    type: 'POST',
-                    url: 'api/form/<!--{$recordID|strip_tags|escape}-->/cancel',
-                    data: {
-                        CSRFToken: '<!--{$CSRFToken}-->',
-                        comment: comment
-                    },
-                    success: function(response) {
-                        if (response == 1) {
-                            window.location.href = "index.php?a=cancelled_request&cancelled=<!--{$recordID|strip_tags}-->";
-                        } else {
-                            alert(response);
-                        }
-                    },
-                    error: function() { console.log('There was an error canceling the request!'); },
-                    cache: false
-                });
-            }
-        };
 
-        dialog_confirm.setSaveHandler(handleCancel);
+            $.ajax({
+                type: 'POST',
+                url: 'api/form/<!--{$recordID|strip_tags|escape}-->/cancel',
+                data: {CSRFToken: '<!--{$CSRFToken}-->',
+                    comment: comment},
+                success: function(response) {
+                    if (response == 1) {
+                        window.location.href="index.php?a=cancelled_request&cancelled=<!--{$recordID|strip_tags}-->";
+                    } else {
+                        alert(response);
+                    }
+                },
+                error: function() { console.log('There was an error canceling the request!'); },
+                cache: false
+            });
+        });
         dialog_confirm.show();
         $('#cancel_comment').focus();
     }
 
-    // ── Change title ──────────────────────────────────────────────────────────
-
     function changeTitle() {
-        dialog.setContent('<label for="title">Title:</label><br><input type="text" id="title" style="width: 300px" name="title" /><input type="hidden" id="CSRFToken" name="CSRFToken" value="<!--{$CSRFToken}-->" />');
-        document.getElementById('title').value = requestTitle;
+        dialog.setContent('<label for="title">Title:</label><br><input type="text" id="title" style="width: 300px" name="title" value="<!--{$title|escape:'quotes'}-->" /><input type="hidden" id="CSRFToken" name="CSRFToken" value="<!--{$CSRFToken}-->" />');
 
         dialog.show();
         dialog.setSaveHandler(function() {
             $.ajax({
                 type: 'POST',
                 url: 'api/form/<!--{$recordID|strip_tags}-->/title',
-                data: {
-                    title: $('#title').val(),
-                    CSRFToken: '<!--{$CSRFToken}-->'
-                },
+                data: {title: $('#title').val(),
+                CSRFToken: '<!--{$CSRFToken}-->'},
                 success: function(res) {
                     if (res != null) {
-                        document.getElementById('requestTitle').textContent = res;
+                        $('#requestTitle').empty().html(res);
                     }
                     dialog.hide();
                 },
@@ -2679,24 +2272,38 @@ function pvOpenEdit(indicatorID) {
         });
     }
 
-    // ── Copy request ──────────────────────────────────────────────────────────
+    /**
+ *
+* @param {object} indicators
+    * @returns {array}
+    */
 
     function getChildrenIndicatorIDs(indicators) {
         let children = [];
+
         if (indicators !== null && typeof indicators === 'object') {
             Object.values(indicators).forEach(function(indicator) {
+
+                // make sure indicatorID exists
                 if (indicator.indicatorID !== undefined) {
                     children.push(indicator.indicatorID);
                 }
+
+                // make sure child exists
                 if (indicator.child !== undefined) {
                     let subchildren = getChildrenIndicatorIDs(indicator.child);
                     children = children.concat(subchildren);
                 }
             });
         }
+
         return children;
     }
 
+    /**
+     * popup for duplicating the current form
+     * will allow an end user to choose which sections they would like to copy over
+     */
     function copyRequest() {
         $('body').on('click', '.pickAndChooseAll', function(event) {
             $(".pickAndChoose").prop("checked", event.target.checked);
@@ -2708,47 +2315,66 @@ function pvOpenEdit(indicatorID) {
             }
         });
 
-        dialog.setTitle(`Copy Request ${requestTitle}`);
+        dialog.setTitle('Copy Request <!--{$title|escape:'quotes'}-->');
         dialog.show();
-        dialog.indicateBusy();
 
+        dialog.indicateBusy();
+        // options for the service dropdown
         let serviceOptions = '';
+        // how is this supposed to work? Old functionality that is no longer used?
         let series = 1;
+        // allow the end user to choose what should be copied.
         let pickAndChoose = [];
+        // give it all, make it a bit easier
         let pickAndChooseOptions =
             '<label class="checkable leaf_check" style="float: none"> <input class="ischecked leaf_check pickAndChooseAll" checked="checked" type="checkbox"> <span class="leaf_check"> </span>All</label>';
 
-        let createData = { CSRFToken: '<!--{$CSRFToken}-->' };
-
+        let createData = {
+            CSRFToken: '<!--{$CSRFToken}-->'
+        };
+        //get information needed for the modal.
         const requestInformation = [
+            // get our service list
             $.ajax({
                 type: 'GET',
                 url: 'api/service',
+                CSRFToken: '<!--{$CSRFToken}-->',
                 success: function(res) {
                     Object.values(res).forEach(function(resultValue) {
-                        let selected = (parseInt(resultValue.serviceID) === parseInt(serviceID)) ? 'selected="selected"' : '';
-                        serviceOptions += `<option value="${resultValue.serviceID}" ${selected}>${resultValue.service}</option>`;
+                        let selected = (parseInt(resultValue.serviceID) === parseInt(serviceID)) ?
+                            'selected="selected"' : '';
+                        serviceOptions += '<option value="' + resultValue.serviceID + '" ' + selected +
+                            '>' + resultValue.service + '</option>';
                     });
                 },
                 error: function() { console.log('Failed to gather services for dropdown!'); }
             }),
+
+            //need the "categories" and attach them to the createData.
             $.ajax({
                 type: 'GET',
                 url: 'api/form/<!--{$recordID|strip_tags}-->/recordinfo',
+                CSRFToken: '<!--{$CSRFToken}-->',
                 success: function(res) {
+                    // categories attached to the createData, need this to create a new form
                     const categories = Object.values(res.categories);
-                    categories.forEach(c => createData[`num${c}`] = `num${c}`);
+                    categories.forEach(c => createData['num' + c] = 'num' + c);
                 },
-                error: function() { console.log('Failed to gather categories before creating new form'); }
+                error: function() {
+                    console.log('Failed to gather categories before creating new form');
+                }
             }),
+
             $.ajax({
                 type: 'GET',
                 url: 'api/form/<!--{$recordID|strip_tags}-->/data/tree',
+                CSRFToken: '<!--{$CSRFToken}-->',
                 success: function(res) {
                     Object.values(res).forEach(function(resultValue) {
                         let children = getChildrenIndicatorIDs(resultValue.child);
                         pickAndChoose.push({
                             'name': resultValue.name,
+                            // need to include the parent here as well.
                             'children': children.concat(resultValue.indicatorID)
                         });
                     });
@@ -2763,38 +2389,46 @@ function pvOpenEdit(indicatorID) {
                     let doc = new DOMParser().parseFromString(option.name, 'text/html');
                     let finalName = doc.body.textContent || "";
                     finalName = XSSHelpers.stripAllTags(finalName);
-                    pickAndChooseOptions += `<label class="checkable leaf_check" style="float: none"> <input checked="checked" class="ischecked leaf_check pickAndChoose" name="pickAndChoose[]" type="checkbox" value="${JSON.stringify(option.children)}"> <span class="leaf_check"> </span>${finalName}</label>`;
+
+                    pickAndChooseOptions +=
+                        '<label class="checkable leaf_check" style="float: none"> <input checked="checked" class="ischecked leaf_check pickAndChoose" name="pickAndChoose[]" type="checkbox" value="' +
+                        JSON.stringify(option.children) + '"> <span class="leaf_check"> </span>' + finalName +
+                        '</label>';
                 });
             }
 
-            dialog.setContent(
-                `<div id="copy_request_error" style="display:none;margin:0.5rem 0;padding:0.5rem;background-color:#ffc;line-height:1.5"></div>
-                <label for="title">Title:</label><br />
-                <input id="title" name="title" type="text" style="width:200px;"/><br /><br />
-                <div id="serviceWrapper"><label for="service">Service:</label><br />
-                <select class="chosen" id="service" name="service">${serviceOptions}</select><br /><br /></div>
-                <label for="priority">Priority:</label><br />
-                <select class="chosen" id="priority" name="priority"><option value="-10">EMERGENCY</option><option value="0" selected="selected">Normal</option></select><br /><br />
-                <fieldset><legend>Sections to Copy:</legend>${pickAndChooseOptions}</fieldset><br /><br />`
+            dialog.setContent('' +
+                '<div id="copy_request_error" style="display:none;margin:0.5rem 0;padding:0.5rem;background-color:#ffc;line-height:1.5"></div>' +
+                '<label for="title">Title:</label><br />'
+                + '<input id="title" name="title" type="text" value="<!--{$title|escape:'quotes'}-->" style="width:200px;"/><br /><br />'
+                +
+                '<div id="serviceWrapper"><label for="service">Service:</label><br />' +
+                '<select class="chosen" id="service" name="service">' + serviceOptions + '</select><br /><br /></div>' +
+                '<label for="priority">Priority:</label><br />' +
+                '<select class="chosen" id="priority" name="priority"><option value="-10">EMERGENCY</option><option value="0" selected="selected">Normal</option></select><br /><br />' +
+                '<fieldset><legend>Sections to Copy:</legend>' +
+                pickAndChooseOptions +
+                '</fieldset><br /><br />'
             );
-            document.getElementById('title').value = requestTitle;
 
             dialog.indicateIdle();
 
+            // hide service options if they are not available to choose from.
             if (!(serviceOptions.length > 0)) {
                 $('#serviceWrapper').hide();
             }
             $('.chosen').chosen({ disable_search_threshold: 6 });
-
             dialog.setSaveHandler(function() {
+
+                // we will add on the categories in the first ajax call, this takes in what data the end user updates
                 createData = {
                     ...createData,
-                    title:    $('#title').val(),
-                    service:  $('#service').val(),
+                    title: $('#title').val(),
+                    service: $('#service').val(),
                     priority: $('#priority').val(),
                 };
                 let updateData = {
-                    series:    series,
+                    series: series,
                     CSRFToken: '<!--{$CSRFToken}-->'
                 };
 
@@ -2804,6 +2438,7 @@ function pvOpenEdit(indicatorID) {
                         return chosenSections.concat(JSON.parse($(this).val()));
                     }).get();
 
+                // create the new record, we will update the existing data once we get a complete.
                 $.ajax({
                     type: 'POST',
                     url: './api/form/new',
@@ -2811,80 +2446,113 @@ function pvOpenEdit(indicatorID) {
                     success: function(res) {
                         let newRecordID = +res;
                         if (newRecordID > 0) {
+                            //If the request was created, res is new request ID. Continue on with getting information to copy over.
                             if (pickAndChooseValues.length > 0) {
                                 let fileData = [];
                                 $.ajax({
                                     type: 'GET',
                                     url: 'api/form/<!--{$recordID|strip_tags}-->/data',
-                                    async: false,
+                                    CSRFToken: '<!--{$CSRFToken}-->',
+                                    async: false, // I am not going to nest these to make things easier to follow.
                                     success: function(res) {
                                         Object.values(res).forEach(function(resultValue) {
+
                                             if (pickAndChooseValues.includes(resultValue[series].indicatorID)) {
-                                                if ((resultValue[series].format == 'fileupload' || resultValue[series].format == 'image') && Array.isArray(resultValue[series].value)) {
-                                                    resultValue[series].value.forEach(function(currentFile) {
-                                                        fileData.push({
-                                                            fileName:    currentFile,
-                                                            series:      series,
-                                                            indicatorID: resultValue[series].indicatorID
-                                                        });
+
+                                                // uploaded files will need to have a special case done to them to copy them over to the new record
+                                                if ((resultValue[series].format == 'fileupload' ||
+                                                        resultValue[series].format == 'image') &&
+                                                    Array.isArray(resultValue[series].value)) {
+                                                    resultValue[series].value.forEach(function(
+                                                        currentFile) {
+                                                        let fileDat = {
+                                                            fileName: currentFile,
+                                                            series: series,
+                                                            indicatorID: resultValue[series]
+                                                                .indicatorID
+                                                        }
+                                                        fileData.push(fileDat);
                                                     });
-                                                    updateData[resultValue[series].indicatorID] = resultValue[series].value.join('\r\n');
+                                                    // also need to pull this out of an array since it would then move this to an object which breaks everything.
+                                                    updateData[resultValue[series].indicatorID] =
+                                                        resultValue[series].value.join('\r\n');
                                                 } else {
-                                                    updateData[resultValue[series].indicatorID] = resultValue[series].value;
+                                                    updateData[resultValue[series].indicatorID] =
+                                                        resultValue[series].value;
                                                 }
+
                                             }
+
                                         });
                                     },
-                                    error: function() { console.log('Failed to gather data to copy as well as make dropdowns'); }
+                                    error: function() {
+                                        console.log('Failed to gather data to copy as well as make dropdowns');
+                                    }
                                 });
 
                                 $.ajax({
                                     type: 'POST',
-                                    url: `./api/form/${newRecordID}`,
+                                    url: './api/form/' + newRecordID,
                                     data: updateData,
-                                    async: false,
-                                    success: function() { console.log('Questions copied over to new record.'); },
-                                    error: function() { console.log('Failed to copy data to new form!'); }
+                                    async: false, // I am not going to nest these to make things easier to follow.
+                                    success: function() {
+                                        console.log('Questions copied over to new record.');
+                                    },
+                                    error: function() {
+                                        console.log('Failed to copy data to new form!')
+                                    }
                                 });
 
+                                // copy over files
                                 if (fileData.length > 0) {
                                     fileData.forEach(function(theFile) {
                                         $.ajax({
                                             type: 'POST',
                                             url: './api/form/files/copy',
                                             data: {
-                                                CSRFToken:   '<!--{$CSRFToken}-->',
-                                                recordID:    <!--{$recordID|strip_tags}-->,
+                                                CSRFToken: '<!--{$CSRFToken}-->',
+                                                recordID: <!--{$recordID|strip_tags}-->,
                                                 newRecordID: newRecordID,
                                                 indicatorID: theFile.indicatorID,
-                                                fileName:    theFile.fileName,
-                                                series:      theFile.series
+                                                fileName: theFile.fileName,
+                                                series: theFile.series
                                             },
-                                            async: false,
-                                            success: function() { console.log('Files copied over to new record.'); },
-                                            error: function() { console.log('Failed to copy data to new form!'); }
+                                            async: false, // I am not going to nest these to make things easier to follow.
+                                            success: function() {
+                                                console.log(
+                                                    'Files copied over to new record.'
+                                                );
+                                            },
+                                            error: function() {
+                                                console.log(
+                                                    'Failed to copy data to new form!'
+                                                )
+                                            }
                                         });
                                     });
                                 }
                             }
 
-                            window.location = `index.php?a=view&recordID=${newRecordID}`;
+                            // then redirect, not sure how to really structure this since we do have a bit of if checking here.
+                            window.location = "index.php?a=view&recordID=" + newRecordID;
                             dialog.hide();
+
                         } else {
+                            //could not create new form.  Either an error or form is set to unpublished.
                             let elError = document.getElementById('copy_request_error');
-                            if (elError !== null) {
+                            if(elError !== null) {
                                 elError.style.display = 'block';
-                                elError.innerHTML = `<b>Request could not be copied:</b><br>${res}`;
+                                elError.innerHTML = '<b>Request could not be copied:</b><br>' + res;
                             }
                         }
                     },
                     error: function() { console.log('Failed to create new form!'); }
                 });
+
             });
+
         }).catch(err => console.log('an error has occurred', err));
     }
-
-    // ── Change service ────────────────────────────────────────────────────────
 
     function changeService() {
         dialog.setTitle('Change Service');
@@ -2901,13 +2569,13 @@ function pvOpenEdit(indicatorID) {
             success: function(res) {
                 let services = '<select id="newService" class="chosen" style="width: 250px">';
                 for (let i in res) {
-                    services += `<option value="${res[i].groupID}">${res[i].groupTitle}</option>`;
+                    services += '<option value="' + res[i].groupID + '">' + res[i].groupTitle + '</option>';
                 }
                 services += '</select>';
                 $('#changeService').html(services);
                 $('.chosen').chosen({ disable_search_threshold: 6 });
-                $('#newService_chosen input.chosen-search-input').attr('role', 'combobox');
-                $('#newService_chosen input.chosen-search-input').attr('aria-labelledby', 'newService_label');
+                $(`#newService_chosen input.chosen-search-input`).attr('role', 'combobox');
+                $(`#newService_chosen input.chosen-search-input`).attr('aria-labelledby', 'newService_label');
                 dialog.indicateIdle();
                 dialog.setSaveHandler(function() {
                     $.ajax({
@@ -2918,7 +2586,7 @@ function pvOpenEdit(indicatorID) {
                             CSRFToken: CSRFToken
                         },
                         success: function() {
-                            window.location.href = "index.php?a=printview&recordID=<!--{$recordID|strip_tags}-->";
+                            window.location.href="index.php?a=printview&recordID=<!--{$recordID|strip_tags}-->";
                         },
                         error: function() { console.log('Failed to gather services!'); }
                     });
@@ -2930,15 +2598,12 @@ function pvOpenEdit(indicatorID) {
         });
     }
 
-    // ── Admin tools ───────────────────────────────────────────────────────────
-
     <!--{if $is_admin}-->
         var currentRecordID = <!--{$recordID|strip_tags}-->;
 
         async function admin_changeStep() {
             dialog.setTitle('Change Step');
-            dialog.setContent(
-                '<label id="newStep_label" for="newStep">Set to this step:</label> <br />' +
+            dialog.setContent('<label id="newStep_label" for="newStep">Set to this step:</label> <br />' +
                 '<div id="changeStep"></div><br /><br />' +
                 'Comments:<br />' +
                 '<textarea id="changeStep_comment" type="text" style="width: 90%; padding: 4px" aria-label="Comments"></textarea>' +
@@ -2947,37 +2612,44 @@ function pvOpenEdit(indicatorID) {
                 '<legend>Advanced Options</legend>' +
                 '<input id="showAllSteps" type="checkbox" />' +
                 '<label for="showAllSteps">Show steps from other workflows</label>' +
-                '</fieldset>'
-            );
+                '</fieldset>');
             dialog.show();
             dialog.indicateBusy();
 
+            // Check the current step
             let currentStepData = await $.ajax({
                 type: 'GET',
                 url: `api/formWorkflow/${currentRecordID}/currentStep`,
                 dataType: 'json',
-                error: function() { console.log('There was an error getting the current step!'); },
+                error: function() {
+                    console.log('There was an error getting the current step!');
+                },
                 cache: false
             });
 
+            // determine active workflows
             let workflows = {};
             for (let i in currentStepData) {
                 workflows[currentStepData[i].workflowID] = 1;
             }
 
-            if (Object.keys(workflows).length == 0) {
+            // If no workflows, estimate workflow by only checking the previous action
+            if(Object.keys(workflows).length == 0) {
                 let lastAction = await $.ajax({
                     type: 'GET',
                     url: `api/formWorkflow/${currentRecordID}/lastAction`,
                     dataType: 'json',
-                    error: function() { console.log('There was an error getting the last action!'); },
+                    error: function() {
+                        console.log('There was an error getting the last action!');
+                    },
                     cache: false
                 });
-                if (lastAction != null) {
-                    workflows[lastAction.workflowID] = 1;
+                if(lastAction != null) {
+                    workflows[lastAction.workflowID] = 1; // add workflow to the active workflow list
                 }
             }
 
+            // Get list of all steps
             $.ajax({
                 type: 'GET',
                 url: 'api/workflow/steps',
@@ -2986,19 +2658,30 @@ function pvOpenEdit(indicatorID) {
                     let steps = '<select id="newStep" class="chosen">';
                     let steps2 = '';
                     let stepCounter = 0;
+                    let allStepsData = res;
 
-                    for (let i in res) {
-                        if (Object.keys(workflows).length == 0 || workflows[res[i].workflowID] != undefined) {
-                            steps += `<option value="${res[i].stepID}">${res[i].description}: ${res[i].stepTitle}</option>`;
+                    for (let i in allStepsData) {
+                        let recordID = allStepsData[i].recordID;
+
+                        if (
+                            Object.keys(workflows).length == 0 ||
+                            workflows[allStepsData[i].workflowID] != undefined
+                        ) {
+                            // keep track of steps that match the current workflow
+                            steps += `<option value="${allStepsData[i].stepID}">${allStepsData[i].description}: ${allStepsData[i].stepTitle}</option>`;
                             stepCounter++;
                         }
-                        steps2 += `<option value="${res[i].stepID}">${res[i].description} - ${res[i].stepTitle}</option>`;
+                        // keep track of all steps in a different buffer
+                        steps2 += `<option value="${allStepsData[i].stepID}">${allStepsData[i].description} - ${allStepsData[i].stepTitle}</option>`;
                     }
 
-                    if (stepCounter == 0) steps += steps2;
+                    if (stepCounter == 0) {
+                        steps += steps2;
+                    }
                     steps += '</select>';
                     $('#changeStep').html(steps);
 
+                    // This displays all steps from all the workflows when clicked
                     $('#showAllSteps').on('click', function() {
                         let newstep = $('#newStep');
                         if ($('#showAllSteps').is(':checked')) {
@@ -3009,31 +2692,41 @@ function pvOpenEdit(indicatorID) {
                         newstep.trigger('chosen:updated');
                     });
 
-                    $('.chosen').chosen({ width: '100%', disable_search_threshold: 6 });
-                    $('#newStep_chosen input.chosen-search-input').attr('role', 'combobox');
-                    $('#newStep_chosen input.chosen-search-input').attr('aria-labelledby', 'newStep_label');
+                    $('.chosen').chosen({
+                        width: '100%',
+                        disable_search_threshold: 6
+                    });
+                    $(`#newStep_chosen input.chosen-search-input`).attr('role', 'combobox');
+                    $(`#newStep_chosen input.chosen-search-input`).attr('aria-labelledby', 'newStep_label');
                     dialog.indicateIdle();
                     dialog.setSaveHandler(function() {
                         $.ajax({
                             type: 'POST',
                             url: `api/formWorkflow/${currentRecordID}/step`,
                             data: {
-                                stepID:   $('#newStep').val(),
-                                comment:  $('#changeStep_comment').val(),
+                                stepID: $('#newStep').val(),
+                                comment: $('#changeStep_comment').val(),
                                 CSRFToken: CSRFToken
                             },
                             success: function() {
                                 window.location.href = `index.php?a=printview&recordID=${currentRecordID}`;
                             },
-                            error: function() { console.log('There was an error saving the workflow step!'); }
+                            error: function() {
+                                console.log(
+                                    'There was an error saving the workflow step!'
+                                );
+                            }
                         });
                         dialog.hide();
                     });
                 },
-                error: function() { console.log('There was an error getting workflow steps!'); },
+                error: function() {
+                    console.log('There was an error getting workflow steps!');
+                },
                 cache: false
             });
         }
+
 
         function admin_changeForm() {
             dialog.setTitle('Change Form(s)');
@@ -3051,45 +2744,57 @@ function pvOpenEdit(indicatorID) {
                     let categories = '';
                     let adminUnpublishedWarn = '';
                     for (let i in res) {
-                        adminUnpublishedWarn = res[i].visible === -1
-                            ? '<span style="color:#c00;">&nbsp;(This form is unpublished)</span>'
-                            : '';
-                        categories += `<label class="checkable leaf_check" for="category_${res[i].categoryID}">`;
-                        categories += `<input type="checkbox" class="icheck admin_changeForm leaf_check" id="category_${res[i].categoryID}" name="categories[]" value="${res[i].categoryID}" />`;
-                        categories += `<span class="leaf_check"></span>${res[i].categoryName}${adminUnpublishedWarn}</label>`;
+                        adminUnpublishedWarn = res[i].visible === -1 ? '<span style="color:#c00;">&nbsp;(This form is unpublished)</span>' : '';
+                        categories += '<label class="checkable leaf_check" for="category_' + res[i].categoryID +
+                            '">';
+
+                        categories +=
+                            '<input type="checkbox" class="icheck admin_changeForm leaf_check" id="category_' +
+                            res[i].categoryID + '" name="categories[]" value="' + res[i].categoryID + '" />';
+                        categories += '<span class="leaf_check"></span>' + res[i].categoryName + adminUnpublishedWarn + '</label>';
                     }
                     $('#changeForm').html(categories);
                     dialog.indicateIdle();
                     dialog.setSaveHandler(function() {
-                        let data = { 'categories[]': [], CSRFToken: CSRFToken };
+                        let data = {
+                            'categories[]': [],
+                            CSRFToken: CSRFToken
+                        };
                         $('.admin_changeForm:checked').each(function() {
                             data['categories[]'].push($(this).val());
                         });
+
                         $.ajax({
                             type: 'POST',
                             url: 'api/form/<!--{$recordID|strip_tags}-->/types',
                             data: data,
                             success: function() {
-                                window.location.href = "index.php?a=printview&recordID=<!--{$recordID|strip_tags}-->";
+                                window.location.href="index.php?a=printview&recordID=<!--{$recordID|strip_tags}-->";
                             }
                         });
                         dialog.hide();
                     });
 
-                    let query = {terms: [{id: 'recordID', operator: '=', match: '<!--{$recordID|strip_tags}-->'}], joins: ['categoryNameUnabridged']};
+                    // find current forms
+                    let query = {terms: [{id: 'recordID', operator: '=', match: '<!--{$recordID|strip_tags}-->'}],joins: ['categoryNameUnabridged']};
                     $.ajax({
                         type: 'GET',
                         url: './api/form/query',
-                        data: { q: JSON.stringify(query) },
+                        data: {
+                            q: JSON.stringify(query)
+                        },
                         dataType: 'json',
                         success: function(res) {
                             let arrCatIDs = res[<!--{$recordID|strip_tags|escape}-->].categoryIDsUnabridged;
                             $('label.checkable input').each(function(idx, input) {
                                 const formIsSelected = arrCatIDs.some(id => id === input.value);
-                                $(`#${input?.id}`).prop('checked', formIsSelected);
+                                $('#' + input?.id).prop('checked', formIsSelected);
                             });
                         },
-                        error: function() { console.log('There was an error getting the form via query!'); },
+                        error: function() {
+                            console.log(
+                                'There was an error getting the form via query!');
+                        },
                         cache: false
                     });
                 },
@@ -3101,7 +2806,7 @@ function pvOpenEdit(indicatorID) {
         function admin_changeInitiator() {
             dialog.setTitle('Change Initiator');
             dialog.setContent(
-                "Select employee to be set as this request's initiator: <br /><div id=\"empSel_changeInitiator\"></div><input type=\"hidden\" id=\"changeInitiator\" />"
+                'Select employee to be set as this request\'s initiator: <br /><div id="empSel_changeInitiator"></div><input type="hidden" id="changeInitiator" />'
             );
             dialog.show();
             dialog.indicateBusy();
@@ -3113,10 +2818,13 @@ function pvOpenEdit(indicatorID) {
                         type: 'POST',
                         url: './api/form/<!--{$recordID|strip_tags}-->/initiator',
                         data: {
-                            CSRFToken:  CSRFToken,
-                            initiator:  changeInitiator.val()
+                            CSRFToken: CSRFToken,
+                            initiator: changeInitiator.val()
                         },
-                        success: function() { location.reload(); },
+
+                        success: function() {
+                            location.reload();
+                        },
                         error: function() { console.log('There was an error saving the initiator!'); }
                     });
                 } else {
@@ -3130,6 +2838,7 @@ function pvOpenEdit(indicatorID) {
                 empSel = new employeeSelector('empSel_changeInitiator');
                 empSel.apiPath = '<!--{$orgchartPath}-->/api/';
                 empSel.rootPath = '<!--{$orgchartPath}-->/';
+
                 empSel.setSelectHandler(function() {
                     if (empSel.selectionData[empSel.selection] != undefined) {
                         $('#changeInitiator').val(empSel.selectionData[empSel.selection].userName);
@@ -3150,20 +2859,21 @@ function pvOpenEdit(indicatorID) {
                     type: 'GET',
                     url: "<!--{$orgchartPath}-->/js/employeeSelector.js",
                     dataType: 'script',
-                    success: function() { init_empSel(); },
+                    success: function() {
+                        init_empSel();
+                    },
                     error: function() { console.log('There was an error getting the employee selector!'); }
                 });
             } else {
                 init_empSel();
             }
+
         }
     <!--{/if}-->
 
-    // ── Layout ────────────────────────────────────────────────────────────────
-
     function scrollPage(id) {
-        if ($(document).height() < $(`#${id}`).offset().top + 100) {
-            $('html, body').animate({scrollTop: $(`#${id}`).offset().top}, 500);
+        if ($(document).height() < $('#' + id).offset().top + 100) {
+            $('html, body').animate({scrollTop: $('#'+id).offset().top}, 500);
         }
     }
 
@@ -3173,38 +2883,36 @@ function pvOpenEdit(indicatorID) {
     this.portalAPI.setBaseURL('api/?a=');
     this.portalAPI.setCSRFToken('<!--{$CSRFToken}-->');
 
-    // ── PM Transfer ───────────────────────────────────────────────────────────
+function transferToPMDashboard() {
+    var params = new URLSearchParams(window.location.search || "");
+    var id = params.get("recordID");
+    if (!id) return;
+    var modal = document.getElementById('pmTransferModal');
+    if (!modal) return;
+    modal.dataset.recordId = id;
+    modal.hidden = false;
+    document.getElementById('pmTransferChoiceTask').focus();
+}
 
-    function transferToPMDashboard() {
-        var params = new URLSearchParams(window.location.search || "");
-        var id = params.get("recordID");
-        if (!id) return;
-        var modal = document.getElementById('pmTransferModal');
-        if (!modal) return;
-        modal.dataset.recordId = id;
-        modal.hidden = false;
-        document.getElementById('pmTransferChoiceTask').focus();
-    }
+function doTransferAs(type) {
+    var modal = document.getElementById('pmTransferModal');
+    var id = modal ? modal.dataset.recordId : '';
+    if (!id) return;
+    modal.hidden = true;
+    var param = type === 'project' ? 'transferProjectFromIdea' : 'transferFromIdea';
+    window.location.href =
+        'https://leaf.va.gov/platform/projects/?tab=' + (type === 'project' ? 'projects' : 'tasks') +
+        '&' + param + '=' + encodeURIComponent(id);
+}
 
-    function doTransferAs(type) {
-        var modal = document.getElementById('pmTransferModal');
-        var id = modal ? modal.dataset.recordId : '';
-        if (!id) return;
-        modal.hidden = true;
-        var param = type === 'project' ? 'transferProjectFromIdea' : 'transferFromIdea';
-        window.location.href =
-            'https://leaf.va.gov/platform/projects/?tab=' + (type === 'project' ? 'projects' : 'tasks') +
-            '&' + param + '=' + encodeURIComponent(id);
-    }
+function closeTransferModal() {
+    var modal = document.getElementById('pmTransferModal');
+    if (modal) modal.hidden = true;
+}
 
-    function closeTransferModal() {
-        var modal = document.getElementById('pmTransferModal');
-        if (modal) modal.hidden = true;
-    }
-
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeTransferModal();
-    });
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeTransferModal();
+});
 
     $(function() {
         $('#progressBar').progressbar({max: 100});
@@ -3223,10 +2931,15 @@ function pvOpenEdit(indicatorID) {
             workflow.getWorkflow(<!--{$recordID|strip_tags|escape}-->);
         <!--{/if}-->
 
-        dialog = new dialogController('xhrDialog', 'xhr', 'loadIndicator', 'button_save', 'button_cancelchange');
-        dialog_message = new dialogController('genericDialog', 'genericDialogxhr', 'genericDialogloadIndicator', 'genericDialogbutton_save', 'genericDialogbutton_cancelchange');
-        dialog_ok = new dialogController('ok_xhrDialog', 'ok_xhr', 'ok_loadIndicator', 'confirm_button_ok', 'confirm_button_cancelchange');
-        dialog_confirm = new dialogController('confirm_xhrDialog', 'confirm_xhr', 'confirm_loadIndicator', 'confirm_button_save', 'confirm_button_cancelchange');
+        /* General popup window */
+        dialog = new dialogController('xhrDialog', 'xhr', 'loadIndicator', 'button_save',
+            'button_cancelchange');
+        dialog_message = new dialogController('genericDialog', 'genericDialogxhr', 'genericDialogloadIndicator',
+            'genericDialogbutton_save', 'genericDialogbutton_cancelchange');
+        dialog_ok = new dialogController('ok_xhrDialog', 'ok_xhr', 'ok_loadIndicator', 'confirm_button_ok',
+            'confirm_button_cancelchange');
+        dialog_confirm = new dialogController('confirm_xhrDialog', 'confirm_xhr', 'confirm_loadIndicator',
+            'confirm_button_save', 'confirm_button_cancelchange');
 
         <!--{if $empMembership['groupID'][226]}-->
         <!--{if $childCategoryID == ''}-->
@@ -3245,8 +2958,9 @@ function pvOpenEdit(indicatorID) {
         fetchVoteCount();
         <!--{/if}-->
 
+        //scroll event for dialog menu
         let elParentForm = document.querySelector('[id^="LeafForm"][id$="_record"]');
-        let elFormMenu   = document.getElementById('form-xhr-cancel-save-menu');
+        let elFormMenu = document.getElementById('form-xhr-cancel-save-menu');
         window.addEventListener('scroll', function() {
             if (elParentForm && elFormMenu) {
                 let parent_Y = elParentForm.getBoundingClientRect().y;
