@@ -32,3 +32,92 @@ loadView @ leaf_nav.js:1665
 router @ leaf_nav.js:1709
 wireRouter @ leaf_nav.js:1780
 inject @ leaf_nav.js:1083
+
+
+designs/#steph_search:281 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
+leaf_nav.js:1253 [LP] Lazy-loading LEAF UI deps for fetched page: (2) ['https://leaf.va.gov/platform/libs/js/jquery/jquery-ui.custom.min.js', 'https://leaf.va.gov/platform/designs/js/dialogController.js']
+ensureLeafUIDeps @ leaf_nav.js:1253
+mountContent @ leaf_nav.js:1561
+(anonymous) @ leaf_nav.js:1680
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
+Jb @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:279
+Za.<computed> @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
+then @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
+loadView @ leaf_nav.js:1665
+router @ leaf_nav.js:1709
+wireRouter @ leaf_nav.js:1780
+inject @ leaf_nav.js:1083
+jquery.min.js:2 jQuery.Deferred exception: Illegal invocation TypeError: Illegal invocation
+    at HTMLDocument.eval (eval at <anonymous> (https://leaf.va.gov/platform/designs/files/leaf_nav.js:1333:20), <anonymous>:353:14)
+    at e (https://leaf.va.gov/app/libs/js/jquery/jquery.min.js:2:30038)
+    at t (https://leaf.va.gov/app/libs/js/jquery/jquery.min.js:2:30340) undefined
+S.Deferred.exceptionHook @ jquery.min.js:2
+t @ jquery.min.js:2
+setTimeout
+(anonymous) @ jquery.min.js:2
+c @ jquery.min.js:2
+add @ jquery.min.js:2
+(anonymous) @ jquery.min.js:2
+Deferred @ jquery.min.js:2
+then @ jquery.min.js:2
+S.fn.ready @ jquery.min.js:2
+S.fn.init @ jquery.min.js:2
+S @ jquery.min.js:2
+eval @ VM156:352
+eval @ VM156:419
+(anonymous) @ leaf_nav.js:1339
+reExecuteScripts @ leaf_nav.js:1265
+(anonymous) @ leaf_nav.js:1562
+Promise.then
+mountContent @ leaf_nav.js:1561
+(anonymous) @ leaf_nav.js:1680
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
+Jb @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:279
+Za.<computed> @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
+then @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
+loadView @ leaf_nav.js:1665
+router @ leaf_nav.js:1709
+wireRouter @ leaf_nav.js:1780
+inject @ leaf_nav.js:1083
+jquery.min.js:2 Uncaught TypeError: Illegal invocation
+    at HTMLDocument.eval (eval at <anonymous> (leaf_nav.js:1333:20), <anonymous>:353:14)
+    at e (jquery.min.js:2:30038)
+    at t (jquery.min.js:2:30340)
+eval @ VM156:353
+e @ jquery.min.js:2
+t @ jquery.min.js:2
+setTimeout
+(anonymous) @ jquery.min.js:2
+c @ jquery.min.js:2
+add @ jquery.min.js:2
+(anonymous) @ jquery.min.js:2
+Deferred @ jquery.min.js:2
+then @ jquery.min.js:2
+S.fn.ready @ jquery.min.js:2
+S.fn.init @ jquery.min.js:2
+S @ jquery.min.js:2
+eval @ VM156:352
+eval @ VM156:419
+(anonymous) @ leaf_nav.js:1339
+reExecuteScripts @ leaf_nav.js:1265
+(anonymous) @ leaf_nav.js:1562
+Promise.then
+mountContent @ leaf_nav.js:1561
+(anonymous) @ leaf_nav.js:1680
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
+Jb @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:279
+Za.<computed> @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
+then @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
+loadView @ leaf_nav.js:1665
+router @ leaf_nav.js:1709
+wireRouter @ leaf_nav.js:1780
+inject @ leaf_nav.js:1083
