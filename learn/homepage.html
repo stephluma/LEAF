@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LEAF Learning Center</title>
+  <link rel="stylesheet" href="/platform/designs/files/smarty_styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f3f3f3;
+      font-family: 'Source Sans 3', 'Source Sans Pro', sans-serif;
+      color: #0f172a;
+      min-height: 100vh;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 16px;
+      top: 16px;
+      padding: 8px 12px;
+      background: #ffffff;
+      border: 2px solid #005ea2;
+      color: #0f172a;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      transform: translateY(-200%);
+      transition: transform 0.15s ease;
+      z-index: 1300;
+    }
+    .skip-link:focus { transform: translateY(0); outline: 3px solid #005ea2; outline-offset: 2px; }
+
+    .td-wrap {
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 0 20px;
+    }
+
+    /* ── Logo ── */
+    .td-logo-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .td-logo {
+      height: 120px;
+      width: auto;
+    }
+
+    .td-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 900;
+      color: #1f2933;
+      margin-bottom: 8px;
+    }
+
+    .td-subtitle {
+      text-align: center;
+      font-size: 1rem;
+      color: #475569;
+      margin-bottom: 32px;
+    }
+
+    .td-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .td-card {
+      background: #ffffff;
+      border: 1px solid #cfd7e3;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .td-card-head {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .td-card-head h2 {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #0f172a;
+      margin: 0;
+    }
+
+    .td-card-icon { font-size: 22px; line-height: 1; }
+
+    .td-card-head--sky  { background: #d9e8f6; border-bottom: 1px solid #aacdec; }
+    .td-card-head--blue { background: #aacdec; border-bottom: 1px solid #8fb8db; }
+    .td-card-head--teal { background: #5dc0d1; border-bottom: 1px solid #3fa8ba; }
+
+    .td-card-body {
+      padding: 16px 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .td-card-desc {
+      font-size: 0.95rem;
+      color: #475569;
+      line-height: 1.65;
+      flex: 1;
+      margin: 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      border: 1px solid #cfd7e3;
+      padding: 10px 16px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      background: #ffffff;
+      color: #0f172a;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease, border-color 0.1s ease;
+      font-family: 'Source Sans 3', 'Source Sans Pro', sans-serif;
+    }
+
+    .btn:hover { box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12); }
+    .btn:active { transform: translateY(1px); }
+
+    .btn-primary {
+      background: #005ea2;
+      border: none;
+      color: #ffffff !important;
+    }
+
+    .btn-primary:hover {
+      background: #004a82;
+      border: none;
+      box-shadow: 0 6px 16px rgba(0, 94, 162, 0.35);
+      color: #ffffff !important;
+      text-decoration: none;
+    }
+
+    .btn:focus-visible { outline: 3px solid #005ea2; outline-offset: 3px; }
+
+    .td-card-body .btn { width: 100%; }
+
+    .td-requests { margin-bottom: 24px; }
+
+    .td-requests-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: #ffffff;
+      border: none;
+      border-radius: 10px 10px 0 0;
+      padding: 0.875rem 1rem;
+      font-weight: 700;
+      color: #1f2933;
+      cursor: pointer;
+      font-family: 'Source Sans 3', 'Source Sans Pro', sans-serif;
+      font-size: 1rem;
+      border-bottom: 1px solid #cfd7e3;
+    }
+
+    .td-requests-toggle:hover { background: #d9e8f6; }
+    .td-requests-toggle:focus-visible { outline: 3px solid #005ea2; outline-offset: 3px; }
+
+    .td-requests-toggle-left { display: flex; align-items: center; gap: 10px; }
+
+    .td-toggle-icon {
+      transition: transform 0.2s ease;
+      font-size: 20px;
+    }
+
+    .td-requests-toggle[aria-expanded="true"] .td-toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .td-requests-box {
+      border: 1px solid #cfd7e3;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+      background: #ffffff;
+    }
+
+    .td-requests-panel {
+      background: #ffffff;
+    }
+
+    .td-requests-panel[hidden] { display: none; }
+
+    .td-table-wrap { overflow-x: auto; padding: 16px; }
+
+    .td-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      min-width: 600px;
+    }
+
+    .td-table th {
+      background: #d9e8f6;
+      font-weight: 700;
+      text-align: left;
+      padding: 10px 12px;
+      border: 1px solid #cfd7e3;
+      color: #0f172a;
+    }
+
+    .td-table td {
+      padding: 10px 12px;
+      border: 1px solid #e2e8f0;
+      color: #1f2933;
+      vertical-align: top;
+    }
+
+    .td-table tbody tr:hover { background: #f8fafc; }
+
+    .td-table-empty {
+      text-align: center;
+      padding: 32px;
+      color: #475569;
+      font-size: 0.95rem;
+    }
+
+    .td-status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .td-status--pending   { background: #fef9c3; color: #854d0e; }
+    .td-status--approved  { background: #dcfce7; color: #166534; }
+    .td-status--cancelled { background: #f1f5f9; color: #64748b; }
+
+    .td-support {
+      background: #ffffff;
+      border: 1px solid #cfd7e3;
+      border-left: 4px solid #005ea2;
+      border-radius: 0 14px 14px 0;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .td-support-text h2 { font-size: 1.15rem; font-weight: 900; color: #1f2933; margin-bottom: 4px; }
+    .td-support-text p  { font-size: 0.95rem; color: #475569; margin: 0; line-height: 1.5; }
+    .td-support .btn    { white-space: nowrap; flex-shrink: 0; width: auto; }
+
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .btn-primary .material-symbols-outlined {
+      color: #ffffff;
+    }
+    #grid,
+    #grid table,
+    #grid > div {
+      width: 100% !important;
+      min-width: 0 !important;
+    }
+
+    #grid table {
+      table-layout: fixed;
+      border-collapse: collapse;
+    }
+
+    #grid table th,
+    #grid table td {
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+
+    @media (max-width: 780px) {
+      .td-logo { height: 96px; }
+      .td-grid { grid-template-columns: 1fr; }
+      .td-support { flex-direction: column; align-items: flex-start; }
+      .td-support .btn { width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .btn { transition: none; }
+      .btn:active { transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <main id="main-content" class="td-wrap" tabindex="-1">
+
+    <div class="td-logo-wrap">
+      <img
+        src="https://leaf.va.gov/platform/learn/files/learn_logo.png"
+        alt="LEAF learn logo"
+        class="td-logo"
+        width="120"
+        height="120"
+        oncontextmenu="return false;"
+        draggable="false"
+      >
+    </div>
+
+    <h1 class="td-title">LEAF Learning Center</h1>
+    <p class="td-subtitle">Find training, videos, and resources to get the most out of LEAF.</p>
+
+    <div class="td-grid" role="list">
+
+      <!-- Live Training -->
+      <div class="td-card" role="listitem">
+        <div class="td-card-head td-card-head--sky">
+          <span class="td-card-icon material-symbols-outlined" aria-hidden="true">calendar_month</span>
+          <h2>Live Training</h2>
+        </div>
+        <div class="td-card-body">
+          <p class="td-card-desc">Join a scheduled session led by a LEAF subject matter expert. Great for new users or teams onboarding.</p>
+          <a class="btn btn-primary" href="https://leaf.va.gov/platform/service_requests_launchpad/report.php?a=LEAF_Start_Request&id=form_a3df9&title=Training+Registration" target="_blank" rel="noopener noreferrer" aria-label="Register for Live Training (opens in a new tab)">
+            Register for Training
+            <span class="material-symbols-outlined" aria-hidden="true" style="font-size:18px; margin-left:6px;">open_in_new</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Self-Paced Training -->
+      <div class="td-card" role="listitem">
+        <div class="td-card-head td-card-head--blue">
+          <span class="td-card-icon material-symbols-outlined" aria-hidden="true">play_circle</span>
+          <h2>Self-Paced Training</h2>
+        </div>
+        <div class="td-card-body">
+          <p class="td-card-desc">Watch recorded LEAF training sessions at any time, on your own schedule. Perfect for independent learning.</p>
+          <a class="btn btn-primary" href="https://leaf.va.gov/platform/learn/report.php?a=LEAF_Start_Request&id=form_488a8&title=LEAF+Academy+101+Self-Paced" target="_blank" rel="noopener noreferrer" aria-label="Access Self-Paced Learning (opens in a new tab)">
+            Self-Paced Learning
+            <span class="material-symbols-outlined" aria-hidden="true" style="font-size:18px; margin-left:6px;">open_in_new</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Help Library -->
+      <div class="td-card" role="listitem">
+        <div class="td-card-head td-card-head--teal">
+          <span class="td-card-icon material-symbols-outlined" aria-hidden="true">menu_book</span>
+          <h2>Help Library</h2>
+        </div>
+        <div class="td-card-body">
+          <p class="td-card-desc">Browse step-by-step guides and articles covering key LEAF features. Available anytime, no registration needed.</p>
+          <a class="btn btn-primary" href="https://leaf.va.gov/platform/help_library/report.php?a=Search_Help_Library" target="_blank" rel="noopener noreferrer" aria-label="Browse the Help Library (opens in a new tab)">
+            Browse Library
+            <span class="material-symbols-outlined" aria-hidden="true" style="font-size:18px; margin-left:6px;">open_in_new</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Training Requests -->
+    <section class="td-requests" aria-labelledby="requests-heading">
+      <div class="td-requests-box">
+        <button
+          class="td-requests-toggle"
+          id="requests-heading"
+          aria-expanded="true"
+          aria-controls="requests-panel"
+          onclick="toggleRequestDisplay()"
+        >
+          <span class="td-requests-toggle-left">
+            <span class="material-symbols-outlined" aria-hidden="true" style="font-size:20px;">assignment</span>
+            View Your Training Requests
+          </span>
+          <span class="material-symbols-outlined td-toggle-icon" aria-hidden="true">expand_more</span>
+        </button>
+
+        <div id="requests-panel" class="td-requests-panel">
+          <div id="search_status"><h3>Searching for records...</h3></div>
+          <div id="grid"></div>
+          <button type="button" id="searchContainer_getMoreResults"
+                  class="btn btn-primary" style="display:none; margin-top:-1rem;">
+            Show More Records
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="td-support" aria-labelledby="support-heading">
+      <div class="td-support-text">
+        <h2 id="support-heading">Can't find what you're looking for?</h2>
+        <p>Have a question or need personalized help? Submit a support request and a LEAF team member will follow up with you directly.</p>
+      </div>
+      <a class="btn btn-primary" href="https://leaf.va.gov/platform/support/report.php?a=LEAF_Start_Request&id=form_ba7de" target="_blank" rel="noopener noreferrer" aria-label="Request support from a LEAF team member (opens in a new tab)">
+        Request Support
+        <span class="material-symbols-outlined" aria-hidden="true" style="font-size:18px; margin-left:6px;">open_in_new</span>
+      </a>
+    </section>
+  </main>
+
+<script>
+  // ── Portal identifiers ────────────────────────────────────────────────────
+  const portal_service_requests_launchpad = 'service_requests_launchpad';
+  const portal_learn                      = 'learn';
+
+  // ── Current user (resolved by Smarty) ────────────────────────────────────
+  const currentUserID = "<!--{$userID|unescape|escape:'quotes'}-->";
+
+  // ── Query filters ─────────────────────────────────────────────────────────
+  // service_requests_launchpad: Training Requests only (categoryID = form_a3df9)
+  const requestFilter_launchpad = {
+    "terms": [
+      { "id": "userID",     "operator": "=", "match": currentUserID, "gate": "AND" },
+      { "id": "deleted",    "operator": "=", "match": 0,             "gate": "AND" },
+      { "id": "categoryID", "operator": "=", "match": "form_a3df9",  "gate": "AND" }
+    ],
+    "joins": ["status", "categoryName", "initiatorName"],
+    "sort": {}
+  };
+
+  // learn portal: all record types
+  const requestFilter_learn = {
+    "terms": [
+      { "id": "userID",  "operator": "=", "match": currentUserID, "gate": "AND" },
+      { "id": "deleted", "operator": "=", "match": 0,             "gate": "AND" }
+    ],
+    "joins": ["status", "categoryName", "initiatorName"],
+    "sort": {}
+  };
+
+  // ── State ─────────────────────────────────────────────────────────────────
+  let resultSetWithResolved = {};
+  let hasOpenRequest  = false;
+  let showingMore     = false;
+  let scrollY         = 0;
+  const maxInitial    = 10;
+
+  // ── Toggle ────────────────────────────────────────────────────────────────
+  function toggleRequestDisplay() {
+    const toggle  = document.querySelector('.td-requests-toggle');
+    const panel   = document.getElementById('requests-panel');
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    panel.hidden = expanded;
+
+    const btn = document.getElementById('searchContainer_getMoreResults');
+    if (btn) {
+      btn.style.display =
+        !showingMore && Object.keys(resultSetWithResolved).length > maxInitial && !expanded
+          ? 'block'
+          : 'none';
+    }
+  }
+
+  // ── Query helpers ─────────────────────────────────────────────────────────
+  function getRequests(filter, rootURL = '') {
+    let query = new LeafFormQuery();
+    if (rootURL) query.setRootURL(rootURL);
+    query.importQuery(filter);
+    return query.execute();
+  }
+
+  function renderResult(res) {
+    const months = ['Jan','Feb','Mar','Apr','May','June','July','Aug','Sept','Oct','Nov','Dec'];
+    let grid = new LeafFormGrid('grid', { readOnly: true });
+    grid.hideIndex();
+
+    grid.setHeaders([
+      {
+        name: 'Date',
+        indicatorID: 'date',
+        editable: false,
+        callback: function(data, blob) {
+          let date = new Date(blob[data.recordID].date * 1000);
+          let now  = new Date();
+          let year = now.getFullYear() !== date.getFullYear() ? ' ' + date.getFullYear() : '';
+          let formattedDate = months[date.getMonth()] + ' ' + parseFloat(date.getDate()) + year;
+          document.querySelector(`#${data.cellContainerID}`).innerHTML = formattedDate;
+          if ((blob[data.recordID]?.userID ?? '').toLowerCase() === currentUserID) {
+            document.querySelector(`#${data.cellContainerID}`).style.backgroundColor = '#feffd1';
+          }
+        }
+      },
+      {
+        name: 'Title',
+        indicatorID: 'title',
+        callback: function(data, blob) {
+          let types = '';
+          for (let i in blob[data.recordID].categoryNames) {
+            if (blob[data.recordID].categoryNames[i] !== '') {
+              types += blob[data.recordID].categoryNames[i] + ' | ';
+            }
+          }
+          types = types.substr(0, types.length - 3);
+
+          let priority = '';
+          let priorityStyle = '';
+          if (blob[data.recordID].priority === -10) {
+            priority = '<span style="color: red"> ( Emergency ) </span>';
+            priorityStyle = ' style="background-color: red; color: black"';
+          }
+
+          const isLaunchpad = data.recordID.includes(portal_service_requests_launchpad);
+          const portalURL   = isLaunchpad
+            ? 'https://leaf.va.gov/platform/service_requests_launchpad/'
+            : 'https://leaf.va.gov/platform/learn/';
+
+          let recordTitle = blob[data.recordID].title === 'Record'
+            ? (isLaunchpad ? 'Training Registration' : 'Self-Paced Training')
+            : blob[data.recordID].title;
+
+          document.querySelector(`#${data.cellContainerID}`).innerHTML = `
+            <span class="browsecounter">
+              <a ${priorityStyle} href="${portalURL}index.php?a=printview&recordID=${parseInt(data.recordID)}" target="_blank" tabindex="-1">
+                ${parseInt(data.recordID)}
+              </a>
+            </span>
+            <a href="${portalURL}index.php?a=printview&recordID=${parseInt(data.recordID)}">
+              ${recordTitle}
+            </a><br>
+            <span class="browsetypes">${types}</span>
+            ${priority}`;
+
+          document.querySelector(`#${data.cellContainerID}`).addEventListener('click', function(ev) {
+            ev.preventDefault();
+            window.open(`${portalURL}index.php?a=printview&recordID=${parseInt(data.recordID)}`, '_blank');
+          });
+        }
+      },
+      {
+        name: 'Status',
+        indicatorID: 'currentStatus',
+        editable: false,
+        callback: function(data, blob) {
+          let waitText = blob[data.recordID].blockingStepID === 0 ? 'Pending ' : 'Waiting for ';
+          let status   = '';
+
+          if (blob[data.recordID].stepID === null && blob[data.recordID].submitted === '0') {
+            status = blob[data.recordID].lastStatus === null
+              ? '<span style="color:#c00000">Not Submitted</span>'
+              : '<span style="color:#c00000">Pending Re-submission</span>';
+          } else if (blob[data.recordID].stepID === null) {
+            let lastStatus = blob[data.recordID].lastStatus;
+            if (lastStatus === '') {
+              const portalURL = data.recordID.includes(portal_service_requests_launchpad)
+                ? 'https://leaf.va.gov/platform/service_requests_launchpad/'
+                : 'https://leaf.va.gov/platform/learn/';
+              lastStatus = `<a href="${portalURL}index.php?a=printview&recordID=${parseInt(data.recordID)}">Check Status</a>`;
+            }
+            status = `<span style="font-weight:bold">${lastStatus}</span>`;
+          } else {
+            status = waitText + blob[data.recordID].stepTitle;
+          }
+
+          if (blob[data.recordID].deleted > 0) status += ', Cancelled';
+
+          document.querySelector(`#${data.cellContainerID}`).innerHTML = status;
+          if ((blob[data.recordID]?.userID ?? '').toLowerCase() === currentUserID) {
+            document.querySelector(`#${data.cellContainerID}`).style.backgroundColor = '#feffd1';
+          }
+        }
+      }
+    ]);
+
+    grid.setDataBlob(res);
+    grid.sort('date', 'desc');
+    grid.renderBody();
+    grid.announceResults();
+    $('#searchContainer > div:first-child').css('display', 'none');
+    $('tbody td[colspan="4"]').text('No Pending Requests');
+  }
+
+  function runQuery() {
+    Promise.all([
+      getRequests(requestFilter_launchpad, `/platform/${portal_service_requests_launchpad}/`),
+      getRequests(requestFilter_learn,     `/platform/${portal_learn}/`)
+    ]).then(results => {
+      let resultsArray = [];
+
+      const serviceResults = results[0];
+      for (let rec in serviceResults) {
+        serviceResults[rec].recordID = `${rec}_${portal_service_requests_launchpad}`;
+        resultSetWithResolved[`${rec}_${portal_service_requests_launchpad}`] = serviceResults[rec];
+        resultsArray.push(serviceResults[rec]);
+        if (!hasOpenRequest && !(serviceResults[rec].submitted > 0 && serviceResults[rec].stepID === null)) {
+          hasOpenRequest = true;
+        }
+      }
+
+      const learnResults = results[1];
+      for (let rec in learnResults) {
+        learnResults[rec].recordID = `${rec}_${portal_learn}`;
+        resultSetWithResolved[`${rec}_${portal_learn}`] = learnResults[rec];
+        resultsArray.push(learnResults[rec]);
+        if (!hasOpenRequest && !(learnResults[rec].submitted > 0 && learnResults[rec].stepID === null)) {
+          hasOpenRequest = true;
+        }
+      }
+
+      resultsArray.sort((a, b) => (a.date > b.date ? -1 : a.date < b.date ? 1 : 0));
+
+      const sliced = resultsArray.slice(0, maxInitial);
+      let initialRecords = {};
+      sliced.forEach(el => initialRecords[el.recordID] = el);
+
+      const btn = document.getElementById('searchContainer_getMoreResults');
+      if (btn && Object.keys(resultSetWithResolved).length > maxInitial) {
+        btn.style.display = 'block';
+      }
+
+      renderResult(initialRecords);
+
+      document.querySelector('#search_status').innerHTML = '';
+
+    }).catch(err => console.error('Error retrieving requests:', err));
+  }
+
+  function main() {
+    runQuery();
+    let moreResultsEl = document.getElementById('searchContainer_getMoreResults');
+    if (moreResultsEl !== null) {
+      moreResultsEl.addEventListener('click', function() {
+        scrollY = window.scrollY;
+        renderResult(resultSetWithResolved);
+        moreResultsEl.style.display = 'none';
+        showingMore = true;
+      });
+    }
+  }
+
+  // ── Kick off on page load ─────────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', main);
+</script>
+
+</body>
+</html>
