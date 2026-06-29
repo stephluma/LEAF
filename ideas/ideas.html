@@ -1,469 +1,1791 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Idea Portal — LEAF Launchpad</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Idea Portal — LEAF Launchpad</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
-    rel="stylesheet"
-  />
-  <!-- Material Symbols Outlined — static axes; FILL controlled via CSS only -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,1,0" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Material Symbols Outlined — static axes; FILL controlled via CSS only -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,1,0"
+      rel="stylesheet"
+    />
 
-  <!-- TODO: verify path before production -->
-  <link rel="stylesheet" href="/platform/designs/files/launchpad.css" />
+    <!-- TODO: verify path before production -->
+    <link rel="stylesheet" href="/platform/designs/files/launchpad.css" />
 
-  <style>
-    /* Filled icons — !important beats launchpad.css FILL:0 and any
+    <style>
+      /* Filled icons — !important beats launchpad.css FILL:0 and any
        leaf_nav.js injected styles regardless of load order */
-    .material-symbols-outlined {
-      font-variation-settings: 'FILL' 1, 'wght' 400, 'opsz' 24, 'GRAD' 0 !important;
-    }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 400,
+          "opsz" 24,
+          "GRAD" 0 !important;
+      }
 
-    #header, #footer { display: none !important; }
+      #header,
+      #footer {
+        display: none !important;
+      }
 
-    /* ── Idea Portal tokens (mapped to launchpad.css vars) ── */
-    :root {
-      --ip-navy:      var(--lp-hl);
-      --ip-blue:      var(--lp-accent);
-      --ip-blue-lt:   var(--c-blue5);
-      --ip-blue-10:   var(--c-blue10);
-      --ip-blue-20:   var(--c-blue20);
-      --ip-green:     #2e8540;
-      --ip-amber:     #b57f0a;
-      --ip-red:       #d54309;
-      --ip-gray5:     var(--c-gray5);
-      --ip-gray20:    var(--c-gray20);
-      --ip-text:      var(--c-text);
-      --ip-muted:     var(--c-muted);
-      --ip-r:         var(--r);
-      --ip-r-lg:      var(--r-lg);
-      --ip-max:       1200px;
-      /* Hero palette */
-      --ip-hero-deep:   #2d5a27;
-      --ip-hero-mid:    #4a8c3f;
-      --ip-hero-accent: #b8eb8a;
-    }
+      /* ── Idea Portal tokens (mapped to launchpad.css vars) ── */
+      :root {
+        --ip-navy: var(--lp-hl);
+        --ip-blue: var(--lp-accent);
+        --ip-blue-lt: var(--c-blue5);
+        --ip-blue-10: var(--c-blue10);
+        --ip-blue-20: var(--c-blue20);
+        --ip-green: #2e8540;
+        --ip-amber: #b57f0a;
+        --ip-red: #d54309;
+        --ip-gray5: var(--c-gray5);
+        --ip-gray20: var(--c-gray20);
+        --ip-text: var(--c-text);
+        --ip-muted: var(--c-muted);
+        --ip-r: var(--r);
+        --ip-r-lg: var(--r-lg);
+        --ip-max: 1200px;
+        /* Hero palette */
+        --ip-hero-deep: #2d5a27;
+        --ip-hero-mid: #4a8c3f;
+        --ip-hero-accent: #b8eb8a;
+      }
 
-    /* ── Wrap ── */
-    .ip-wrap { max-width: var(--ip-max); margin: 0 auto; padding: 0; }
+      /* ── Wrap ── */
+      .ip-wrap {
+        max-width: var(--ip-max);
+        margin: 0 auto;
+        padding: 0;
+      }
 
-    /* ── Hero banner ── */
-    .ip-hero {
-      position: relative;
-      overflow: hidden;
-      background: linear-gradient(135deg, #2d5a27 0%, #3d7a32 45%, #5aaa47 100%);
-      padding: 52px 40px 60px;
-      text-align: center;
-    }
-    .ip-hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        radial-gradient(ellipse 200px 120px at 10% 20%, rgba(255,255,255,.06) 0%, transparent 70%),
-        radial-gradient(ellipse 300px 200px at 85% 80%, rgba(255,255,255,.05) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .ip-leaf-deco { position: absolute; opacity: .12; pointer-events: none; }
-    .ip-leaf-deco svg { display: block; }
-    .ip-leaf-deco--tl { top: -20px;  left: -30px;  transform: rotate(-25deg); }
-    .ip-leaf-deco--tr { top: 10px;   right: -20px; transform: rotate(30deg) scaleX(-1); }
-    .ip-leaf-deco--bl { bottom: -10px; left: 60px;  transform: rotate(15deg); }
-    .ip-leaf-deco--br { bottom: -20px; right: 80px; transform: rotate(-10deg) scaleX(-1); }
+      /* ── Hero banner ── */
+      .ip-hero {
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(
+          135deg,
+          #2d5a27 0%,
+          #3d7a32 45%,
+          #5aaa47 100%
+        );
+        padding: 52px 40px 60px;
+        text-align: center;
+      }
+      .ip-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          radial-gradient(
+            ellipse 200px 120px at 10% 20%,
+            rgba(255, 255, 255, 0.06) 0%,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 300px 200px at 85% 80%,
+            rgba(255, 255, 255, 0.05) 0%,
+            transparent 70%
+          );
+        pointer-events: none;
+      }
+      .ip-leaf-deco {
+        position: absolute;
+        opacity: 0.12;
+        pointer-events: none;
+      }
+      .ip-leaf-deco svg {
+        display: block;
+      }
+      .ip-leaf-deco--tl {
+        top: -20px;
+        left: -30px;
+        transform: rotate(-25deg);
+      }
+      .ip-leaf-deco--tr {
+        top: 10px;
+        right: -20px;
+        transform: rotate(30deg) scaleX(-1);
+      }
+      .ip-leaf-deco--bl {
+        bottom: -10px;
+        left: 60px;
+        transform: rotate(15deg);
+      }
+      .ip-leaf-deco--br {
+        bottom: -20px;
+        right: 80px;
+        transform: rotate(-10deg) scaleX(-1);
+      }
 
-    .ip-hero-inner { position: relative; z-index: 2; max-width: 680px; margin: 0 auto; }
+      .ip-hero-inner {
+        position: relative;
+        z-index: 2;
+        max-width: 680px;
+        margin: 0 auto;
+      }
 
-    .ip-hero-badge {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
-      border-radius: 50px; padding: 5px 16px 5px 10px;
-      font-size: 12px; font-weight: 600; color: rgba(255,255,255,.9);
-      letter-spacing: .06em; text-transform: uppercase; margin-bottom: 22px;
-      animation: ipFadeSlideDown .6s ease both;
-    }
-    .ip-hero-badge__dot {
-      width: 7px; height: 7px; background: #a8e67a; border-radius: 50%;
-      box-shadow: 0 0 6px #a8e67a; animation: ipPulse 2s infinite;
-    }
-    @keyframes ipPulse {
-      0%, 100% { transform: scale(1);   opacity: 1; }
-      50%       { transform: scale(1.4); opacity: .7; }
-    }
-    .ip-hero-title {
-      font-family: 'Public Sans', sans-serif;
-      font-size: clamp(1.8rem, 4.5vw, 2.8rem); font-weight: 800; color: #fff;
-      line-height: 1.15; letter-spacing: -.02em; margin: 0 0 8px;
-      animation: ipFadeSlideDown .6s .1s ease both;
-    }
-    .ip-hero-title__leaf { color: var(--ip-hero-accent); }
-    .ip-hero-tagline {
-      font-family: 'Source Sans 3', sans-serif; font-style: italic;
-      font-size: 1.05rem; color: rgba(255,255,255,.75); margin: 0 0 18px;
-      animation: ipFadeSlideDown .6s .2s ease both;
-    }
-    .ip-hero-desc {
-      font-family: 'Source Sans 3', sans-serif; font-size: .97rem; font-weight: 300;
-      color: rgba(255,255,255,.85); line-height: 1.7; max-width: 520px;
-      margin: 0 auto 30px; animation: ipFadeSlideDown .6s .3s ease both;
-    }
-    .ip-hero-cta {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: #fff; color: var(--ip-hero-deep);
-      font-family: 'Public Sans', sans-serif; font-size: .95rem; font-weight: 700;
-      padding: 12px 26px; border-radius: 50px; border: none; cursor: pointer;
-      transition: transform .2s, box-shadow .2s;
-      box-shadow: 0 4px 20px rgba(0,0,0,.15); animation: ipFadeSlideDown .6s .4s ease both;
-    }
-    .ip-hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,.22); }
-    .ip-hero-cta:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
-    .ip-hero-cta__arrow { transition: transform .2s; }
-    .ip-hero-cta:hover .ip-hero-cta__arrow { transform: translateX(3px); }
-    @keyframes ipFadeSlideDown {
-      from { opacity: 0; transform: translateY(-14px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+      .ip-hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 50px;
+        padding: 5px 16px 5px 10px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.9);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-bottom: 22px;
+        animation: ipFadeSlideDown 0.6s ease both;
+      }
+      .ip-hero-badge__dot {
+        width: 7px;
+        height: 7px;
+        background: #a8e67a;
+        border-radius: 50%;
+        box-shadow: 0 0 6px #a8e67a;
+        animation: ipPulse 2s infinite;
+      }
+      @keyframes ipPulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.4);
+          opacity: 0.7;
+        }
+      }
+      .ip-hero-title {
+        font-family: "Public Sans", sans-serif;
+        font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+        font-weight: 800;
+        color: #fff;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin: 0 0 8px;
+        animation: ipFadeSlideDown 0.6s 0.1s ease both;
+      }
+      .ip-hero-title__leaf {
+        color: var(--ip-hero-accent);
+      }
+      .ip-hero-tagline {
+        font-family: "Source Sans 3", sans-serif;
+        font-style: italic;
+        font-size: 1.05rem;
+        color: rgba(255, 255, 255, 0.75);
+        margin: 0 0 18px;
+        animation: ipFadeSlideDown 0.6s 0.2s ease both;
+      }
+      .ip-hero-desc {
+        font-family: "Source Sans 3", sans-serif;
+        font-size: 0.97rem;
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.7;
+        max-width: 520px;
+        margin: 0 auto 30px;
+        animation: ipFadeSlideDown 0.6s 0.3s ease both;
+      }
+      .ip-hero-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #fff;
+        color: var(--ip-hero-deep);
+        font-family: "Public Sans", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        padding: 12px 26px;
+        border-radius: 50px;
+        border: none;
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s,
+          background 0.2s,
+          color 0.2s;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        animation: ipFadeSlideDown 0.6s 0.4s ease both;
+      }
+      .ip-hero-cta:hover {
+        background: var(--ip-hero-accent);
+        color: var(--ip-hero-deep);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 32px rgba(0, 0, 0, 0.25);
+      }
+      .ip-hero-cta:active {
+        transform: translateY(0);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      }
+      .ip-hero-cta:focus-visible {
+        outline: 3px solid #fff;
+        outline-offset: 3px;
+      }
+      .ip-hero-cta__arrow {
+        transition: transform 0.2s;
+      }
+      .ip-hero-cta:hover .ip-hero-cta__arrow {
+        transform: translateX(3px);
+      }
+      @keyframes ipFadeSlideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
 
-    /* ── Stats strip ── */
-    .ip-statsNew {
-      background: #fff; border-bottom: 1px solid rgba(0,0,0,.07);
-      padding: 0 40px; display: flex; justify-content: center;
-      box-shadow: 0 2px 12px rgba(45,90,39,.08);
-    }
-    .ip-statNew {
-      display: flex; align-items: center; gap: 13px; padding: 20px 36px;
-      position: relative; animation: ipFadeUp .5s ease both;
-    }
-    .ip-statNew:nth-child(2) { animation-delay: .1s; }
-    .ip-statNew:nth-child(3) { animation-delay: .2s; }
-    .ip-statNew:not(:last-child)::after {
-      content: ''; position: absolute; right: 0; top: 25%; height: 50%;
-      width: 1px; background: rgba(0,0,0,.1);
-    }
-    @keyframes ipFadeUp {
-      from { opacity: 0; transform: translateY(6px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .ip-statNew-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-    .ip-statNew-icon--ideas { background: #e8f5e3; }
-    .ip-statNew-icon--done  { background: #fff3e0; }
-    .ip-statNew-icon--votes { background: var(--c-blue5); }
-    .ip-statNew-text { line-height: 1.25; }
-    .ip-statNew-number { font-family: 'Public Sans', sans-serif; font-size: 1.45rem; font-weight: 800; color: var(--c-text); font-variant-numeric: tabular-nums; }
-    .ip-statNew-label  { font-family: 'Public Sans', sans-serif; font-size: .78rem; color: var(--c-muted); font-weight: 400; letter-spacing: .01em; }
+      /* ── Stats strip ── */
+      .ip-statsNew {
+        background: #fff;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+        padding: 0 40px;
+        display: flex;
+        justify-content: center;
+        box-shadow: 0 2px 12px rgba(45, 90, 39, 0.08);
+      }
+      .ip-statNew {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 20px 36px;
+        position: relative;
+        animation: ipFadeUp 0.5s ease both;
+      }
+      .ip-statNew:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .ip-statNew:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+      .ip-statNew:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 25%;
+        height: 50%;
+        width: 1px;
+        background: rgba(0, 0, 0, 0.1);
+      }
+      @keyframes ipFadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .ip-statNew-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .ip-statNew-icon .material-symbols-outlined {
+        font-size: 22px;
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 400,
+          "opsz" 24,
+          "GRAD" 0;
+      }
+      .ip-statNew-icon--ideas {
+        background: #e8f5e3;
+        color: #2e7d32;
+      }
+      .ip-statNew-icon--done {
+        background: #fff3e0;
+        color: #e65100;
+      }
+      .ip-statNew-icon--votes {
+        background: var(--c-blue5);
+        color: var(--ip-blue);
+      }
+      .ip-statNew-text {
+        line-height: 1.25;
+      }
+      .ip-statNew-number {
+        font-family: "Public Sans", sans-serif;
+        font-size: 1.45rem;
+        font-weight: 800;
+        color: var(--c-text);
+        font-variant-numeric: tabular-nums;
+      }
+      .ip-statNew-label {
+        font-family: "Public Sans", sans-serif;
+        font-size: 0.875rem;
+        color: var(--c-muted);
+        font-weight: 400;
+        letter-spacing: 0.01em;
+      }
 
-    /* ── Main layout ── */
-    .ip-mainLayout { display: grid; grid-template-columns: 220px 1fr; gap: 20px; padding: 20px 24px; align-items: start; background: #eef2f6; }
+      /* ── Main layout ── */
+      .ip-mainLayout {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 20px;
+        padding: 20px 32px 20px 103px;
+        align-items: start;
+        background: #eef2f6;
+        width: 100%;
+        box-sizing: border-box;
+      }
 
-    /* ── Sidebar ── */
-    .ip-sidebar { display: grid; gap: 14px; position: sticky; top: 60px; }
-    .ip-sideCard { background: #fff; border: 1px solid var(--ip-blue-10); border-radius: var(--ip-r-lg); overflow: hidden; }
-    .ip-sideCard__hd { padding: 10px 14px; border-bottom: 1px solid var(--ip-blue-10); font-family: 'Public Sans', sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ip-muted); }
-    .ip-catList { list-style: none; padding: 6px; margin: 0; display: grid; gap: 2px; }
-    .ip-catItem {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 7px 10px; border-radius: var(--ip-r); cursor: pointer;
-      transition: background .12s; font-size: .85rem; color: var(--ip-muted);
-      background: none; border: none; width: 100%; text-align: left;
-      font-family: 'Source Sans 3', sans-serif;
-    }
-    .ip-catItem:hover { background: var(--ip-blue-lt); color: var(--ip-blue); }
-    .ip-catItem:focus-visible { outline: 2px solid var(--ip-blue); outline-offset: 1px; }
-    .ip-catItem.is-active { background: var(--ip-blue-lt); color: var(--ip-blue); font-weight: 700; }
-    .ip-catCount {
-      font-size: .7rem; background: var(--ip-blue-10); color: var(--ip-navy);
-      padding: 1px 7px; border-radius: 999px; font-weight: 700;
-      font-family: 'Public Sans', sans-serif; flex-shrink: 0; margin-left: 6px;
-    }
-    .ip-catItem.is-active .ip-catCount { background: var(--ip-blue); color: #fff; }
-    .ip-myActivity { padding: 12px 14px; display: grid; gap: 10px; }
-    .ip-actRow { display: flex; align-items: center; justify-content: space-between; font-size: .85rem; color: var(--ip-muted); }
-    .ip-actRow span:last-child { font-family: 'Public Sans', sans-serif; font-weight: 700; color: var(--ip-navy); }
+      /* ── Sidebar ── */
+      .ip-sidebar {
+        display: grid;
+        gap: 14px;
+        position: sticky;
+        top: 60px;
+      }
+      .ip-sideCard {
+        background: #fff;
+        border: 1px solid var(--ip-blue-10);
+        border-radius: var(--ip-r-lg);
+        overflow: hidden;
+      }
+      .ip-sideCard__hd {
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--ip-blue-10);
+        font-family: "Public Sans", sans-serif;
+        font-size: 0.875rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ip-muted);
+      }
+      .ip-catList {
+        list-style: none;
+        padding: 6px;
+        margin: 0;
+        display: grid;
+        gap: 2px;
+      }
+      .ip-catItem {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 7px 10px;
+        border-radius: var(--ip-r);
+        cursor: pointer;
+        transition: background 0.12s;
+        font-size: 0.9rem;
+        color: var(--ip-muted);
+        background: none;
+        border: none;
+        width: 100%;
+        text-align: left;
+        font-family: "Public Sans", sans-serif;
+      }
+      .ip-catItem:hover {
+        background: var(--ip-blue-lt);
+        color: var(--ip-blue);
+      }
+      .ip-catItem:focus-visible {
+        outline: 2px solid var(--ip-blue);
+        outline-offset: 1px;
+      }
+      .ip-catItem.is-active {
+        background: var(--ip-blue-lt);
+        color: var(--ip-blue);
+        font-weight: 700;
+      }
+      .ip-catCount {
+        font-size: 0.8rem;
+        background: var(--ip-blue-10);
+        color: var(--ip-navy);
+        padding: 1px 7px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-family: "Public Sans", sans-serif;
+        flex-shrink: 0;
+        margin-left: 6px;
+      }
+      .ip-catItem.is-active .ip-catCount {
+        background: var(--ip-blue);
+        color: #fff;
+      }
+      .ip-myActivity {
+        list-style: none;
+        padding: 6px;
+        margin: 0;
+        display: grid;
+        gap: 2px;
+      }
 
-    /* ── Main content ── */
-    .ip-main { min-width: 0; }
+      /* ── Voted modal ── */
+      .ip-votedModal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 500;
+      }
+      .ip-votedModal.is-open {
+        display: block;
+      }
+      .ip-votedModal__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(10, 20, 60, 0.45);
+      }
+      .ip-votedModal__dialog {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        border-radius: var(--ip-r-lg);
+        width: 90vw;
+        max-width: 800px;
+        max-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25);
+        overflow: hidden;
+      }
+      .ip-votedModal__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--ip-blue-10);
+        flex-shrink: 0;
+        background: #fff;
+      }
+      .ip-votedModal__title {
+        font-family: "Public Sans", sans-serif;
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: var(--ip-navy);
+      }
+      .ip-votedModal__body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+      }
+      .ip-votedModal__empty {
+        padding: 32px;
+        text-align: center;
+        color: var(--ip-muted);
+        font-size: 0.9rem;
+      }
+      .ip-votedModal__search {
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--ip-blue-10);
+        flex-shrink: 0;
+        background: #fff;
+      }
 
-    /* ── Tab bar ── */
-    .ip-tabBar { background: #fff; border: 1px solid var(--ip-blue-10); border-radius: var(--ip-r-lg); overflow: hidden; }
-    .ip-tabsRow { display: flex; align-items: center; border-bottom: 1px solid var(--ip-blue-10); padding-right: 16px; }
-    .ip-tabs { display: flex; flex: 1; }
-    .ip-tab {
-      padding: 12px 20px; font-family: 'Public Sans', sans-serif; font-size: .88rem; font-weight: 600;
-      color: var(--ip-muted); background: transparent; border: none;
-      border-bottom: 2px solid transparent; cursor: pointer;
-      transition: color .15s, border-color .15s; margin-bottom: -1px; white-space: nowrap;
-    }
-    .ip-tab.is-active { color: var(--ip-blue); border-bottom-color: var(--ip-blue); }
-    .ip-tab:hover:not(.is-active) { color: var(--ip-navy); background: var(--ip-blue-lt); }
-    .ip-tab:focus-visible { outline: 2px solid var(--ip-blue); outline-offset: -2px; }
+      /* ── Main content ── */
+      .ip-main {
+        min-width: 0;
+      }
 
-    /* ── Panels ── */
-    .ip-panel { display: none; }
-    .ip-panel.is-active { display: block; }
-    .ip-panelDesc { padding: 10px 16px 0; font-size: .85rem; color: var(--ip-muted); margin: 0; }
+      /* ── Tab bar ── */
+      .ip-tabBar {
+        background: #fff;
+        border: 1px solid var(--ip-blue-10);
+        border-radius: var(--ip-r-lg);
+        overflow: hidden;
+      }
+      .ip-tabsRow {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid var(--ip-blue-10);
+        padding-right: 16px;
+      }
+      .ip-tabs {
+        display: flex;
+        flex: 1;
+      }
+      .ip-tab {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 12px 20px;
+        font-family: "Public Sans", sans-serif;
+        font-size: 0.93rem;
+        font-weight: 600;
+        color: var(--ip-muted);
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+        transition:
+          color 0.15s,
+          border-color 0.15s;
+        margin-bottom: -1px;
+        white-space: nowrap;
+      }
+      .ip-tab.is-active {
+        color: var(--ip-blue);
+        border-bottom-color: var(--ip-blue);
+      }
+      .ip-tab:hover:not(.is-active) {
+        color: var(--ip-navy);
+        background: var(--ip-blue-lt);
+      }
+      .ip-tab:focus-visible {
+        outline: 2px solid var(--ip-blue);
+        outline-offset: -2px;
+      }
 
-    /* ── Recently added ── */
-    .ip-recentBar { padding: 9px 16px; background: #fffbeb; border-bottom: 1px solid #fde68a; display: flex; align-items: center; gap: 8px; font-size: .85rem; flex-wrap: wrap; color: #92400e; }
-    .ip-recentBar .material-symbols-outlined { color: var(--ip-amber); font-size: 1.1rem; flex-shrink: 0; }
-    .ip-recentBar strong { color: #92400e; }
-    .ip-recentChips { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
-    .ip-recentChip { padding: 2px 10px; background: #fef3c7; border: 1px solid #fde68a; border-radius: 999px; font-size: .75rem; color: #92400e; cursor: pointer; transition: background .12s; text-decoration: none; font-family: 'Source Sans 3', sans-serif; }
-    .ip-recentChip:hover { background: #fde68a; }
+      /* Tab icons — outlined on inactive, filled on active/hover */
+      .ip-tab .material-symbols-outlined {
+        font-size: 20px;
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "opsz" 20,
+          "GRAD" 0 !important;
+        transition: font-variation-settings 0.15s;
+      }
+      .ip-tab.is-active .material-symbols-outlined,
+      .ip-tab:hover .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 400,
+          "opsz" 20,
+          "GRAD" 0 !important;
+      }
 
-    /* ── Search ── */
-    .ip-searchWrap { padding: 12px 16px; border-bottom: 1px solid var(--ip-blue-10); display: flex; gap: 8px; align-items: center; }
-    .ip-searchInner { display: flex; flex: 1; border: 1.5px solid var(--ip-blue-20); border-radius: var(--ip-r); overflow: hidden; background: #fff; transition: border-color .15s; }
-    .ip-searchInner:focus-within { border-color: var(--ip-blue); }
-    .ip-searchInput { flex: 1; border: none; padding: 8px 12px; font-size: .9rem; font-family: 'Source Sans 3', sans-serif; outline: none; background: transparent; color: var(--ip-text); min-width: 0; }
-    .ip-searchIconBtn { background: var(--ip-blue); color: #fff; border: none; padding: 0 13px; cursor: pointer; display: flex; align-items: center; }
-    .ip-searchIconBtn .material-symbols-outlined { font-size: 1.1rem; }
-    .ip-srOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+      /* ── Panels ── */
+      .ip-panel {
+        display: none;
+      }
+      .ip-panel.is-active {
+        display: block;
+      }
+      .ip-panelDesc {
+        padding: 10px 16px 0;
+        font-size: 0.9rem;
+        color: var(--ip-muted);
+        margin: 0;
+      }
 
-    /* ── Table ── */
-    .ip-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
-    .ip-table thead th { padding: 10px 12px; text-align: left; font-family: 'Public Sans', sans-serif; font-size: .75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--ip-muted); background: var(--ip-blue-lt); border-bottom: 2px solid var(--ip-blue-10); white-space: nowrap; }
-    .ip-sortable { cursor: pointer; user-select: none; }
-    .ip-sortBtn { background: none; border: none; font: inherit; font-family: 'Public Sans', sans-serif; font-size: .75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--ip-muted); cursor: pointer; padding: 0; display: inline-flex; align-items: center; gap: 4px; }
-    .ip-sortable.is-asc  .ip-sortBtn::after { content: ' ↑'; color: var(--ip-blue); }
-    .ip-sortable.is-desc .ip-sortBtn::after { content: ' ↓'; color: var(--ip-blue); }
-    .ip-table td { padding: 10px 12px; border-bottom: 1px solid var(--c-gray5); vertical-align: middle; color: var(--ip-text); }
-    .ip-table tr:last-child td { border-bottom: none; }
-    .ip-table tbody tr:hover td { background: var(--ip-blue-lt); }
-    .ip-table td:first-child { font-family: 'Public Sans', sans-serif; font-weight: 700; color: var(--ip-blue); font-size: .85rem; white-space: nowrap; }
-    .ip-recordLink { color: var(--ip-blue); text-decoration: none; font-weight: 700; }
-    .ip-recordLink:hover { text-decoration: underline; }
-    .ip-table td:nth-child(3) { font-size: .85rem; color: var(--ip-muted); white-space: nowrap; }
-    .ip-votes { text-align: center; font-family: 'Public Sans', sans-serif; font-weight: 700; color: var(--ip-navy); }
-    .ip-col-actions, .ip-actionsCell { text-align: center; white-space: nowrap; }
+      /* ── Recently added ── */
 
-    /* ── Status badges ── */
-    .ip-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 999px; font-size: .75rem; font-weight: 700; font-family: 'Public Sans', sans-serif; white-space: nowrap; }
-    .ip-badge--new       { background: #edf7ee; color: #1a6b2a; }
-    .ip-badge--review    { background: var(--c-blue5); color: var(--lp-accent); }
-    .ip-badge--progress  { background: #fef3c7; color: #92400e; }
-    .ip-badge--done      { background: #f0f0f0; color: #5c5c5c; }
-    .ip-badge--discarded { background: #fce8e3; color: #9c2f12; }
-    .ip-badge--draft     { background: #f1f5f9; color: #475569; }
+      /* ── Search ── */
+      .ip-searchWrap {
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--ip-blue-10);
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .ip-searchInner {
+        display: flex;
+        flex: 1;
+        border: 1.5px solid var(--ip-blue-20);
+        border-radius: var(--ip-r);
+        overflow: hidden;
+        background: #fff;
+        transition: border-color 0.15s;
+      }
+      .ip-searchInner:focus-within {
+        border-color: var(--ip-blue);
+      }
+      .ip-searchInput {
+        flex: 1;
+        border: none;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        font-family: "Source Sans 3", sans-serif;
+        outline: none;
+        background: transparent;
+        color: var(--ip-text);
+        min-width: 0;
+      }
+      .ip-searchIconBtn {
+        background: var(--ip-blue);
+        color: #fff;
+        border: none;
+        padding: 0 13px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+      }
+      .ip-searchIconBtn:focus-visible {
+        outline: 2px solid #000;
+        outline-offset: -3px;
+      }
+      .ip-searchIconBtn .material-symbols-outlined {
+        font-size: 1.1rem;
+        color: #fff !important;
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 400,
+          "opsz" 24,
+          "GRAD" 0 !important;
+      }
+      .ip-srOnly {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
 
-    /* ── Buttons ── */
-    .ip-btn { display: inline-flex; align-items: center; gap: 6px; border-radius: var(--ip-r); border: 1.5px solid transparent; font-family: 'Public Sans', sans-serif; font-size: .88rem; font-weight: 700; cursor: pointer; line-height: 1; transition: all .15s; }
-    .ip-btn--primary { background: var(--ip-blue); color: #fff; border-color: var(--ip-blue); padding: 9px 18px; }
-    .ip-btn--primary:hover { filter: brightness(1.08); box-shadow: 0 3px 12px rgba(0,94,162,.25); }
-    .ip-btn--primary:focus-visible { outline: 3px solid var(--ip-blue); outline-offset: 2px; }
-    .ip-btn--ghost { background: transparent; color: var(--ip-blue); border-color: var(--ip-blue-20); padding: 7px 14px; }
-    .ip-btn--ghost:hover { background: var(--ip-blue-lt); border-color: var(--ip-blue); }
-    .ip-btn--ghost:focus-visible { outline: 2px solid var(--ip-blue); outline-offset: 2px; }
-    .ip-btn--icon { background: transparent; border: none; padding: 6px; color: var(--ip-muted); }
-    .ip-btn--icon:hover { color: var(--ip-navy); background: var(--ip-blue-lt); border-radius: var(--ip-r); }
+      /* ── Table ── */
+      .ip-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+        table-layout: fixed;
+      }
+      .ip-table thead th {
+        padding: 0;
+        text-align: left;
+        font-family: "Public Sans", sans-serif;
+        font-size: 0.875rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--ip-muted);
+        background: var(--ip-blue-lt);
+        border-bottom: 2px solid var(--ip-blue-10);
+        white-space: nowrap;
+      }
+      /* Non-sortable headers (e.g. Actions) keep their own padding */
+      .ip-table thead th:not(.ip-sortable) {
+        padding: 10px 12px;
+      }
+      .ip-sortable {
+        cursor: pointer;
+        user-select: none;
+        transition: background 0.12s;
+        padding: 0 !important;
+      }
+      .ip-sortable:hover {
+        background: #dce8f5;
+      }
+      .ip-sortable:hover .ip-sortBtn {
+        color: var(--ip-blue);
+      }
+      .ip-sortBtn {
+        background: none;
+        border: none;
+        font: inherit;
+        font-family: "Public Sans", sans-serif;
+        font-size: 0.875rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--ip-muted);
+        cursor: pointer;
+        /* Fill the full th cell so any click in the header triggers sort */
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 10px 12px;
+        text-align: left;
+      }
+      .ip-sortable.is-asc .ip-sortBtn::after {
+        content: " ↑";
+        color: #111;
+      }
+      .ip-sortable.is-desc .ip-sortBtn::after {
+        content: " ↓";
+        color: #111;
+      }
+      .ip-table td {
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--c-gray5);
+        vertical-align: middle;
+        color: var(--ip-text);
+      }
+      .ip-table tr:last-child td {
+        border-bottom: none;
+      }
+      .ip-table tbody tr:hover td {
+        background: var(--ip-blue-lt);
+      }
+      .ip-table td:first-child {
+        font-family: "Public Sans", sans-serif;
+        font-weight: 700;
+        color: var(--ip-blue);
+        font-size: 0.9rem;
+        white-space: nowrap;
+      }
+      .ip-recordLink {
+        color: var(--ip-blue);
+        text-decoration: none;
+        font-weight: 700;
+      }
+      .ip-recordLink:hover {
+        text-decoration: underline;
+      }
+      .ip-table td:nth-child(3) {
+        font-size: 0.9rem;
+        color: var(--ip-muted);
+        white-space: nowrap;
+      }
+      .ip-votes {
+        text-align: left;
+        font-family: "Public Sans", sans-serif;
+        font-weight: 700;
+        color: var(--ip-navy);
+        white-space: nowrap;
+      }
+      .ip-col-actions,
+      .ip-actionsCell {
+        text-align: left;
+        white-space: nowrap;
+      }
 
-    /* ── Vote button ── */
-    .ip-upvote { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border: 1.5px solid var(--ip-blue-20); border-radius: var(--ip-r); background: #fff; color: var(--ip-blue); font-size: .8rem; font-weight: 700; font-family: 'Public Sans', sans-serif; cursor: pointer; transition: all .15s; }
-    .ip-upvote:hover:not(:disabled) { background: var(--ip-blue); color: #fff; border-color: var(--ip-blue); }
-    .ip-upvote.is-voted { background: var(--ip-blue); color: #fff; border-color: var(--ip-blue); cursor: default; }
-    .ip-upvote:disabled { opacity: .65; }
-    .ip-upvote .material-symbols-outlined { font-size: .95rem; }
-    .ip-share { font-size: .8rem; padding: 5px 10px; background: transparent; border: 1.5px solid var(--ip-blue-20); border-radius: var(--ip-r); color: var(--ip-muted); cursor: pointer; font-family: 'Public Sans', sans-serif; font-weight: 600; transition: all .15s; margin-left: 4px; }
-    .ip-share:hover { background: var(--ip-blue-lt); border-color: var(--ip-blue); color: var(--ip-blue); }
+      /* ── Column widths (requires table-layout: fixed on .ip-table) ── */
+      .ip-table th:nth-child(1),
+      .ip-table td:nth-child(1) {
+        width: 10%;
+      } /* ID       */
 
-    /* ── Pagination ── */
-    .ip-pagination { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--ip-blue-10); flex-wrap: wrap; }
-    .ip-pageInfo { font-size: .85rem; color: var(--ip-muted); font-family: 'Public Sans', sans-serif; }
-    .ip-pageHint { font-size: .78rem; color: var(--c-gray20); margin-left: auto; }
-    .ip-pageBtn, .ip-pageToggle { font-size: .82rem; padding: 5px 12px; }
+      .ip-table th:nth-child(2),
+      .ip-table td:nth-child(2) {
+        width: 36%;
+      } /* Title    */
 
-    /* ── Status messages ── */
-    .ip-status { padding: 8px 16px; font-size: .85rem; font-family: 'Public Sans', sans-serif; }
-    .ip-status.is-error   { color: var(--ip-red); }
-    .ip-status.is-loading { color: var(--ip-muted); }
+      .ip-table th:nth-child(3),
+      .ip-table td:nth-child(3) {
+        width: 20%;
+      } /* Category */
 
-    /* ── Add Idea modal ── */
-    .ip-modal { display: none; position: fixed; inset: 0; z-index: 500; }
-    .ip-modal.is-open { display: block; }
-    .ip-modal__overlay { position: absolute; inset: 0; background: rgba(10,20,60,.45); }
-    .ip-modal__content { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); background: #fff; border-radius: var(--ip-r-lg); width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 80px rgba(0,0,0,.25); }
-    .ip-modal__header { padding: 18px 24px 14px; border-bottom: 1px solid var(--ip-blue-10); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: #fff; z-index: 1; border-radius: var(--ip-r-lg) var(--ip-r-lg) 0 0; }
-    .ip-modal__title { font-family: 'Public Sans', sans-serif; font-size: 1.05rem; font-weight: 800; color: var(--ip-navy); margin: 0; }
-    .ip-modal__body { padding: 20px 24px; display: grid; gap: 14px; }
+      .ip-table th:nth-child(4),
+      .ip-table td:nth-child(4) {
+        width: 16%;
+      } /* Status   */
 
-    /* ── Form fields ── */
-    .ip-field { display: grid; gap: 5px; }
-    .ip-label { font-family: 'Public Sans', sans-serif; font-size: .85rem; font-weight: 700; color: var(--ip-navy); }
-    .ip-field input[type="text"],
-    .ip-field select,
-    .ip-textarea { width: 100%; padding: 9px 12px; border: 1.5px solid var(--ip-blue-20); border-radius: var(--ip-r); font-family: 'Source Sans 3', sans-serif; font-size: .9rem; color: var(--ip-text); background: #fff; transition: border-color .15s; outline: none; box-sizing: border-box; }
-    .ip-field input:focus, .ip-field select:focus, .ip-textarea:focus { border-color: var(--ip-blue); box-shadow: 0 0 0 3px rgba(0,94,162,.1); }
-    .ip-textarea { resize: vertical; min-height: 80px; }
-    .ip-error { font-size: .8rem; color: var(--ip-red); display: none; }
-    .was-validated .ip-error { display: block; }
-    .ip-fileInput { font-size: .85rem; }
-    .ip-fileList { list-style: none; padding: 0; margin: 4px 0 0; font-size: .82rem; color: var(--ip-muted); }
-    .ip-actions { padding: 14px 24px; border-top: 1px solid var(--ip-blue-10); display: flex; justify-content: space-between; align-items: center; }
+      .ip-table th:nth-child(5),
+      .ip-table td:nth-child(5) {
+        width: 8%;
+      } /* Votes    */
 
-    /* ── Record modal ── */
-    .ip-recordModal { display: none; position: fixed; inset: 0; z-index: 500; }
-    .ip-recordModal.is-open { display: block; }
-    .ip-recordModal__backdrop { position: absolute; inset: 0; background: rgba(10,20,60,.45); }
-    .ip-recordModal__dialog { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); background: #fff; border-radius: var(--ip-r-lg); width: 90vw; max-width: 900px; height: 80vh; display: flex; flex-direction: column; box-shadow: 0 24px 80px rgba(0,0,0,.25); overflow: hidden; }
-    .ip-recordModal__header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--ip-blue-10); flex-shrink: 0; background: #fff; }
-    .ip-recordModal__title { font-family: 'Public Sans', sans-serif; font-weight: 700; font-size: .95rem; color: var(--ip-navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .ip-recordModal__actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
-    .ip-recordModal__body { flex: 1; overflow: hidden; }
-    .ip-recordModal__frame { width: 100%; height: 100%; border: none; }
+      .ip-table th:nth-child(6),
+      .ip-table td:nth-child(6) {
+        width: 10%;
+      } /* Actions  */
 
-    /* ── Toast ── */
-    .ip-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--ip-green); color: #fff; padding: 12px 24px; border-radius: 999px; font-family: 'Public Sans', sans-serif; font-weight: 700; font-size: .9rem; z-index: 600; transition: transform .3s cubic-bezier(.34,1.56,.64,1), opacity .3s; opacity: 0; display: flex; align-items: center; gap: 8px; white-space: nowrap; pointer-events: none; }
-    .ip-toast.is-error { background: var(--ip-red); }
-    .ip-toast.is-visible { transform: translateX(-50%) translateY(0); opacity: 1; }
+      /* ── Title column ellipsis ── */
+      .ip-col-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: default;
+      }
 
-    /* ── Jump to top ── */
-    .ip-jumpTop { position: fixed; bottom: 24px; right: 24px; width: 44px; height: 44px; border-radius: 50%; background: var(--lp-hl); color: #fff; font-size: 1.1rem; border: none; cursor: pointer; display: none; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,0,0,.2); z-index: 400; transition: opacity .2s; }
-    .ip-jumpTop.is-visible { display: flex; }
-    .ip-jumpTop:hover { background: var(--ip-blue); }
-    .ip-jumpTop:focus-visible { outline: 3px solid var(--ip-blue); outline-offset: 3px; }
+      /* ── Status badges ── */
+      .ip-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 9px;
+        border-radius: 999px;
+        font-size: 0.875rem;
+        font-weight: 700;
+        font-family: "Public Sans", sans-serif;
+        white-space: nowrap;
+      }
+      .ip-badge--new {
+        background: #edf7ee;
+        color: #1a6b2a;
+      }
+      .ip-badge--review {
+        background: var(--c-blue5);
+        color: var(--lp-accent);
+      }
+      .ip-badge--progress {
+        background: #fef3c7;
+        color: #92400e;
+      }
+      .ip-badge--done {
+        background: #f0f0f0;
+        color: #5c5c5c;
+      }
+      .ip-badge--discarded {
+        background: #fce8e3;
+        color: #9c2f12;
+      }
+      .ip-badge--draft {
+        background: #f1f5f9;
+        color: #475569;
+      }
 
-    /* ── Credit badge ── */
-    .ip-creditBadge { display: none; position: fixed; bottom: 24px; left: 24px; background: rgba(255,255,255,.95); border: 1px solid var(--ip-blue-10); border-radius: 999px; padding: 7px 14px; font-size: .78rem; color: var(--ip-muted); align-items: center; gap: 6px; box-shadow: 0 2px 12px rgba(0,0,0,.1); z-index: 400; }
-    .ip-creditBadge.is-visible { display: flex; }
-    .ip-creditBadge .material-symbols-outlined { font-size: 1rem; color: var(--ip-blue); }
+      /* ── Buttons ── */
+      .ip-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: var(--ip-r);
+        border: 1.5px solid transparent;
+        font-family: "Public Sans", sans-serif;
+        font-size: 0.88rem;
+        font-weight: 700;
+        cursor: pointer;
+        line-height: 1;
+        transition: all 0.15s;
+      }
+      .ip-btn--primary {
+        background: var(--ip-blue);
+        color: #fff;
+        border-color: var(--ip-blue);
+        padding: 9px 18px;
+      }
+      .ip-btn--primary .material-symbols-outlined {
+        color: #fff !important;
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 400,
+          "opsz" 24,
+          "GRAD" 0 !important;
+      }
+      .ip-btn--primary:hover {
+        filter: brightness(1.08);
+        box-shadow: 0 3px 12px rgba(0, 94, 162, 0.25);
+      }
+      .ip-btn--primary:focus-visible {
+        outline: 3px solid var(--ip-blue);
+        outline-offset: 2px;
+      }
+      .ip-btn--ghost {
+        background: transparent;
+        color: var(--ip-blue);
+        border-color: var(--ip-blue-20);
+        padding: 7px 14px;
+      }
+      .ip-btn--ghost:hover {
+        background: var(--ip-blue-lt);
+        border-color: var(--ip-blue);
+      }
+      .ip-btn--ghost:focus-visible {
+        outline: 2px solid var(--ip-blue);
+        outline-offset: 2px;
+      }
+      .ip-btn--icon {
+        background: transparent;
+        border: none;
+        padding: 6px;
+        color: var(--ip-muted);
+      }
+      .ip-btn--icon:hover {
+        color: var(--ip-navy);
+        background: var(--ip-blue-lt);
+        border-radius: var(--ip-r);
+      }
 
-    .lp-bottom-safe { height: 24px; }
+      /* ── Vote button ── */
+      .ip-upvote {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        height: 32px;
+        padding: 0 10px;
+        border: 1.5px solid var(--ip-blue-20);
+        border-radius: var(--ip-r);
+        background: #fff;
+        color: var(--ip-blue);
+        font-size: 0.8rem;
+        font-weight: 700;
+        font-family: "Public Sans", sans-serif;
+        cursor: pointer;
+        transition: all 0.15s;
+        box-sizing: border-box;
+      }
+      .ip-upvote:hover:not(:disabled) {
+        background: var(--ip-blue);
+        color: #fff;
+        border-color: var(--ip-blue);
+      }
+      .ip-upvote:hover:not(:disabled) .material-symbols-outlined {
+        color: #fff !important;
+      }
+      .ip-upvote.is-voted {
+        background: #e8e8e8;
+        color: #666;
+        border-color: #ccc;
+        cursor: default;
+        opacity: 1;
+      }
+      .ip-upvote.is-voted .material-symbols-outlined {
+        color: #666 !important;
+      }
+      .ip-upvote.is-voted:focus-visible {
+        outline: 2px solid #000;
+        outline-offset: 3px;
+      }
+      .ip-upvote:disabled {
+        opacity: 0.65;
+      }
+      .ip-upvote:focus-visible {
+        outline: 2px solid #000;
+        outline-offset: 2px;
+      }
+      .ip-upvote .material-symbols-outlined {
+        font-size: 0.9rem;
+        line-height: 1;
+      }
+      .ip-share {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        height: 32px;
+        padding: 0 10px;
+        font-size: 0.8rem;
+        background: transparent;
+        border: 1.5px solid var(--ip-blue-20);
+        border-radius: var(--ip-r);
+        color: var(--ip-muted);
+        cursor: pointer;
+        font-family: "Public Sans", sans-serif;
+        font-weight: 600;
+        transition: all 0.15s;
+        margin-left: 4px;
+        box-sizing: border-box;
+      }
+      .ip-share:hover {
+        background: var(--ip-blue);
+        border-color: var(--ip-blue);
+        color: #fff;
+      }
+      .ip-share:hover .material-symbols-outlined {
+        color: #fff !important;
+      }
+      .ip-share .material-symbols-outlined {
+        font-size: 0.9rem;
+        line-height: 1;
+      }
 
-    /* ── Responsive ── */
-    @media (max-width: 860px) {
-      .ip-mainLayout { grid-template-columns: 1fr; }
-      .ip-sidebar { position: static; }
-    }
-    @media (max-width: 640px) {
-      .ip-tabsRow { flex-wrap: wrap; padding-right: 0; }
-      .ip-tab { padding: 10px 14px; }
-    }
-    @media (max-width: 600px) {
-      .ip-hero { padding: 36px 24px 44px; }
-      .ip-leaf-deco--tr, .ip-leaf-deco--br { display: none; }
-      .ip-statsNew { flex-direction: column; align-items: center; padding: 0 24px; }
-      .ip-statNew { width: 100%; padding: 16px 12px; justify-content: center; }
-      .ip-statNew:not(:last-child)::after { top: auto; bottom: 0; left: 10%; right: 10%; width: auto; height: 1px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .ip-toast, .ip-upvote, .ip-btn,
-      .ip-hero-badge, .ip-hero-title, .ip-hero-tagline,
-      .ip-hero-desc, .ip-hero-cta, .ip-statNew { animation: none; transition: none; }
-      .ip-hero-badge__dot { animation: none; }
-    }
+      /* ── Pagination ── */
+      .ip-pagination {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        border-top: 1px solid var(--ip-blue-10);
+        flex-wrap: wrap;
+      }
+      .ip-pageInfo {
+        font-size: 0.9rem;
+        color: var(--ip-muted);
+        font-family: "Public Sans", sans-serif;
+      }
+      .ip-pageHint {
+        font-size: 0.875rem;
+        color: var(--c-gray20);
+        margin-left: auto;
+      }
+      .ip-pageBtn,
+      .ip-pageToggle {
+        font-size: 0.875rem;
+        padding: 5px 12px;
+      }
 
-    /* ── Debug panel ── */
-    #ipDebugPanel { position: fixed; bottom: 24px; right: 74px; z-index: 9999; font-family: 'Public Sans', monospace, sans-serif; font-size: 11px; line-height: 1.5; width: 380px; box-shadow: 0 4px 24px rgba(0,0,0,.22); border-radius: 8px; overflow: hidden; }
-    #ipDbgToggle { width: 100%; background: var(--lp-hl); color: #fff; border: none; padding: 7px 12px; text-align: left; font-family: inherit; font-size: 11px; font-weight: 700; cursor: pointer; letter-spacing: .04em; display: flex; justify-content: space-between; align-items: center; }
-    #ipDbgBody { background: #0d2345; color: #e8f0fb; padding: 10px 12px; display: grid; gap: 5px; }
-  </style>
+      /* ── Status messages ── */
+      .ip-status {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        font-family: "Public Sans", sans-serif;
+      }
+      .ip-status.is-error {
+        color: var(--ip-red);
+      }
+      .ip-status.is-loading {
+        color: var(--ip-muted);
+      }
 
-  <!-- TODO: verify path before production -->
-  <script src="/platform/designs/files/leaf_nav.js"></script>
-</head>
-<body>
-  <div class="lp" id="lp-root">
-    <a class="lp-skip" href="#lp-main">Skip to main content</a>
-    <div id="lp-nav-host"></div>
+      /* ── Add Idea modal ── */
+      .ip-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 500;
+      }
+      .ip-modal.is-open {
+        display: block;
+      }
+      .ip-modal__overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(10, 20, 60, 0.45);
+      }
+      .ip-modal__content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        border-radius: var(--ip-r-lg);
+        width: 100%;
+        max-width: 720px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25);
+      }
+      .ip-modal__header {
+        padding: 18px 24px 14px;
+        border-bottom: 1px solid var(--ip-blue-10);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        background: #fff;
+        z-index: 1;
+        border-radius: var(--ip-r-lg) var(--ip-r-lg) 0 0;
+      }
+      .ip-modal__title {
+        font-family: "Public Sans", sans-serif;
+        font-size: 1.05rem;
+        font-weight: 800;
+        color: var(--ip-navy);
+        margin: 0;
+      }
+      .ip-modal__body {
+        padding: 20px 24px;
+        display: grid;
+        gap: 14px;
+      }
 
-    <!-- Breadcrumb data — must be set before leaf_breadcrumb.js loads -->
-    <script>
-      window.LEAF_BREADCRUMB = [
-        { label: 'Resources', href: '/platform/designs/report.php?a=find_site' },
-        { label: 'Idea Portal' }
-      ];
-    </script>
+      /* ── Form fields ── */
+      .ip-field {
+        display: grid;
+        gap: 5px;
+      }
+      .ip-label {
+        font-family: "Public Sans", sans-serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--ip-navy);
+      }
+      .ip-field input[type="text"],
+      .ip-field select,
+      .ip-textarea {
+        width: 100%;
+        padding: 9px 12px;
+        border: 1.5px solid var(--ip-blue-20);
+        border-radius: var(--ip-r);
+        font-family: "Source Sans 3", sans-serif;
+        font-size: 0.9rem;
+        color: var(--ip-text);
+        background: #fff;
+        transition: border-color 0.15s;
+        outline: none;
+        box-sizing: border-box;
+      }
+      .ip-field input:focus,
+      .ip-field select:focus,
+      .ip-textarea:focus {
+        border-color: var(--ip-blue);
+        box-shadow: 0 0 0 3px rgba(0, 94, 162, 0.1);
+      }
+      .ip-textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+      .ip-error {
+        font-size: 0.875rem;
+        color: var(--ip-red);
+        display: none;
+      }
+      /* Only show error text when the preceding field is actually invalid */
+      .was-validated .ip-field input:invalid ~ .ip-error,
+      .was-validated .ip-field textarea:invalid ~ .ip-error,
+      .was-validated .ip-field select:invalid ~ .ip-error {
+        display: block;
+      }
+      /* Highlight invalid fields with a red border */
+      .was-validated .ip-field input:invalid,
+      .was-validated .ip-field textarea:invalid,
+      .was-validated .ip-field select:invalid {
+        border-color: var(--ip-red);
+        box-shadow: 0 0 0 3px rgba(213, 67, 9, 0.1);
+      }
+      .ip-fileInput {
+        font-size: 0.9rem;
+      }
+      .ip-fileList {
+        list-style: none;
+        padding: 0;
+        margin: 4px 0 0;
+        font-size: 0.875rem;
+        color: var(--ip-muted);
+      }
+      .ip-actions {
+        padding: 14px 24px;
+        border-top: 1px solid var(--ip-blue-10);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-    <main id="lp-main" tabindex="-1">
+      /* ── Record modal ── */
+      .ip-recordModal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 500;
+      }
+      .ip-recordModal.is-open {
+        display: block;
+      }
+      .ip-recordModal__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(10, 20, 60, 0.45);
+      }
+      .ip-recordModal__dialog {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        border-radius: var(--ip-r-lg);
+        width: 90vw;
+        max-width: 900px;
+        height: 80vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25);
+        overflow: hidden;
+      }
+      .ip-recordModal__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--ip-blue-10);
+        flex-shrink: 0;
+        background: #fff;
+      }
+      .ip-recordModal__title {
+        font-family: "Public Sans", sans-serif;
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: var(--ip-navy);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .ip-recordModal__actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-shrink: 0;
+      }
+      .ip-recordModal__body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0;
+      }
+      .ip-recordModal__frame {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
 
-      <!-- ── Hero ── -->
-      <div class="ip-hero">
-        <div class="ip-leaf-deco ip-leaf-deco--tl" aria-hidden="true">
-          <svg width="200" height="180" viewBox="0 0 200 180"><path d="M100 10 Q170 90 100 170 Q30 90 100 10Z" fill="white"/><path d="M100 10 L100 170" stroke="rgba(0,0,0,0.3)" stroke-width="1" fill="none"/><path d="M100 50 Q140 70 100 90" stroke="rgba(0,0,0,0.2)" stroke-width="0.8" fill="none"/><path d="M100 90 Q60 110 100 130" stroke="rgba(0,0,0,0.2)" stroke-width="0.8" fill="none"/></svg>
-        </div>
-        <div class="ip-leaf-deco ip-leaf-deco--tr" aria-hidden="true">
-          <svg width="160" height="150" viewBox="0 0 160 150"><path d="M80 5 Q145 75 80 145 Q15 75 80 5Z" fill="white"/><path d="M80 5 L80 145" stroke="rgba(0,0,0,0.3)" stroke-width="1" fill="none"/></svg>
-        </div>
-        <div class="ip-leaf-deco ip-leaf-deco--bl" aria-hidden="true">
-          <svg width="130" height="120" viewBox="0 0 130 120"><path d="M65 5 Q115 60 65 115 Q15 60 65 5Z" fill="white"/></svg>
-        </div>
-        <div class="ip-leaf-deco ip-leaf-deco--br" aria-hidden="true">
-          <svg width="110" height="100" viewBox="0 0 110 100"><path d="M55 4 Q100 50 55 96 Q10 50 55 4Z" fill="white"/></svg>
-        </div>
+      /* ── Inline idea detail view ── */
+      .ip-detail {
+        padding: 24px 28px 40px;
+        font-family: "Source Sans 3", "Public Sans", sans-serif;
+        color: #0f172a;
+        max-width: 820px;
+        margin: 0 auto;
+      }
+      /* ── Inline detail: title + info row ── */
+      .ip-detail__title-row {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+      .ip-detail__info-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin: 12px 0;
+        padding-bottom: 14px;
+        border-bottom: 1px solid #e2e8f0;
+      }
+      .ip-detail__info-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .ip-detail__info-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--ip-muted);
+        font-family: "Public Sans", sans-serif;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+      .ip-detail__info-val {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 10px;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-family: "Public Sans", sans-serif;
+        font-weight: 600;
+        line-height: 1.5;
+      }
+      .ip-detail__info-val--status {
+        background: #f1f5f9;
+        color: #334155;
+        border: 1px solid #cbd5e1;
+      }
+      .ip-detail__info-val--votes {
+        background: var(--ip-blue-lt);
+        color: var(--ip-blue);
+        border: 1px solid var(--ip-blue-20);
+        gap: 3px;
+      }
+      .ip-detail__info-val--votes .material-symbols-outlined {
+        font-size: 0.8rem;
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 400,
+          "opsz" 20,
+          "GRAD" 0;
+      }
+      .ip-detail__info-val--category {
+        background: #d9e8f6;
+        color: #004a82;
+        border: 1px solid #aacdec;
+      }
+      .ip-detail__info-val--impact {
+        background: #dcfce7;
+        color: #166534;
+        border: 1px solid #86efac;
+      }
+      .ip-detail__info-sep {
+        color: #cbd5e1;
+        font-size: 0.9rem;
+        user-select: none;
+      }
+      .ip-detail__actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+      @media (max-width: 560px) {
+        .ip-detail__info-row {
+          gap: 6px;
+        }
+        .ip-detail__info-sep {
+          display: none;
+        }
+        .ip-detail__info-item {
+          flex-direction: column;
+          gap: 2px;
+        }
+      }
+      .ip-detail__id {
+        display: inline-flex;
+        align-items: center;
+        padding: 3px 10px;
+        background: #1f1f1f;
+        color: #fff;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+      .ip-detail__title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1.25;
+        margin: 0;
+        color: #0f172a;
+        font-family: "Source Sans 3", "Public Sans", sans-serif;
+      }
+      .ip-detail__meta-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--ip-muted);
+        font-family: "Public Sans", sans-serif;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .ip-detail__card {
+        background: #fff;
+        border: 1px solid #cfd7e3;
+        border-radius: 12px;
+        padding: 20px 22px;
+        margin-bottom: 12px;
+      }
+      .ip-detail__card-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #475569;
+        margin: 0 0 8px;
+        display: block;
+        font-family: "Public Sans", sans-serif;
+      }
+      .ip-detail__card-body {
+        font-size: 1rem;
+        line-height: 1.7;
+        color: #0f172a;
+        margin: 0;
+        white-space: pre-wrap;
+      }
+      .ip-detail__two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      .ip-detail__divider {
+        border: none;
+        border-top: 1px solid #cfd7e3;
+        margin: 12px 0;
+      }
+      .ip-detail__sub-card {
+        background: #f8fafc;
+        border: 1px solid #cfd7e3;
+        border-radius: 8px;
+        padding: 12px 14px;
+        margin-top: 10px;
+      }
+      .ip-detail__empty {
+        color: #64748b;
+        font-style: italic;
+        font-size: 0.95rem;
+      }
+      .ip-detail__loading {
+        color: #94a3b8;
+        font-style: italic;
+        font-size: 0.95rem;
+      }
+      /* Attachment styles */
+      .ip-detail__attach-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 4px;
+      }
+      .ip-detail__attach-btn {
+        display: block;
+        padding: 0;
+        background: none;
+        border: 2px solid #cfd7e3;
+        border-radius: 8px;
+        cursor: pointer;
+        line-height: 0;
+        width: 130px;
+        transition: border-color 0.15s;
+      }
+      .ip-detail__attach-btn:hover,
+      .ip-detail__attach-btn:focus-visible {
+        border-color: var(--ip-blue);
+      }
+      .ip-detail__attach-btn:focus-visible {
+        outline: 2px solid #000;
+        outline-offset: 2px;
+      }
+      .ip-detail__attach-thumb {
+        width: 126px;
+        height: 96px;
+        object-fit: cover;
+        border-radius: 6px;
+        display: block;
+      }
+      .ip-detail__attach-caption {
+        font-size: 0.75rem;
+        color: #475569;
+        max-width: 130px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+        margin-top: 4px;
+      }
+      .ip-detail__file-list {
+        list-style: none;
+        padding: 0;
+        margin: 4px 0 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .ip-detail__file-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .ip-detail__file-link {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--ip-blue);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        word-break: break-word;
+      }
+      .ip-detail__file-link:hover {
+        color: #004a82;
+      }
+      .ip-detail__file-link:focus-visible {
+        outline: 2px solid #000;
+        outline-offset: 2px;
+        border-radius: 2px;
+      }
+      @media (max-width: 560px) {
+        .ip-detail__two-col {
+          grid-template-columns: 1fr;
+        }
+        .ip-detail__title {
+          font-size: 1.2rem;
+        }
+        .ip-detail {
+          padding: 16px 16px 32px;
+        }
+      }
 
-        <div class="ip-hero-inner">
-          <div class="ip-hero-badge">
-            <span class="ip-hero-badge__dot"></span>
-            Open for Ideas
-          </div>
-          <h1 class="ip-hero-title">
-            Welcome to the <span class="ip-hero-title__leaf">LEAF</span> Idea Portal
-          </h1>
-          <p class="ip-hero-tagline">Your ideas grow here.</p>
-          <p class="ip-hero-desc">
-            This is your space to share, shape, and spark change. Every idea you submit is read,
-            reviewed, and taken seriously — because the best improvements come from the people
-            doing the work every day.
-          </p>
-          <button class="ip-hero-cta" type="button" data-ip-open="addIdeaModal">
-            Share Your Idea
-            <svg class="ip-hero-cta__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      /* ── Toast ── */
+      .ip-toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(80px);
+        background: var(--ip-green);
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 999px;
+        font-family: "Public Sans", sans-serif;
+        font-weight: 700;
+        font-size: 0.9rem;
+        z-index: 600;
+        transition:
+          transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+          opacity 0.3s;
+        opacity: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+        pointer-events: none;
+      }
+      .ip-toast.is-error {
+        background: var(--ip-red);
+      }
+      .ip-toast.is-visible {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+
+      /* ── Credit badge ── */
+      .ip-creditBadge {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 5px;
+        padding: 10px 32px 44px;
+        font-size: 0.8rem;
+        color: var(--ip-muted);
+        background: #eef2f6;
+        opacity: 0.7;
+      }
+      .ip-creditBadge .material-symbols-outlined {
+        font-size: 0.95rem;
+        color: var(--ip-blue);
+        opacity: 0.7;
+      }
+
+      .lp-bottom-safe {
+        height: 24px;
+      }
+
+      /* ── Responsive ── */
+      @media (max-width: 860px) {
+        .ip-mainLayout {
+          grid-template-columns: 1fr;
+        }
+        .ip-sidebar {
+          position: static;
+        }
+      }
+      @media (max-width: 640px) {
+        .ip-tabsRow {
+          flex-wrap: wrap;
+          padding-right: 0;
+        }
+        .ip-tab {
+          padding: 10px 14px;
+        }
+      }
+      @media (max-width: 600px) {
+        .ip-hero {
+          padding: 36px 24px 44px;
+        }
+        .ip-leaf-deco--tr,
+        .ip-leaf-deco--br {
+          display: none;
+        }
+        .ip-statsNew {
+          flex-direction: column;
+          align-items: center;
+          padding: 0 24px;
+        }
+        .ip-statNew {
+          width: 100%;
+          padding: 16px 12px;
+          justify-content: center;
+        }
+        .ip-statNew:not(:last-child)::after {
+          top: auto;
+          bottom: 0;
+          left: 10%;
+          right: 10%;
+          width: auto;
+          height: 1px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .ip-toast,
+        .ip-upvote,
+        .ip-btn,
+        .ip-hero-badge,
+        .ip-hero-title,
+        .ip-hero-tagline,
+        .ip-hero-desc,
+        .ip-hero-cta,
+        .ip-statNew {
+          animation: none;
+          transition: none;
+        }
+        .ip-hero-badge__dot {
+          animation: none;
+        }
+      }
+    </style>
+
+    <!-- TODO: verify path before production -->
+    <script src="/platform/designs/files/leaf_nav.js"></script>
+  </head>
+  <body>
+    <div class="lp" id="lp-root">
+      <a class="lp-skip" href="#lp-main">Skip to main content</a>
+      <div id="lp-nav-host"></div>
+
+      <!-- Breadcrumb guard — only render standalone, not when hash-routed.
+           When hash-routed, leaf_nav.js injects its own breadcrumb into #lpSwapHost
+           and leaf_breadcrumb.js is blocklisted from re-execution. -->
+      <script>
+        if (!document.getElementById("lpSwapHost")) {
+          window.LEAF_BREADCRUMB = [
+            {
+              label: "Resources",
+              href: "/platform/designs/report.php?a=find_site",
+            },
+            { label: "Idea Portal" },
+          ];
+        }
+      </script>
+
+      <main id="lp-main" tabindex="-1">
+        <!-- ── Hero ── -->
+        <div class="ip-hero">
+          <div class="ip-leaf-deco ip-leaf-deco--tl" aria-hidden="true">
+            <svg width="200" height="180" viewBox="0 0 200 180">
+              <path d="M100 10 Q170 90 100 170 Q30 90 100 10Z" fill="white" />
+              <path
+                d="M100 10 L100 170"
+                stroke="rgba(0,0,0,0.3)"
+                stroke-width="1"
+                fill="none"
+              />
+              <path
+                d="M100 50 Q140 70 100 90"
+                stroke="rgba(0,0,0,0.2)"
+                stroke-width="0.8"
+                fill="none"
+              />
+              <path
+                d="M100 90 Q60 110 100 130"
+                stroke="rgba(0,0,0,0.2)"
+                stroke-width="0.8"
+                fill="none"
+              />
             </svg>
-          </button>
-        </div>
-      </div>
+          </div>
+          <div class="ip-leaf-deco ip-leaf-deco--tr" aria-hidden="true">
+            <svg width="160" height="150" viewBox="0 0 160 150">
+              <path d="M80 5 Q145 75 80 145 Q15 75 80 5Z" fill="white" />
+              <path
+                d="M80 5 L80 145"
+                stroke="rgba(0,0,0,0.3)"
+                stroke-width="1"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <div class="ip-leaf-deco ip-leaf-deco--bl" aria-hidden="true">
+            <svg width="130" height="120" viewBox="0 0 130 120">
+              <path d="M65 5 Q115 60 65 115 Q15 60 65 5Z" fill="white" />
+            </svg>
+          </div>
+          <div class="ip-leaf-deco ip-leaf-deco--br" aria-hidden="true">
+            <svg width="110" height="100" viewBox="0 0 110 100">
+              <path d="M55 4 Q100 50 55 96 Q10 50 55 4Z" fill="white" />
+            </svg>
+          </div>
 
-      <!-- ── Stats strip ── -->
-      <div class="ip-statsNew" role="region" aria-label="Portal statistics">
-        <div class="ip-statNew">
-          <div class="ip-statNew-icon ip-statNew-icon--ideas" aria-hidden="true">💡</div>
-          <div class="ip-statNew-text">
-            <div class="ip-statNew-number" id="statTotalIdeas">—</div>
-            <div class="ip-statNew-label">Ideas Submitted</div>
+          <div class="ip-hero-inner">
+            <div class="ip-hero-badge">
+              <span class="ip-hero-badge__dot"></span>
+              Open for Ideas
+            </div>
+            <h1 class="ip-hero-title">
+              Shape the Future of <span class="ip-hero-title__leaf">LEAF</span>
+            </h1>
+            <p class="ip-hero-tagline">Your ideas grow here.</p>
+            <p class="ip-hero-desc">
+              This is your space to share, shape, and spark change. Every idea
+              you submit is read, reviewed, and taken seriously — because the
+              best improvements come from the people doing the work every day.
+            </p>
+            <button
+              class="ip-hero-cta"
+              type="button"
+              data-ip-open="addIdeaModal"
+            >
+              Share Your Idea
+              <svg
+                class="ip-hero-cta__arrow"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M3 8h10M9 4l4 4-4 4"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
           </div>
         </div>
-        <div class="ip-statNew">
-          <div class="ip-statNew-icon ip-statNew-icon--done" aria-hidden="true">✅</div>
-          <div class="ip-statNew-text">
-            <div class="ip-statNew-number" id="statImplemented">—</div>
-            <div class="ip-statNew-label">Ideas Implemented</div>
-          </div>
-        </div>
-        <div class="ip-statNew">
-          <div class="ip-statNew-icon ip-statNew-icon--votes" aria-hidden="true">🗳️</div>
-          <div class="ip-statNew-text">
-            <div class="ip-statNew-number" id="statTotalVotes">—</div>
-            <div class="ip-statNew-label">Community Votes</div>
-          </div>
-        </div>
-      </div>
 
-      <div class="ip-wrap">
+        <!-- ── Stats strip ── -->
+        <div class="ip-statsNew" role="region" aria-label="Portal statistics">
+          <div class="ip-statNew">
+            <div
+              class="ip-statNew-icon ip-statNew-icon--ideas"
+              aria-hidden="true"
+            >
+              <span class="material-symbols-outlined">lightbulb</span>
+            </div>
+            <div class="ip-statNew-text">
+              <div class="ip-statNew-number" id="statTotalIdeas">—</div>
+              <div class="ip-statNew-label">Ideas Submitted</div>
+            </div>
+          </div>
+          <div class="ip-statNew">
+            <div
+              class="ip-statNew-icon ip-statNew-icon--done"
+              aria-hidden="true"
+            >
+              <span class="material-symbols-outlined">task_alt</span>
+            </div>
+            <div class="ip-statNew-text">
+              <div class="ip-statNew-number" id="statImplemented">—</div>
+              <div class="ip-statNew-label">Ideas Implemented</div>
+            </div>
+          </div>
+          <div class="ip-statNew">
+            <div
+              class="ip-statNew-icon ip-statNew-icon--votes"
+              aria-hidden="true"
+            >
+              <span class="material-symbols-outlined">how_to_vote</span>
+            </div>
+            <div class="ip-statNew-text">
+              <div class="ip-statNew-number" id="statTotalVotes">—</div>
+              <div class="ip-statNew-label">Community Votes</div>
+            </div>
+          </div>
+        </div>
+
         <div class="ip-mainLayout">
-
           <!-- Sidebar -->
           <aside class="ip-sidebar" aria-label="Filters">
             <div class="ip-sideCard">
-              <div class="ip-sideCard__hd">Categories</div>
-              <ul class="ip-catList" id="catList" role="list">
+              <div class="ip-sideCard__hd">My Activity</div>
+              <ul class="ip-myActivity" role="list">
                 <li>
-                  <button class="ip-catItem is-active" data-cat="all" type="button">
-                    <span>All Categories</span>
-                    <span class="ip-catCount" id="ip-cat-count-all">—</span>
+                  <button
+                    type="button"
+                    class="ip-catItem"
+                    id="actMyIdeasBtn"
+                    aria-label="Jump to My Ideas tab"
+                  >
+                    <span>My ideas</span>
+                    <span class="ip-catCount" id="myActivityIdeas">—</span>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    class="ip-catItem"
+                    id="actVotedBtn"
+                    aria-label="View ideas I've voted for"
+                  >
+                    <span>Ideas I've voted for</span>
+                    <span class="ip-catCount" id="myActivityVotes">—</span>
                   </button>
                 </li>
               </ul>
             </div>
             <div class="ip-sideCard">
-              <div class="ip-sideCard__hd">My Activity</div>
-              <div class="ip-myActivity">
-                <div class="ip-actRow"><span>My ideas</span><span id="myActivityIdeas">—</span></div>
-                <div class="ip-actRow"><span>Ideas I've voted for</span><span id="myActivityVotes">—</span></div>
-              </div>
+              <div class="ip-sideCard__hd">Categories</div>
+              <ul class="ip-catList" id="catList" role="list">
+                <li>
+                  <button
+                    class="ip-catItem is-active"
+                    data-cat="all"
+                    type="button"
+                  >
+                    <span>All Categories</span>
+                    <span class="ip-catCount" id="ip-cat-count-all">—</span>
+                  </button>
+                </li>
+              </ul>
             </div>
           </aside>
 
@@ -472,68 +1794,255 @@
             <div class="ip-tabBar">
               <div class="ip-tabsRow">
                 <div class="ip-tabs" role="tablist" aria-label="Idea views">
-                  <button class="ip-tab is-active" id="all-tab" data-ip-tab="all" role="tab" aria-controls="panel-all" aria-selected="true" type="button">All Ideas</button>
-                  <button class="ip-tab" id="top-tab" data-ip-tab="top" role="tab" aria-controls="panel-top" aria-selected="false" type="button">Top 10 Ideas</button>
-                  <button class="ip-tab" id="my-tab" data-ip-tab="my" role="tab" aria-controls="panel-my" aria-selected="false" type="button">My Ideas</button>
+                  <button
+                    class="ip-tab is-active"
+                    id="all-tab"
+                    data-ip-tab="all"
+                    role="tab"
+                    aria-controls="panel-all"
+                    aria-selected="true"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined" aria-hidden="true"
+                      >format_list_bulleted</span
+                    >
+                    All Ideas
+                  </button>
+                  <button
+                    class="ip-tab"
+                    id="top-tab"
+                    data-ip-tab="top"
+                    role="tab"
+                    aria-controls="panel-top"
+                    aria-selected="false"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined" aria-hidden="true"
+                      >emoji_events</span
+                    >
+                    Top 10 Ideas
+                  </button>
+                  <button
+                    class="ip-tab"
+                    id="my-tab"
+                    data-ip-tab="my"
+                    role="tab"
+                    aria-controls="panel-my"
+                    aria-selected="false"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined" aria-hidden="true"
+                      >person</span
+                    >
+                    My Ideas
+                  </button>
                 </div>
               </div>
 
               <!-- Panel: All Ideas -->
-              <div class="ip-panel is-active" id="panel-all" role="tabpanel" aria-labelledby="all-tab">
-                <div class="ip-recentBar" id="ipRecentBar" hidden>
-                  <span class="material-symbols-outlined" aria-hidden="true">new_releases</span>
-                  <strong>Recently added:</strong>
-                  <div class="ip-recentChips" id="ipRecentChips"></div>
-                </div>
+              <div
+                class="ip-panel is-active"
+                id="panel-all"
+                role="tabpanel"
+                aria-labelledby="all-tab"
+              >
                 <div class="ip-tableWrap">
-                  <p class="ip-panelDesc">Browse all submitted ideas from across the organization. Vote for ideas you support.</p>
+                  <p class="ip-panelDesc">
+                    Browse all submitted ideas from across the organization.
+                    Vote for ideas you support.
+                  </p>
                   <div class="ip-searchWrap">
-                    <label class="ip-srOnly" for="searchInput">Search ideas</label>
+                    <label class="ip-srOnly" for="searchInput"
+                      >Search ideas</label
+                    >
                     <div class="ip-searchInner">
-                      <input type="search" id="searchInput" class="ip-searchInput" placeholder="Search by title, category, or idea #…" autocomplete="off" />
-                      <button type="button" id="searchBtn" class="ip-searchIconBtn" aria-label="Search">
-                        <span class="material-symbols-outlined" aria-hidden="true">search</span>
+                      <input
+                        type="search"
+                        id="searchInput"
+                        class="ip-searchInput"
+                        placeholder="Search by title, category, or idea #…"
+                        autocomplete="off"
+                      />
+                      <button
+                        type="button"
+                        id="searchBtn"
+                        class="ip-searchIconBtn"
+                        aria-label="Search"
+                      >
+                        <span
+                          class="material-symbols-outlined"
+                          aria-hidden="true"
+                          >search</span
+                        >
                       </button>
                     </div>
                   </div>
-                  <div class="ip-status" id="allStatus" role="status" aria-live="polite" hidden></div>
+                  <div
+                    class="ip-status"
+                    id="allStatus"
+                    role="status"
+                    aria-live="polite"
+                    hidden
+                  ></div>
                   <table id="tblIdeas" class="ip-table">
-                    <caption class="ip-srOnly">All ideas table</caption>
+                    <caption class="ip-srOnly">
+                      All ideas table
+                    </caption>
                     <thead>
                       <tr>
-                        <th class="ip-sortable" scope="col" aria-sort="none"><button class="ip-sortBtn" type="button" data-sort="id">ID</button></th>
-                        <th class="ip-sortable" scope="col" aria-sort="none"><button class="ip-sortBtn" type="button" data-sort="title">Title</button></th>
-                        <th class="ip-sortable" scope="col" aria-sort="none"><button class="ip-sortBtn" type="button" data-sort="category">Category</button></th>
-                        <th class="ip-sortable" scope="col" aria-sort="none"><button class="ip-sortBtn" type="button" data-sort="status">Status</button></th>
-                        <th class="ip-sortable" scope="col" aria-sort="none"><button class="ip-sortBtn" type="button" data-sort="votes">Votes</button></th>
+                        <th class="ip-sortable" scope="col" aria-sort="none">
+                          <button
+                            class="ip-sortBtn"
+                            type="button"
+                            data-sort="id"
+                          >
+                            ID
+                          </button>
+                        </th>
+                        <th class="ip-sortable" scope="col" aria-sort="none">
+                          <button
+                            class="ip-sortBtn"
+                            type="button"
+                            data-sort="title"
+                          >
+                            Title
+                          </button>
+                        </th>
+                        <th class="ip-sortable" scope="col" aria-sort="none">
+                          <button
+                            class="ip-sortBtn"
+                            type="button"
+                            data-sort="category"
+                          >
+                            Category
+                          </button>
+                        </th>
+                        <th class="ip-sortable" scope="col" aria-sort="none">
+                          <button
+                            class="ip-sortBtn"
+                            type="button"
+                            data-sort="status"
+                          >
+                            Status
+                          </button>
+                        </th>
+                        <th class="ip-sortable" scope="col" aria-sort="none">
+                          <button
+                            class="ip-sortBtn"
+                            type="button"
+                            data-sort="votes"
+                          >
+                            Votes
+                          </button>
+                        </th>
                         <th class="ip-col-actions" scope="col">Actions</th>
                       </tr>
                     </thead>
                     <tbody id="results"></tbody>
                   </table>
-                  <div class="ip-pagination" id="allPagination" aria-label="All ideas pagination">
-                    <button type="button" class="ip-btn ip-btn--ghost ip-pageBtn" data-page-scope="all" data-page-action="prev">Prev</button>
-                    <span class="ip-pageInfo" id="allPageInfo">Page 1 of 1</span>
-                    <button type="button" class="ip-btn ip-btn--ghost ip-pageBtn" data-page-scope="all" data-page-action="next">Next</button>
-                    <button type="button" class="ip-btn ip-btn--ghost ip-pageToggle" data-page-scope="all" data-page-action="toggle" aria-pressed="false">Show all</button>
-                    <span class="ip-pageHint" id="allPageHint">Showing 50 per page.</span>
+                  <div
+                    class="ip-pagination"
+                    id="allPagination"
+                    aria-label="All ideas pagination"
+                  >
+                    <button
+                      type="button"
+                      class="ip-btn ip-btn--ghost ip-pageBtn"
+                      data-page-scope="all"
+                      data-page-action="prev"
+                    >
+                      Prev
+                    </button>
+                    <span class="ip-pageInfo" id="allPageInfo"
+                      >Page 1 of 1</span
+                    >
+                    <button
+                      type="button"
+                      class="ip-btn ip-btn--ghost ip-pageBtn"
+                      data-page-scope="all"
+                      data-page-action="next"
+                    >
+                      Next
+                    </button>
+                    <button
+                      type="button"
+                      class="ip-btn ip-btn--ghost ip-pageToggle"
+                      data-page-scope="all"
+                      data-page-action="toggle"
+                      aria-pressed="false"
+                    >
+                      Show all
+                    </button>
+                    <span class="ip-pageHint" id="allPageHint"
+                      >Showing 50 per page.</span
+                    >
                   </div>
                 </div>
               </div>
 
               <!-- Panel: Top 10 -->
-              <div class="ip-panel" id="panel-top" role="tabpanel" aria-labelledby="top-tab">
+              <div
+                class="ip-panel"
+                id="panel-top"
+                role="tabpanel"
+                aria-labelledby="top-tab"
+              >
                 <div class="ip-tableWrap">
-                  <p class="ip-panelDesc">The 10 most voted ideas, ranked by votes. Cast your vote to help the best ideas rise to the top.</p>
+                  <p class="ip-panelDesc">
+                    The 10 most voted ideas, ranked by votes. Cast your vote to
+                    help the best ideas rise to the top.
+                  </p>
                   <table id="tblTopIdeas" class="ip-table">
-                    <caption class="ip-srOnly">Top 10 ideas table</caption>
+                    <caption class="ip-srOnly">
+                      Top 10 ideas table
+                    </caption>
                     <thead>
                       <tr>
-                        <th class="ip-sortable" scope="col" aria-sort="none"><button class="ip-sortBtn" type="button" data-sort="id">ID</button></th>
-                        <th class="ip-sortable" scope="col" aria-sort="none"><button class="ip-sortBtn" type="button" data-sort="title">Title</button></th>
-                        <th class="ip-sortable" scope="col" aria-sort="none"><button class="ip-sortBtn" type="button" data-sort="category">Category</button></th>
-                        <th class="ip-sortable" scope="col" aria-sort="none"><button class="ip-sortBtn" type="button" data-sort="status">Status</button></th>
-                        <th class="ip-sortable" scope="col" aria-sort="none"><button class="ip-sortBtn" type="button" data-sort="votes">Votes</button></th>
+                        <th class="ip-sortable" scope="col" aria-sort="none">
+                          <button
+                            class="ip-sortBtn"
+                            type="button"
+                            data-sort="id"
+                          >
+                            ID
+                          </button>
+                        </th>
+                        <th class="ip-sortable" scope="col" aria-sort="none">
+                          <button
+                            class="ip-sortBtn"
+                            type="button"
+                            data-sort="title"
+                          >
+                            Title
+                          </button>
+                        </th>
+                        <th class="ip-sortable" scope="col" aria-sort="none">
+                          <button
+                            class="ip-sortBtn"
+                            type="button"
+                            data-sort="category"
+                          >
+                            Category
+                          </button>
+                        </th>
+                        <th class="ip-sortable" scope="col" aria-sort="none">
+                          <button
+                            class="ip-sortBtn"
+                            type="button"
+                            data-sort="status"
+                          >
+                            Status
+                          </button>
+                        </th>
+                        <th class="ip-sortable" scope="col" aria-sort="none">
+                          <button
+                            class="ip-sortBtn"
+                            type="button"
+                            data-sort="votes"
+                          >
+                            Votes
+                          </button>
+                        </th>
                         <th class="ip-col-actions" scope="col">Actions</th>
                       </tr>
                     </thead>
@@ -543,109 +2052,326 @@
               </div>
 
               <!-- Panel: My Ideas -->
-              <div class="ip-panel" id="panel-my" role="tabpanel" aria-labelledby="my-tab">
+              <div
+                class="ip-panel"
+                id="panel-my"
+                role="tabpanel"
+                aria-labelledby="my-tab"
+              >
                 <div class="ip-tableWrap">
-                  <p class="ip-panelDesc">A personal view of all your submitted ideas.</p>
+                  <p class="ip-panelDesc">
+                    A personal view of all your submitted ideas.
+                  </p>
                   <div class="ip-searchWrap">
-                    <label class="ip-srOnly" for="mySearchInput">Search my ideas</label>
+                    <label class="ip-srOnly" for="mySearchInput"
+                      >Search my ideas</label
+                    >
                     <div class="ip-searchInner">
-                      <input type="search" id="mySearchInput" class="ip-searchInput" placeholder="Search my ideas" autocomplete="off" />
-                      <button type="button" id="mySearchBtn" class="ip-searchIconBtn" aria-label="Search">
-                        <span class="material-symbols-outlined" aria-hidden="true">search</span>
+                      <input
+                        type="search"
+                        id="mySearchInput"
+                        class="ip-searchInput"
+                        placeholder="Search my ideas"
+                        autocomplete="off"
+                      />
+                      <button
+                        type="button"
+                        id="mySearchBtn"
+                        class="ip-searchIconBtn"
+                        aria-label="Search"
+                      >
+                        <span
+                          class="material-symbols-outlined"
+                          aria-hidden="true"
+                          >search</span
+                        >
                       </button>
                     </div>
                   </div>
-                  <div class="ip-status" id="myStatus" role="status" aria-live="polite" hidden></div>
+                  <div
+                    class="ip-status"
+                    id="myStatus"
+                    role="status"
+                    aria-live="polite"
+                    hidden
+                  ></div>
                   <table id="tblMyIdeas" class="ip-table">
-                    <caption class="ip-srOnly">My ideas table</caption>
+                    <caption class="ip-srOnly">
+                      My ideas table
+                    </caption>
                     <thead>
                       <tr>
-                        <th class="ip-sortable" scope="col" aria-sort="none"><button class="ip-sortBtn" type="button" data-sort="id">ID</button></th>
-                        <th class="ip-sortable" scope="col" aria-sort="none"><button class="ip-sortBtn" type="button" data-sort="title">Title</button></th>
-                        <th class="ip-sortable" scope="col" aria-sort="none"><button class="ip-sortBtn" type="button" data-sort="category">Category</button></th>
-                        <th class="ip-sortable" scope="col" aria-sort="none"><button class="ip-sortBtn" type="button" data-sort="status">Status</button></th>
-                        <th class="ip-sortable" scope="col" aria-sort="none"><button class="ip-sortBtn" type="button" data-sort="votes">Votes</button></th>
+                        <th class="ip-sortable" scope="col" aria-sort="none">
+                          <button
+                            class="ip-sortBtn"
+                            type="button"
+                            data-sort="id"
+                          >
+                            ID
+                          </button>
+                        </th>
+                        <th class="ip-sortable" scope="col" aria-sort="none">
+                          <button
+                            class="ip-sortBtn"
+                            type="button"
+                            data-sort="title"
+                          >
+                            Title
+                          </button>
+                        </th>
+                        <th class="ip-sortable" scope="col" aria-sort="none">
+                          <button
+                            class="ip-sortBtn"
+                            type="button"
+                            data-sort="category"
+                          >
+                            Category
+                          </button>
+                        </th>
+                        <th class="ip-sortable" scope="col" aria-sort="none">
+                          <button
+                            class="ip-sortBtn"
+                            type="button"
+                            data-sort="status"
+                          >
+                            Status
+                          </button>
+                        </th>
+                        <th class="ip-sortable" scope="col" aria-sort="none">
+                          <button
+                            class="ip-sortBtn"
+                            type="button"
+                            data-sort="votes"
+                          >
+                            Votes
+                          </button>
+                        </th>
                         <th class="ip-col-actions" scope="col">Actions</th>
                       </tr>
                     </thead>
                     <tbody id="myResults"></tbody>
                   </table>
-                  <div class="ip-pagination" id="myPagination" aria-label="My ideas pagination">
-                    <button type="button" class="ip-btn ip-btn--ghost ip-pageBtn" data-page-scope="my" data-page-action="prev">Prev</button>
+                  <div
+                    class="ip-pagination"
+                    id="myPagination"
+                    aria-label="My ideas pagination"
+                  >
+                    <button
+                      type="button"
+                      class="ip-btn ip-btn--ghost ip-pageBtn"
+                      data-page-scope="my"
+                      data-page-action="prev"
+                    >
+                      Prev
+                    </button>
                     <span class="ip-pageInfo" id="myPageInfo">Page 1 of 1</span>
-                    <button type="button" class="ip-btn ip-btn--ghost ip-pageBtn" data-page-scope="my" data-page-action="next">Next</button>
-                    <button type="button" class="ip-btn ip-btn--ghost ip-pageToggle" data-page-scope="my" data-page-action="toggle" aria-pressed="false">Show all</button>
-                    <span class="ip-pageHint" id="myPageHint">Showing 50 per page.</span>
+                    <button
+                      type="button"
+                      class="ip-btn ip-btn--ghost ip-pageBtn"
+                      data-page-scope="my"
+                      data-page-action="next"
+                    >
+                      Next
+                    </button>
+                    <button
+                      type="button"
+                      class="ip-btn ip-btn--ghost ip-pageToggle"
+                      data-page-scope="my"
+                      data-page-action="toggle"
+                      aria-pressed="false"
+                    >
+                      Show all
+                    </button>
+                    <span class="ip-pageHint" id="myPageHint"
+                      >Showing 50 per page.</span
+                    >
                   </div>
                 </div>
               </div>
-            </div><!-- /.ip-tabBar -->
-          </div><!-- /.ip-main -->
-        </div><!-- /.ip-mainLayout -->
-      </div><!-- /.ip-wrap -->
+            </div>
+            <!-- /.ip-tabBar -->
+          </div>
+          <!-- /.ip-main -->
+        </div>
+        <!-- /.ip-mainLayout -->
 
-      <!-- Toast -->
+        <!-- Subtle page footer credit -->
+        <div class="ip-creditBadge" aria-label="Credit">
+          <span class="material-symbols-outlined" aria-hidden="true"
+            >editor_choice</span
+          >
+          <span>Co-created with LEAF collaborator, Eugene Weast</span>
+        </div>
+
+        <div class="lp-bottom-safe" aria-hidden="true"></div>
+      </main>
+      <!-- /#lp-main -->
+
+      <!-- Toast — outside main so aria-hidden on main doesn't suppress it -->
       <div id="ipToast" class="ip-toast" role="alert" aria-live="polite"></div>
 
-      <!-- Add Idea modal -->
-      <div class="ip-modal" id="addIdeaModal" role="dialog" aria-modal="true" aria-labelledby="addIdeaModalLabel" aria-hidden="true">
+      <!-- Add Idea modal — outside main so focus trap works correctly -->
+      <div
+        class="ip-modal"
+        id="addIdeaModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="addIdeaModalLabel"
+        aria-hidden="true"
+      >
         <div class="ip-modal__overlay" data-ip-close="addIdeaModal"></div>
         <div class="ip-modal__content" role="document">
           <div class="ip-modal__header">
             <h3 class="ip-modal__title" id="addIdeaModalLabel">
-              <span class="material-symbols-outlined" aria-hidden="true" style="color:var(--ip-blue);vertical-align:middle;margin-right:6px;font-size:1.1rem;">lightbulb</span>
+              <span
+                class="material-symbols-outlined"
+                aria-hidden="true"
+                style="
+                  color: var(--ip-blue);
+                  vertical-align: middle;
+                  margin-right: 6px;
+                  font-size: 1.1rem;
+                "
+                >lightbulb</span
+              >
               Add Idea
             </h3>
-            <button type="button" class="ip-btn ip-btn--icon" aria-label="Close" data-ip-close="addIdeaModal">
-              <span aria-hidden="true" style="font-size:1.3rem">×</span>
+            <button
+              type="button"
+              class="ip-btn ip-btn--icon"
+              aria-label="Close"
+              data-ip-close="addIdeaModal"
+            >
+              <span aria-hidden="true" style="font-size: 1.3rem">×</span>
             </button>
           </div>
           <div class="ip-modal__body">
             <form id="ideaForm" class="ip-form needs-validation" novalidate>
               <div class="ip-field">
                 <label for="inpTitle" class="ip-label">Idea Title</label>
-                <input type="text" id="inpTitle" required aria-describedby="errTitle" />
-                <div class="ip-error" id="errTitle">Please provide a title for your idea.</div>
+                <input
+                  type="text"
+                  id="inpTitle"
+                  required
+                  aria-describedby="errTitle"
+                />
+                <div class="ip-error" id="errTitle">
+                  Please provide a title for your idea.
+                </div>
               </div>
               <div class="ip-field">
-                <label for="inpDescription" class="ip-label">Idea Description</label>
-                <textarea class="ip-input ip-textarea" id="inpDescription" rows="3" required aria-describedby="errDescription"></textarea>
-                <div class="ip-error" id="errDescription">Please provide a description of your idea.</div>
+                <label for="inpDescription" class="ip-label"
+                  >Idea Description</label
+                >
+                <textarea
+                  class="ip-input ip-textarea"
+                  id="inpDescription"
+                  rows="3"
+                  required
+                  aria-describedby="errDescription"
+                ></textarea>
+                <div class="ip-error" id="errDescription">
+                  Please provide a description of your idea.
+                </div>
               </div>
               <div class="ip-field">
                 <label for="inpBenefit" class="ip-label">Idea Benefit(s)</label>
-                <textarea class="ip-input ip-textarea" id="inpBenefit" rows="3" required aria-describedby="errBenefit"></textarea>
-                <div class="ip-error" id="errBenefit">Briefly describe the benefit of your idea.</div>
+                <textarea
+                  class="ip-input ip-textarea"
+                  id="inpBenefit"
+                  rows="3"
+                  required
+                  aria-describedby="errBenefit"
+                ></textarea>
+                <div class="ip-error" id="errBenefit">
+                  Briefly describe the benefit of your idea.
+                </div>
               </div>
               <div class="ip-field">
                 <label for="inpCategory" class="ip-label">Idea Category</label>
-                <select id="inpCategory" required aria-describedby="errCategory">
-                  <option selected disabled value="">Click here to select a category</option>
+                <select
+                  id="inpCategory"
+                  name="inpCategory"
+                  required
+                  aria-describedby="errCategory"
+                >
+                  <option selected disabled value="">
+                    Click here to select a category
+                  </option>
                 </select>
-                <div id="otherCategoryWrapper" style="display:none;margin-top:0.5rem">
+                <div
+                  id="otherCategoryWrapper"
+                  style="display: none; margin-top: 0.5rem"
+                >
                   <label for="inpOtherCategory">Please specify category:</label>
-                  <input type="text" id="inpOtherCategory" maxlength="255" placeholder="Enter custom category…" />
+                  <input
+                    type="text"
+                    id="inpOtherCategory"
+                    maxlength="255"
+                    placeholder="Enter custom category…"
+                  />
                 </div>
-                <div class="ip-error" id="errCategory">Please select a category.</div>
+                <div class="ip-error" id="errCategory">
+                  Please select a category.
+                </div>
               </div>
               <div class="ip-field">
                 <label for="inpImpact" class="ip-label">Idea Impact</label>
-                <select id="inpImpact" required aria-describedby="errImpact">
-                  <option selected disabled value="">Click here to select the impact</option>
+                <select
+                  id="inpImpact"
+                  name="inpImpact"
+                  required
+                  aria-describedby="errImpact"
+                >
+                  <option selected disabled value="">
+                    Click here to select the impact
+                  </option>
                 </select>
-                <div class="ip-error" id="errImpact">Please select an impact level.</div>
+                <div class="ip-error" id="errImpact">
+                  Please select an impact level.
+                </div>
               </div>
               <div class="ip-field">
-                <label for="fileInput" class="ip-label">Upload Images (e.g. Concepts/Screenshots To Support Your Idea)</label>
-                <input id="fileInput" name="fileInput" type="file" accept="image/*" class="ip-fileInput" />
+                <label for="fileInput" class="ip-label"
+                  >Upload Images (e.g. Concepts/Screenshots To Support Your
+                  Idea)</label
+                >
+                <input
+                  id="fileInput"
+                  name="fileInput"
+                  type="file"
+                  accept="image/*"
+                  class="ip-fileInput"
+                />
                 <ul id="fileList" class="ip-fileList"></ul>
               </div>
             </form>
           </div>
           <div class="ip-actions">
-            <button type="button" class="ip-btn ip-btn--ghost" id="saveDraftButton">Save Idea</button>
-            <button type="button" class="ip-btn ip-btn--primary" id="submitButton">
-              <span class="material-symbols-outlined" aria-hidden="true" style="font-size:1rem">send</span>
+            <button
+              type="button"
+              class="ip-btn ip-btn--ghost"
+              id="saveDraftButton"
+            >
+              <span
+                class="material-symbols-outlined"
+                aria-hidden="true"
+                style="font-size: 1rem"
+                >save</span
+              >
+              Save Idea
+            </button>
+            <button
+              type="button"
+              class="ip-btn ip-btn--primary"
+              id="submitButton"
+            >
+              <span
+                class="material-symbols-outlined"
+                aria-hidden="true"
+                style="font-size: 1rem"
+                >send</span
+              >
               Submit Idea
             </button>
           </div>
@@ -655,90 +2381,147 @@
       <!-- Record detail modal -->
       <div class="ip-recordModal" id="ipRecordModal" aria-hidden="true">
         <div class="ip-recordModal__backdrop" data-ip-record-close="1"></div>
-        <div class="ip-recordModal__dialog" role="dialog" aria-modal="true" aria-label="Idea details">
+        <div
+          class="ip-recordModal__dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="ipRecordModalTitle"
+        >
           <div class="ip-recordModal__header">
-            <div class="ip-recordModal__title" id="ipRecordModalTitle">Idea Details</div>
+            <div class="ip-recordModal__title" id="ipRecordModalTitle">
+              Idea Details
+            </div>
             <div class="ip-recordModal__actions">
-              <button type="button" class="ip-btn ip-btn--ghost ip-recordModal__openTab" id="ipRecordModalOpenTabBtn" aria-label="Open in new tab">Open in new tab</button>
-              <button type="button" class="ip-btn ip-btn--ghost ip-btn--icon ip-recordModal__close" id="ipRecordModalCloseBtn" aria-label="Close">✕</button>
+              <button
+                type="button"
+                class="ip-btn ip-btn--ghost ip-recordModal__openTab"
+                id="ipRecordModalOpenTabBtn"
+                aria-label="Open in new tab"
+              >
+                Open in new tab
+              </button>
+              <button
+                type="button"
+                class="ip-btn ip-btn--ghost ip-btn--icon ip-recordModal__close"
+                id="ipRecordModalCloseBtn"
+                aria-label="Close"
+              >
+                ✕
+              </button>
             </div>
           </div>
-          <div class="ip-recordModal__body">
-            <iframe id="ipRecordModalFrame" class="ip-recordModal__frame" title="LEAF content"></iframe>
+          <div class="ip-recordModal__body" id="ipRecordModalBody">
+            <!-- Populated by openIdeaDetailModal() -->
           </div>
         </div>
       </div>
 
-      <!-- Jump to top -->
-      <button type="button" class="ip-jumpTop" id="ipJumpTopBtn" aria-label="Jump to top">
-        <span class="material-symbols-outlined" aria-hidden="true">arrow_upward</span>
-      </button>
-
-      <!-- Credit badge -->
-      <div class="ip-creditBadge" id="ipCreditBadge" aria-label="Credit">
-        <span class="material-symbols-outlined" aria-hidden="true">editor_choice</span>
-        <span>Co-created with LEAF collaborator, Eugene Weast</span>
-      </div>
-
-      <div class="lp-bottom-safe" aria-hidden="true"></div>
-
-    </main><!-- /#lp-main -->
-
-    <!-- Debug panel (gated — remove or set debug:false for production) -->
-    <div id="ipDebugPanel">
-      <button id="ipDbgToggle" type="button">
-        <span>🔬 IDEA PORTAL DEBUG</span>
-        <span id="ipDbgToggleIcon">▼</span>
-      </button>
-      <div id="ipDbgBody">
-        <div id="ipDbgDom"  style="color:#facc15">⏳ DOM: initializing…</div>
-        <div id="ipDbgLeaf" style="color:#facc15">⏳ LeafFormQuery: checking…</div>
-        <div id="ipDbgUser" style="color:#94a3b8">👤 userID: —</div>
-        <div id="ipDbgInit" style="color:#94a3b8">🔧 init: waiting…</div>
-        <hr style="border-color:#1e3a5f;margin:4px 0" />
-        <div id="ipDbgIdeas" style="color:#facc15">⏳ Ideas query: pending</div>
-        <div id="ipDbgVotes" style="color:#facc15">⏳ Votes query: pending</div>
-        <hr style="border-color:#1e3a5f;margin:4px 0" />
-        <div id="ipDbgStats" style="color:#94a3b8">📊 Stats: —</div>
-        <div id="ipDbgErr"   style="color:#f87171;display:none"></div>
-        <hr style="border-color:#1e3a5f;margin:4px 0" />
-        <div id="ipDbgTable" style="color:#94a3b8">📋 Tables: —</div>
+      <!-- Voted ideas modal -->
+      <div class="ip-votedModal" id="ipVotedModal" aria-hidden="true">
+        <div class="ip-votedModal__backdrop" id="ipVotedModalBackdrop"></div>
+        <div
+          class="ip-votedModal__dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="ipVotedModalTitle"
+        >
+          <div class="ip-votedModal__header">
+            <div class="ip-votedModal__title" id="ipVotedModalTitle">
+              Ideas I've Voted For
+            </div>
+            <button
+              type="button"
+              class="ip-btn ip-btn--ghost ip-btn--icon"
+              id="ipVotedModalCloseBtn"
+              aria-label="Close"
+            >
+              ✕
+            </button>
+          </div>
+          <div class="ip-votedModal__search" id="ipVotedModalSearch" hidden>
+            <div class="ip-searchInner">
+              <input
+                type="search"
+                id="ipVotedSearchInput"
+                class="ip-searchInput"
+                placeholder="Search by title, category, or idea #…"
+                autocomplete="off"
+                aria-label="Search voted ideas"
+              />
+              <button
+                type="button"
+                class="ip-searchIconBtn"
+                id="ipVotedSearchBtn"
+                aria-label="Search"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  >search</span
+                >
+              </button>
+            </div>
+          </div>
+          <div class="ip-votedModal__body">
+            <div class="ip-votedModal__empty" id="ipVotedModalEmpty" hidden>
+              You haven't voted for any ideas yet.
+            </div>
+            <div class="ip-votedModal__empty" id="ipVotedModalNoResults" hidden>
+              No ideas match your search.
+            </div>
+            <table class="ip-table" id="ipVotedTable" hidden>
+              <thead>
+                <tr>
+                  <th class="ip-sortable" scope="col" aria-sort="ascending">
+                    <button class="ip-sortBtn" type="button" data-sort="id">
+                      ID
+                    </button>
+                  </th>
+                  <th class="ip-sortable" scope="col" aria-sort="none">
+                    <button class="ip-sortBtn" type="button" data-sort="title">
+                      Title
+                    </button>
+                  </th>
+                  <th class="ip-sortable" scope="col" aria-sort="none">
+                    <button
+                      class="ip-sortBtn"
+                      type="button"
+                      data-sort="category"
+                    >
+                      Category
+                    </button>
+                  </th>
+                  <th class="ip-sortable" scope="col" aria-sort="none">
+                    <button class="ip-sortBtn" type="button" data-sort="status">
+                      Status
+                    </button>
+                  </th>
+                  <th class="ip-sortable" scope="col" aria-sort="none">
+                    <button class="ip-sortBtn" type="button" data-sort="votes">
+                      Votes
+                    </button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="ipVotedTableBody"></tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
+    <!-- /.lp -->
 
-  </div><!-- /.lp -->
+    <!-- Breadcrumb — loaded at end of body so DOM is ready -->
+    <!-- TODO: verify path before production -->
+    <script src="/platform/designs/files/leaf_breadcrumb.js"></script>
 
-  <!-- Breadcrumb — loaded at end of body so DOM is ready -->
-  <!-- TODO: verify path before production -->
-  <script src="/platform/designs/files/leaf_breadcrumb.js"></script>
+    <!-- Smarty config — processed server-side -->
+    <script>
+      window.leafIdeaPortal = {
+        userID: '<!--{$userID|unescape|escape:"quotes"}-->',
+        csrfToken: '<!--{$CSRFToken|unescape|escape:"quotes"}-->',
+      };
+    </script>
 
-  <!-- Smarty config — processed server-side -->
-  <script>
-    window.leafIdeaPortal = {
-      userID:    '<!--{$userID|unescape|escape:"quotes"}-->',
-      csrfToken: '<!--{$CSRFToken|unescape|escape:"quotes"}-->',
-      debug:     true,
-    };
-  </script>
-
-  <!-- Debug panel toggle -->
-  <script>
-    (() => {
-      const toggle = document.getElementById('ipDbgToggle');
-      const body   = document.getElementById('ipDbgBody');
-      const icon   = document.getElementById('ipDbgToggleIcon');
-      if (!toggle || !body) return;
-      let open = true;
-      toggle.addEventListener('click', () => {
-        open = !open;
-        body.style.display = open ? 'grid' : 'none';
-        icon.textContent   = open ? '▼' : '▶';
-      });
-    })();
-  </script>
-
-  <!-- TODO: verify path before production -->
-  <script src="./files/ideas_v2.js"></script>
-
-</body>
+    <!-- TODO: verify path before production -->
+    <script src="./files/ideas_v2.js"></script>
+  </body>
 </html>
