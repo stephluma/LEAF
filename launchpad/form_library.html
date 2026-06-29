@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Form Library — LEAF Launchpad</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <!-- Material Symbols Outlined — static axes; FILL controlled via CSS only -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" />
+
+  <!-- TODO: verify path before production -->
+  <link rel="stylesheet" href="/platform/designs/files/launchpad.css" />
+
+  <!-- Platform dependencies: DOMPurify + LeafPreview -->
+  <!-- TODO: verify paths before production -->
+  <script src="https://leaf.va.gov/app/libs/js/dompurify/dompurify.min.js"></script>
+  <script src="https://leaf.va.gov/platform/designs/js/LeafPreview.js"></script>
+
+  <style>
+    /* Filled icons — !important beats launchpad.css FILL:0 and any
+       leaf_nav.js injected styles regardless of load order */
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'opsz' 24, 'GRAD' 0 !important;
+    }
+
+    #header,
+    #footer {
+      display: none !important;
+    }
+
+    /* ── Page shell ── */
+    .lfl-page {
+      padding: 2rem 1.5rem 4rem;
+      background: var(--c-gray5);
+      min-height: 100vh;
+    }
+
+    /* ── Top bar ── */
+    .lfl-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--c-blue10);
+      margin-bottom: 1.25rem;
+    }
+
+    .lfl-title {
+      font-family: 'Public Sans', sans-serif;
+      font-size: clamp(1.4rem, 3vw, 1.75rem);
+      font-weight: 800;
+      color: var(--lp-accent);
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .lfl-contribute-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--lp-accent);
+      color: #fff !important;
+      border: none;
+      border-radius: var(--r-lg);
+      padding: 0.6rem 1.2rem;
+      font-family: 'Public Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: filter 0.15s;
+      white-space: nowrap;
+    }
+    .lfl-contribute-btn:hover { filter: brightness(1.08); }
+    .lfl-contribute-btn:focus-visible { outline: 3px solid var(--lp-accent); outline-offset: 3px; }
+    .lfl-contribute-btn .material-symbols-outlined { font-size: 1.1rem; color: #fff !important; }
+
+    /* ── Body layout ── */
+    .lfl-body {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+    }
+
+    /* ── Sidebar ── */
+    .lfl-sidebar {
+      flex: 0 0 220px;
+      min-width: 0;
+      background: #fff;
+      border: 1px solid var(--c-blue10);
+      border-radius: var(--r-lg);
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+      padding: 1rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      position: sticky;
+      top: 80px;
+    }
+
+    .lfl-sidebar-label {
+      font-family: 'Public Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--c-muted);
+      padding: 0.25rem 0.5rem;
+    }
+
+    .lfl-sidebar-divider {
+      border: none;
+      border-top: 1px solid var(--c-blue10);
+      margin: 0.25rem 0;
+    }
+
+    /* ── Filter buttons ── */
+    .lfl-filter-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--r);
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--c-text);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .lfl-filter-btn img {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      opacity: 0.75;
+    }
+    .lfl-filter-btn:hover { background: var(--c-blue5); border-color: var(--c-blue20); }
+    .lfl-filter-btn.active {
+      background: var(--lp-accent);
+      border-color: var(--lp-hl);
+      color: #fff;
+    }
+    .lfl-filter-btn.active img { filter: brightness(0) invert(1); opacity: 1; }
+    .lfl-filter-btn:focus-visible { outline: 3px solid var(--lp-accent); outline-offset: 2px; }
+
+    /* ── Main content ── */
+    .lfl-content { flex: 1; min-width: 0; }
+
+    .lfl-search-label {
+      font-family: 'Public Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--c-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    #searchContainer { margin-bottom: 1rem; }
+
+    /* ── Progress bar (shown during initial library load) ── */
+    .lfl-progress {
+      background: #fff;
+      border: 1px solid var(--c-blue10);
+      border-radius: var(--r-lg);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .lfl-progress-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--c-muted);
+      margin: 0 0 0.6rem;
+    }
+
+    .lfl-progressbar-track {
+      width: 100%;
+      height: 8px;
+      background: var(--c-blue10);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .lfl-progressbar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--lp-accent);
+      border-radius: 999px;
+      transition: width 0.2s ease;
+    }
+
+    /* ── Grid card ── */
+    .lfl-grid-card {
+      background: #fff;
+      border: 1px solid var(--c-blue10);
+      border-radius: var(--r-lg);
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+      padding: 1rem;
+      overflow-x: auto;
+    }
+
+    /* ── Info note ── */
+    .lfl-info-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      background: var(--c-blue5);
+      border-left: 4px solid var(--lp-accent);
+      border-radius: var(--r);
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.9rem;
+      color: var(--c-text);
+      line-height: 1.5;
+    }
+
+    .lfl-info-note .material-symbols-outlined {
+      flex-shrink: 0;
+      font-size: 1.15rem !important;
+      color: var(--lp-accent);
+      margin-top: 1px;
+    }
+
+    /* ── Featured row highlight ── */
+    .lfl-featured-row { background-color: #fff8e1 !important; }
+
+    /* ── Legend ── */
+    .lfl-legend {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+      font-size: 0.8rem;
+      color: var(--c-muted);
+    }
+
+    .lfl-legend-swatch {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      background: #fff8e1;
+      border: 1px solid #e8d9a0;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .lfl-body { flex-direction: column; }
+
+      .lfl-sidebar {
+        flex: none;
+        width: 100%;
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        padding: 0.6rem 0.75rem;
+        overflow-x: auto;
+      }
+
+      .lfl-sidebar-label,
+      .lfl-sidebar-divider { display: none; }
+
+      .lfl-filter-btn {
+        flex: 0 0 auto;
+        width: auto;
+        padding: 0.35rem 0.85rem;
+        border: 1px solid var(--c-blue20);
+        background: #fff;
+        border-radius: 999px;
+        font-size: 0.85rem;
+      }
+
+      .lfl-filter-btn img { display: none; }
+
+      .lfl-topbar { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 500px) {
+      .lfl-page { padding: 1rem 1rem 3rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .lfl-filter-btn,
+      .lfl-contribute-btn,
+      .lfl-progressbar-fill { transition: none; }
+    }
+  </style>
+
+  <!-- TODO: verify path before production -->
+  <script src="/platform/designs/files/leaf_nav.js"></script>
+</head>
+<body>
+  <div class="lp" id="lp-root">
+    <a class="lp-skip" href="#lp-main">Skip to main content</a>
+    <div id="lp-nav-host"></div>
+
+    <!-- Breadcrumb data — must be set before leaf_breadcrumb.js loads -->
+    <script>
+      window.LEAF_BREADCRUMB = [
+        { label: 'Solutions', href: '/platform/designs' },
+        { label: 'Form Library' }
+      ];
+    </script>
+
+    <main id="lp-main" tabindex="-1">
+      <div class="lfl-page">
+
+        <!-- Top bar -->
+        <div class="lfl-topbar">
+          <h1 class="lfl-title">LEAF Form Library</h1>
+          <a
+            class="lfl-contribute-btn"
+            href="https://leaf.va.gov/LEAF/library/?a=newform"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="material-symbols-outlined" aria-hidden="true">add_circle</span>
+            Contribute My Form
+          </a>
+        </div>
+
+        <!-- Info note -->
+        <div class="lfl-info-note" role="note">
+          <span class="material-symbols-outlined" aria-hidden="true">info</span>
+          <span>
+            This is a read-only preview of the Form Library. If you're a site administrator,
+            you can access this page directly from the <strong>Admin Panel</strong>,
+            where you can preview and import any form below into your site in one click.
+          </span>
+        </div>
+
+        <!-- Progress (shown during initial library load) -->
+        <div
+          id="lfl-progressArea"
+          class="lfl-progress"
+          style="display:none;"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <p class="lfl-progress-label" id="lfl-progressLabel">Loading form library…</p>
+          <div
+            class="lfl-progressbar-track"
+            role="progressbar"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+            aria-label="Library loading progress"
+            id="lfl-progressBar"
+          >
+            <div class="lfl-progressbar-fill" id="lfl-progressFill"></div>
+          </div>
+        </div>
+
+        <!-- Body: sidebar + content -->
+        <div class="lfl-body">
+
+          <!-- Sidebar -->
+          <nav class="lfl-sidebar" aria-label="Filter forms by business line">
+            <span
+              class="sr-only"
+              aria-atomic="true"
+              aria-live="assertive"
+              id="filterStatus"
+              role="status"
+            ></span>
+
+            <div class="lfl-sidebar-label">Filter by Business Line</div>
+            <hr class="lfl-sidebar-divider" />
+
+            <button
+              type="button"
+              class="lfl-filter-btn active"
+              id="lfl-filterAll"
+              aria-pressed="true"
+            >
+              <img
+                src="https://leaf.va.gov/app/libs/dynicons/svg/Accessories-dictionary.svg"
+                alt=""
+                aria-hidden="true"
+              />
+              All Business Lines
+            </button>
+
+            <!-- Dynamic filters injected by JS -->
+            <div id="lfl-filterMenu" role="group" aria-label="Business line filters"></div>
+          </nav>
+
+          <!-- Content -->
+          <div class="lfl-content">
+            <div class="lfl-search-label">Search Form Library</div>
+            <div id="searchContainer"></div>
+
+            <div class="lfl-grid-card">
+              <div class="lfl-legend" aria-label="Legend">
+                <span class="lfl-legend-swatch" aria-hidden="true"></span>
+                Newly added to the library
+              </div>
+              <div id="forms"></div>
+            </div>
+          </div>
+
+        </div><!-- /.lfl-body -->
+
+      </div><!-- /.lfl-page -->
+    </main>
+
+    <button
+      class="lp-jump"
+      id="lpJump"
+      type="button"
+      aria-label="Back to top"
+      aria-hidden="true"
+      tabindex="-1"
+    >
+      <span class="material-symbols-outlined" aria-hidden="true">arrow_upward</span>
+    </button>
+  </div><!-- /.lp -->
+
+  <!-- Breadcrumb — loaded at end of body so DOM is ready -->
+  <!-- TODO: verify path before production -->
+  <script src="/platform/designs/files/leaf_breadcrumb.js"></script>
+
+  <script>
+    const LF_BASE        = 'https://leaf.va.gov';
+    const LF_LIBRARY_URL = `${LF_BASE}/LEAF/library/`;
+    const LF_ICONS       = `${LF_BASE}/app/libs/dynicons/svg/`;
+    const LF_PLATFORM    = `${LF_BASE}/platform/`;
+
+    let query        = null;
+    let grid         = null;
+    let preview      = null;
+    let data         = {};
+    let dialog_simple = null;
+    let currentFilter = '';
+
+    const $id = (id) => document.getElementById(id);
+
+    const showProgress = () => { $id('lfl-progressArea').style.display = 'block'; };
+    const hideProgress = () => { $id('lfl-progressArea').style.display = 'none'; };
+
+    const setProgress = (loaded, total) => {
+      const pct   = total > 0 ? Math.round((loaded / total) * 100) : 0;
+      const fill  = $id('lfl-progressFill');
+      const bar   = $id('lfl-progressBar');
+      const label = $id('lfl-progressLabel');
+      if (fill)  fill.style.width = `${pct}%`;
+      if (bar)   bar.setAttribute('aria-valuenow', String(pct));
+      if (label) label.textContent = total > 0
+        ? `Loading ${loaded} of ${total} forms…`
+        : 'Loading form library…';
+    };
+
+    const buildDialog = () => {
+      document.body.insertAdjacentHTML('beforeend', `
+        <div id="lfDialog" style="display:none">
+          <div id="lfDialogContent"></div>
+          <span id="lfDialogLoad" style="display:none">Loading…</span>
+          <div style="display:none">
+            <button id="lfDialogSave"></button>
+            <button id="lfDialogCancel"></button>
+          </div>
+        </div>`);
+      return new dialogController(
+        'lfDialog', 'lfDialogContent', 'lfDialogLoad',
+        'lfDialogSave', 'lfDialogCancel'
+      );
+    };
+
+    const showPreview = (recordID) => {
+      const formData = grid.getDataByRecordID(recordID);
+      const title    = formData.title;
+      let authors    = '';
+      if (formData.s1.id9)  authors = `By ${formData.s1.id9}`;
+      if (formData.s1.id10) authors += `, ${formData.s1.id10}`;
+      if (formData.s1.id11) authors += `<br />${formData.s1.id11}`;
+
+      dialog_simple.setTitle(`Preview: ${title}`);
+      dialog_simple.setContent(`
+        <div style="font-size:1.1rem;font-weight:700;margin-bottom:0.25rem">${title}</div>
+        <div style="color:var(--c-muted);margin-bottom:1.25rem">${authors}</div>
+        <div id="preview"></div>`);
+      dialog_simple.show();
+
+      preview = new LeafPreview('preview');
+      preview.setLeafDomain(`${LF_BASE}/`);
+      preview.load(recordID, 1, 0);
+    };
+
+    const applyFilter = (search, btnEl) => {
+      if (currentFilter === search) return;
+      currentFilter = search;
+
+      document.querySelectorAll('.lfl-filter-btn').forEach((b) => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btnEl.classList.add('active');
+      btnEl.setAttribute('aria-pressed', 'true');
+
+      const status = $id('filterStatus');
+      if (status) status.textContent = `Filtering by ${search || 'All Business Lines'}`;
+
+      showProgress();
+      query.updateDataTerm('data', '3', 'LIKE', `*${search}*`);
+      query.execute();
+    };
+
+    const getBusLineOptions = async () => {
+      const res  = await fetch(`${LF_LIBRARY_URL}api/form/indicator/list`);
+      const list = await res.json();
+      const ind  = list.find((i) => i.indicatorID === 3);
+      const opts = (ind?.format ?? '').split('\n').slice(1);
+      return opts.filter((o) => {
+        const t = o.toLowerCase().trim();
+        return t !== 'other' && t !== '';
+      }).toSorted();
+    };
+
+    const addBusLineFilters = (options = []) => {
+      const icons = [
+        'applications-office.svg',  'edit-paste.svg',
+        'x-office-spreadsheet.svg', 'x-office-presentation.svg',
+        'system-users.svg',         'network-idle.svg',
+        'package-x-generic.svg',    'application-x-executable.svg',
+      ];
+      const menuEl = $id('lfl-filterMenu');
+      if (!menuEl) return;
+
+      options.forEach((o, idx) => {
+        const label = o.toLowerCase().startsWith('clinic profile') ? 'Clinic Profile' : o;
+
+        const btn = document.createElement('button');
+        btn.classList.add('lfl-filter-btn');
+        btn.type = 'button';
+        btn.setAttribute('aria-pressed', 'false');
+        btn.setAttribute('aria-label', `Filter by ${label}`);
+
+        const img = document.createElement('img');
+        img.src = `${LF_ICONS}${icons[idx] ?? 'document-open.svg'}`;
+        img.alt = '';
+        img.setAttribute('aria-hidden', 'true');
+
+        btn.appendChild(img);
+        btn.appendChild(document.createTextNode(label));
+        btn.addEventListener('click', () => applyFilter(o, btn));
+        menuEl.appendChild(btn);
+      });
+    };
+
+    const buildGrid = (res) => {
+      data = res;
+      hideProgress();
+
+      const tData = Object.values(res).sort((a, b) => {
+        if (a.s1.id53 === 'Yes' && b.s1.id53 !== 'Yes') return -1;
+        if (a.s1.id53 !== 'Yes' && b.s1.id53 === 'Yes') return  1;
+        return 0;
+      });
+
+      grid = new LeafFormGrid('forms', { readOnly: true });
+      grid.setRootURL(LF_PLATFORM);
+      grid.hideIndex();
+      grid.importQueryResult(tData);
+
+      grid.setHeaders([
+        {
+          name: 'Form', indicatorID: 'form', editable: false, sortable: true,
+          callback(d, blob) {
+            if (blob[d.index].s1.id53 === 'Yes') {
+              $id(`${grid.getPrefixID()}tbody_tr${d.recordID}`)
+                ?.classList.add('lfl-featured-row');
+            }
+            $id(d.cellContainerID).innerHTML =
+              `<span style="font-weight:bold">${blob[d.index].title}</span>`;
+          }
+        },
+        { name: 'Description', indicatorID: 5, editable: false, sortable: true },
+        {
+          name: 'Author(s)', indicatorID: 'authors', editable: false, sortable: true,
+          callback(d, blob) {
+            let a = blob[d.index].s1.id9 || '';
+            if (blob[d.index].s1.id10) a += `, ${blob[d.index].s1.id10}`;
+            $id(d.cellContainerID).innerHTML = a;
+          }
+        },
+        {
+          name: 'Workflow Example', indicatorID: 6, editable: false, sortable: false,
+          callback(d, blob) {
+            if (!blob[d.index].s1.id6) return;
+            const imgURL = `${LF_LIBRARY_URL}image.php?form=${blob[d.index].recordID}&id=6&series=1&file=0`;
+            const imgEl  = document.createElement('img');
+            imgEl.id     = `wfImg_${blob[d.index].recordID}`;
+            imgEl.src    = imgURL;
+            imgEl.alt    = `Workflow example for ${blob[d.index].title}`;
+            imgEl.style.cssText = 'border:1px solid var(--c-blue20);border-radius:var(--r);max-width:150px;cursor:pointer';
+            imgEl.addEventListener('click', () => {
+              dialog_simple.setTitle(`${blob[d.index].title} (example workflow)`);
+              dialog_simple.setContent(`
+                <a href="${imgURL}" target="_blank" rel="noopener noreferrer">
+                  <img src="${imgURL}"
+                       alt="Full workflow diagram for ${blob[d.index].title}"
+                       style="cursor:zoom-in;border:1px solid var(--c-blue20);border-radius:var(--r);width:540px" />
+                </a>`);
+              dialog_simple.show();
+            });
+            $id(d.cellContainerID).appendChild(imgEl);
+          }
+        },
+        {
+          name: 'Preview', indicatorID: 'preview', editable: false, sortable: false,
+          callback(d, blob) {
+            const btn = document.createElement('button');
+            btn.className = 'buttonNorm';
+            btn.type      = 'button';
+            btn.setAttribute('aria-label', `Preview form: ${blob[d.index].title}`);
+            btn.innerHTML = `<img src="../dynicons/?img=edit-find.svg&w=32" alt="" aria-hidden="true" /> Preview`;
+            btn.addEventListener('click', () => showPreview(blob[d.index].recordID));
+            $id(d.cellContainerID).appendChild(btn);
+          }
+        }
+      ]);
+
+      grid.setPostRenderFunc(() => {
+        document.querySelectorAll(`#${grid.getPrefixID()}table > tbody > tr > td`).forEach((td) => {
+          td.style.borderRight = '0px';
+          td.style.borderLeft  = '0px';
+        });
+      });
+
+      grid.renderBody();
+    };
+
+    const main = async () => {
+      dialog_simple = buildDialog();
+      $(`#lfDialog`).dialog({
+        width: 600,
+        maxHeight: Math.floor(window.innerHeight * 0.75),
+        open() {
+          $(this).css({
+            'overflow-y': 'auto',
+            'max-height': `${Math.floor(window.innerHeight * 0.65)}px`
+          });
+        }
+      });
+
+      const buslineOptions = await getBusLineOptions();
+      addBusLineFilters(buslineOptions);
+
+      $id('lfl-filterAll')?.addEventListener('click', (e) => applyFilter('', e.currentTarget));
+
+      query = new LeafFormQuery();
+      query.setRootURL(LF_LIBRARY_URL);
+
+      query.onProgress((loaded) => {
+        showProgress();
+        setProgress(loaded, 0);
+      });
+
+      query.onSuccess((res) => {
+        buildGrid(res);
+      });
+
+      query.importQuery({
+        terms: [
+          { id: 'categoryID',   operator: '=', match: 'form_68aa4' },
+          { id: 'dependencyID', indicatorID: '9', operator: '=', match: '1' },
+          { id: 'deleted',      operator: '=', match: 0 }
+        ],
+        getData: ['3','5','4','1','9','10','11','6','53']
+      });
+
+      const leafSearch = new LeafFormSearch('searchContainer');
+      leafSearch.setRootURL(LF_PLATFORM);
+      leafSearch.setSearchFunc((search) => {
+        showProgress();
+        query.clearTerms();
+        query.importQuery({
+          terms: [
+            { id: 'categoryID',   operator: '=', match: 'form_68aa4' },
+            { id: 'dependencyID', indicatorID: '9', operator: '=', match: '1' },
+            { id: 'deleted',      operator: '=', match: 0 }
+          ],
+          getData: ['3','5','4','1','9','10','11','6','53']
+        });
+        query.addDataTerm('data', '0', 'LIKE', `*${search}*`);
+        query.execute();
+      });
+      leafSearch.init();
+      $(`#${leafSearch.getPrefixID()}advancedSearchButton`).css('display', 'none');
+
+      showProgress();
+      query.execute();
+    };
+
+    (() => {
+      const btn = $id('lpJump');
+      if (!btn) return;
+      const update = () => {
+        const vis = (window.pageYOffset || document.documentElement.scrollTop) > 120;
+        btn.classList.toggle('vis', vis);
+        btn.setAttribute('aria-hidden', String(!vis));
+        btn.tabIndex = vis ? 0 : -1;
+      };
+      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+
+    $(document).ready(() => { main(); });
+  </script>
+</body>
+</html>
