@@ -1,0 +1,786 @@
+<style>
+  html, body {
+    background-color: #f3f3f3 !important;
+  }
+</style>
+
+<link rel="stylesheet" href="/path/to/smarty_styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+<script src="../libs/js/jquery/jquery-ui.custom.min.js"></script>
+
+<style>
+  /* ── CoP page scoped overrides ── */
+  .cop-page {
+    background: var(--lp-bg, #f3f3f3);
+    font-family: 'Source Sans 3', 'Source Sans Pro', sans-serif;
+    color: var(--lp-text, #0f172a);
+    margin: 0;
+  }
+
+  .cop-page p,
+  .cop-page li {
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+
+  /* Logo / hero */
+  .cop-hero {
+    text-align: center;
+    padding: 2rem 1rem 1rem;
+  }
+
+  .cop-hero img {
+    width: 475px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 1rem;
+    pointer-events: none;
+    -webkit-user-drag: none;
+  }
+
+  .cop-hero h1 {
+    font-size: 1.75rem;
+    font-weight: 900;
+    margin: 0;
+    color: var(--lp-text, #0f172a);
+  }
+
+  /* Main card */
+  .cop-card {
+    background: #ffffff;
+    border: 1px solid var(--lp-accent, #005ea2);
+    border-radius: var(--lp-radius, 14px);
+    padding: 1.5rem;
+    margin: 1.5rem auto;
+    max-width: 800px;
+    box-shadow: var(--lp-shadow, 0 10px 30px rgba(15,23,42,0.08));
+  }
+
+  .cop-card h1 {
+    font-size: 1.75rem;
+    font-weight: 900;
+    margin: 0 0 0.25rem;
+  }
+
+  .cop-card h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--lp-accent, #005ea2);
+    margin: 1rem 0 0.5rem;
+  }
+
+  .cop-card h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0 0 1rem;
+    color: var(--lp-muted, #475569);
+  }
+
+  .cop-divider {
+    border: none;
+    border-top: 2px solid var(--lp-accent, #005ea2);
+    margin: 0.75rem 0 1rem;
+  }
+
+  #upcoming_details p {
+    font-size: 1.125rem;
+    margin: 0 0 0.5rem;
+  }
+
+  #form_content_what {
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  #upcoming_details p b {
+    font-size: 1.15em;
+  }
+
+  /* Button row inside card */
+  .cop-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+
+  /* Footer button strip */
+  .cop-footer-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    max-width: 960px;
+    margin: 0 auto 2rem;
+    padding: 0 1rem;
+    background: transparent;
+  }
+
+  .cop-footer-actions .btn {
+    flex: 1 1 200px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    min-height: 60px;
+  }
+
+  /* 4 nav buttons — soft blue */
+  .cop-page .btn-soft {
+    background-color: #d9e8f6;
+    border: 1px solid #aacdec;
+    color: #0f172a !important;
+    font-weight: 700;
+  }
+
+  .cop-page .btn-soft:hover {
+    background-color: #aacdec;
+    border-color: #8fb8db;
+    color: #0f172a !important;
+  }
+
+  .cop-page .btn-soft:focus,
+  .cop-page .btn-soft:focus-visible {
+    background-color: #aacdec;
+    border-color: #8fb8db;
+    box-shadow: 0 0 0 3px rgba(0, 94, 162, 0.4);
+  }
+
+  /* Outline button — feedback history toggle */
+  .cop-page .btn-outline-va {
+    background-color: transparent;
+    border: 2px solid #005ea2;
+    color: #005ea2 !important;
+    font-weight: 700;
+  }
+
+  .cop-page .btn-outline-va:hover {
+    background-color: #005ea2;
+    border-color: #005ea2;
+    color: #ffffff !important;
+  }
+
+  .cop-page .btn-outline-va:focus,
+  .cop-page .btn-outline-va:focus-visible {
+    box-shadow: 0 0 0 3px rgba(0, 94, 162, 0.4);
+  }
+
+  /* Feedback history section */
+  .cop-history-wrap {
+    max-width: 960px;
+    margin: 0 auto 2rem;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  table.leaf_grid {
+    width: 100%;
+  }
+
+  #results_user_requests,
+  #searchContainer {
+    width: 100%;
+    background: transparent;
+  }
+
+  /* Offcanvas — keep Bootstrap offcanvas but restyle header */
+  .offcanvas-title {
+    font-family: 'Source Sans 3', 'Source Sans Pro', sans-serif;
+    font-weight: 700;
+    color: var(--lp-muted, #475569);
+  }
+
+  .offcanvas-body h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--lp-accent, #005ea2);
+    margin: 1.25rem 0 0.25rem;
+  }
+
+  .offcanvas-body p {
+    font-size: 1rem;
+    margin: 0 0 0.5rem;
+  }
+
+  /* Skip link */
+  .cop-skip-link {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    padding: 0.5rem 0.75rem;
+    background: #ffffff;
+    border: 2px solid var(--lp-accent, #005ea2);
+    color: var(--lp-text, #0f172a);
+    border-radius: 8px;
+    text-decoration: none;
+    transform: translateY(-200%);
+    transition: transform 0.15s ease;
+    z-index: 1300;
+    font-weight: 700;
+  }
+
+  .cop-skip-link:focus,
+  .cop-skip-link:focus-visible {
+    transform: translateY(0);
+    outline: 3px solid var(--lp-accent, #005ea2);
+    outline-offset: 2px;
+  }
+
+  /* Override Bootstrap btn-primary with smarty VA blue */
+  .cop-page .btn-primary,
+  .cop-page .btn-primary:link,
+  .cop-page .btn-primary:visited {
+    background-color: #005ea2;
+    border-color: #005ea2;
+    color: #ffffff !important;
+  }
+
+  .cop-page .btn-primary:hover {
+    background-color: #004a82;
+    border-color: #004a82;
+    color: #ffffff;
+  }
+
+  .cop-page .btn-primary:focus,
+  .cop-page .btn-primary:focus-visible {
+    background-color: #004a82;
+    border-color: #004a82;
+    box-shadow: 0 0 0 3px rgba(0, 94, 162, 0.4);
+  }
+
+  .cop-page .btn-primary:active {
+    background-color: #004a82;
+    border-color: #004a82;
+  }
+
+  /* Focus ring for all interactive elements */
+  .cop-page a:focus-visible,
+  .cop-page button:focus-visible,
+  .cop-page .btn:focus-visible {
+    outline: 3px solid var(--lp-accent, #005ea2) !important;
+    outline-offset: 3px !important;
+  }
+
+  /* Status colors — WCAG AA on white */
+  .status-not-submitted  { color: #b50909; font-weight: 700; } /* #b50909 on white = 5.9:1 */
+  .status-bold           { font-weight: 700; }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .cop-footer-actions .btn {
+      flex: 1 1 100%;
+    }
+    .cop-card-actions .btn {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cop-skip-link { transition: none; }
+  }
+</style>
+
+<!-- Bootstrap offcanvas JS only (no full Bootstrap CSS — smarty handles styles) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+<script>
+  let CSRFToken = '<!--{$CSRFToken}-->';
+
+  async function main() {
+    const idWhen = "16";
+    const idWhat = "17";
+    const q = {
+      "terms": [
+        {"id": "categoryID", "operator": "=", "match": "form_605bd", "gate": "AND"},
+        {"id": "deleted",    "operator": "=", "match": 0,            "gate": "AND"}
+      ],
+      "joins": [],
+      "sort": {},
+      "getData": [idWhen, idWhat]
+    };
+    let query = new LeafFormQuery();
+    query.importQuery(q);
+    query.sort('recordID');
+    let data = await query.execute();
+    const req = data[4] ?? null;
+    if (req !== null) {
+      const contentWhen = req?.["s1"]?.["id" + idWhen];
+      const contentWhat = req?.["s1"]?.["id" + idWhat];
+      document.getElementById('form_content_when').innerHTML = contentWhen;
+      document.getElementById('form_content_what').innerHTML = contentWhat ? contentWhat
+        .replace(/(<br\s*\/?>\s*){2,}/gi, '<br>') : '';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', main);
+</script>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE ROOT
+════════════════════════════════════════════════ -->
+<div class="cop-page lp-scope">
+
+  <!-- Skip link -->
+  <a href="#main-content" class="cop-skip-link">Skip to main content</a>
+
+  <!-- ── Hero ───────────────────────────────────── -->
+  <header class="cop-hero" role="banner">
+    <img src="https://leaf.va.gov/platform/CoP/files/VA%20LEAF%20Logo.svg"
+         alt="VA LEAF — Lean Electronic Application Framework logo">
+    <h1>Community of Practice</h1>
+  </header>
+
+  <!-- ── Main content ───────────────────────────── -->
+  <main id="main-content" tabindex="-1">
+
+    <div class="cop-card" aria-labelledby="cop-card-heading">
+
+      <h1 id="cop-card-heading">Open Office Hours</h1>
+      <h3>Biweekly sessions on Tuesdays at 11 AM EST</h3>
+      <hr class="cop-divider" aria-hidden="true">
+
+      <h2>Upcoming Session Details</h2>
+
+      <section id="upcoming_details" aria-label="Upcoming session details">
+        <p class="mb-0"><b>When:</b></p>
+        <p id="form_content_when"></p>
+        <p class="mb-0"><b>What:</b></p>
+        <p id="form_content_what"></p>
+      </section>
+
+      <div class="cop-card-actions">
+        <a href="https://teams.microsoft.com/l/channel/19%3A31818766bbbc477db8898a6f45bc8ffd%40thread.tacv2/LEAF%20Biweekly%20Open%20Office%20Hours%20-%20CoP?groupId=56e12324-7248-4ed5-a983-613c9bf3acad"
+           class="btn btn-primary"
+           aria-label="Join the LEAF Biweekly Open Office Hours call in Microsoft Teams">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+               viewBox="0 0 16 16" aria-hidden="true" focusable="false" style="margin-right:6px;">
+            <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zM15.854.146a.5.5 0 0 1 0 .708L11.707 5H14.5a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 1 0v2.793L15.146.146a.5.5 0 0 1 .708 0"/>
+          </svg>
+          Join the Biweekly Call
+        </a>
+
+
+      </div>
+
+    </div><!-- /.cop-card -->
+
+    <!-- ── Footer action strip ─────────────────── -->
+    <nav class="cop-footer-actions" aria-label="CoP resources and links">
+
+      <button class="btn btn-soft"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvas_help"
+              aria-controls="offcanvas_help">
+        Office Hour Top Requested Links &amp; Resources
+      </button>
+
+      <a href="https://leaf.va.gov/#goto=teams"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="btn btn-soft"
+         aria-label="Chat with the LEAF Community in Microsoft Teams (opens in new tab)">
+        Chat with the LEAF Community in Microsoft Teams
+      </a>
+
+      <a href="https://leaf.va.gov/platform/CoP/report.php?a=Search_Past_Sessions"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="btn btn-soft"
+         aria-label="View past Open Office Hour sessions (opens in new tab)">
+        Past Open Office Hour Sessions
+      </a>
+
+      <a href="https://leaf.va.gov/platform/CoP/report.php?a=LEAF_Start_Request&id=form_8b8f9"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="btn btn-soft"
+         aria-label="Submit feedback for the CoP (opens in new tab)">
+        Have Feedback for the CoP?
+      </a>
+
+    </nav>
+
+    <!-- ── Feedback history ────────────────────── -->
+    <div id="content_welcome" class="container d-flex flex-wrap justify-content-center mt-4 mb-4" style="gap: 1.5rem;">
+      <button type="button"
+              id="btn_user_requests"
+              class="btn btn-outline-va"
+              style="display:none;"
+              aria-expanded="false"
+              aria-controls="results_user_requests"
+              onclick="toggleRequestDisplay()">
+        View Your Feedback History
+      </button>
+    </div>
+
+    <div class="container mt-1 mb-4" id="results_user_requests" style="display:none;">
+      <div id="searchContainer"></div>
+
+    </div>
+
+  </main><!-- /#main-content -->
+
+  <!-- ── Offcanvas: resources ───────────────────── -->
+  <div class="offcanvas offcanvas-start"
+       tabindex="-1"
+       id="offcanvas_help"
+       aria-labelledby="offcanvas_help_label">
+    <div class="offcanvas-header">
+      <h2 class="offcanvas-title" id="offcanvas_help_label">Office Hour Resources</h2>
+      <button type="button"
+              class="btn-close"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close Office Hour Resources panel"></button>
+    </div>
+    <div class="offcanvas-body">
+      <p>Top links and resources requested by LEAF CoP members during open office hours:</p>
+
+      <h2><a href="https://leaf.va.gov/platform/CoP/report.php?a=channel_resources" target="_blank" rel="noopener noreferrer">
+        LEAF CoP Teams Channel Tips and Tricks
+      </a></h2>
+      <p>Explore best practices and tips that will elevate your experience in the LEAF CoP Teams channel.</p>
+
+      <h2><a href="https://leaf.va.gov/platform/service_requests_launchpad/" target="_blank" rel="noopener noreferrer">
+        LEAF Support Services
+      </a></h2>
+      <p>Visit the LEAF Support Services for additional support! Submit a variety of requests like consultations, case study or nominating a spotlight, subscribe to the LEAF Communications List and much more!</p>
+
+      <h2><a href="https://dvagov.sharepoint.com/sites/vhaleaf" target="_blank" rel="noopener noreferrer">
+        LEAF SharePoint
+      </a></h2>
+      <p>View upcoming trainings, events, and newsletters.</p>
+
+      <h2><a href="https://leaf.va.gov/#go=idea" target="_blank" rel="noopener noreferrer">
+        LEAF Idea Portal
+      </a></h2>
+      <p>Have an idea to enhance LEAF? Submit your vision and share with the community to vote on!</p>
+
+      <h2><a href="https://leaf.va.gov/#help=library" target="_blank" rel="noopener noreferrer">
+        LEAF Help Library
+      </a></h2>
+      <p>Visit the Help Library for a large repository of videos and guides to help you on your LEAF journey.</p>
+
+      <h2><a href="https://leaf.va.gov/launchpad/" target="_blank" rel="noopener noreferrer">
+        LEAF Launchpad
+      </a></h2>
+      <p>New to LEAF? Start a new site by visiting the LEAF Launchpad.</p>
+    </div>
+  </div>
+
+</div><!-- /.cop-page -->
+
+
+<!-- ═══════════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════════════ -->
+<script>
+  function toggleRequestDisplay() {
+    const $panel = $('#results_user_requests');
+    const $btn   = $('#btn_user_requests');
+    const isHidden = $panel.css('display') === 'none';
+    $panel.css('display', isHidden ? 'block' : 'none');
+    $btn.attr('aria-expanded', isHidden);
+    $btn.text(isHidden ? 'Hide Your Feedback History' : 'View Your Feedback History');
+  }
+
+  function renderResult(leafSearch, res, showResolved = false) {
+        if(Object.keys(res)?.length > 0) {
+            $('#btn_user_requests, #results_user_requests').css({
+            	'display': 'block'
+            });
+        	$('#btn_user_requests').text('Hide Your Feedback History');
+            $('#btn_user_requests').attr('aria-expanded', true);
+        }
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+        let grid = new LeafFormGrid(leafSearch.getResultContainerID(), {readOnly: true});
+        grid.hideIndex();
+        grid.setDataBlob(res);
+        grid.setHeaders([
+            {
+                name: 'Date',
+                indicatorID: 'date',
+                editable: false,
+                callback: function(data, blob) {
+                    let date = new Date(blob[data.recordID].date * 1000);
+                    let now = new Date();
+                    let year = now.getFullYear() != date.getFullYear() ? ' ' + date.getFullYear() : '';
+                    let formattedDate = months[date.getMonth()] + ' ' + parseFloat(date.getDate()) + year;
+                    document.querySelector(`#${data.cellContainerID}`).innerHTML = formattedDate;
+                    if(blob[data.recordID].userID == "<!--{$userID|unescape|escape:'quotes'}-->") {
+                        document.querySelector(`#${data.cellContainerID}`).style.backgroundColor = '#feffd1';
+                    }
+                }
+            },
+            {
+                name: 'Title',
+                indicatorID: 'title',
+                callback: function(data, blob) {
+                    let types = '';
+                    for(let i in blob[data.recordID].categoryNames) {
+                        if(blob[data.recordID].categoryNames[i] != '') {
+                            types += blob[data.recordID].categoryNames[i] + ' | ';
+                        }
+                    }
+                    types = types.substr(0, types.length - 3);
+
+                    priority = '';
+                    priorityStyle = '';
+                    if(blob[data.recordID].priority == -10) {
+                        priority = '<span style="color: red"> ( Emergency ) </span>';
+                        priorityStyle = ' style="background-color: red; color: black"';
+                    }
+                    document.querySelector(`#${data.cellContainerID}`).innerHTML = 
+                        `<span class="browsecounter">
+                            <a ${priorityStyle} href="index.php?a=printview&recordID=${data.recordID}" tabindex="-1">${data.recordID}</a>
+                        </span>
+                        <a href="index.php?a=printview&recordID=${data.recordID}">${blob[data.recordID].title}</a><br />
+                        <span class="browsetypes">${types}</span>${priority}`;
+                    document.querySelector(`#${data.cellContainerID}`).addEventListener('click', function() {
+                        window.location = 'index.php?a=printview&recordID='+data.recordID;
+                    });
+                }
+            },
+            {
+                name: 'Status',
+                indicatorID: 'currentStatus',
+                editable: false,
+                callback: function(data, blob) {
+                    let waitText = blob[data.recordID].blockingStepID == 0 ? 'Pending ' : 'Waiting for ';
+                    let status = '';
+                    if(blob[data.recordID].stepID == null && blob[data.recordID].submitted == '0') {
+                        if(blob[data.recordID].lastStatus == null) {
+                            status = '<span style="color: #e00000">Not Submitted</span>';
+                        } else {
+                            status = '<span style="color: #e00000">Pending Re-submission</span>';
+                        }
+                    } else if(blob[data.recordID].stepID == null) {
+                        let lastStatus = blob[data.recordID].lastStatus;
+                        if(lastStatus == '') {
+                            lastStatus = '<a href="index.php?a=printview&recordID='+ data.recordID +'">Check Status</a>';
+                        }
+                        status = '<span style="font-weight: bold">' + lastStatus + '</span>';
+                    } else {
+                        status = waitText + blob[data.recordID].stepTitle;
+                    }
+                    if(blob[data.recordID].deleted > 0) {
+                        status += ', Cancelled';
+                    }
+                    document.querySelector(`#${data.cellContainerID}`).innerHTML = status;
+                    if(blob[data.recordID].userID == '<!--{$userID|unescape|escape:'quotes'}-->') {
+                        document.querySelector(`#${data.cellContainerID}`).style.backgroundColor = '#feffd1';
+                    }
+                }
+            }
+        ]);
+        grid.setPostProcessDataFunc(function(data) {
+            let data2 = [];
+            for(let i in data) {
+                <!--{if !$is_admin}-->
+                if(data[i].submitted == '0'
+                    && data[i].userID == '<!--{$userID|unescape|escape:'quotes'}-->') {
+                    data2.push(data[i]);
+                }
+                else if(data[i].submitted != '0') {
+                    data2.push(data[i]);
+                }
+                <!--{else}-->
+                data2.push(data[i]);
+                <!--{/if}-->
+            }
+            return data2;
+        });
+
+        let tGridData = [];
+        for(let i in res) {
+            if(showResolved || !(res[i].submitted > 0 && res[i].stepID === null)) {
+               tGridData.push(res[i]);
+            }
+        }
+        grid.setData(tGridData);
+        grid.sort('recordID', 'desc');
+        grid.renderBody();
+        grid.announceResults();
+        $('#searchContainer > div:first-child').css('display','none');
+        $('tbody td[colspan="4"]').text("No Pending Requests");
+    }
+
+  function runQuery() {
+        let query = new LeafFormQuery();
+        query.addTerm('userID', '=', "<!--{$userID|unescape|escape:'quotes'}-->");
+            
+        let abortController = new AbortController();
+        let leafSearch = new LeafFormSearch('searchContainer');
+        leafSearch.setJsPath('<!--{$app_js_path}-->');
+        leafSearch.setOrgchartPath('<!--{$orgchartPath}-->');
+
+        let extendedQueryState = 0;
+        let loadAllResults = false;
+        let showResolved = false;
+        let foundOwnRequest = false;
+        let resultSet = {}; // current results
+        let offset = 0; // current database offset index
+        let batchSize = 50;
+        let abortSearch = false;
+        let scrollY = 0; // track scroll position for more seamless UX when loading more records
+            
+        document.addEventListener("click", abortSearchListener );
+        function abortSearchListener(event){
+            let element = event.target;
+            if(element.id == 'btn_abortSearch' ){
+                abortController.abort();
+                abortSearch = true;
+                document.getElementById("btn_abortSearch").style.display = "none";
+            }
+        }
+        // On the first visit, if no results are owned by the user, append their results
+        query.onSuccess(function(res, resStatus, resJqXHR) {
+            resultSet = Object.assign(resultSet, res);
+
+            // find records owned by user
+            if(extendedQueryState == 0) {
+                for(let i in res) {
+                    if(res[i].userID == "<!--{$userID|unescape|escape:'quotes'}-->") {
+                        foundOwnRequest = true;
+                        break;
+                    }
+                }
+            }
+
+            // append user's records if none were found earlier
+            if(extendedQueryState == 0
+                && foundOwnRequest == false
+                && leafSearch.getSearchInput() == '') {
+                extendedQueryState = 1;
+                query.addTerm('userID', '=', "<!--{$userID|unescape|escape:'quotes'}-->");
+                query.execute();
+                return false;
+            }
+
+            // incrementally load records
+            if((Object.keys(res).length == batchSize || resJqXHR.getResponseHeader('leaf-query') == 'continue')
+                && loadAllResults
+                && !abortSearch) {
+
+                document.querySelector('#' + leafSearch.getResultContainerID()).innerHTML = `<h3>Searching ${offset}+ possible records...</h3><p><button id="btn_abortSearch" class="buttonNorm">Stop searching for more</button></p>`;
+                document.querySelector('#btn_abortSearch').addEventListener('click', function() {
+                    abortSearch = true;
+                });
+                offset += batchSize;
+                query.setLimit(offset, batchSize);
+                query.execute();
+                return;
+            } else {
+            	//$('tfoot[id^="LeafFormGrid"]').html('<tr><td colspan="4" style="padding: 8px; background-color: #feffd1; font-size: 120%; font-weight: bold">Search Stopped</td></tr>');
+            }
+
+            renderResult(leafSearch, resultSet, showResolved);
+            window.scrollTo(0, scrollY);
+
+            // UI for "show more results" button
+            let btnAbort = document.getElementById("btn_abortSearch");
+            let btnMore = document.querySelector('#searchContainer_getMoreResults');
+            if(btnMore !== null) {
+            	btnMore.style.display = !loadAllResults ? 'inline' : 'none';
+            }
+            if(btnAbort !== null) {
+                btnAbort.style.display = "none";
+            }
+        });
+            
+            
+        leafSearch.setSearchFunc(function(txt) {
+            // prep new search
+            query.clearTerms();
+            query.addTerm('userID', '=', "<!--{$userID|unescape|escape:'quotes'}-->");
+
+            resultSet = {};
+            offset = 0;
+            loadAllResults = false;
+            scrollY = 0;
+            abortSearch = false;
+
+            let isJSON = true;
+            let advSearch = {};
+            try {
+                advSearch = JSON.parse(txt);
+            }
+            catch(err) {
+                isJSON = false;
+            }
+
+            txt = txt.trim();
+            if(txt == '' || txt == 'undefined' || txt == undefined) {
+                query.addTerm('title', 'LIKE', '*');
+            } else if(!isNaN(parseFloat(txt)) && isFinite(txt)) { // check if numeric
+                query.addTerm('recordID', '=', txt);
+            } else if(isJSON) {
+                for(let i in advSearch) {
+                    if(advSearch[i].id != 'data'
+                        && advSearch[i].id != 'dependencyID') {
+                        query.addTerm(advSearch[i].id, advSearch[i].operator, advSearch[i].match, advSearch[i].gate);
+                    }
+                    else {
+                        query.addDataTerm(advSearch[i].id, advSearch[i].indicatorID, advSearch[i].operator, advSearch[i].match, advSearch[i].gate);
+                    }
+                }
+            } else {
+                query.addTerm('title', 'LIKE', '*' + txt + '*');
+            }
+
+            // check if the user wants to search for cancelled requests
+            let hasDeleteQuery = false;
+            for(let i in query.getQuery().terms) {
+                if(query.getQuery().terms[i].id == 'stepID'
+                    && query.getQuery().terms[i].operator == '='
+                    && query.getQuery().terms[i].match == 'deleted') {
+                    hasDeleteQuery = true;
+                    break;
+                }
+            }
+
+            // hide cancelled requests by default
+            if(!hasDeleteQuery) {
+                query.addTerm('deleted', '=', 0);
+            }
+
+            query.setLimit(batchSize);
+            query.join('status');
+            query.join('categoryName');
+            query.join('initiatorName');
+            query.sort('date', 'DESC');
+            return query.execute();
+        });
+        leafSearch.init();
+        document.querySelector('#' + leafSearch.getResultContainerID()).innerHTML = '<h3>Searching for records...</h3>';
+
+        document.querySelector('#searchContainer_getMoreResults').addEventListener('click', function() {
+            loadAllResults = true;
+            showResolved = true;
+            scrollY = window.scrollY;
+            if(leafSearch.getSearchInput() == '') {
+                let tQuery = query.getQuery();
+                query.setQuery(tQuery);
+            }
+            offset += batchSize;
+            query.setAbortSignal(abortController.signal);
+            query.setLimit(offset, batchSize);
+            query.execute()
+        });
+    }
+
+    function main() {
+        runQuery();
+        const username = $('#headerHelp > b').text();
+        $('#span_user_name').text(username);
+    }    
+        
+        
+    document.addEventListener('DOMContentLoaded', main);
+</script>
