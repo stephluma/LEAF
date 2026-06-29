@@ -1,0 +1,1433 @@
+<!-- Generated with Claude Sonnet 4.6 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VHA LEAF Adoption Map</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f0eff0;--surface:#fff;--s2:#f5f5f3;
+  --b1:rgba(0,0,0,.08);--b2:rgba(0,0,0,.15);
+  --text:#1a1a18;--t2:#5a5a56;--t3:#8a8a84;
+  --blue:#185FA5;--bbg:#E6F1FB;--bmid:#378ADD;
+  --teal:#0F6E56;--tbg:#E1F5EE;
+  --amber:#A85B00;--abg:#FBF0E0;
+  --red:#A8302A;--rbg:#FBE8E6;
+  --violet:#6b3fa0;--vbg:#f3eef9;--vmid:#8f5cc4;
+  --dred:#A8302A;--dredbg:#fdf0f0;--dredmid:#c0392b;
+  --r:8px;--rs:5px
+}
+html,body{width:100%;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--text);font-size:15px}
+.skip-link{position:fixed;top:0;left:0;z-index:99999;padding:10px 18px;background:var(--blue);color:#fff;font-size:14px;font-weight:600;border-radius:0 0 var(--rs) 0;transform:translateY(-100%);transition:transform .15s;text-decoration:none}
+.skip-link:focus{transform:translateY(0)}
+#brand{position:fixed;top:0;left:0;right:0;height:46px;background:linear-gradient(90deg,#0d3a66,#185FA5);color:#fff;display:flex;align-items:center;gap:12px;padding:0 18px;z-index:10000;width:100%;cursor:pointer}
+#brand:hover #brand-title{text-decoration:underline}
+#brand-mark{display:flex;align-items:center}
+#brand-text{display:flex;flex-direction:column;justify-content:center;line-height:1.15}
+#brand-title{font-size:15px;font-weight:700;letter-spacing:.01em}
+#brand-sub{font-size:11px;font-weight:400;opacity:.82;letter-spacing:.02em}
+#brand-asof{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:12px;font-weight:500;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:100px;padding:5px 13px;white-space:nowrap;color:#fff!important}
+#brand-asof svg{opacity:.85;flex-shrink:0}
+#brand-asof *{color:#fff!important}
+#tb{position:fixed;top:46px;left:0;right:0;height:56px;background:var(--surface);border-bottom:1px solid var(--b2);display:flex;align-items:center;gap:14px;padding:0 18px;z-index:9999;width:100%}
+#sw{position:relative;flex:1;max-width:420px}
+#sw svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.38;pointer-events:none}
+#si{width:100%;padding:9px 12px 9px 36px;border:1px solid var(--b2);border-radius:var(--rs);font-size:14px;background:var(--surface);color:var(--text);outline:none}
+#si:focus{border-color:var(--bmid);box-shadow:0 0 0 3px rgba(55,138,221,.25)}
+#sr{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1px solid var(--b2);border-radius:var(--r);box-shadow:0 6px 24px rgba(0,0,0,.13);z-index:400;max-height:360px;overflow-y:auto;display:none}
+#sr.on{display:block}
+.sr-group{padding:6px 0}
+.sr-group-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--t3);padding:4px 12px}
+.sri{padding:8px 12px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--b1)}
+.sri:last-child{border-bottom:none}
+.sri:hover,.sri:focus{background:var(--s2);outline:none}
+.srb{font-size:10px;padding:2px 6px;border-radius:100px;font-weight:600;flex-shrink:0;white-space:nowrap}
+.srb-v{background:var(--tbg);color:var(--teal)}
+.srb-s{background:var(--bbg);color:var(--blue)}
+.srb-f{background:#f3eef9;color:#6b3fa0}
+.sr-main{flex:1;min-width:0}
+.sr-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sr-sub{font-size:11px;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#hint{font-size:13px;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:280px;flex-shrink:1}
+.chips{display:flex;gap:8px;margin-left:auto;align-items:center}
+.chip{background:var(--s2);border:1px solid var(--b2);border-radius:var(--rs);padding:6px 13px;font-size:13px;color:var(--t2);white-space:nowrap}
+.chip b{font-size:15px;font-weight:700;color:var(--text);margin-left:4px}
+.chip-trend{background:var(--bbg);border-color:var(--bmid);color:var(--blue);cursor:pointer;display:flex;align-items:center;gap:6px;font-weight:500;border:1px solid var(--bmid);border-radius:var(--rs);padding:6px 13px;font-size:13px}
+.chip-trend:hover{background:#d0e6f7}
+.chip-trend:focus-visible{outline:3px solid var(--bmid);outline-offset:2px}
+.chip-trend b{color:var(--blue)}
+.info-btn{display:inline-flex;align-items:center;justify-content:center;background:transparent;color:var(--blue);font-size:14px;line-height:1;cursor:pointer;flex-shrink:0;position:relative;border:none;padding:0 1px;vertical-align:middle;margin-left:3px;transition:opacity .15s;font-style:normal}
+.info-btn:hover,.info-btn:focus{opacity:.7;outline:none}
+.info-btn:focus-visible{outline:3px solid var(--bmid);outline-offset:2px;border-radius:50%}
+#tipPortal{position:fixed;z-index:10060;pointer-events:none;top:0;left:0}
+.tip-bubble{position:absolute;background:var(--text);color:#fff;font-size:11.5px;font-weight:400;line-height:1.5;padding:9px 11px;border-radius:6px;width:240px;max-width:240px;box-shadow:0 6px 20px rgba(0,0,0,.28);text-align:left;white-space:normal;display:none}
+.tip-bubble.on{display:block}
+.tip-bubble::after{content:'';position:absolute;border:5px solid transparent;border-top-color:var(--text);top:100%;}
+#body{position:fixed;top:102px;left:0;right:0;bottom:0;display:flex;overflow:hidden;z-index:9998;background:var(--bg)}
+#mw{flex:1;min-width:0;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:var(--bg)}
+#usMap{display:block;width:100%;height:100%}
+#usMap path.zp{cursor:pointer;transition:opacity .12s,fill .2s}
+#usMap path.zp:hover{opacity:.8}
+#usMap path.zp:focus-visible{outline:3px solid #111;outline-offset:2px;opacity:.85}
+#usMap path.zp.zsel{stroke:#111!important;stroke-width:2!important}
+#lo{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:20}
+.spin{width:26px;height:26px;border:2px solid var(--b2);border-top-color:var(--bmid);border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+#mapLegend{position:absolute;left:14px;bottom:14px;z-index:15;background:var(--surface);border:1px solid var(--b2);border-radius:var(--r);padding:10px 12px;box-shadow:0 3px 12px rgba(0,0,0,.1);display:none;max-width:240px}
+#mapLegend.on{display:block}
+.ml-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:7px}
+.ml-bar{height:9px;border-radius:3px;margin-bottom:4px}
+.ml-bar-adopt{background:linear-gradient(90deg,#A8302A,#E0A800,#0F6E56)}
+.ml-bar-util{background:linear-gradient(90deg,#A8302A,#E0A800,#6b3fa0)}
+.ml-scale{display:flex;justify-content:space-between;font-size:10px;color:var(--t2)}
+.ml-pattern-note{font-size:10px;color:var(--t3);margin-top:6px;line-height:1.4}
+#shadeWrap{position:absolute;right:14px;top:14px;z-index:15;background:var(--surface);border:1px solid var(--b2);border-radius:var(--rs);padding:6px 10px;font-size:12px;color:var(--t2);display:flex;flex-direction:column;gap:3px;box-shadow:0 2px 8px rgba(0,0,0,.08);min-width:200px}
+#shadeRow{display:flex;align-items:center;gap:7px}
+#shadeWrap svg{opacity:.5;flex-shrink:0}
+#shadeSelect{border:none;background:transparent;font-size:12px;color:var(--text);outline:none;cursor:pointer;flex:1}
+#shadeSelect:focus-visible{outline:3px solid var(--bmid);border-radius:2px}
+#shadeWrap.mode-adopt{background:var(--bbg);border-color:var(--bmid)}
+#shadeWrap.mode-adopt svg{opacity:.8;color:var(--blue)}
+#shadeWrap.mode-adopt #shadeSelect{color:var(--blue);font-weight:500}
+#shadeWrap.mode-util{background:var(--vbg);border-color:var(--vmid)}
+#shadeWrap.mode-util svg{opacity:.8;color:var(--violet)}
+#shadeWrap.mode-util #shadeSelect{color:var(--violet);font-weight:500}
+.shade-note{font-size:10px;color:var(--t3);display:none;padding-left:20px}
+#shadeWrap.mode-adopt .shade-note,#shadeWrap.mode-util .shade-note{display:block}
+#panel{width:360px;min-width:320px;flex-shrink:0;background:var(--surface);border-left:2px solid var(--b2);display:flex;flex-direction:column;overflow:hidden}
+#panel:focus{outline:none}
+#pe{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:2.5rem;text-align:center}
+#pe p{font-size:14px;color:var(--t3);line-height:1.6}
+#landing{flex:1;overflow-y:auto;display:none;flex-direction:column}
+#landing.on{display:flex}
+.lh{padding:18px 18px 16px;border-bottom:1px solid var(--b1);text-align:center}
+.lh-eyebrow{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-bottom:6px}
+.lh-big{font-size:42px;font-weight:800;line-height:1;color:var(--blue)}
+.lh-cap{font-size:13px;color:var(--t2);margin-top:8px;line-height:1.5}
+.lh-cap b{color:var(--text)}
+.lh-asof{font-size:11.5px;color:var(--t3);margin-top:9px;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+.lh-asof b{color:var(--t2);font-weight:600}
+.lh-window{display:inline-flex;align-items:center;gap:5px;background:var(--bbg);border:1px solid var(--bmid);border-radius:100px;padding:3px 10px;font-size:11px;font-weight:600;color:var(--blue);margin-top:6px}
+.ls-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:12px 14px;border-bottom:1px solid var(--b1)}
+.ls-card{background:var(--s2);border-radius:var(--rs);padding:10px 11px;text-align:center;transition:box-shadow .15s,background .15s}
+.ls-card.clickable{cursor:pointer;border:1px solid transparent}
+.ls-card.clickable:hover{background:#eceae8;box-shadow:0 2px 8px rgba(0,0,0,.1);border-color:var(--b2)}
+.ls-card.clickable:focus-visible{outline:3px solid var(--bmid);outline-offset:2px}
+.ls-card .v{font-size:19px;font-weight:700}
+.ls-card .v.amber{color:var(--amber)}
+.ls-card .v.teal{color:var(--teal)}
+.ls-card .v.violet{color:var(--violet)}
+.ls-card .v.blue{color:var(--blue)}
+.ls-card .l{font-size:10px;color:var(--t2);margin-top:3px}
+.ls-card .card-action{font-size:10px;color:var(--t3);margin-top:4px;opacity:0;transition:opacity .15s}
+.ls-card.clickable:hover .card-action,.ls-card.clickable:focus-visible .card-action{opacity:1}
+.lsec{padding:16px 18px;border-bottom:1px solid var(--b1)}
+.lsl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--t3);margin-bottom:11px;display:flex;align-items:center;gap:5px}
+.tb-row{margin-bottom:11px;cursor:default}
+.tb-row.click{cursor:pointer}
+.tb-row.click:hover .tb-name{color:var(--blue)}
+.tb-row:last-child{margin-bottom:0}
+.tb-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;gap:8px}
+.tb-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .1s}
+.tb-pct{font-size:12px;font-weight:700;flex-shrink:0}
+.tb-bar{height:7px;border-radius:4px;background:var(--rbg);overflow:hidden}
+.tb-fill{height:100%;border-radius:4px}
+.tb-sub{font-size:11px;color:var(--t3);margin-top:3px}
+.lsec-collapsible .lsl{cursor:pointer;user-select:none}
+.lsec-collapsible .lsl:hover{color:var(--blue)}
+.lsec-collapsible .lsl-toggle{margin-left:auto;font-size:10px;color:var(--t3)}
+.lsec-body{display:block}
+.lsec-body.collapsed{display:none}
+#pc{flex:1;overflow-y:auto;display:none;flex-direction:column}
+#pc.on{display:flex}
+.breadcrumb{display:flex;align-items:center;gap:5px;padding:8px 14px;border-bottom:1px solid var(--b1);font-size:11px;color:var(--t3);flex-wrap:wrap;background:var(--s2);flex-shrink:0}
+.breadcrumb-item{cursor:pointer;color:var(--blue);font-weight:500}
+.breadcrumb-item:hover{text-decoration:underline}
+.breadcrumb-sep{color:var(--t3)}
+.ph{padding:18px 18px 14px;border-bottom:1px solid var(--b1);text-align:center}
+.pt{font-size:18px;font-weight:600;line-height:1.3}
+.psub{font-size:13px;color:var(--t2);margin-top:9px;display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}
+.badge{font-size:12px;padding:3px 11px;border-radius:100px;font-weight:500;cursor:pointer;border:none;display:inline-block;transition:opacity .1s;margin:1px 0}
+.badge:hover{opacity:.75}
+.badge:focus-visible{outline:3px solid var(--bmid);outline-offset:2px}
+.bv{background:var(--tbg);color:var(--teal)}
+.bs{background:var(--bbg);color:var(--blue)}
+.psec{padding:16px 18px;border-bottom:1px solid var(--b1)}
+.psl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--t3);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.psl-count{font-weight:400;color:var(--t3)}
+.psl-left{display:flex;align-items:center;gap:5px}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.sc{background:var(--s2);border-radius:var(--rs);padding:11px 13px}
+.sl{font-size:12px;color:var(--t2);margin-bottom:3px}
+.sv{font-size:23px;font-weight:700}
+.adopt-bar-wrap{margin-top:11px}
+.adopt-bar{height:8px;border-radius:4px;background:var(--rbg);overflow:hidden}
+.adopt-bar-fill{height:100%;background:var(--teal);border-radius:4px}
+.adopt-bar-label{display:flex;justify-content:space-between;font-size:12px;color:var(--t2);margin-top:5px}
+.adopt-bar-label b{color:var(--text)}
+.sli{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--b1);cursor:pointer}
+.sli:last-child{border-bottom:none}
+.sli:hover .slin,.sli:focus-visible .slin{color:var(--blue)}
+.sli:focus-visible{outline:3px solid var(--bmid);outline-offset:2px;border-radius:3px}
+.slia{width:30px;height:30px;border-radius:5px;background:var(--bbg);color:var(--blue);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.slii{flex:1;min-width:0}
+.slin{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .1s}
+.slis{font-size:12px;color:var(--t3)}
+.sliv{font-size:13px;font-weight:600;color:var(--t2);flex-shrink:0}
+.fli{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px solid var(--b1)}
+.fli:last-child{border-bottom:none}
+.fli.fli-dead{opacity:.55}
+.fli-dot{width:7px;height:7px;border-radius:50%;background:var(--bmid);flex-shrink:0;margin-top:6px}
+.fli-dot.dead{background:var(--amber)}
+.fli-dot.low{background:var(--violet)}
+.flii{flex:1;min-width:0;cursor:pointer}
+.flin{font-size:13px;font-weight:500;line-height:1.35}
+.flis{font-size:12px;color:var(--t3);margin-top:2px}
+.fliv{font-size:12px;font-weight:600;color:var(--t2);flex-shrink:0;text-align:right}
+.fliv-sub{font-size:11px;color:var(--t3);font-weight:400}
+.expand-btn{display:block;width:100%;padding:10px;background:var(--s2);border:none;border-top:1px solid var(--b1);font-size:13px;color:var(--blue);cursor:pointer;text-align:center}
+.expand-btn:hover{background:#e8f0fb}
+.expand-btn:focus-visible{outline:3px solid var(--bmid);outline-offset:2px}
+.pbtn{margin:12px 18px 16px;padding:10px 16px;border:1px solid rgba(24,95,165,.25);border-radius:var(--rs);font-size:14px;font-weight:500;color:var(--blue);background:var(--bbg);cursor:pointer;text-align:center;display:block;transition:background .13s}
+.pbtn:hover{background:#d0e6f7}
+.pbtn:focus-visible{outline:3px solid var(--bmid);outline-offset:2px}
+.pbtn-amber{margin:8px 0 0;padding:10px 16px;border:1px solid rgba(168,91,0,.25);border-radius:var(--rs);font-size:14px;font-weight:500;color:var(--amber);background:var(--abg);cursor:pointer;text-align:center;display:block;transition:background .13s;width:100%}
+.pbtn-amber:hover{background:#f6e6cf}
+.pbtn-amber:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.pbtn-violet{margin:8px 0 0;padding:10px 16px;border:1px solid rgba(107,63,160,.25);border-radius:var(--rs);font-size:14px;font-weight:500;color:var(--violet);background:var(--vbg);cursor:pointer;text-align:center;display:block;transition:background .13s;width:100%}
+.pbtn-violet:hover{background:#ebe4f6}
+.pbtn-violet:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+.fac-meta{display:flex;flex-direction:column;gap:4px;margin-top:8px;text-align:left;align-items:flex-start}
+.fac-meta-row{font-size:13px;color:var(--t2);display:flex;gap:7px;align-items:center}
+.fac-meta-row svg{opacity:.5;flex-shrink:0}
+.uc-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:10px 14px;border:1px solid rgba(24,95,165,.25);border-radius:var(--rs);font-size:13px;font-weight:500;color:var(--blue);background:var(--bbg);cursor:pointer;transition:background .13s}
+.uc-btn:hover{background:#d0e6f7}
+.uc-btn:disabled{opacity:.5;cursor:default}
+.uc-btn:focus-visible{outline:3px solid var(--bmid);outline-offset:2px}
+.uc-results{margin-top:10px;display:none}
+#rptOverlay{position:fixed;inset:0;z-index:10000;background:rgba(20,20,18,.45);display:none;align-items:center;justify-content:center;padding:24px}
+#rptOverlay.on{display:flex}
+#rptModal{background:var(--surface);border-radius:12px;width:100%;max-width:1180px;height:100%;max-height:900px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.rpt-head{padding:16px 20px;border-bottom:1px solid var(--b2);display:flex;align-items:center;gap:14px}
+.rpt-title{font-size:18px;font-weight:700}
+.rpt-title-sub{font-size:12px;color:var(--t2);margin-top:2px}
+.rpt-close{margin-left:auto;background:var(--s2);border:1px solid var(--b2);border-radius:var(--rs);width:44px;height:44px;font-size:18px;color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.rpt-close:hover{background:#ececea;color:var(--text)}
+.rpt-close:focus-visible{outline:3px solid var(--bmid);outline-offset:2px}
+.rpt-tabs{display:flex;border-bottom:1px solid var(--b2);background:var(--s2)}
+.rpt-tab{padding:11px 20px;font-size:13px;font-weight:500;color:var(--t2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .13s;background:none;border-top:none;border-left:none;border-right:none}
+.rpt-tab:hover{color:var(--text)}
+.rpt-tab:focus-visible{outline:3px solid var(--bmid);outline-offset:-2px}
+.rpt-tab.active{color:var(--blue);border-bottom-color:var(--blue);background:var(--surface)}
+.rpt-tab.active.violet{color:var(--violet);border-bottom-color:var(--violet)}
+.rpt-dq{padding:11px 20px;border-bottom:1px solid var(--b1);font-size:12px}
+.rpt-dq.info-blue{background:var(--bbg);color:var(--blue)}
+.rpt-dq.info-violet{background:var(--vbg);color:var(--violet)}
+.rpt-dq.info-amber{background:var(--abg);color:var(--amber)}
+.rpt-dq-top{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.rpt-dq-head{display:flex;align-items:center;gap:7px;font-weight:600;font-size:12px}
+.rpt-dq-head svg{flex-shrink:0;opacity:.8}
+.rpt-dq-pills{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.rpt-dq-pill{display:flex;align-items:baseline;gap:5px}
+.rpt-dq-pill .n{font-size:16px;font-weight:700;line-height:1}
+.rpt-dq-pill .n.teal{color:var(--teal)}
+.rpt-dq-pill .n.amber{color:var(--amber)}
+.rpt-dq-pill .n.violet{color:var(--violet)}
+.rpt-dq-note{margin-top:7px;font-size:11px;color:var(--t2);line-height:1.5}
+.rpt-dq-note.warn{margin-top:8px;padding:7px 11px;background:transparent;border-left:3px solid #9aa5b4;border-radius:0 3px 3px 0;color:var(--t2);font-size:11px;line-height:1.6}
+.rpt-dq-note.warn b{color:var(--text);font-weight:600}
+.rpt-summary{padding:14px 20px;border-bottom:1px solid var(--b1);display:flex;gap:14px;flex-wrap:wrap}
+.rpt-stat{background:var(--s2);border-radius:var(--r);padding:10px 14px;min-width:130px}
+.rpt-stat-l{font-size:11px;color:var(--t2);margin-bottom:3px}
+.rpt-stat-v{font-size:24px;font-weight:700;line-height:1}
+.rpt-stat-v.amber{color:var(--amber)}
+.rpt-stat-v.teal{color:var(--teal)}
+.rpt-stat-v.violet{color:var(--violet)}
+.rpt-controls{padding:12px 20px;border-bottom:1px solid var(--b1);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.rpt-controls select,.rpt-controls input{border:1px solid var(--b2);border-radius:var(--rs);padding:6px 9px;font-size:12px;background:var(--surface);color:var(--text);outline:none}
+.rpt-controls select:focus,.rpt-controls input:focus{border-color:var(--bmid);box-shadow:0 0 0 3px rgba(55,138,221,.2)}
+.rpt-controls input{min-width:180px}
+.rpt-ctrl-label{font-size:11px;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.rpt-export{margin-left:auto;display:flex;gap:8px}
+.rpt-btn{border:1px solid var(--b2);background:var(--surface);border-radius:var(--rs);padding:7px 13px;font-size:12px;font-weight:500;color:var(--t2);cursor:pointer;display:flex;align-items:center;gap:6px}
+.rpt-btn:hover{border-color:var(--bmid);color:var(--blue);background:var(--bbg)}
+.rpt-btn:focus-visible{outline:3px solid var(--bmid);outline-offset:2px}
+.rpt-btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.rpt-btn.primary:hover{background:#13507f}
+.rpt-btn.amber{background:var(--abg);border-color:rgba(168,91,0,.4);color:var(--amber)}
+.rpt-btn.amber:hover{background:#f6e6cf;border-color:var(--amber)}
+.rpt-body{flex:1;overflow-y:auto;position:relative}
+table.rpt-tbl{width:100%;border-collapse:collapse;font-size:13px}
+table.rpt-tbl thead th{position:sticky;top:0;background:var(--s2);z-index:2;text-align:left;padding:9px 12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--t2);border-bottom:1px solid var(--b2);cursor:pointer;white-space:nowrap;user-select:none}
+table.rpt-tbl thead th:hover{color:var(--blue)}
+table.rpt-tbl thead th:focus-visible{outline:3px solid var(--bmid);outline-offset:-2px}
+table.rpt-tbl thead th[aria-sort="ascending"],table.rpt-tbl thead th[aria-sort="descending"]{background:#e8f0fb;color:var(--blue)}
+table.rpt-tbl thead th .arr{font-size:9px;margin-left:3px;opacity:.6}
+table.rpt-tbl tbody td{padding:8px 12px;border-bottom:1px solid var(--b1);vertical-align:top}
+table.rpt-tbl tbody tr{cursor:pointer}
+table.rpt-tbl tbody tr:hover{background:var(--bbg)}
+table.rpt-tbl tbody tr:focus-visible{outline:3px solid var(--bmid);outline-offset:-2px;background:var(--bbg)}
+.rpt-name{font-weight:500}
+.rpt-code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--t2)}
+.rpt-classtag{font-size:11px;padding:2px 8px;border-radius:100px;background:var(--s2);color:var(--t2);white-space:nowrap;display:inline-block}
+.rpt-visntag{font-size:11px;padding:2px 8px;border-radius:100px;background:var(--tbg);color:var(--teal);font-weight:600;white-space:nowrap}
+.rpt-lowtag{font-size:11px;padding:2px 8px;border-radius:100px;background:var(--vbg);color:var(--violet);font-weight:600;white-space:nowrap}
+.rpt-empty{padding:50px 20px;text-align:center;color:var(--t3);font-size:14px}
+.sites-cell{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+.sites-cell:hover .sites-chev{color:var(--blue)}
+.sites-chev{display:inline-flex;transition:transform .15s;color:var(--t3)}
+.sites-chev.open{transform:rotate(90deg);color:var(--blue)}
+.sites-count{font-weight:600}
+tr.child-row td{padding:0;border-bottom:1px solid var(--b1);background:#fbfbfa}
+.child-wrap{padding:4px 12px 8px 34px}
+table.child-tbl{width:100%;border-collapse:collapse}
+table.child-tbl td{padding:5px 10px;border-bottom:1px solid var(--b1);font-size:12px;vertical-align:top}
+table.child-tbl tr:last-child td{border-bottom:none}
+table.child-tbl tr{cursor:pointer}
+table.child-tbl tr:hover td{background:var(--bbg)}
+.child-name{font-weight:500}
+.child-code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--t2)}
+tr.rpt-grp td{background:#fafaf8;font-weight:700;font-size:12px;color:var(--text);padding:10px 12px;border-bottom:1px solid var(--b2);border-top:1px solid var(--b1);position:sticky;top:33px;z-index:1}
+tr.rpt-grp .grp-rate{font-weight:400;color:var(--t2);margin-left:8px}
+.ranked-list{padding:8px 0}
+.rank-row{display:flex;align-items:center;gap:12px;padding:10px 20px;border-bottom:1px solid var(--b1);cursor:pointer}
+.rank-row:hover,.rank-row:focus-visible{background:var(--bbg);outline:none}
+.rank-num{font-size:13px;font-weight:700;color:var(--t3);width:28px;flex-shrink:0;text-align:right}
+.rank-info{flex:1;min-width:0}
+.rank-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rank-sub{font-size:11px;color:var(--t3);margin-top:2px}
+.rank-bar-wrap{width:180px;flex-shrink:0}
+.rank-bar{height:8px;border-radius:4px;background:var(--s2);overflow:hidden;margin-bottom:3px}
+.rank-bar-fill{height:100%;border-radius:4px;background:var(--violet)}
+.rank-bar-label{font-size:11px;color:var(--t2);text-align:right}
+.rank-tier{font-size:10px;padding:2px 8px;border-radius:100px;font-weight:600;flex-shrink:0;white-space:nowrap}
+.rank-tier-vlow{background:#f0e8fa;color:#4e2080}
+.rank-tier-low{background:var(--vbg);color:var(--violet)}
+.rank-tier-mod{background:#f5f0fb;color:#8f5cc4}
+.rank-visntag{font-size:10px;padding:2px 7px;border-radius:100px;background:var(--tbg);color:var(--teal);font-weight:600;flex-shrink:0}
+.bm-row{display:flex;align-items:center;gap:12px;padding:10px 20px;border-bottom:1px solid var(--b1);cursor:pointer}
+.bm-row:hover,.bm-row:focus-visible{background:var(--bbg);outline:none}
+.bm-rank{font-size:13px;font-weight:700;color:var(--t3);width:22px;flex-shrink:0;text-align:right}
+.bm-info{flex:1;min-width:0}
+.bm-name{font-size:13px;font-weight:600}
+.bm-sub{font-size:11px;color:var(--t3);margin-top:2px}
+.bm-bar-wrap{width:160px;flex-shrink:0}
+.bm-bar{height:8px;border-radius:4px;background:var(--s2);overflow:hidden;margin-bottom:3px}
+.bm-bar-fill{height:100%;border-radius:4px}
+.bm-bar-label{font-size:11px;color:var(--t2);text-align:right}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:10px 18px;border-radius:100px;font-size:13px;z-index:10002;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+#sr-live{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+</style>
+
+<a class="skip-link" href="#panel">Skip map — go to data panel</a>
+<div id="brand" role="banner" tabindex="0" aria-label="VHA LEAF Adoption Map — return to national overview">
+  <div id="brand-mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 7h-3v3h-2v-3H6v-2h3V8h2v3h3v2zm0-7h-4V4h4v2z"/></svg></div>
+  <div id="brand-text"><div id="brand-title">Veterans Health Administration</div><div id="brand-sub">Interactive LEAF Activity Map</div></div>
+  <div id="brand-asof"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>Data as of <b id="asofDate">—</b></span></div>
+</div>
+<div id="tb" role="toolbar" aria-label="Map controls">
+  <div id="sw" role="search">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input id="si" type="text" placeholder="Search VISN, state, city, station name or #…" autocomplete="off" aria-label="Search VISNs, states, and facilities" role="combobox" aria-expanded="false" aria-controls="sr" aria-autocomplete="list" aria-haspopup="listbox">
+    <div id="sr" role="listbox" aria-label="Search results"></div>
+    <div id="sr-live" aria-live="polite" aria-atomic="true"></div>
+  </div>
+  <div id="hint" aria-live="polite">Hover a VISN region to preview</div>
+  <div class="chips" role="list" aria-label="Summary statistics">
+    <div class="chip" role="listitem">Stations<b id="cs" aria-live="polite">—</b></div>
+    <div class="chip" role="listitem">Sites<b id="cp" aria-live="polite">—</b></div>
+    <div class="chip" role="listitem">Requests<b id="cr" aria-live="polite">—</b></div>
+    <button class="chip-trend" id="trendChip" aria-label="View adoption trends and snapshots">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg>
+      Trends<b id="trendCount">—</b>
+    </button>
+  </div>
+</div>
+<div id="body">
+  <div id="mw" role="main">
+    <div id="lo" aria-live="polite"><div class="spin" aria-hidden="true"></div><div id="lm">Loading…</div></div>
+    <svg id="usMap" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 450" role="group" aria-label="Interactive VISN regions map. Use Tab to move between regions, Enter or Space to select."></svg>
+    <div id="shadeWrap" role="group" aria-label="Map shading mode">
+      <div id="shadeRow">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <label for="shadeSelect" style="position:absolute;left:-9999px">Map shading</label>
+        <select id="shadeSelect" aria-label="Select map shading mode">
+          <option value="0">No shading</option>
+          <option value="2">Shade by utilization depth</option>
+          <option value="1">Shade by adoption rate</option>
+        </select>
+      </div>
+      <div class="shade-note" id="shadeNote">Reflects active time window</div>
+    </div>
+    <div id="mapLegend" aria-hidden="true">
+      <div class="ml-title" id="legendTitle">Utilization depth by VISN</div>
+      <div class="ml-bar ml-bar-util" id="legendBar"></div>
+      <div class="ml-scale" id="legendScale"><span>Lowest</span><span>Median</span><span>Highest</span></div>
+      <div class="ml-pattern-note" id="legendPatternNote">Color shows relative request volume among adopted groups.</div>
+    </div>
+  </div>
+  <div id="panel" role="complementary" aria-label="Detail panel" tabindex="-1">
+    <div id="panelWindowBar" style="display:flex;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid var(--b2);background:var(--surface);flex-shrink:0;position:sticky;top:0;z-index:20">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:.5;flex-shrink:0" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <label for="windowSelect" style="font-size:12px;color:var(--t2);font-weight:500;white-space:nowrap">Time window</label>
+      <select id="windowSelect" aria-label="Select time window" style="border:1px solid var(--b2);border-radius:var(--rs);padding:4px 8px;font-size:12px;color:var(--blue);font-weight:600;background:var(--bbg);outline:none;cursor:pointer;flex:1">
+        <option value="18">All data (18 mo)</option>
+        <option value="12">Last 12 months</option>
+        <option value="6">Last 6 months</option>
+        <option value="3">Last 3 months</option>
+      </select>
+    </div>
+    <div id="pe"><div class="spin" style="width:20px;height:20px" aria-hidden="true"></div><p>Loading national overview…</p></div>
+    <div id="landing" aria-label="National LEAF overview"></div>
+    <div id="pc" aria-label="Detail view"></div>
+  </div>
+</div>
+
+<!-- Report Modal -->
+<div id="rptOverlay" role="dialog" aria-modal="true" aria-labelledby="rptModalTitle" style="display:none">
+  <div id="rptModal">
+    <div class="rpt-head"><div><div class="rpt-title" id="rptModalTitle">Report</div><div class="rpt-title-sub" id="rptModalSub"></div></div><button class="rpt-close" id="rptClose" aria-label="Close report">×</button></div>
+    <div class="rpt-tabs" id="rptTabs" style="display:none" role="tablist">
+      <button class="rpt-tab active violet" id="tabTable" role="tab" aria-selected="true" aria-controls="rptBody"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;margin-right:5px;vertical-align:-1px" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>Table</button>
+      <button class="rpt-tab violet" id="tabRanked" role="tab" aria-selected="false" aria-controls="rptBody"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;margin-right:5px;vertical-align:-1px" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Ranked by volume</button>
+    </div>
+    <div class="rpt-dq" id="rptDq"></div>
+    <div class="rpt-summary" id="rptSummary"></div>
+    <div class="rpt-controls" id="rptControls">
+      <span class="rpt-ctrl-label">Filter</span>
+      <select id="fVisn" aria-label="Filter by VISN"><option value="">All VISNs</option></select>
+      <select id="fState" aria-label="Filter by state"><option value="">All states</option></select>
+      <select id="fClass" aria-label="Filter by facility type"><option value="">All facility types</option></select>
+      <input id="fSearch" type="text" placeholder="Search name / city / code…" aria-label="Search">
+      <div class="rpt-export">
+        <button class="rpt-btn" id="btnCopy"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy</button>
+        <button class="rpt-btn primary" id="btnCsv"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Export CSV</button>
+      </div>
+    </div>
+    <div class="rpt-body" id="rptBody" role="tabpanel"></div>
+  </div>
+</div>
+
+<!-- Trends Modal -->
+<div id="trendOverlay" role="dialog" aria-modal="true" aria-labelledby="trendModalTitle" style="position:fixed;inset:0;z-index:10000;background:rgba(20,20,18,.45);display:none;align-items:center;justify-content:center;padding:24px">
+  <div id="trendModal" style="background:var(--surface);border-radius:12px;width:100%;max-width:1180px;height:100%;max-height:900px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+    <div class="rpt-head"><div><div class="rpt-title" id="trendModalTitle">Utilization Trends Over Time</div><div class="rpt-title-sub">Compare any two captured snapshots — track depth improvements, sleeping giant resolution &amp; VISN movement vs peer median.</div></div><button class="rpt-close" id="trendClose" aria-label="Close trends">×</button></div>
+    <div style="padding:12px 20px;border-bottom:1px solid var(--b1);display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--s2)">
+      <button id="snapCaptureBtn" class="rpt-btn primary"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Capture today's snapshot</button>
+      <span id="snapCaptureNote" style="font-size:12px;color:var(--t3)" aria-live="polite"></span>
+      <button id="snapRefresh" class="rpt-btn" style="margin-left:auto" aria-label="Reload snapshot history"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>Reload history</button>
+    </div>
+    <div id="trendPickers" style="padding:12px 20px;border-bottom:1px solid var(--b1);display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+      <span style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--t3)">Compare</span>
+      <select id="snapA" aria-label="Earlier snapshot" style="border:1px solid var(--b2);border-radius:var(--rs);padding:6px 9px;font-size:12px;background:var(--surface);color:var(--text)"></select>
+      <span style="color:var(--t3);font-size:13px" aria-hidden="true">→</span>
+      <select id="snapB" aria-label="Later snapshot" style="border:1px solid var(--b2);border-radius:var(--rs);padding:6px 9px;font-size:12px;background:var(--surface);color:var(--text)"></select>
+      <span id="trendSpan" style="font-size:12px;color:var(--t3);margin-left:6px" aria-live="polite"></span>
+    </div>
+    <div id="snapList" style="padding:8px 20px;border-bottom:1px solid var(--b1);max-height:120px;overflow-y:auto;background:var(--s2)" role="list" aria-label="Captured snapshots"></div>
+    <div id="trendBody" class="rpt-body" style="padding:0"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+<script src="https://leaf.va.gov/launchpad/files/visnFacilityHelper.js"></script>
+<script src="./files/lz-string.min.js"></script>
+<script>
+// ── Admin status ──
+const ucUserIsAdmin = true;
+
+// ── Use Case constants — defined first before any function uses them ──
+const UC_BASE         = 'https://leaf.va.gov/platform/map_data/';
+const UC_FORM_ID      = 'form_db2c5';
+const UC_INDICATOR_ID = 6;
+
+const fmt=n=>n==null?'0':new Intl.NumberFormat('en-US').format(n);
+const fmtK=n=>{if(!n)return'0';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return String(n);};
+
+const VISN_STATES={
+  'VISN 1':['ME','VT','NH','MA','CT','RI'],'VISN 2':['NY','NJ'],'VISN 4':['PA','NJ','DE','MD'],
+  'VISN 5':['WV','MD','DC','VA'],'VISN 6':['VA','NC'],'VISN 7':['GA','AL','SC'],
+  'VISN 8':['FL','PR','VI'],'VISN 9':['TN','KY'],'VISN 10':['OH','IN','MI'],
+  'VISN 12':['WI','IL'],'VISN 15':['KS','MO'],'VISN 16':['AR','MS','LA','OK'],
+  'VISN 17':['TX'],'VISN 19':['MT','WY','UT','CO','OK'],'VISN 20':['WA','OR','ID','AK'],
+  'VISN 21':['CA','NV','HI','PH','GU','AS','MP'],'VISN 22':['CA','NV','AZ','NM'],
+  'VISN 23':['ND','SD','NE','MN','IA']
+};
+const STATE_VISNS={};
+Object.entries(VISN_STATES).forEach(([v,ss])=>{ss.forEach(s=>{if(!STATE_VISNS[s])STATE_VISNS[s]=[];if(!STATE_VISNS[s].includes(v))STATE_VISNS[s].push(v);});});
+const SN={AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',CT:'Connecticut',DE:'Delaware',DC:'Washington D.C.',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',MS:'Mississippi',MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',NY:'New York',NC:'North Carolina',ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming',PI:'Philippines Is.',PH:'Philippines',GU:'Guam',AS:'American Samoa',MP:'N. Mariana Is.',PR:'Puerto Rico',VI:'Virgin Is.'};
+const NON_FACILITY_CLASSES=new Set(['VISN','VISN Office']);
+const LARGE_CLASSES=new Set(['VA Medical Center','VA Medical Center/Domiciliary','Vet Center','Residential Care','Domiciliary']);
+
+// ── UC helper constants ──
+const UC_EXCLUDE_WORDS=new Set(['test','sandbox','demo','sample','temp','dummy','practice','trial','uat','delete','old','archive','other','setup']);
+const UC_EXCLUDE_PREFIXES=['zz','aaa','[test]','[demo]'];
+const UC_STRIP_SUFFIXES=[' requests',' request',' process',' processes',' form',' forms'];
+
+// ── App state ──
+let rawRows=[],dataMaxDate=null,activeWindowMonths=18,windowLabel='All data (18 mo)';
+let stableStationData={},telemetrySites=new Set(),telemetryGroups=new Set(),telemetryPortals=new Set();
+let stateData={},visnStateData={},visnData={},stationData={};
+let facilities=[],facilityMap={},stationGroups=[],nonAdopters=[],lowActivityGroups=[],partialAdoptionGaps=[];
+let visnAdoption={},classAdoption={};
+let nationalStats={leafSites:0,requests:0,groups:0,adoptedGroups:0,facilities:0,adoptedFacilities:0};
+let dqInfo={distinctGroups:0,adoptedGroups:0,splitGroups:0};
+let LOW_ACTIVITY_THRESHOLD=0;
+let ucData=null,ucFetching=false;
+let dataGenerateDate='';
+let rptTriggerEl=null,trendTriggerEl=null;
+let visnDepth={};
+let nationalMedianRps=0;
+let sleepingGiants=[];
+let totalVolumeOpportunity=0;
+
+function parentOf(c){return String(c).replace(/[A-Za-z].*$/,'');}
+function groupKeyOf(f){return parentOf(f.code)+'|'+String(f.state||'').trim().toUpperCase();}
+
+const INFO={
+  window:'Request counts reflect submissions in the rolling <strong>18-month window</strong> ending on this date, or the filtered time frame selected above — not all-time.',
+  adopt:'"On LEAF" means request telemetry was recorded for this station group within the full 18-month window.',
+  parentChild:'A group counts as "on LEAF" if any clinic in that location has telemetry.',
+  lowActivity:'Low-activity threshold is the 25th percentile of total requests across all adopted station groups (floor: 10) for the current time frame.',
+  windowSelector:'Changing the window adjusts <strong>request volumes and low-activity rankings only</strong>. Adoption status always reflects the full 18-month file.',
+  sleepingGiants:'Adopted station groups in the bottom 25% by request volume <strong>that contain at least one large facility</strong> (VA Medical Center, Vet Center, etc.). Already on LEAF — just underutilizing it.',
+  peerMedian:'The median requests-per-adopted-station-group across all VISNs for the selected time window.',
+  belowMedian:'Number of VISNs currently performing below the national peer median for requests per adopted station group.',
+};
+function infoBtn(key){return`<button class="info-btn" tabindex="0" data-tip-key="${key}" onmouseenter="showTip(this)" onfocus="showTip(this)" onmouseleave="hideTip(this)" onblur="hideTip(this)">ⓘ</button>`;}
+
+let tipPortal=null,tipBubble=null,tipHideTimer=null;
+function ensureTipPortal(){if(tipPortal)return;tipPortal=document.createElement('div');tipPortal.id='tipPortal';tipBubble=document.createElement('div');tipBubble.className='tip-bubble';tipBubble.setAttribute('role','tooltip');tipPortal.appendChild(tipBubble);document.body.appendChild(tipPortal);}
+function showTip(btn){clearTimeout(tipHideTimer);ensureTipPortal();const key=btn.dataset.tipKey;tipBubble.innerHTML=INFO[key]||'';tipBubble.classList.add('on');const br=btn.getBoundingClientRect(),vw=window.innerWidth,pad=10,tw=240,th=tipBubble.offsetHeight||80;let left=br.left+br.width/2-tw/2;if(left+tw>vw-pad)left=vw-pad-tw;if(left<pad)left=pad;let top=br.top-th-10;if(top<pad)top=br.bottom+10;tipBubble.style.left=left+'px';tipBubble.style.top=top+'px';}
+function hideTip(){tipHideTimer=setTimeout(()=>{if(tipBubble)tipBubble.classList.remove('on');},120);}
+
+function windowStartDate(months){if(!dataMaxDate)return new Date(0);const d=new Date(dataMaxDate);d.setMonth(d.getMonth()-(months-1));return d;}
+function activeWindowStart(){return windowStartDate(activeWindowMonths);}
+function windowLabelFor(months){const opts={18:'All data (18 mo)',12:'Last 12 months',6:'Last 6 months',3:'Last 3 months'};return opts[months]||months+' months';}
+
+function buildDirectory(){
+  const raw=new VAFacilityHelper().getData();
+  facilities=raw.filter(e=>e.visn!=='VISN'&&e.code&&e.name&&!NON_FACILITY_CLASSES.has(e.class));
+  facilities.forEach(f=>{facilityMap[f.code]=f;});
+}
+
+function buildStableAdoption(){
+  const lkp={};facilities.forEach(f=>{if(f.code&&f.state)lkp[String(f.code).trim()]=String(f.state).trim().toUpperCase();});
+  telemetrySites=new Set();telemetryGroups=new Set();telemetryPortals=new Set();stableStationData={};
+  const seen={};
+  rawRows.forEach(row=>{
+    const site=String(row.site||'').trim(),nr=Number(row.numRecords)||0,lid=row.launchpadID;
+    if(!site)return;
+    telemetrySites.add(site);
+    const sst=lkp[site];if(sst)telemetryGroups.add(parentOf(site)+'|'+sst);
+    if(!stableStationData[site])stableStationData[site]={fac:0,req:0};
+    stableStationData[site].req+=nr;
+    const k=site+'|'+lid;if(!seen[k]){stableStationData[site].fac++;seen[k]=1;}
+  });
+  telemetryPortals=new Set(rawRows.map(r=>String(r.siteID||'').trim()).filter(s=>s));
+}
+
+function aggregate(startDate){
+  const lkp={};facilities.forEach(f=>{if(f.code&&f.state)lkp[String(f.code).trim()]=String(f.state).trim().toUpperCase();});
+  stateData={};visnStateData={};stationData={};
+  const seenS={},seenVS={},seenST={};
+  const filtered=rawRows.filter(r=>r.submitted>=startDate);
+  filtered.forEach(row=>{
+    const site=String(row.site||'').trim(),vk=String(row.visn||'').trim(),nr=Number(row.numRecords)||0,lid=row.launchpadID;
+    if(!site||!vk||vk==='NATIONAL'||!vk.startsWith('VISN'))return;
+    const st=lkp[site];if(!st)return;
+    if(!stateData[st])stateData[st]={fac:0,req:0};stateData[st].req+=nr;
+    const ks=st+'|'+lid;if(!seenS[ks]){stateData[st].fac++;seenS[ks]=1;}
+    if(!visnStateData[vk])visnStateData[vk]={};if(!visnStateData[vk][st])visnStateData[vk][st]={fac:0,req:0};
+    visnStateData[vk][st].req+=nr;
+    const kvs=vk+'|'+st+'|'+lid;if(!seenVS[kvs]){visnStateData[vk][st].fac++;seenVS[kvs]=1;}
+    if(!stationData[site])stationData[site]={fac:0,req:0};stationData[site].req+=nr;
+    const kst=site+'|'+lid;if(!seenST[kst]){stationData[site].fac++;seenST[kst]=1;}
+  });
+  Object.entries(visnStateData).forEach(([vk,states])=>{visnData[vk]={fac:0,req:0};Object.values(states).forEach(d=>{visnData[vk].fac+=d.fac;visnData[vk].req+=d.req;});});
+  let tr=0;Object.values(stateData).forEach(d=>{tr+=d.req;});
+  document.getElementById('cs').textContent=fmt(stationGroups.filter(g=>g.adopted).length);
+  document.getElementById('cp').textContent=fmt(telemetryPortals.size);
+  document.getElementById('cr').textContent=fmtK(tr);
+  computeNonAdopters();
+}
+
+function buildData(fd){
+  for(let i=0;i<fd.length;i++){const s=fd[i].submitted;if(!(s instanceof Date))fd[i].submitted=new Date(s);}
+  rawRows=fd;
+  let maxMs=0;for(let i=0;i<rawRows.length;i++){const t=rawRows[i].submitted.getTime();if(t>maxMs)maxMs=t;}
+  dataMaxDate=new Date(maxMs);dataMaxDate.setDate(1);dataMaxDate.setHours(0,0,0,0);
+  setTimeout(()=>{buildDirectory();setTimeout(()=>{buildStableAdoption();setTimeout(()=>{aggregate(activeWindowStart());},0);},0);},0);
+}
+
+function groupIsAdopted(key){return telemetryGroups.has(key);}
+function isAdopted(code){const f=facilityMap[code];if(!f)return telemetrySites.has(code);return groupIsAdopted(groupKeyOf(f));}
+
+function computeDepthMetrics(){
+  const rpsValues=[];
+  Object.entries(visnAdoption).forEach(([vk,a])=>{const rps=a.adopted>0?Math.round(a.adoptedReq/a.adopted):0;rpsValues.push({vk,rps});});
+  const sorted=[...rpsValues].map(x=>x.rps).sort((a,b)=>a-b);
+  const mid=Math.floor(sorted.length/2);
+  nationalMedianRps=sorted.length%2!==0?sorted[mid]:Math.round((sorted[mid-1]+sorted[mid])/2);
+  visnDepth={};
+  rpsValues.forEach(({vk,rps})=>{
+    const pctOfMedian=nationalMedianRps>0?Math.round((rps/nationalMedianRps)*100):0;
+    const a=visnAdoption[vk];const adoptionRate=a.total>0?a.adopted/a.total:0;
+    let posture;
+    if(rps===0)posture='no-data';
+    else if(pctOfMedian>=110)posture='above-median';
+    else if(adoptionRate>=0.85&&pctOfMedian<60)posture='sleeping';
+    else if(pctOfMedian<60)posture='low-depth';
+    else posture='near-median';
+    visnDepth[vk]={rps,pctOfMedian,posture};
+  });
+  sleepingGiants=stationGroups.filter(g=>{if(!g.adopted)return false;if(g.req>LOW_ACTIVITY_THRESHOLD)return false;return g.children.some(c=>LARGE_CLASSES.has(c.class));}).sort((a,b)=>a.req-b.req);
+  totalVolumeOpportunity=sleepingGiants.reduce((sum,g)=>sum+Math.max(0,nationalMedianRps-g.req),0);
+}
+
+function computeNonAdopters(){
+  const groups={};
+  facilities.forEach(f=>{const k=groupKeyOf(f);(groups[k]=groups[k]||[]).push(f);});
+  stationGroups=Object.entries(groups).map(([key,kids])=>{
+    const[par,st]=key.split('|');
+    let rep=kids.find(k=>k.code===par)||kids.find(k=>/VA Medical Center/i.test(k.class))||kids.slice().sort((a,b)=>a.code.localeCompare(b.code))[0];
+    let req=0,leafSites=0;
+    kids.forEach(k=>{const sd=stationData[k.code];if(sd){req+=sd.req;leafSites+=sd.fac;}});
+    return{key,parent:par,code:par,state:st,name:rep.name,class:rep.class,city:rep.city,visn:rep.visn,children:kids,childCount:kids.length,adopted:groupIsAdopted(key),req,leafSites};
+  });
+  nonAdopters=stationGroups.filter(g=>!g.adopted).sort((a,b)=>(SN[a.state]||a.state).localeCompare(SN[b.state]||b.state)||a.name.localeCompare(b.name));
+  partialAdoptionGaps=[];
+  stationGroups.filter(g=>g.adopted).forEach(g=>{
+    const silentKids=g.children.filter(c=>!telemetrySites.has(c.code)&&!telemetrySites.has(parentOf(c.code)));
+    if(silentKids.length>0)partialAdoptionGaps.push({...g,silentChildren:silentKids,silentCount:silentKids.length});
+  });
+  partialAdoptionGaps.sort((a,b)=>b.silentCount-a.silentCount||a.name.localeCompare(b.name));
+  const adoptedReqs=stationGroups.filter(g=>g.adopted).map(g=>g.req).sort((a,b)=>a-b);
+  if(adoptedReqs.length){const p25=Math.floor(adoptedReqs.length*0.25);LOW_ACTIVITY_THRESHOLD=Math.max(10,adoptedReqs[p25]);}else LOW_ACTIVITY_THRESHOLD=10;
+  lowActivityGroups=stationGroups.filter(g=>g.adopted&&g.req<=LOW_ACTIVITY_THRESHOLD).sort((a,b)=>a.req-b.req||a.name.localeCompare(b.name));
+  visnAdoption={};
+  stationGroups.forEach(g=>{
+    const vk='VISN '+g.visn;
+    if(!visnAdoption[vk])visnAdoption[vk]={total:0,adopted:0,nonAdopted:0,lowActivity:0,totalReq:0,adoptedReq:0};
+    visnAdoption[vk].total++;visnAdoption[vk].totalReq+=g.req;
+    if(g.adopted){visnAdoption[vk].adopted++;visnAdoption[vk].adoptedReq+=g.req;}else visnAdoption[vk].nonAdopted++;
+    if(g.adopted&&g.req<=LOW_ACTIVITY_THRESHOLD)visnAdoption[vk].lowActivity++;
+  });
+  const psc={};stationGroups.forEach(g=>{(psc[g.parent]=psc[g.parent]||new Set()).add(g.state);});
+  dqInfo={distinctGroups:stationGroups.length,adoptedGroups:stationGroups.filter(g=>g.adopted).length,splitGroups:Object.values(psc).filter(s=>s.size>1).length};
+  classAdoption={};
+  facilities.forEach(f=>{if(!classAdoption[f.class])classAdoption[f.class]={total:0,adopted:0};classAdoption[f.class].total++;if(isAdopted(f.code))classAdoption[f.class].adopted++;});
+  let requests=0,adoptedFac=0;
+  facilities.forEach(f=>{if(isAdopted(f.code))adoptedFac++;});
+  Object.values(stateData).forEach(d=>{requests+=d.req;});
+  nationalStats={leafSites:telemetrySites.size,requests,groups:stationGroups.length,adoptedGroups:stationGroups.filter(g=>g.adopted).length,facilities:facilities.length,adoptedFacilities:adoptedFac};
+  document.getElementById('cs').textContent=fmt(nationalStats.adoptedGroups);
+  document.getElementById('cp').textContent=fmt(telemetryPortals.size);
+  computeDepthMetrics();
+  buildReportFilters();
+  if(!dataReady){dataReady=true;ucLoadCache().then(()=>renderLanding()).catch(()=>renderLanding());}
+}
+
+let dataReady=false;
+function applyWindowChange(){aggregate(activeWindowStart());applyShade();if(selId){renderVISN(selId);}const pc=document.getElementById('pc');if(pc.classList.contains('on'))return;renderLanding();}
+function getStationData(code){if(stationData[code])return stationData[code];const p=code.replace(/[A-Z]+$/,'');if(p!==code&&stationData[p])return stationData[p];return null;}
+function isLowActivity(code){const f=facilityMap[code];if(!f)return false;const g=stationGroups.find(x=>x.key===groupKeyOf(f));return g&&g.adopted&&g.req<=LOW_ACTIVITY_THRESHOLD;}
+function isSleepingGiant(code){return sleepingGiants.some(g=>g.code===parentOf(code)||g.children.some(c=>c.code===code));}
+
+// ─────────────────────────────────────────
+// USE CASE DATA
+// Cache: {fetchedAt, responded, total, categories:[{category,count}]}
+// sessionFormNames kept in memory only — never written to cache
+// ─────────────────────────────────────────
+function ucIsExcluded(name){const l=name.toLowerCase().trim();if(UC_EXCLUDE_PREFIXES.some(p=>l.startsWith(p)))return true;if(UC_EXCLUDE_WORDS.has(l))return true;return/\b(test|sandbox|demo|sample|temp|dummy|practice|trial|uat)\b/.test(l);}
+function ucNormalize(name){let n=name.toLowerCase().trim().replace(/\s+/g,' ').replace(/[^\w\s]/g,'');for(const s of UC_STRIP_SUFFIXES){if(n.endsWith(s)){n=n.slice(0,n.length-s.length).trim();break;}}if(n.length>4&&n.endsWith('es'))n=n.slice(0,-2);else if(n.length>4&&n.endsWith('s'))n=n.slice(0,-1);return n;}
+function ucGetCategory(name){const l=(name||'').toLowerCase();const T=[{label:'Clinic Requests',patterns:[/\bclinic\b/]},{label:'Travel',patterns:[/\btravel\b/,/\bconference\b/]},{label:'Training',patterns:[/\btraining\b/]},{label:'Equipment',patterns:[/\bequipment\b/]},{label:'Work Orders',patterns:[/work order/]},{label:'Space & Facilities',patterns:[/\bspace\b/,/interior design/,/pest control/,/property pass/,/\breproduction\b/,/\bfacilities\b/,/\brenovation\b/]},{label:'Pay & Compensation',patterns:[/premium pay/,/\bpay\b/,/\bcompensation\b/,/\bovertime\b/,/\baward\b/]},{label:'Scheduling',patterns:[/\bscheduler\b/,/\bscheduling\b/,/\bappointment\b/]},{label:'Business Services',patterns:[/business card/,/\bprinting\b/]},{label:'Data & Reporting',patterns:[/data request/,/\bdata\b/,/\breport\b/]},{label:'IT & Access',patterns:[/\baccess\b/,/it request/,/\bcomputer\b/]},{label:'HR & Personnel',patterns:[/\bpersonnel\b/,/\bemployee\b/,/\bemp\b/,/\bonboard/,/\bseparation\b/]}];for(const cat of T){if(cat.patterns.some(p=>p.test(l)))return cat.label;}return'Other / Uncategorized';}
+
+// ── Fetch CSRF from map_data ──
+async function ucFetchCsrf(){
+  try{
+    const r=await fetch(UC_BASE,{credentials:'include'});
+    const html=await r.text();
+    const m=html.match(/var CSRFToken\s*=\s*['"]([^'"]+)['"]/);
+    if(m)return m[1];
+  }catch(e){}
+  return window.CSRFToken||'';
+}
+
+// ── Load most recent cache from map_data ──
+async function ucLoadCache(){
+  try{
+    const q={terms:[{id:'categoryID',operator:'=',match:UC_FORM_ID}],joins:[],getData:[String(UC_INDICATOR_ID)],sort:{column:'date',direction:'DESC'},limit:1};
+    const r=await fetch(UC_BASE+'api/form/query?q='+encodeURIComponent(JSON.stringify(q)),{credentials:'include'});
+    if(!r.ok)return;
+    const res=await r.json();
+    const keys=Object.keys(res||{});if(!keys.length)return;
+    const s=res[keys[0]]?.s1;
+    const raw=s?.['id'+UC_INDICATOR_ID]||res[keys[0]]?.['id'+UC_INDICATOR_ID];
+    if(!raw)return;
+    // API returns HTML-entity encoded JSON — decode before parsing
+    const decoded=String(raw).replace(/&quot;/g,'"').replace(/&amp;/g,'&').replace(/&#039;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+    const parsed=JSON.parse(decoded);
+    if(parsed?.categories||parsed?.forms){
+      ucData={
+        fetchedAt:new Date(parsed.fetchedAt),
+        responded:parsed.responded||0,
+        total:parsed.total||0,
+        categories:parsed.categories||(parsed.forms||[]).map(f=>({category:f.category,count:f.count}))
+      };
+      refreshUcLandingBtn();
+    }
+  }catch(e){console.warn('UC cache load:',e);}
+}
+
+// ── Save slim cache to map_data ──
+async function ucSaveCache(){
+  if(!ucData||!ucUserIsAdmin)return;
+  try{
+    const slim={fetchedAt:ucData.fetchedAt.toISOString(),responded:ucData.responded,total:ucData.total,categories:ucData.categories};
+    const json=JSON.stringify(slim);
+    const csrf=await ucFetchCsrf();
+
+    // Create record using ajaxIndex (same pattern as SNAP module)
+    const b=new URLSearchParams();
+    b.set('service','0');b.set('priority','0');
+    b.set('title','UC Cache '+new Date().toISOString().slice(0,10));
+    b.set('num'+UC_FORM_ID,'on');
+    b.set('CSRFToken',csrf);
+    const cr=await fetch(UC_BASE+'ajaxIndex.php?a=newform',{method:'POST',credentials:'include',body:b,redirect:'follow'});
+
+    // Parse recordID from redirect URL
+    const m=cr.url.match(/recordID=(\d+)/);
+    if(!m){console.warn('[UC save] no recordID in redirect:',cr.url);return;}
+    const recID=Number(m[1]);
+
+    // Write indicator to map_data API using entry endpoint
+    const b2=new URLSearchParams();
+    b2.set('recordID',String(recID));
+    b2.set('indicatorID',String(UC_INDICATOR_ID));
+    b2.set('data',json);
+    b2.set('CSRFToken',csrf);
+    const wr=await fetch(UC_BASE+'api/form/entry',{method:'POST',credentials:'include',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b2.toString()});
+    if(!wr.ok){console.warn('[UC save] write failed',wr.status);return;}
+    showToast('Use case cache saved');
+  }catch(e){console.warn('UC save error:',e);}
+}
+
+function refreshUcLandingBtn(){
+  const sec=document.getElementById('uc-section');if(!sec||!ucData)return;
+  const btn=sec.querySelector('.uc-btn');if(!btn)return;
+  const d=ucData.fetchedAt instanceof Date?ucData.fetchedAt:new Date(ucData.fetchedAt);
+  const ds=d.toLocaleDateString([],{month:'short',day:'numeric',year:'numeric'});
+  btn.innerHTML=`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> View use case data <span style="font-weight:400;color:var(--t3);font-size:11px">· Last updated ${ds}</span>`;
+  btn.onclick=openUcModal;
+  const res=sec.querySelector('.uc-results');
+  if(res){res.style.display='block';res.innerHTML=`<div style="font-size:11px;color:var(--t3);text-align:center">${ucData.responded} sites responded</div>`;}
+}
+
+async function fetchUseCases(){
+  if(ucFetching)return;ucFetching=true;openUcModal();await new Promise(r=>setTimeout(r,50));renderUcModalPhase1(0);
+  const BATCH=500;const slugMap={};let offset=0,totalRecords=0;
+  const baseQ={terms:[{id:'stepID',operator:'=',match:'64'},{id:'deleted',operator:'=',match:'0',gate:'AND'},{id:'data',indicatorID:36,operator:'=',match:'No',gate:'AND'}],joins:[],getData:[22,21],sort:{}};
+  while(true){
+    const q={...baseQ,limit:BATCH,limitOffset:offset};let res;
+    try{const r=await fetch(`https://leaf.va.gov/launchpad/api/form/query?q=${encodeURIComponent(JSON.stringify(q))}`,{credentials:'include'});if(!r.ok)break;res=await r.json();}catch(e){break;}
+    const keys=Object.keys(res||{});if(!keys.length)break;totalRecords+=keys.length;renderUcModalPhase1(totalRecords);
+    keys.forEach(k=>{const s=res[k]?.s1;if(!s)return;const root=String(s.id22||'').trim(),slug=String(s.id21||'').trim();if(!root||!slug)return;const code=root.split('/').pop();if(!slugMap[code])slugMap[code]=[];const fp=`${root}/${slug}`;if(!slugMap[code].includes(fp))slugMap[code].push(fp);});
+    if(keys.length<BATCH)break;offset+=BATCH;
+  }
+  const adoptedGroups=stationGroups.filter(g=>g.adopted);
+  const targets=[];adoptedGroups.forEach(g=>{(slugMap[g.code]||[]).forEach(p=>targets.push(p));});
+  const total=targets.length;let loaded=0,responded=0;const formCounts={};
+  renderUcModalPhase2(0,total,totalRecords);
+  if(total===0){ucData={categories:[],fetchedAt:new Date(),responded:0,total:0};ucFetching=false;if(ucUserIsAdmin)ucSaveCache();renderUcModalResults();return;}
+  const CONCURRENCY=5;let idx=0;
+  async function runWorker(){
+    while(idx<targets.length){
+      const path=targets[idx++];
+      try{const r=await fetch(`https://leaf.va.gov/${path}/api/formStack/categoryList/all?x-filterData=workflowID,categoryName,visible,disabled`,{credentials:'include'});if(r.ok){const forms=await r.json();if(Array.isArray(forms)){forms.forEach(f=>{if(f.workflowID!=0&&f.visible==1&&f.disabled==0&&f.categoryName)formCounts[f.categoryName]=(formCounts[f.categoryName]||0)+1;});responded++;}}}catch(e){}
+      loaded++;renderUcModalPhase2(loaded,total,totalRecords);
+    }
+  }
+  const workers=[];for(let i=0;i<Math.min(CONCURRENCY,total);i++)workers.push(runWorker());
+  await Promise.all(workers);
+  const normalized={};
+  Object.entries(formCounts).forEach(([name,count])=>{if(ucIsExcluded(name))return;const key=ucNormalize(name);if(!key||key.length<3)return;if(!normalized[key])normalized[key]={totalCount:0,nameCounts:{}};normalized[key].totalCount+=count;normalized[key].nameCounts[name]=(normalized[key].nameCounts[name]||0)+count;});
+  const catMap={};
+  Object.values(normalized).forEach(g=>{const displayName=Object.entries(g.nameCounts).sort((a,b)=>b[1]-a[1])[0][0];const cat=ucGetCategory(displayName);if(!catMap[cat])catMap[cat]={count:0,formNames:[]};catMap[cat].count+=g.totalCount;catMap[cat].formNames.push({name:displayName,count:g.totalCount});});
+  const categories=Object.entries(catMap).map(([category,d])=>({category,count:d.count})).sort((a,b)=>{if(a.category==='Other / Uncategorized')return 1;if(b.category==='Other / Uncategorized')return-1;return b.count-a.count;});
+  const sessionFormNames={};Object.entries(catMap).forEach(([cat,d])=>{sessionFormNames[cat]=d.formNames.sort((a,b)=>b.count-a.count);});
+  ucData={categories,fetchedAt:new Date(),responded,total,sessionFormNames};
+  ucFetching=false;if(ucUserIsAdmin)ucSaveCache();refreshUcLandingBtn();renderUcModalResults();
+}
+
+function openUcModal(){
+  let m=document.getElementById('ucOverlay');
+  if(!m){
+    m=document.createElement('div');m.id='ucOverlay';m.setAttribute('role','dialog');m.setAttribute('aria-modal','true');m.setAttribute('aria-label','Top Use Cases — Nationally');
+    m.style.cssText='position:fixed;inset:0;z-index:10001;background:rgba(20,20,18,.45);display:flex;align-items:center;justify-content:center;padding:24px';
+    m.innerHTML=`<div style="background:var(--surface);border-radius:12px;width:100%;max-width:980px;height:90vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+      <div style="padding:16px 20px;border-bottom:1px solid var(--b2);display:flex;align-items:center;gap:12px;flex-shrink:0">
+        <div><div style="font-size:18px;font-weight:700">Top Use Cases — Nationally</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Active form categories across all adopted LEAF sites</div></div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+          <button id="ucCopyBtn" style="display:flex;align-items:center;gap:6px;padding:7px 13px;border:1px solid var(--b2);border-radius:var(--rs);background:var(--surface);font-size:12px;font-weight:500;color:var(--t2);cursor:pointer"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy to clipboard</button>
+          ${ucUserIsAdmin?`<button id="ucRefreshBtn" class="rpt-btn amber" title="Refresh shared cache — updates data for all users" style="display:flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>Refresh shared cache</button>`:''}
+          <button onclick="closeUcModal()" aria-label="Close" style="background:var(--s2);border:1px solid var(--b2);border-radius:var(--rs);width:44px;height:44px;font-size:18px;color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center">×</button>
+        </div>
+      </div>
+      <div id="ucModalBody" style="flex:1;overflow-y:auto;padding:20px"></div>
+    </div>`;
+    m.addEventListener('click',e=>{if(e.target.id==='ucOverlay')closeUcModal();});
+    document.body.appendChild(m);
+    document.getElementById('ucCopyBtn').addEventListener('click',ucCopyToClipboard);
+    if(ucUserIsAdmin){document.getElementById('ucRefreshBtn').addEventListener('click',()=>{if(confirm('This will re-fetch use case data from all adopted LEAF sites and update the shared cache for all users. Continue?')){closeUcModal();fetchUseCases();}});}
+  }
+  m.style.display='flex';if(ucData)renderUcModalResults();trapFocus(m);
+}
+function closeUcModal(){const m=document.getElementById('ucOverlay');if(m)m.style.display='none';}
+function ucModalBody(){return document.getElementById('ucModalBody');}
+
+function ucCopyToClipboard(){
+  if(!ucData||!ucData.categories.length)return;
+  const lines=['Top Use Cases — Nationally','Generated: '+ucData.fetchedAt.toLocaleString(),''];
+  ucData.categories.forEach((cat,i)=>{lines.push(`${i+1}. ${cat.category} — ${cat.count} sites`);if(ucData.sessionFormNames?.[cat.category])ucData.sessionFormNames[cat.category].forEach(f=>lines.push(`   • ${f.name} (${f.count} sites)`));lines.push('');});
+  const text=lines.join('\n');const btn=document.getElementById('ucCopyBtn');const orig=btn?.innerHTML;
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(()=>{if(btn){btn.innerHTML='✓ Copied!';btn.style.color='var(--teal)';setTimeout(()=>{btn.innerHTML=orig;btn.style.color='';},2000);}}).catch(()=>fallbackCopy(text));else fallbackCopy(text);
+}
+function renderUcModalPhase1(records){const b=ucModalBody();if(!b)return;b.innerHTML=`<div style="text-align:center;padding:30px 0" aria-live="polite"><div style="font-size:13px;font-weight:600;color:var(--t2);margin-bottom:16px">Phase 1 of 2 — Loading site directory</div><div role="progressbar" style="height:6px;border-radius:3px;background:var(--b1);overflow:hidden;margin:0 auto 10px;max-width:400px"><div style="height:100%;border-radius:3px;background:var(--bmid);width:${records?'30%':'5%'};transition:width .3s"></div></div><div style="font-size:12px;color:var(--t3)">${records?`${fmt(records)} site records fetched…`:'Starting directory lookup…'}</div></div>`;}
+function renderUcModalPhase2(loaded,total,dirRecords){const b=ucModalBody();if(!b)return;const pct=total?Math.round(loaded/total*100):0;b.innerHTML=`<div style="text-align:center;padding:30px 0" aria-live="polite"><div style="font-size:13px;font-weight:600;color:var(--t2);margin-bottom:6px">Phase 2 of 2 — Fetching forms from sites</div><div style="font-size:11px;color:var(--t3);margin-bottom:14px">${fmt(dirRecords)} site records found</div><div role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" style="height:6px;border-radius:3px;background:var(--b1);overflow:hidden;margin:0 auto 10px;max-width:400px"><div style="height:100%;border-radius:3px;background:var(--bmid);width:${pct}%;transition:width .3s"></div></div><div style="font-size:12px;color:var(--t3)">${loaded} of ${total} site instances queried…</div></div>`;}
+function renderUcModalResults(){
+  const b=ucModalBody();if(!b||!ucData)return;
+  const ts=ucData.fetchedAt instanceof Date?ucData.fetchedAt.toLocaleString([],{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}):new Date(ucData.fetchedAt).toLocaleString([],{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  const cats=ucData.categories||[];const maxCount=cats[0]?.count||1;
+  if(!cats.length){b.innerHTML=`<div style="text-align:center;padding:40px 20px;color:var(--t3);font-size:14px">No form data returned.</div>`;return;}
+  const catHtml=cats.map((cat,i)=>{
+    const pct=Math.round(cat.count/maxCount*100);const isU=cat.category==='Other / Uncategorized';const cid='uc-cat-'+i;
+    const sessionNames=ucData.sessionFormNames?.[cat.category];
+    const fHtml=sessionNames?sessionNames.map(f=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--b1);font-size:12px"><span style="color:var(--t2);flex:1;margin-right:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${f.name}</span><span style="font-weight:600;color:var(--t2);flex-shrink:0">${f.count}</span></div>`).join(''):'<div style="font-size:11px;color:var(--t3);padding:8px 0">Detailed form names available after a fresh fetch.</div>';
+    return`<div style="background:var(--s2);border-radius:var(--r);padding:13px 15px;${isU?'opacity:.7':''}"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;gap:8px"><div style="font-size:13px;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${cat.category}</div><div style="font-size:13px;font-weight:700;color:var(--blue);flex-shrink:0">${cat.count} sites</div></div><div style="height:5px;border-radius:3px;background:var(--b1);overflow:hidden;margin-bottom:8px"><div style="height:100%;border-radius:3px;background:${isU?'var(--t3)':'var(--bmid)'};width:${pct}%"></div></div><div style="font-size:11px;color:var(--t3);margin-bottom:6px;cursor:pointer;display:flex;align-items:center;gap:4px;user-select:none" onclick="(function(el){var d=document.getElementById('${cid}');var open=d.style.display!=='none';d.style.display=open?'none':'block';el.querySelector('span.chev').textContent=open?'▸':'▾';})(this)"><span class="chev">▸</span> ${sessionNames?sessionNames.length+' form type'+(sessionNames.length===1?'':'s'):'Details'}</div><div id="${cid}" style="display:none;max-height:160px;overflow-y:auto">${fHtml}</div></div>`;
+  }).join('');
+  b.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px"><div style="font-size:12px;color:var(--t3)">Last updated ${ts}${ucData.responded?` · ${ucData.responded} sites responded`:''}</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${catHtml}</div>`;
+}
+
+function trapFocus(el){const focusable=el.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])');const first=focusable[0],last=focusable[focusable.length-1];function handler(e){if(e.key!=='Tab')return;if(e.shiftKey){if(document.activeElement===first){e.preventDefault();last.focus();}}else{if(document.activeElement===last){e.preventDefault();first.focus();}}}el._trapHandler=handler;el.addEventListener('keydown',handler);if(first)first.focus();}
+function releaseTrap(el){if(el&&el._trapHandler){el.removeEventListener('keydown',el._trapHandler);delete el._trapHandler;}}
+
+let zonePaths=[],visnCircleEls={},selId=null,shadeMode=0;
+const VISN_TAB_ORDER=['VISN 1','VISN 2','VISN 4','VISN 5','VISN 6','VISN 7','VISN 8','VISN 9','VISN 10','VISN 12','VISN 15','VISN 16','VISN 17','VISN 19','VISN 20','VISN 21','VISN 22','VISN 23'];
+
+function adoptionColor(rate){const stops=[[0,[168,48,42]],[.5,[224,168,0]],[1,[15,110,86]]];let lo=stops[0],hi=stops[2];for(let i=0;i<2;i++){if(rate>=stops[i][0]&&rate<=stops[i+1][0]){lo=stops[i];hi=stops[i+1];break;}}const t=(rate-lo[0])/((hi[0]-lo[0])||1);return`rgb(${lo[1].map((v,i)=>Math.round(v+(hi[1][i]-v)*t)).join(',')})`;}
+function utilizationColor(rank,total){const r=total>1?rank/(total-1):1;const stops=[[0,[168,48,42]],[.5,[224,168,0]],[1,[107,63,160]]];let lo=stops[0],hi=stops[2];for(let i=0;i<2;i++){if(r>=stops[i][0]&&r<=stops[i+1][0]){lo=stops[i];hi=stops[i+1];break;}}const t=(r-lo[0])/((hi[0]-lo[0])||1);return`rgb(${lo[1].map((v,i)=>Math.round(v+(hi[1][i]-v)*t)).join(',')})`;}
+function getVisnUtilRanks(){const entries=Object.entries(visnAdoption).map(([vk,a])=>({vk,medianReq:a.adopted?a.adoptedReq/a.adopted:0})).sort((a,b)=>a.medianReq-b.medianReq);const ranks={};entries.forEach((e,i)=>ranks[e.vk]=i);return{ranks,total:entries.length};}
+function visnAriaLabel(vk){const a=visnAdoption[vk];if(!a||!a.total)return vk+' — no data';const rate=Math.round(a.adopted/a.total*100);const vd=visnData[vk]||{fac:0,req:0};const d=visnDepth[vk]||{rps:0};return`${vk}: ${fmt(d.rps)} req/station, ${rate}% adopted, ${fmt(a.adopted)} of ${fmt(a.total)} station groups on LEAF, ${fmtK(vd.req)} requests.`;}
+function applyShade(){
+  const wrap=document.getElementById('shadeWrap');const legend=document.getElementById('mapLegend');
+  wrap.classList.remove('mode-adopt','mode-util');
+  if(shadeMode===0){zonePaths.forEach(p=>{p.style.fill=p._origFill;});legend.classList.remove('on');}
+  else if(shadeMode===1){wrap.classList.add('mode-adopt');document.getElementById('legendTitle').textContent='Adoption rate by VISN';document.getElementById('legendBar').className='ml-bar ml-bar-adopt';document.getElementById('legendScale').innerHTML='<span>0%</span><span>50%</span><span>100%</span>';document.getElementById('legendPatternNote').textContent='';zonePaths.forEach(p=>{const a=visnAdoption[p._vk];const rate=a&&a.total?a.adopted/a.total:0;p.style.fill=adoptionColor(rate);});legend.classList.add('on');}
+  else{wrap.classList.add('mode-util');document.getElementById('legendTitle').textContent='Utilization depth by VISN (relative)';document.getElementById('legendBar').className='ml-bar ml-bar-util';document.getElementById('legendScale').innerHTML='<span>Lowest</span><span>Median</span><span>Highest</span>';document.getElementById('legendPatternNote').textContent='Color shows relative request volume among adopted groups.';const{ranks,total}=getVisnUtilRanks();zonePaths.forEach(p=>{p.style.fill=utilizationColor(ranks[p._vk]??0,total);});legend.classList.add('on');}
+  zonePaths.forEach(p=>{p.setAttribute('aria-label',visnAriaLabel(p._vk));});
+}
+function setHint(vk){const vd=visnData[vk]||{fac:0,req:0};const d=visnDepth[vk]||{rps:0};const rpsTxt=d.rps?` · ${fmt(d.rps)} req/sta`:'';document.getElementById('hint').textContent=vk+' · '+fmtK(vd.req)+' req'+rpsTxt;}
+
+function buildMap(){
+  document.getElementById('lm').textContent='Loading map…';
+  fetch('https://leaf.va.gov/launchpad/files/VISN%20Map.svg').then(r=>r.text()).then(svgText=>{
+    const el=document.getElementById('usMap');el.innerHTML=svgText;
+    el.querySelectorAll('path').forEach(p=>{
+      const id=p.id;if(!id)return;
+      if(id.includes('VISN_')&&(id.includes('_States')||id.includes('_State'))){
+        const m=id.match(/VISN_(\d+)/);if(m){const vk='VISN '+parseInt(m[1]);p._vk=vk;p.classList.add('zp');p.style.pointerEvents='auto';p._origFill=p.getAttribute('fill')||p.style.fill||'';zonePaths.push(p);p.setAttribute('tabindex','0');p.setAttribute('role','button');p.setAttribute('aria-label',vk+' — loading…');p.style.cursor='pointer';p.addEventListener('click',()=>selVISN(vk));p.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selVISN(vk);}});p.addEventListener('mouseover',()=>setHint(vk));p.addEventListener('focus',()=>setHint(vk));}return;}
+      if(id.endsWith('_Circle')&&id.startsWith('VISN_')){const m=id.match(/VISN_(\d+)_Circle/);if(m){const vk='VISN '+parseInt(m[1]);visnCircleEls[vk]=p;p.style.cursor='pointer';p.setAttribute('aria-hidden','true');p.setAttribute('tabindex','-1');p.style.pointerEvents='none';}}
+    });
+    el.querySelectorAll('path,text,circle,g').forEach(node=>{let vk=null;const checkId=id=>{if(!id)return null;const m=id.match(/VISN_(\d+)/);return m?'VISN '+parseInt(m[1]):null;};vk=checkId(node.id)||checkId(node.closest('g')?.id);if(!vk)return;if(node.classList.contains('zp'))return;node.style.cursor='pointer';node.style.pointerEvents='auto';node.setAttribute('aria-hidden','true');node.addEventListener('click',e=>{e.stopPropagation();selVISN(vk);});node.addEventListener('mouseover',()=>setHint(vk));});
+    zonePaths.sort((a,b)=>{const ia=VISN_TAB_ORDER.indexOf(a._vk),ib=VISN_TAB_ORDER.indexOf(b._vk);return ia-ib;});
+    buildSearchIdx();document.getElementById('lo').style.display='none';if(dataReady){applyShade();}
+  }).catch(()=>{document.getElementById('lm').textContent='Map failed to load.';});
+}
+
+function selVISN(vk){selId=vk;zonePaths.forEach(p=>p.classList.toggle('zsel',p._vk===vk));Object.entries(visnCircleEls).forEach(([k,p])=>{p.style.stroke=k===vk?'#111':'';p.style.strokeWidth=k===vk?'2':'';});renderVISN(vk);}
+function adoptionBar(adopted,total){const pct=total?Math.round(adopted/total*100):0;return`<div class="adopt-bar-wrap" role="img" aria-label="${fmt(adopted)} of ${fmt(total)} station groups on LEAF — ${pct}%"><div class="adopt-bar"><div class="adopt-bar-fill" style="width:${pct}%"></div></div><div class="adopt-bar-label"><span><b>${fmt(adopted)}</b> of ${fmt(total)} on LEAF</span><span><b>${pct}%</b></span></div></div>`;}
+function winPill(){return activeWindowMonths===18?'':`<span style="display:inline-flex;align-items:center;gap:4px;background:var(--bbg);border:1px solid var(--bmid);border-radius:100px;padding:2px 8px;font-size:10px;font-weight:600;color:var(--blue);margin-left:6px;vertical-align:middle">${windowLabel}</span>`;}
+function colorForPct(pct){const r=pct/100,stops=[[0,[168,48,42]],[.5,[224,168,0]],[1,[15,110,86]]];let lo=stops[0],hi=stops[2];for(let i=0;i<2;i++){if(r>=stops[i][0]&&r<=stops[i+1][0]){lo=stops[i];hi=stops[i+1];break;}}const t=(r-lo[0])/((hi[0]-lo[0])||1);return`rgb(${lo[1].map((v,i)=>Math.round(v+(hi[1][i]-v)*t)).join(',')})`;}
+const barColor=pct=>{if(pct>=110)return'#1D9E75';if(pct>=75)return'#BA7517';if(pct>=50)return'#EF9F27';return'#E24B4A';};
+
+function renderLanding(){
+  const ns=nationalStats;
+  const belowMedianCount=Object.values(visnDepth).filter(d=>d.rps>0&&d.pctOfMedian<100).length;
+  const outreachRows=Object.entries(visnDepth).filter(([,d])=>d.rps>0).sort(([,a],[,b])=>a.rps-b.rps).slice(0,5);
+  const classRows=Object.entries(classAdoption).map(([cls,a])=>({cls,a,rate:a.total?a.adopted/a.total:0})).sort((x,y)=>x.rate-y.rate||y.a.total-x.a.total);
+  const postureTag=posture=>{const map={'sleeping':['Sleeping giant','var(--vbg)','var(--violet)'],'low-depth':['Low depth','var(--rbg)','var(--red)'],'above-median':['Above median','var(--tbg)','var(--teal)'],'near-median':['Near median','var(--s2)','var(--t2)'],'no-data':['No data','var(--s2)','var(--t3)']};const[label,bg,color]=map[posture]||map['no-data'];return`<span style="font-size:9px;padding:2px 6px;border-radius:100px;font-weight:600;background:${bg};color:${color};margin-left:5px;vertical-align:middle">${label}</span>`;};
+  const biggestOppVK=Object.entries(visnDepth).filter(([,d])=>d.posture==='sleeping').sort(([,a],[,b])=>a.rps-b.rps)[0]?.[0];
+  const biggestOppVISN=biggestOppVK?visnAdoption[biggestOppVK]:null;
+  const biggestOppDelta=biggestOppVISN?fmt(Math.max(0,(nationalMedianRps-visnDepth[biggestOppVK].rps)*biggestOppVISN.adopted)):null;
+  const windowNote=activeWindowMonths<18?`<div style="margin:8px 14px 0;font-size:12px;color:var(--blue);background:var(--bbg);border-radius:var(--rs);padding:7px 11px;display:flex;align-items:center;gap:7px" role="note"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/></svg>Viewing <b>${windowLabel}</b>. Volumes and low-activity reflect this window. Adoption status always reflects the full 18-month file.</div>`:'';
+  const ucHasCache=!!ucData;
+  const el=document.getElementById('landing');
+  el.innerHTML=`
+    <div class="lh">
+      <div class="lh-eyebrow">National utilization depth</div>
+      <div style="display:flex;align-items:flex-end;justify-content:center;gap:8px;margin-bottom:4px"><div class="lh-big">${fmt(nationalMedianRps)}</div><div style="margin-bottom:10px;line-height:1.2;text-align:left"><div style="font-size:14px;font-weight:600;color:var(--t2)">req / station</div><div style="font-size:11px;color:var(--t3)">peer median</div></div></div>
+      <div class="lh-cap"><b>${fmt(ns.adoptedGroups)}</b> of <b>${fmt(ns.groups)}</b> station groups active · <b>${fmtK(ns.requests)}</b> requests${activeWindowMonths<18?' in '+windowLabel:' processed'} · <b>${fmt(sleepingGiants.length)}</b> sleeping giants identified</div>
+      <div class="lh-asof"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Data as of <b>${dataGenerateDate||'Unknown'}</b></div>
+      ${activeWindowMonths<18?`<div style="display:flex;justify-content:center;margin-top:8px"><span class="lh-window"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/></svg>Viewing: ${windowLabel}</span></div>`:''}
+    </div>
+    <div class="ls-grid" role="list" aria-label="National summary statistics">
+      <div class="ls-card clickable" role="listitem" tabindex="0" id="card-sleeping" aria-label="Sleeping giants: ${fmt(sleepingGiants.length)}" style="background:var(--vbg);border:1px solid rgba(107,63,160,.15)"><div class="v violet">${fmt(sleepingGiants.length)}</div><div class="l" style="color:var(--violet)">Sleeping giants</div><div class="card-action">View list →</div></div>
+      <div class="ls-card clickable" role="listitem" tabindex="0" id="card-belowmedian" aria-label="${belowMedianCount} VISNs below peer median" style="background:var(--abg);border:1px solid rgba(168,91,0,.15)"><div class="v amber">${belowMedianCount}</div><div class="l" style="color:var(--amber)">VISNs below median</div><div class="card-action">View ranked list →</div></div>
+      <div class="ls-card clickable" role="listitem" tabindex="0" id="card-lowactivity" aria-label="Low-activity: ${fmt(lowActivityGroups.length)} station groups"><div class="v blue">${fmt(lowActivityGroups.length)}</div><div class="l">Low-activity stations</div><div class="card-action">View report →</div></div>
+    </div>
+    ${windowNote}
+    ${biggestOppVK?`<div style="margin:8px 14px 0;padding:11px 13px;background:var(--vbg);border:1px solid rgba(107,63,160,.2);border-radius:var(--rs);font-size:12px;color:var(--t2);line-height:1.55;display:flex;align-items:flex-start;gap:9px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2" style="flex-shrink:0;margin-top:1px" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span><b style="color:var(--violet)">Biggest volume opportunity:</b> If ${biggestOppVK}'s adopted stations reached the peer median (${fmt(nationalMedianRps)} req/station), that's an estimated <b style="color:var(--text)">+${biggestOppDelta} additional requests/month</b> through LEAF — no new adoptions needed.</span></div>`:''}
+    <div class="lsec">
+      <div class="lsl" style="justify-content:space-between"><span>Outreach priorities — lowest depth</span><span style="font-size:10px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">vs ${fmt(nationalMedianRps)} req/sta median</span></div>
+      ${outreachRows.map(([vk,d])=>{const a=visnAdoption[vk]||{};const adoptPct=a.total?Math.round(a.adopted/a.total*100):0;const bw=Math.min(100,d.pctOfMedian);const color=barColor(d.pctOfMedian);return`<div class="tb-row click" role="button" tabindex="0" data-visn="${vk}" aria-label="${vk}: ${fmt(d.rps)} req/station, ${d.pctOfMedian}% of peer median"><div class="tb-top"><span class="tb-name">${vk}${postureTag(d.posture)}</span><span class="tb-pct" style="color:${color}">${fmt(d.rps)} req/sta</span></div><div class="tb-bar" role="img" aria-label="${d.pctOfMedian}% of peer median"><div class="tb-fill" style="width:${bw}%;background:${color}"></div></div><div class="tb-sub">${adoptPct}% adopted · ${d.pctOfMedian}% of peer median</div></div>`;}).join('')}
+      <div style="display:flex;align-items:center;gap:8px;margin-top:8px;padding-top:8px;border-top:1px solid var(--b1);font-size:11px;color:var(--t3)"><div style="width:24px;height:3px;background:var(--bmid);border-radius:2px;flex-shrink:0"></div>Peer median: ${fmt(nationalMedianRps)} req/station</div>
+    </div>
+    <div class="lsec lsec-collapsible">
+      <div class="lsl" role="button" tabindex="0" aria-expanded="false" aria-controls="classBreakdownBody" id="classBreakdownTrigger">Adoption by facility type<span class="lsl-toggle" aria-hidden="true">▸</span></div>
+      <div id="classBreakdownBody" class="lsec-body collapsed">${classRows.map(r=>{const pct=Math.round(r.rate*100);return`<div class="tb-row"><div class="tb-top"><span class="tb-name">${r.cls}</span><span class="tb-pct" style="color:${colorForPct(pct)}">${pct}%</span></div><div class="tb-bar" role="img" aria-label="${pct}% adoption rate"><div class="tb-fill" style="width:${pct}%;background:${colorForPct(pct)}"></div></div><div class="tb-sub">${fmt(r.a.adopted)} of ${fmt(r.a.total)} on LEAF</div></div>`;}).join('')}</div>
+    </div>
+    <div class="lsec lsec-collapsible">
+      <div class="lsl" role="button" tabindex="0" aria-expanded="false" aria-controls="gapSectionBody" id="gapSectionTrigger">Partial adoption gaps<span class="lsl-toggle" aria-hidden="true">▸</span></div>
+      <div id="gapSectionBody" class="lsec-body collapsed">
+        <div style="font-size:12px;color:var(--t2);margin-bottom:10px;line-height:1.55">Adopted station groups where one or more individual child sites have no telemetry in the full 18-month window. The parent is active on LEAF — these child locations are simply dark within an otherwise healthy group.</div>
+        <button class="pbtn-amber" style="margin:0" id="gapReportBtn">View partial adoption gaps →</button>
+      </div>
+    </div>
+    <div class="lsec lsec-collapsible" id="uc-section">
+      <div class="lsl" role="button" tabindex="0" aria-expanded="false" aria-controls="ucSectionBody" id="ucSectionTrigger">Top national use cases<span class="lsl-toggle" aria-hidden="true">▸</span></div>
+      <div id="ucSectionBody" class="lsec-body collapsed">
+        <div style="font-size:12px;color:var(--t2);margin-bottom:10px;line-height:1.55">Active form categories across all adopted LEAF sites nationally, grouped by type.${ucUserIsAdmin?' As an admin, you can refresh the shared cache — this queries each site directly and may take several minutes.':''}</div>
+        <button class="uc-btn" id="ucLandingBtn">${ucHasCache?`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> View use case data <span style="font-weight:400;color:var(--t3);font-size:11px">· Last updated ${(ucData.fetchedAt instanceof Date?ucData.fetchedAt:new Date(ucData.fetchedAt)).toLocaleDateString([],{month:'short',day:'numeric',year:'numeric'})}</span>`:(ucUserIsAdmin?`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Load use case data`:`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> No data available yet`)}</button>
+        <div class="uc-results" style="display:none" aria-live="polite"></div>
+      </div>
+    </div>`;
+
+  document.getElementById('card-sleeping').addEventListener('click',()=>openReport('sleeping',''));
+  document.getElementById('card-sleeping').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openReport('sleeping','');}});
+  document.getElementById('card-belowmedian').addEventListener('click',()=>openReport('belowMedian',''));
+  document.getElementById('card-belowmedian').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openReport('belowMedian','');}});
+  document.getElementById('card-lowactivity').addEventListener('click',()=>openReport('low',''));
+  document.getElementById('card-lowactivity').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openReport('low','');}});
+  el.querySelectorAll('.tb-row.click[data-visn]').forEach(row=>{const vk=row.dataset.visn;row.addEventListener('click',()=>selVISN(vk));row.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selVISN(vk);}});});
+  document.getElementById('classBreakdownTrigger').addEventListener('click',function(){toggleSection(this,'classBreakdownBody');});
+  document.getElementById('classBreakdownTrigger').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleSection(this,'classBreakdownBody');}});
+  document.getElementById('gapSectionTrigger').addEventListener('click',function(){toggleSection(this,'gapSectionBody');});
+  document.getElementById('gapSectionTrigger').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleSection(this,'gapSectionBody');}});
+  document.getElementById('gapReportBtn').addEventListener('click',()=>openReport('gap',''));
+  document.getElementById('ucSectionTrigger').addEventListener('click',function(){toggleSection(this,'ucSectionBody');});
+  document.getElementById('ucSectionTrigger').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleSection(this,'ucSectionBody');}});
+  const ucBtn=document.getElementById('ucLandingBtn');
+  if(ucBtn){if(ucHasCache){ucBtn.addEventListener('click',openUcModal);}else if(ucUserIsAdmin){ucBtn.addEventListener('click',fetchUseCases);}else{ucBtn.disabled=true;}}
+  document.getElementById('pe').style.display='none';
+  document.getElementById('landing').classList.add('on');
+  if(zonePaths.length)zonePaths.forEach(p=>p.setAttribute('aria-label',visnAriaLabel(p._vk)));
+}
+
+function renderVISN(vk){
+  const vd=visnData[vk]||{fac:0,req:0};const members=VISN_STATES[vk]||[];
+  const stateRows=members.map(s=>({s,d:visnStateData[vk]?.[s]||{fac:0,req:0}})).sort((a,b)=>b.d.req-a.d.req);
+  const visnNum=vk.replace('VISN ','');const visnFacilities=facilities.filter(f=>f.visn===visnNum);
+  const a=visnAdoption[vk]||{total:0,adopted:0,nonAdopted:0,lowActivity:0};
+  const d=visnDepth[vk]||{rps:0,pctOfMedian:0,posture:'no-data'};
+  const visnSleeping=sleepingGiants.filter(g=>'VISN '+g.visn===vk);
+  const visnOpp=visnSleeping.reduce((sum,g)=>sum+Math.max(0,nationalMedianRps-g.req),0);
+  const postureMap={'sleeping':{label:'Sleeping giant',bg:'var(--vbg)',color:'var(--violet)',border:'rgba(107,63,160,.2)'},'low-depth':{label:'Low depth',bg:'var(--rbg)',color:'var(--red)',border:'rgba(168,48,42,.2)'},'above-median':{label:'Above median',bg:'var(--tbg)',color:'var(--teal)',border:'rgba(15,110,86,.2)'},'near-median':{label:'Near median',bg:'var(--s2)',color:'var(--t2)',border:'var(--b2)'},'no-data':{label:'No data',bg:'var(--s2)',color:'var(--t3)',border:'var(--b1)'}};
+  const pm=postureMap[d.posture]||postureMap['no-data'];
+  const html=`
+    <div class="ph"><div class="pt">${vk}</div><div class="psub"><span class="badge bs" style="cursor:default">${members.length} states</span><span class="badge bs" style="cursor:default">${visnFacilities.length} facilities</span><span class="badge" style="background:${pm.bg};color:${pm.color};border:1px solid ${pm.border};cursor:default">${pm.label}</span></div></div>
+    <div class="psec">
+      <div class="psl"><span class="psl-left">Utilization depth${winPill()}</span><span style="font-size:11px;color:var(--t3);font-weight:400">vs ${fmt(nationalMedianRps)} median</span></div>
+      <div class="sg"><div class="sc"><div class="sl">Req / station</div><div class="sv" style="color:${pm.color}">${fmt(d.rps)}</div></div><div class="sc"><div class="sl">% of peer median</div><div class="sv" style="color:${barColor(d.pctOfMedian)}">${d.pctOfMedian}%</div></div><div class="sc"><div class="sl">LEAF sites</div><div class="sv">${fmt(vd.fac)}</div></div><div class="sc"><div class="sl">Requests${winPill()}</div><div class="sv">${fmtK(vd.req)}</div></div></div>
+      <div style="margin-top:12px"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--t2);margin-bottom:4px"><span>Depth vs peer median</span><span style="font-weight:600;color:${barColor(d.pctOfMedian)}">${d.pctOfMedian}%</span></div><div class="adopt-bar" role="img" aria-label="${d.pctOfMedian}% of peer median"><div style="width:${Math.min(100,d.pctOfMedian)}%;height:100%;border-radius:4px;background:${barColor(d.pctOfMedian)}"></div></div><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-top:4px"><span>0</span><span>Peer median: ${fmt(nationalMedianRps)}</span></div></div>
+      ${visnOpp>0?`<div style="margin-top:10px;padding:9px 11px;background:var(--vbg);border:1px solid rgba(107,63,160,.2);border-radius:var(--rs);font-size:12px;color:var(--t2);line-height:1.5;display:flex;gap:8px;align-items:flex-start"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2" style="flex-shrink:0;margin-top:1px" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Estimated <b style="color:var(--violet)">+${fmt(visnOpp)} req/month</b> potential if sleeping-giant stations reach peer median.</span></div>`:''}
+      ${visnSleeping.length>0?`<button class="pbtn-violet" id="visnSleepingBtn">View ${visnSleeping.length} sleeping giant${visnSleeping.length===1?'':'s'} →</button>`:a.lowActivity>0?`<button class="pbtn-violet" id="visnLowBtn">View ${a.lowActivity} low-activity stations →</button>`:''}
+    </div>
+    <div class="psec" style="padding-bottom:12px">
+      <div class="psl" style="margin-bottom:6px;cursor:pointer;user-select:none" role="button" tabindex="0" aria-expanded="false" aria-controls="visnAdoptBody" id="visnAdoptTrigger"><span class="psl-left">Adoption status</span><span style="font-weight:400;color:var(--t3);font-size:10px">${Math.round(a.adopted/a.total*100)||0}% · ${fmt(a.adopted)} of ${fmt(a.total)} ▸</span></div>
+      <div id="visnAdoptBody" class="lsec-body collapsed">${adoptionBar(a.adopted,a.total)}${a.nonAdopted>0?`<button class="pbtn-amber" style="margin-top:10px" id="visnGapBtn">View ${a.nonAdopted} not on LEAF →</button>`:'<div style="font-size:12px;color:var(--teal);margin-top:8px;display:flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>All station groups on LEAF</div>'}</div>
+    </div>
+    <div class="psec"><div class="psl"><span>States</span></div>${stateRows.map(({s})=>{const multi=(STATE_VISNS[s]||[]).length>1;const sd2=visnStateData[vk]?.[s]||{fac:0,req:0};return`<div class="sli" role="button" tabindex="0" data-state="${s}" data-visn="${vk}" aria-label="View ${SN[s]||s}"><div class="slia" aria-hidden="true">${s}</div><div class="slii"><div class="slin">${SN[s]||s}</div><div class="slis">${fmt(sd2.fac)} sites${multi?` · <em style="color:var(--bmid);font-style:normal">${vk} only</em>`:''}</div></div><div class="sliv">${fmtK(sd2.req)}</div></div>`;}).join('')}</div>
+    ${renderStationsList(visnFacilities,5,vk,null)}`;
+  showPanel(html);
+  document.getElementById('visnAdoptTrigger').addEventListener('click',function(){toggleSection(this,'visnAdoptBody');});
+  document.getElementById('visnAdoptTrigger').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleSection(this,'visnAdoptBody');}});
+  const sleepBtn=document.getElementById('visnSleepingBtn');if(sleepBtn)sleepBtn.addEventListener('click',()=>openReport('sleeping',vk));
+  const lowBtn=document.getElementById('visnLowBtn');if(lowBtn)lowBtn.addEventListener('click',()=>openReport('low',vk));
+  const gapBtn=document.getElementById('visnGapBtn');if(gapBtn)gapBtn.addEventListener('click',()=>openReport('gap',vk));
+  document.querySelectorAll('.sli[data-state]').forEach(el=>{const s=el.dataset.state,fromVk=el.dataset.visn;el.addEventListener('click',()=>renderState(s,fromVk));el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();renderState(s,fromVk);}});});
+}
+
+function renderState(abbr,fromVK){
+  const visns=STATE_VISNS[abbr]||[];const vk=fromVK||visns[0]||'';
+  const d=visnStateData[vk]?.[abbr]||{fac:0,req:0};const totalD=stateData[abbr]||{fac:0,req:0};
+  const isMulti=visns.length>1;const visnNum=vk.replace('VISN ','');
+  const stateFacilities=facilities.filter(f=>f.state===abbr&&f.visn===visnNum);
+  const adoptedCnt=stateFacilities.filter(f=>isAdopted(f.code)).length;
+  const stateGroups=stationGroups.filter(g=>g.state===abbr&&'VISN '+g.visn===vk);
+  const stateAdoptedGroups=stateGroups.filter(g=>g.adopted);
+  const stateReq=isMulti?d.req:totalD.req;
+  const stateRps=stateAdoptedGroups.length>0?Math.round(stateReq/stateAdoptedGroups.length):0;
+  const statePctOfMedian=nationalMedianRps>0?Math.round((stateRps/nationalMedianRps)*100):0;
+  const depthColor=barColor(statePctOfMedian);
+  const html=`
+    <div class="breadcrumb"><span class="breadcrumb-item" id="bc-national">National</span><span class="breadcrumb-sep">›</span><span class="breadcrumb-item" id="bc-visn">${vk}</span><span class="breadcrumb-sep">›</span><span style="color:var(--t2)">${SN[abbr]||abbr}</span></div>
+    <div class="ph"><div class="pt">${SN[abbr]||abbr}</div><div class="psub">${visns.map(v=>`<button class="badge bv" data-visn-nav="${v}">${v}</button>`).join('')}<span style="color:var(--t3);font-size:12px">${abbr}</span></div></div>
+    <div class="psec">
+      <div class="psl"><span class="psl-left">LEAF Activity${winPill()}</span></div>
+      <div class="sg"><div class="sc"><div class="sl">LEAF Sites</div><div class="sv">${fmt(isMulti?d.fac:totalD.fac)}</div></div><div class="sc"><div class="sl">Requests${winPill()}</div><div class="sv">${fmtK(stateReq)}</div></div><div class="sc"><div class="sl">Req / station</div><div class="sv" style="color:${depthColor}">${stateRps>0?fmt(stateRps):'—'}</div></div><div class="sc"><div class="sl">% of peer median</div><div class="sv" style="color:${depthColor}">${stateRps>0?statePctOfMedian+'%':'—'}</div></div></div>
+      ${stateRps>0?`<div style="margin-top:12px"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--t2);margin-bottom:4px"><span>Depth vs peer median</span><span style="font-weight:600;color:${depthColor}">${statePctOfMedian}%</span></div><div class="adopt-bar" role="img" aria-label="${statePctOfMedian}% of peer median"><div style="width:${Math.min(100,statePctOfMedian)}%;height:100%;border-radius:4px;background:${depthColor}"></div></div><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-top:4px"><span>0</span><span>Peer median: ${fmt(nationalMedianRps)}</span></div></div>`:''}
+      ${adoptionBar(adoptedCnt,stateFacilities.length)}
+    </div>
+    ${isMulti?`<div class="psec"><div class="psl">By VISN</div>${visns.map(v=>{const vd2=visnStateData[v]?.[abbr]||{fac:0,req:0};return`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--b1)"><button class="badge bv" data-visn-nav="${v}">${v}</button><span style="font-size:12px;color:var(--t2);flex:1">${fmt(vd2.fac)} sites</span><span style="font-size:12px;font-weight:700;color:var(--text)">${fmtK(vd2.req)}</span></div>`;}).join('')}</div>`:''}
+    ${renderStationsList(stateFacilities,5,vk,abbr)}`;
+  showPanel(html);
+  document.getElementById('bc-national').addEventListener('click',()=>{document.getElementById('pc').classList.remove('on');document.getElementById('pc').style.display='none';selId=null;zonePaths.forEach(p=>p.classList.remove('zsel'));Object.values(visnCircleEls).forEach(p=>{p.style.stroke='';p.style.strokeWidth='';});renderLanding();});
+  document.getElementById('bc-visn').addEventListener('click',()=>selVISN(vk));
+  document.querySelectorAll('[data-visn-nav]').forEach(b=>{b.addEventListener('click',()=>selVISN(b.dataset.visnNav));});
+}
+
+function renderFacility(code,fromVK,fromState){
+  const f=facilityMap[code];if(!f)return;
+  const vk='VISN '+f.visn;const sd=getStationData(code)||{fac:0,req:0};
+  const adopted=isAdopted(code);const lowAct=adopted&&isLowActivity(code);const sleeping=adopted&&isSleepingGiant(code);
+  const sg=stationGroups.find(x=>x.key===groupKeyOf(f));
+  const sgRps=sg?sg.req:0;const sgPctOfMedian=nationalMedianRps>0?Math.round((sgRps/nationalMedianRps)*100):0;const dc=barColor(sgPctOfMedian);
+  const html=`
+    <div class="breadcrumb"><span class="breadcrumb-item" id="bc-national">National</span><span class="breadcrumb-sep">›</span><span class="breadcrumb-item" id="bc-visn">${fromVK||vk}</span>${fromState?`<span class="breadcrumb-sep">›</span><span class="breadcrumb-item" id="bc-state">${SN[fromState]||fromState}</span>`:''}<span class="breadcrumb-sep">›</span><span style="color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px" title="${f.name}">${f.name}</span></div>
+    <div class="ph"><div class="pt" style="font-size:14px;line-height:1.35">${f.name}</div><div class="fac-meta"><div class="fac-meta-row"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>${f.city}, ${f.state}</div><div class="fac-meta-row"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Station ${code} · ${f.class}</div><div class="fac-meta-row"><button class="badge bv" id="fac-badge-visn" style="margin-left:0">${vk}</button></div></div></div>
+    <div class="psec"><div class="psl"><span class="psl-left">LEAF Status</span></div>${adopted?`<div class="sg"><div class="sc"><div class="sl">LEAF Sites</div><div class="sv">${fmt(sd.fac)}</div></div><div class="sc"><div class="sl">Requests${winPill()}</div><div class="sv">${fmtK(sd.req)}</div></div></div>${sleeping?`<div style="margin-top:10px;font-size:13px;color:var(--violet);display:flex;align-items:center;gap:7px" role="alert"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Sleeping giant — adopted but in the bottom 25% by volume. High-value engagement target.</div>`:lowAct?`<div style="margin-top:10px;font-size:13px;color:var(--violet);display:flex;align-items:center;gap:7px" role="alert"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Low activity — bottom 25% of adopted groups in the ${windowLabel}.</div>`:''}`:`<div style="font-size:13px;color:var(--amber);padding:6px 0;display:flex;align-items:center;gap:7px" role="alert"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.7 3.86a2 2 0 0 0-3.42 0z"/></svg>Not yet on LEAF — no telemetry in the 18-month window.</div>`}</div>
+    ${adopted&&sg?`<div class="psec"><div class="psl"><span class="psl-left">Utilization depth${winPill()}</span><span style="font-size:11px;color:var(--t3);font-weight:400">vs ${fmt(nationalMedianRps)} median</span></div><div class="sg"><div class="sc"><div class="sl">Station group req</div><div class="sv" style="color:${dc}">${fmt(sgRps)}</div></div><div class="sc"><div class="sl">% of peer median</div><div class="sv" style="color:${dc}">${sgPctOfMedian}%</div></div></div><div style="margin-top:12px"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--t2);margin-bottom:4px"><span>Depth vs peer median</span><span style="font-weight:600;color:${dc}">${sgPctOfMedian}%</span></div><div class="adopt-bar" role="img" aria-label="${sgPctOfMedian}% of peer median"><div style="width:${Math.min(100,sgPctOfMedian)}%;height:100%;border-radius:4px;background:${dc}"></div></div><div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-top:4px"><span>0</span><span>Peer median: ${fmt(nationalMedianRps)}</span></div></div>${sg.childCount>1?`<div style="margin-top:10px;font-size:12px;color:var(--t3)">This station is part of a group of <b>${sg.childCount}</b> sites at station group <b>${sg.parent}</b>. Depth reflects the full group.</div>`:''}</div>`:''}
+    <button class="pbtn" id="fac-btn-visn">View ${vk} →</button>${fromState?`<button class="pbtn" id="fac-btn-state" style="margin-top:0">View ${SN[fromState]||fromState} →</button>`:''}`;
+  showPanel(html);
+  document.getElementById('bc-national').addEventListener('click',()=>{document.getElementById('pc').classList.remove('on');document.getElementById('pc').style.display='none';selId=null;zonePaths.forEach(p=>p.classList.remove('zsel'));Object.values(visnCircleEls).forEach(p=>{p.style.stroke='';p.style.strokeWidth='';});renderLanding();});
+  document.getElementById('bc-visn').addEventListener('click',()=>selVISN(fromVK||vk));
+  const bcState=document.getElementById('bc-state');if(bcState&&fromState)bcState.addEventListener('click',()=>renderState(fromState,fromVK||vk));
+  document.getElementById('fac-badge-visn').addEventListener('click',()=>selVISN(vk));
+  document.getElementById('fac-btn-visn').addEventListener('click',()=>selVISN(fromVK||vk));
+  const stateBtn=document.getElementById('fac-btn-state');if(stateBtn&&fromState)stateBtn.addEventListener('click',()=>renderState(fromState,fromVK||vk));
+  selId=vk;zonePaths.forEach(p=>p.classList.toggle('zsel',p._vk===vk));Object.entries(visnCircleEls).forEach(([k,p])=>{p.style.stroke=k===vk?'#111':'';p.style.strokeWidth=k===vk?'2':'';});
+}
+
+function renderStationsList(facs,previewCount,fromVK,fromState){
+  if(!facs.length)return'';
+  const active=facs.filter(f=>isAdopted(f.code)&&!isLowActivity(f.code)).sort((a,b)=>(getStationData(b.code)?.req||0)-(getStationData(a.code)?.req||0));
+  const lowAct=facs.filter(f=>isLowActivity(f.code)).sort((a,b)=>(getStationData(b.code)?.req||0)-(getStationData(a.code)?.req||0));
+  const inactive=facs.filter(f=>!isAdopted(f.code)).sort((a,b)=>a.name.localeCompare(b.name));
+  const sorted=[...active,...lowAct,...inactive];const preview=sorted.slice(0,previewCount);const rest=sorted.slice(previewCount);
+  const stationRow=f=>{const sd=getStationData(f.code);const dead=!isAdopted(f.code);const low=!dead&&isLowActivity(f.code);const sleeping=!dead&&isSleepingGiant(f.code);const status=dead?'Not on LEAF':sleeping?'Sleeping giant':low?'Low activity':'On LEAF';const sid=`srow-${f.code.replace(/[^a-zA-Z0-9]/g,'_')}`;return`<div class="fli${dead?' fli-dead':''}" role="listitem"><div class="fli-dot${dead?' dead':low?' low':''}" aria-hidden="true"></div><div class="flii" id="${sid}" role="button" tabindex="0" data-fac-code="${f.code}" data-from-vk="${fromVK||''}" data-from-state="${fromState||''}" aria-label="${f.name} — ${status}${sd&&sd.req?', '+fmtK(sd.req)+' requests':''}"><div class="flin">${f.name}</div><div class="flis">${f.code} · ${f.city}${dead?' · Not on LEAF':sleeping?' · Sleeping giant':low?' · Low activity':''}</div></div><div class="fliv" aria-hidden="true">${!dead&&sd&&sd.req?fmtK(sd.req):'—'}${!dead&&sd&&sd.req?`<div class="fliv-sub">${fmt(sd.fac)} sites</div>`:''}</div></div>`;};
+  const restId='rest-'+Math.random().toString(36).slice(2);const btnId='btn-'+Math.random().toString(36).slice(2);
+  const html=`<div class="psec" style="flex:1;padding-bottom:0"><div class="psl"><span>Stations</span><span class="psl-count">${active.length} healthy · ${lowAct.length>0?`${lowAct.length} low-act · `:''}${inactive.length} not on LEAF</span></div><div role="list">${preview.map(f=>stationRow(f)).join('')}${rest.length?`<div id="${restId}" style="display:none" aria-hidden="true">${rest.map(f=>stationRow(f)).join('')}</div>`:''}</div>${rest.length?`<button class="expand-btn" id="${btnId}" aria-expanded="false" aria-controls="${restId}">Show all ${rest.length} more stations ▾</button>`:''}</div>`;
+  setTimeout(()=>{sorted.forEach(f=>{const el=document.getElementById(`srow-${f.code.replace(/[^a-zA-Z0-9]/g,'_')}`);if(!el)return;const handler=()=>renderFacility(f.code,fromVK,fromState);el.addEventListener('click',handler);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();handler();}});});const expandBtn=document.getElementById(btnId);if(expandBtn){expandBtn.addEventListener('click',()=>{const r=document.getElementById(restId);const open=r.style.display==='block';r.style.display=open?'none':'block';r.setAttribute('aria-hidden',open?'true':'false');expandBtn.setAttribute('aria-expanded',open?'false':'true');expandBtn.textContent=open?`Show all ${rest.length} more stations ▾`:'Collapse ▴';});}},0);
+  return html;
+}
+
+function toggleSection(triggerEl,bodyId){const body=document.getElementById(bodyId);if(!body)return;const collapsed=body.classList.toggle('collapsed');triggerEl.setAttribute('aria-expanded',collapsed?'false':'true');const toggle=triggerEl.querySelector('.lsl-toggle');if(toggle)toggle.textContent=collapsed?'▸':'▾';}
+function showPanel(html){document.getElementById('pe').style.display='none';document.getElementById('landing').classList.remove('on');const pc=document.getElementById('pc');pc.innerHTML=html;pc.style.display='flex';pc.classList.add('on');document.getElementById('panel').focus();}
+
+// ── REPORTS ──
+let currentReportMode='sleeping',currentTab='table',rptSort={key:'req',dir:1};
+function buildReportFilters(){rebuildFiltersForMode('sleeping');}
+function rebuildFiltersForMode(mode){
+  if(mode==='belowMedian'){document.getElementById('fVisn').innerHTML='<option value="">All VISNs</option>';document.getElementById('fState').innerHTML='<option value="">All states</option>';document.getElementById('fClass').innerHTML='<option value="">All facility types</option>';return;}
+  if(mode==='gap'){const fVisn=document.getElementById('fVisn'),fState=document.getElementById('fState'),fClass=document.getElementById('fClass');const visns=[...new Set(partialAdoptionGaps.map(g=>'VISN '+g.visn))].sort((a,b)=>parseInt(a.replace('VISN ',''))-parseInt(b.replace('VISN ','')));const states=[...new Set(partialAdoptionGaps.map(g=>g.state))].sort();const classes=[...new Set(partialAdoptionGaps.flatMap(g=>g.silentChildren.map(c=>c.class)))].sort();const silentTotal=g=>g.silentCount;fVisn.innerHTML='<option value="">All VISNs</option>'+visns.map(v=>`<option value="${v}">${v} (${partialAdoptionGaps.filter(g=>'VISN '+g.visn===v).reduce((s,g)=>s+silentTotal(g),0)} silent)</option>`).join('');fState.innerHTML='<option value="">All states</option>'+states.map(s=>`<option value="${s}">${SN[s]||s} (${partialAdoptionGaps.filter(g=>g.state===s).reduce((s2,g)=>s2+silentTotal(g),0)} silent)</option>`).join('');fClass.innerHTML='<option value="">All facility types</option>'+classes.map(c=>`<option value="${c}">${c}</option>`).join('');return;}
+  const src=mode==='low'?lowActivityGroups:mode==='sleeping'?sleepingGiants:stationGroups.filter(g=>g.adopted);
+  const fVisn=document.getElementById('fVisn'),fState=document.getElementById('fState'),fClass=document.getElementById('fClass');
+  const visns=[...new Set(src.map(f=>'VISN '+f.visn))].sort((a,b)=>parseInt(a.replace('VISN ',''))-parseInt(b.replace('VISN ','')));
+  const states=[...new Set(src.map(f=>f.state))].sort();const classes=[...new Set(src.map(f=>f.class))].sort();
+  fVisn.innerHTML='<option value="">All VISNs</option>'+visns.map(v=>`<option value="${v}">${v} (${src.filter(f=>'VISN '+f.visn===v).length})</option>`).join('');
+  fState.innerHTML='<option value="">All states</option>'+states.map(s=>`<option value="${s}">${SN[s]||s} (${src.filter(f=>f.state===s).length})</option>`).join('');
+  fClass.innerHTML='<option value="">All facility types</option>'+classes.map(c=>`<option value="${c}">${c} (${src.filter(f=>f.class===c).length})</option>`).join('');
+}
+function getFilteredRows(){if(currentReportMode==='belowMedian')return[];const src=currentReportMode==='gap'?nonAdopters:currentReportMode==='low'?lowActivityGroups:currentReportMode==='sleeping'?sleepingGiants:stationGroups.filter(g=>g.adopted);const v=document.getElementById('fVisn').value,s=document.getElementById('fState').value,c=document.getElementById('fClass').value,q=document.getElementById('fSearch').value.trim().toLowerCase();return src.filter(f=>{if(v&&'VISN '+f.visn!==v)return false;if(s&&f.state!==s)return false;if(c&&f.class!==c)return false;if(q){let hay=(f.name+' '+f.city+' '+f.code+' '+f.state).toLowerCase();if(f.children)hay+=' '+f.children.map(k=>k.name+' '+k.code+' '+k.city).join(' ').toLowerCase();if(!hay.includes(q))return false;}return true;});}
+
+function renderReportSummary(filtered){
+  const isSleeping=currentReportMode==='sleeping';const isGap=currentReportMode==='gap';const isAdopt=currentReportMode==='adopted';const isBM=currentReportMode==='belowMedian';
+  const totalGroups=stationGroups.length;const totalNon=nonAdopters.length;const totalLow=lowActivityGroups.length;const overallRate=totalGroups?Math.round((totalGroups-totalNon)/totalGroups*100):0;
+  if(isBM){document.getElementById('rptSummary').innerHTML=`<div class="rpt-stat"><div class="rpt-stat-l">VISNs below median</div><div class="rpt-stat-v amber">${Object.entries(visnDepth).filter(([,d])=>d.rps>0&&d.pctOfMedian<100).length}</div></div><div class="rpt-stat"><div class="rpt-stat-l">National peer median</div><div class="rpt-stat-v">${fmt(nationalMedianRps)} req/sta</div></div><div class="rpt-stat"><div class="rpt-stat-l">VISNs above median</div><div class="rpt-stat-v teal">${Object.values(visnDepth).filter(d=>d.rps>0&&d.pctOfMedian>=100).length}</div></div>`;return;}
+  if(isSleeping){document.getElementById('rptSummary').innerHTML=`<div class="rpt-stat"><div class="rpt-stat-l">Sleeping giants</div><div class="rpt-stat-v violet">${fmt(sleepingGiants.length)}</div></div><div class="rpt-stat"><div class="rpt-stat-l">Volume opportunity</div><div class="rpt-stat-v violet">+${fmtK(totalVolumeOpportunity)}</div></div><div class="rpt-stat"><div class="rpt-stat-l">Peer median</div><div class="rpt-stat-v">${fmt(nationalMedianRps)} req/sta</div></div><div class="rpt-stat"><div class="rpt-stat-l">Showing</div><div class="rpt-stat-v">${fmt(filtered.length)}</div></div>`;return;}
+  if(isAdopt){document.getElementById('rptSummary').innerHTML=`<div class="rpt-stat"><div class="rpt-stat-l">On LEAF</div><div class="rpt-stat-v teal">${fmt(totalGroups-totalNon)}</div></div><div class="rpt-stat"><div class="rpt-stat-l">Overall adoption</div><div class="rpt-stat-v">${overallRate}%</div></div><div class="rpt-stat"><div class="rpt-stat-l">Showing</div><div class="rpt-stat-v">${fmt(filtered.length)}</div></div>`;return;}
+  const totalChildSitesInGap=nonAdopters.reduce((sum,g)=>sum+g.childCount,0);
+  document.getElementById('rptSummary').innerHTML=isGap
+    ?`<div class="rpt-stat"><div class="rpt-stat-l">Not on LEAF</div><div class="rpt-stat-v amber">${fmt(totalNon)}</div></div><div class="rpt-stat"><div class="rpt-stat-l">Child sites</div><div class="rpt-stat-v">${fmt(totalChildSitesInGap)}</div></div><div class="rpt-stat"><div class="rpt-stat-l">Overall adoption</div><div class="rpt-stat-v">${overallRate}%</div></div><div class="rpt-stat"><div class="rpt-stat-l">Showing</div><div class="rpt-stat-v">${fmt(filtered.length)}</div></div>`
+    :`<div class="rpt-stat"><div class="rpt-stat-l">Adopted groups</div><div class="rpt-stat-v teal">${fmt(totalGroups-totalNon)}</div></div><div class="rpt-stat"><div class="rpt-stat-l">Low-activity</div><div class="rpt-stat-v violet">${fmt(totalLow)}</div></div><div class="rpt-stat"><div class="rpt-stat-l">Threshold</div><div class="rpt-stat-v">${fmt(LOW_ACTIVITY_THRESHOLD)}</div></div><div class="rpt-stat"><div class="rpt-stat-l">Showing</div><div class="rpt-stat-v">${fmt(filtered.length)}</div></div>`;
+}
+
+function renderReportDq(){
+  const dq=document.getElementById('rptDq');
+  if(currentReportMode==='belowMedian'){dq.className='rpt-dq info-amber';dq.innerHTML=`<div class="rpt-dq-top"><div class="rpt-dq-head"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>VISNs ranked by req/station — lowest first · ${windowLabel}</div><div class="rpt-dq-pills"><div class="rpt-dq-pill"><span class="n amber">${Object.values(visnDepth).filter(d=>d.rps>0&&d.pctOfMedian<100).length}</span><span class="lbl">below median</span></div><div class="rpt-dq-pill"><span class="n">${fmt(nationalMedianRps)}</span><span class="lbl">req/sta peer median</span></div></div></div><div class="rpt-dq-note warn">Clicking a row closes this report and navigates to that VISN on the map and in the detail panel.</div>`;return;}
+  if(currentReportMode==='sleeping'){dq.className='rpt-dq info-violet';dq.innerHTML=`<div class="rpt-dq-top"><div class="rpt-dq-head"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Adopted large-facility groups in the bottom 25% by volume · ${windowLabel}</div><div class="rpt-dq-pills"><div class="rpt-dq-pill"><span class="n violet">${fmt(sleepingGiants.length)}</span><span class="lbl">sleeping giants</span></div><div class="rpt-dq-pill"><span class="n violet">+${fmtK(totalVolumeOpportunity)}</span><span class="lbl">req/mo potential</span></div></div></div><div class="rpt-dq-note warn">Sleeping giants are adopted station groups that contain at least one large facility (VA Medical Center, Vet Center, etc.) but fall in the bottom 25% by request volume.</div>`;return;}
+  if(currentReportMode==='adopted'){dq.className='rpt-dq info-blue';dq.innerHTML=`<div class="rpt-dq-top"><div class="rpt-dq-head"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>All adopted station groups · full 18-month window</div><div class="rpt-dq-pills"><div class="rpt-dq-pill"><span class="n teal">${fmt(dqInfo.adoptedGroups)}</span><span class="lbl">on LEAF</span></div></div></div>`;return;}
+  if(currentReportMode==='gap'){const totalSilent=partialAdoptionGaps.reduce((s,g)=>s+g.silentCount,0);dq.className='rpt-dq info-amber';dq.innerHTML=`<div class="rpt-dq-top"><div class="rpt-dq-head"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>Adopted groups with silent child sites · full 18-month window</div><div class="rpt-dq-pills"><div class="rpt-dq-pill"><span class="n amber">${fmt(partialAdoptionGaps.length)}</span><span class="lbl">affected groups</span></div><div class="rpt-dq-pill"><span class="n amber">${fmt(totalSilent)}</span><span class="lbl">silent child sites</span></div></div></div><div class="rpt-dq-note warn"><b>Informational only.</b> The parent station group is active on LEAF — these child locations have simply never submitted a request in the 18-month window.</div>`;return;}
+  dq.className='rpt-dq info-violet';dq.innerHTML=`<div class="rpt-dq-top"><div class="rpt-dq-head"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>25th-percentile threshold · adopted groups only · ${windowLabel}</div><div class="rpt-dq-pills"><div class="rpt-dq-pill"><span class="n violet">${fmt(LOW_ACTIVITY_THRESHOLD)}</span><span class="lbl">req threshold</span></div><div class="rpt-dq-pill"><span class="n violet">${fmt(lowActivityGroups.length)}</span><span class="lbl">low-activity groups</span></div></div></div><div class="rpt-dq-note warn">Threshold is the 25th percentile of total requests across all adopted groups (floor: 10) for the <b>${windowLabel}</b>.</div>`;
+}
+
+function switchTab(tab){
+  currentTab=tab;
+  document.getElementById('tabTable').classList.toggle('active',tab==='table');document.getElementById('tabTable').setAttribute('aria-selected',tab==='table');
+  document.getElementById('tabRanked').classList.toggle('active',tab==='ranked');document.getElementById('tabRanked').setAttribute('aria-selected',tab==='ranked');
+  document.getElementById('rptControls').style.display=tab==='table'?'flex':'none';
+  if(tab==='table')renderReportTable();else renderRankedTab();
+}
+
+function renderPartialGapReport(){
+  const body=document.getElementById('rptBody');
+  const fVisnVal=document.getElementById('fVisn').value,fStateVal=document.getElementById('fState').value,fClassVal=document.getElementById('fClass').value,fQ=document.getElementById('fSearch').value.trim().toLowerCase();
+  let groups=[...partialAdoptionGaps];
+  if(fVisnVal)groups=groups.filter(g=>'VISN '+g.visn===fVisnVal);
+  if(fStateVal)groups=groups.filter(g=>g.state===fStateVal);
+  const allChildRows=[];
+  groups.forEach(g=>{g.silentChildren.forEach(c=>{if(fClassVal&&c.class!==fClassVal)return;if(fQ){const hay=(c.name+' '+c.code+' '+c.city+' '+g.name+' '+g.code).toLowerCase();if(!hay.includes(fQ))return;}allChildRows.push({child:c,parent:g});});});
+  const totalSilent=partialAdoptionGaps.reduce((s,g)=>s+g.silentCount,0);
+  document.getElementById('rptSummary').innerHTML=`<div class="rpt-stat"><div class="rpt-stat-l">Affected groups</div><div class="rpt-stat-v amber">${fmt(partialAdoptionGaps.length)}</div></div><div class="rpt-stat"><div class="rpt-stat-l">Silent child sites</div><div class="rpt-stat-v amber">${fmt(totalSilent)}</div></div><div class="rpt-stat"><div class="rpt-stat-l">All groups adopted</div><div class="rpt-stat-v teal">${fmt(stationGroups.filter(g=>g.adopted).length)}</div></div><div class="rpt-stat"><div class="rpt-stat-l">Showing (filtered)</div><div class="rpt-stat-v">${fmt(allChildRows.length)}</div></div>`;
+  if(!allChildRows.length){body.innerHTML='<div class="rpt-empty">No silent child sites match these filters.</div>';return;}
+  const byParent=new Map();
+  allChildRows.forEach(({child,parent})=>{if(!byParent.has(parent.key))byParent.set(parent.key,{parent,children:[]});byParent.get(parent.key).children.push(child);});
+  let html='<table class="rpt-tbl" role="grid"><thead><tr><th scope="col">Child Site</th><th scope="col">Station #</th><th scope="col">City</th><th scope="col">Location</th><th scope="col">Type</th><th scope="col">Parent Group</th><th scope="col">VISN</th></tr></thead><tbody>';
+  byParent.forEach(({parent:g,children})=>{
+    html+=`<tr class="rpt-grp"><td colspan="7">${g.name} <span class="grp-rate">station ${g.code} · ${children.length} silent site${children.length===1?'':'s'}</span></td></tr>`;
+    children.slice().sort((a,b)=>a.code.localeCompare(b.code)).forEach(c=>{html+=`<tr data-fac-jump="${c.code}" tabindex="0" aria-label="${c.name}, station ${c.code}, no telemetry in 18-month window"><td><span class="rpt-name">${c.name}</span> <span style="font-size:10px;padding:2px 7px;border-radius:100px;background:var(--abg);color:var(--amber);font-weight:600;margin-left:4px">No telemetry</span></td><td><span class="rpt-code">${c.code}</span></td><td>${c.city}</td><td>${SN[c.state]||c.state} <span style="color:var(--t3)">${c.state}</span></td><td><span class="rpt-classtag">${c.class}</span></td><td style="color:var(--t2);font-size:12px">${g.name}</td><td><span class="rpt-visntag">VISN ${g.visn}</span></td></tr>`;});
+  });
+  html+='</tbody></table>';body.innerHTML=html;
+  body.querySelectorAll('[data-fac-jump]').forEach(row=>{const code=row.dataset.facJump;row.addEventListener('click',()=>jumpToFacility(code));row.addEventListener('keydown',e=>{if(e.key==='Enter')jumpToFacility(code);});});
+}
+
+function renderBelowMedianList(){
+  const body=document.getElementById('rptBody');
+  const allVISNs=Object.entries(visnDepth).filter(([,d])=>d.rps>0).sort(([,a],[,b])=>a.rps-b.rps);
+  const maxRps=Math.max(...allVISNs.map(([,d])=>d.rps),1);
+  const rows=allVISNs.map(([vk,d],i)=>{
+    const a=visnAdoption[vk]||{};const adoptPct=a.total?Math.round(a.adopted/a.total*100):0;const isBelow=d.pctOfMedian<100;const color=barColor(d.pctOfMedian);const barW=Math.round(d.rps/maxRps*100);
+    return`<div class="bm-row" role="button" tabindex="0" data-bm-visn="${vk}" aria-label="${vk}: ${fmt(d.rps)} req/station, ${d.pctOfMedian}% of peer median" style="${!isBelow?'opacity:.55':''}"><div class="bm-rank">${i+1}</div><div class="bm-info"><div class="bm-name">${vk} ${isBelow?`<span style="font-size:10px;padding:2px 7px;border-radius:100px;background:var(--abg);color:var(--amber);font-weight:600;margin-left:4px">Below median</span>`:''}</div><div class="bm-sub">${adoptPct}% adopted · ${fmt(a.adopted)} of ${fmt(a.total)} groups on LEAF</div></div><div class="bm-bar-wrap"><div class="bm-bar"><div class="bm-bar-fill" style="width:${barW}%;background:${color}"></div></div><div class="bm-bar-label" style="color:${color}">${fmt(d.rps)} req/sta · ${d.pctOfMedian}% of median</div></div></div>`;
+  }).join('');
+  body.innerHTML=`<div style="padding:10px 20px;border-bottom:1px solid var(--b1);font-size:12px;color:var(--t3);display:flex;align-items:center;gap:8px"><div style="width:16px;height:3px;background:var(--bmid);border-radius:2px"></div>Peer median: ${fmt(nationalMedianRps)} req/station · Dimmed rows are at or above median</div><div role="list">${rows}</div>`;
+  body.querySelectorAll('[data-bm-visn]').forEach(row=>{const vk=row.dataset.bmVisn;const handler=()=>{closeReport();selVISN(vk);};row.addEventListener('click',handler);row.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();handler();}});});
+  renderReportSummary([]);
+}
+
+function renderRankedTab(){
+  const src=currentReportMode==='sleeping'?sleepingGiants:lowActivityGroups;
+  const maxReq=Math.max(...src.map(g=>g.req),1);const total=src.length;const third=Math.ceil(total/3);const body=document.getElementById('rptBody');
+  if(!src.length){body.innerHTML='<div class="rpt-empty">No groups found.</div>';return;}
+  const tierFor=(i,req)=>{if(req===0)return{label:'Silent',cls:'rank-tier-vlow',style:'background:#fde8e8;color:var(--dred)'};if(i<third)return{label:'Very low',cls:'rank-tier-vlow'};if(i<third*2)return{label:'Low',cls:'rank-tier-low'};return{label:'Moderate',cls:'rank-tier-mod'};};
+  const zeroCount=src.filter(g=>g.req===0).length;
+  const zeroNote=zeroCount?`<div style="padding:10px 20px;font-size:12px;color:var(--dred);background:var(--dredbg);border-bottom:1px solid rgba(168,48,42,.15);display:flex;align-items:center;gap:8px" role="note"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg><b>${zeroCount} completely silent</b> — adopted but zero requests in the ${windowLabel}.</div>`:'';
+  body.innerHTML=zeroNote+`<div class="ranked-list" role="list">${src.map((g,i)=>{const pct=Math.round(g.req/maxReq*100)||1;const tier=tierFor(i,g.req);return`<div class="rank-row" role="listitem button" tabindex="0" data-grp-key="${g.key}" aria-label="${g.name} — rank ${i+1}, ${g.req===0?'zero requests':fmt(g.req)+' requests'}" style="${g.req===0?'background:var(--dredbg)':''}"><div class="rank-num" aria-hidden="true">${i+1}</div><div class="rank-info"><div class="rank-name">${g.name}</div><div class="rank-sub">${g.code} · ${g.city}, ${SN[g.state]||g.state} · VISN ${g.visn}</div></div><div class="rank-bar-wrap" aria-hidden="true"><div class="rank-bar"><div class="rank-bar-fill" style="width:${g.req===0?'2':pct}%;background:${g.req===0?'var(--dred)':'var(--violet)'}"></div></div><div class="rank-bar-label" style="${g.req===0?'color:var(--dred);font-weight:700':''}">${g.req===0?'0 requests':fmt(g.req)+' req'} · ${g.childCount} ${g.childCount===1?'site':'sites'}</div></div><span class="rank-tier ${tier.cls}" style="${tier.style||''}">${tier.label}</span><span class="rank-visntag">VISN ${g.visn}</span></div>`;}).join('')}</div>`;
+  body.querySelectorAll('[data-grp-key]').forEach(row=>{const key=row.dataset.grpKey;const handler=()=>jumpToGroup(key);row.addEventListener('click',handler);row.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();handler();}});});
+  renderReportSummary(src);
+}
+
+function sortFacs(facs){const{key,dir}=rptSort;const val=f=>{if(key==='visn')return parseInt(f.visn)*1000+f.name.charCodeAt(0);if(key==='name')return f.name.toLowerCase();if(key==='code')return f.code;if(key==='city')return(f.city+f.state).toLowerCase();if(key==='state')return f.state;if(key==='class')return f.class;if(key==='children')return f.childCount;if(key==='req')return f.req;return'';};return[...facs].sort((a,b)=>{const va=val(a),vb=val(b);if(va<vb)return-1*dir;if(va>vb)return 1*dir;return 0;});}
+
+function renderReportTable(){
+  if(currentReportMode==='gap'){renderPartialGapReport();return;}
+  const filtered=getFilteredRows();renderReportSummary(filtered);const body=document.getElementById('rptBody');
+  if(!filtered.length){body.innerHTML='<div class="rpt-empty">No facilities match these filters.</div>';return;}
+  const isLow=currentReportMode==='low';const isAdopt=currentReportMode==='adopted';const isSleeping=currentReportMode==='sleeping';const isGap=currentReportMode==='gap';
+  const showReq=isLow||isAdopt||isSleeping;
+  const reqLabel=isSleeping?`Requests (${windowLabel})`:isLow?`Requests (${windowLabel})`:'Requests';
+  const sitesColLabel=isGap?'Child Sites':'Sites';
+  const thSort=(k,label)=>{const active=rptSort.key===k;const dir=active?(rptSort.dir>0?'ascending':'descending'):'none';return`<th data-k="${k}" scope="col" aria-sort="${dir}" tabindex="0">${label}${active?`<span class="arr" aria-hidden="true">${rptSort.dir>0?'▲':'▼'}</span>`:''}</th>`;};
+  let html=`<table class="rpt-tbl" role="grid"><thead><tr>${thSort('name','Station Group')}${thSort('code','Parent #')}${thSort('city','City')}${thSort('state','Location')}${thSort('class','Type')}${thSort('children',sitesColLabel)}${showReq?thSort('req',reqLabel):''} ${thSort('visn','VISN')}</tr></thead><tbody>`;
+  const childTable=f=>`<tr class="child-row" id="kids-${f.key.replace(/[^a-zA-Z0-9]/g,'_')}" style="display:none" aria-hidden="true"><td colspan="${showReq?8:7}"><div class="child-wrap"><table class="child-tbl"><tbody>${f.children.slice().sort((a,b)=>a.code.localeCompare(b.code)).map(k=>`<tr data-fac-jump="${k.code}" tabindex="0" aria-label="${k.name}, station ${k.code}"><td><span class="child-name">${k.name}</span></td><td><span class="child-code">${k.code}</span></td><td>${k.city}, ${k.state}</td><td>${k.class}</td></tr>`).join('')}</tbody></table></div></td></tr>`;
+  const rowHtml=f=>{const cid='kids-'+f.key.replace(/[^a-zA-Z0-9]/g,'_');const sd=stationData[f.code]||{req:0};const chevLabel=`Expand ${f.childCount} child site${f.childCount===1?'':'s'}`;return`<tr data-grp-jump="${f.key}" tabindex="0" aria-label="${f.name}, ${SN[f.state]||f.state}, VISN ${f.visn}"><td><span class="rpt-name">${f.name}</span></td><td><span class="rpt-code">${f.code}</span></td><td>${f.city}</td><td>${SN[f.state]||f.state} <span style="color:var(--t3)">${f.state}</span></td><td><span class="rpt-classtag">${f.class}</span></td><td><span class="sites-cell" data-kids-toggle="${cid}" role="button" tabindex="0" aria-expanded="false" aria-controls="${cid}" aria-label="${chevLabel}"><span class="sites-chev" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg></span><span class="sites-count">${f.childCount}</span></span></td>${showReq?`<td><span class="${isSleeping||isLow?'rpt-lowtag':'rpt-visntag'}">${fmt(isAdopt?sd.req:f.req)}</span></td>`:''}<td><span class="rpt-visntag">VISN ${f.visn}</span></td></tr>${childTable(f)}`;};
+  if(rptSort.key==='visn'){const groups={};filtered.forEach(f=>{const k='VISN '+f.visn;(groups[k]=groups[k]||[]).push(f);});Object.keys(groups).sort((a,b)=>(parseInt(a.replace('VISN ',''))-parseInt(b.replace('VISN ',''))) *rptSort.dir).forEach(k=>{const a=visnAdoption[k]||{total:0,adopted:0};const rate=a.total?Math.round(a.adopted/a.total*100):0;html+=`<tr class="rpt-grp"><td colspan="${showReq?8:7}">${k}<span class="grp-rate">${groups[k].length} ${isSleeping?'sleeping giants':isLow?'low-activity':isAdopt?'adopted':'not on LEAF'} · ${rate}% of ${a.total} adopted</span></td></tr>`;groups[k].sort((x,y)=>isSleeping||isLow?(x.req-y.req):x.name.localeCompare(y.name)).forEach(f=>{html+=rowHtml(f);});});}
+  else sortFacs(filtered).forEach(f=>{html+=rowHtml(f);});
+  html+='</tbody></table>';body.innerHTML=html;
+  body.querySelectorAll('thead th').forEach(th=>{const activate=()=>{const k=th.dataset.k;if(rptSort.key===k)rptSort.dir*=-1;else{rptSort.key=k;rptSort.dir=1;}renderReportTable();};th.addEventListener('click',activate);th.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activate();}});});
+  body.querySelectorAll('[data-grp-jump]').forEach(row=>{const key=row.dataset.grpJump;const handler=()=>jumpToGroup(key);row.addEventListener('click',handler);row.addEventListener('keydown',e=>{if(e.key==='Enter')handler();});});
+  body.querySelectorAll('[data-kids-toggle]').forEach(btn=>{btn.addEventListener('click',e=>{e.stopPropagation();const cid=btn.dataset.kidsToggle;toggleKids(cid,btn);});btn.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.stopPropagation();e.preventDefault();const cid=btn.dataset.kidsToggle;toggleKids(cid,btn);}});});
+  body.querySelectorAll('[data-fac-jump]').forEach(row=>{const code=row.dataset.facJump;row.addEventListener('click',()=>jumpToFacility(code));row.addEventListener('keydown',e=>{if(e.key==='Enter')jumpToFacility(code);});});
+}
+
+function openReport(mode,presetVisn){
+  rptTriggerEl=document.activeElement;currentReportMode=mode||'sleeping';currentTab='table';
+  const isSleeping=currentReportMode==='sleeping';const isLow=currentReportMode==='low';const isBM=currentReportMode==='belowMedian';
+  const titles={sleeping:'Sleeping Giants',low:'Low-Activity Stations',gap:'Partial Adoption Gaps',adopted:'Stations on LEAF',belowMedian:'VISNs Below Peer Median'};
+  const subs={sleeping:`Large adopted stations in the bottom 25% by request volume (${windowLabel}) — highest-value engagement targets`,low:`Adopted station groups in the bottom 25% by request volume (${windowLabel}) — engagement targets`,gap:'Child sites within adopted groups that have no telemetry in the full 18-month window — informational only',adopted:'All station groups with recorded telemetry in the full 18-month window',belowMedian:`All VISNs ranked by req/station — lowest first · peer median: ${fmt(nationalMedianRps)} req/sta`};
+  document.getElementById('rptModalTitle').textContent=titles[currentReportMode]||titles.sleeping;
+  document.getElementById('rptModalSub').textContent=subs[currentReportMode]||subs.sleeping;
+  document.getElementById('rptTabs').style.display=(isSleeping||isLow)?'flex':'none';
+  document.getElementById('tabTable').classList.add('active');document.getElementById('tabRanked').classList.remove('active');
+  document.getElementById('tabTable').setAttribute('aria-selected','true');document.getElementById('tabRanked').setAttribute('aria-selected','false');
+  document.getElementById('rptControls').style.display=isBM?'none':'flex';
+  rebuildFiltersForMode(currentReportMode);
+  document.getElementById('fVisn').value=presetVisn||'';document.getElementById('fState').value='';document.getElementById('fClass').value='';document.getElementById('fSearch').value='';
+  rptSort={key:(isSleeping||isLow)?'req':(isBM?'rps':'state'),dir:1};
+  renderReportDq();
+  if(isBM)renderBelowMedianList();else renderReportTable();
+  const overlay=document.getElementById('rptOverlay');overlay.style.display='flex';overlay.classList.add('on');trapFocus(document.getElementById('rptModal'));
+}
+
+function closeReport(){const overlay=document.getElementById('rptOverlay');releaseTrap(document.getElementById('rptModal'));overlay.classList.remove('on');overlay.style.display='none';if(rptTriggerEl){rptTriggerEl.focus();rptTriggerEl=null;}}
+function jumpToFacility(code){closeReport();const f=facilityMap[code];if(!f)return;const vk='VISN '+f.visn;renderFacility(code,vk,f.state);}
+function toggleKids(cid,el){const row=document.getElementById(cid);if(!row)return;const open=row.style.display!=='none';row.style.display=open?'none':'table-row';row.setAttribute('aria-hidden',open?'true':'false');const chev=el.querySelector('.sites-chev');if(chev)chev.classList.toggle('open',!open);el.setAttribute('aria-expanded',open?'false':'true');}
+function jumpToGroup(key){const g=stationGroups.find(x=>x.key===key);if(!g){closeReport();return;}const rep=g.children.find(k=>k.code===g.parent)||g.children[0];const vk='VISN '+g.visn;closeReport();renderFacility(rep.code,vk,g.state);}
+
+function buildCsvRows(){
+  if(currentReportMode==='belowMedian'){const rows=Object.entries(visnDepth).filter(([,d])=>d.rps>0).sort(([,a],[,b])=>a.rps-b.rps);const esc=s=>{s=String(s==null?'':s);return/[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;};const header=['VISN','Req/Station','% of Peer Median','Adopted Groups','Total Groups','Adoption %'];return[header.join(','),...rows.map(([vk,d])=>{const a=visnAdoption[vk]||{};const adoptPct=a.total?Math.round(a.adopted/a.total*100):0;return[vk,d.rps,d.pctOfMedian+'%',a.adopted,a.total,adoptPct+'%'].map(esc).join(',');})].join('\n');}
+  const isSleeping=currentReportMode==='sleeping';const isLow=currentReportMode==='low';const isAdopt=currentReportMode==='adopted';
+  const filtered=getFilteredRows();
+  const sorted=isSleeping||isLow?[...filtered].sort((a,b)=>a.req-b.req):rptSort.key==='state'?[...filtered].sort((a,b)=>((SN[a.state]||a.state).localeCompare(SN[b.state]||b.state))||a.name.localeCompare(b.name)):sortFacs(filtered);
+  const esc=s=>{s=String(s==null?'':s);return/[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;};
+  const header=['VISN','Location','State Code','Station Group','Parent Number','Facility Type','City','Sites In Group',...(isSleeping||isLow||isAdopt?[`Total Requests (${windowLabel})`]:[])];
+  return[header.join(','),...sorted.map(f=>{const sd=stationData[f.code]||{req:0};return[`VISN ${f.visn}`,SN[f.state]||f.state,f.state,f.name,f.code,f.class,f.city,f.childCount,...(isSleeping||isLow?[f.req]:isAdopt?[sd.req]:[])].map(esc).join(',');})].join('\n');
+}
+function exportCsv(){const csv=buildCsvRows();const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');const v=document.getElementById('fVisn').value;const suffix=currentReportMode==='sleeping'?'_sleeping_giants':currentReportMode==='low'?'_low_activity':currentReportMode==='adopted'?'_on_leaf':currentReportMode==='belowMedian'?'_below_median':'_non_adopters';a.href=url;a.download='LEAF'+suffix+(v?'_'+v.replace(' ',''):'')+`_${windowLabel.replace(/\s+/g,'_').replace(/[()]/g,'')}.csv`;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);showToast('CSV downloaded');}
+function copyReport(){const csv=buildCsvRows();if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(csv).then(()=>showToast('Copied')).catch(()=>fallbackCopy(csv));else fallbackCopy(csv);}
+function fallbackCopy(text){const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');showToast('Copied');}catch(e){showToast('Copy failed — use Export CSV');}document.body.removeChild(ta);}
+
+let toastTimer=null;
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('on'),1900);}
+
+// ── SEARCH ──
+let searchIdx=[],searchFocusIdx=-1;
+function buildSearchIdx(){
+  searchIdx=[];
+  Object.keys(VISN_STATES).forEach(vk=>{const num=vk.replace('VISN ','');const states=(VISN_STATES[vk]||[]).map(s=>SN[s]||s).join(', ');searchIdx.push({type:'visn',id:vk,label:vk,sub:states,terms:[vk.toLowerCase(),'visn'+num,num,states.toLowerCase()]});});
+  Object.entries(SN).forEach(([abbr,name])=>{const visns=(STATE_VISNS[abbr]||[]).join(', ');if(!visns)return;searchIdx.push({type:'state',id:abbr,label:name,sub:visns,terms:[name.toLowerCase(),abbr.toLowerCase(),visns.toLowerCase()]});});
+  facilities.forEach(f=>{const vk='VISN '+f.visn;searchIdx.push({type:'facility',id:f.code,label:f.name,sub:`${f.code} · ${f.city}, ${f.state} · ${f.class} · ${vk}`,terms:[f.name.toLowerCase(),f.code.toLowerCase(),f.city.toLowerCase(),f.state.toLowerCase(),f.class.toLowerCase(),('visn'+f.visn),vk.toLowerCase()]});});
+}
+
+const $si=document.getElementById('si'),$sr=document.getElementById('sr'),$srLive=document.getElementById('sr-live');
+$si.addEventListener('input',()=>{
+  searchFocusIdx=-1;const q=$si.value.trim().toLowerCase();
+  if(q.length<1){$sr.classList.remove('on');$si.setAttribute('aria-expanded','false');$srLive.textContent='';return;}
+  if(q.length<2){$sr.innerHTML=`<div class="sri" style="color:var(--t3);cursor:default;font-size:12px">Keep typing to search…</div>`;$sr.classList.add('on');$si.setAttribute('aria-expanded','true');return;}
+  const score=item=>{let s=0;item.terms.forEach(t=>{if(t===q)s+=10;else if(t.startsWith(q))s+=5;else if(t.includes(q))s+=2;});return s;};
+  const hits=searchIdx.map(x=>({...x,_s:score(x)})).filter(x=>x._s>0).sort((a,b)=>b._s-a._s);
+  if(!hits.length){$sr.innerHTML=`<div class="sri" style="color:var(--t3);cursor:default;font-size:12px">No results for "${$si.value}"</div>`;$sr.classList.add('on');$si.setAttribute('aria-expanded','true');$srLive.textContent=`No results for ${$si.value}`;return;}
+  const visns=hits.filter(h=>h.type==='visn').slice(0,3),states=hits.filter(h=>h.type==='state').slice(0,4),facs=hits.filter(h=>h.type==='facility').slice(0,6);
+  let html='';
+  if(visns.length)html+=`<div class="sr-group"><div class="sr-group-label">VISNs</div>${visns.map(h=>`<div class="sri" role="option" tabindex="-1" data-pick-id="${h.id}" data-pick-type="visn" aria-label="${h.label}: ${h.sub}"><span class="srb srb-v">${h.id}</span><div class="sr-main"><div class="sr-name">${h.label}</div><div class="sr-sub">${h.sub}</div></div></div>`).join('')}</div>`;
+  if(states.length)html+=`<div class="sr-group"><div class="sr-group-label">States</div>${states.map(h=>`<div class="sri" role="option" tabindex="-1" data-pick-id="${h.id}" data-pick-type="state" aria-label="${h.label}: ${h.sub}"><span class="srb srb-s">${h.id}</span><div class="sr-main"><div class="sr-name">${h.label}</div><div class="sr-sub">${h.sub}</div></div></div>`).join('')}</div>`;
+  if(facs.length)html+=`<div class="sr-group"><div class="sr-group-label">Facilities</div>${facs.map(h=>{const dead=!isAdopted(h.id);const low=!dead&&isLowActivity(h.id);const sleeping=!dead&&isSleepingGiant(h.id);return`<div class="sri" role="option" tabindex="-1" data-pick-id="${h.id}" data-pick-type="facility" aria-label="${h.label}${dead?' — not on LEAF':sleeping?' — sleeping giant':low?' — low activity':''}: ${h.sub}"><span class="srb srb-f">${h.id}</span><div class="sr-main"><div class="sr-name">${h.label}${dead?` <span style="color:var(--amber);font-size:10px;font-weight:600">· not on LEAF</span>`:sleeping?` <span style="color:var(--violet);font-size:10px;font-weight:600">· sleeping giant</span>`:low?` <span style="color:var(--violet);font-size:10px;font-weight:600">· low activity</span>`:''}</div><div class="sr-sub">${h.sub}</div></div></div>`;}).join('')}</div>`;
+  $sr.innerHTML=html;$sr.classList.add('on');$si.setAttribute('aria-expanded','true');
+  const total=visns.length+states.length+facs.length;$srLive.textContent=`${total} result${total===1?'':'s'} found`;
+  $sr.querySelectorAll('.sri[data-pick-type]').forEach(item=>{item.addEventListener('click',()=>pick(item.dataset.pickId,item.dataset.pickType));item.addEventListener('keydown',e=>handleSrKey(e));});
+});
+$si.addEventListener('keydown',e=>{const options=[...$sr.querySelectorAll('.sri[role="option"]')];if(e.key==='ArrowDown'){e.preventDefault();searchFocusIdx=Math.min(searchFocusIdx+1,options.length-1);options[searchFocusIdx]?.focus();}else if(e.key==='Escape'){$sr.classList.remove('on');$si.setAttribute('aria-expanded','false');searchFocusIdx=-1;}});
+function handleSrKey(e){const options=[...$sr.querySelectorAll('.sri[role="option"]')];const cur=options.indexOf(document.activeElement);if(e.key==='ArrowDown'){e.preventDefault();const next=options[cur+1];if(next)next.focus();else $si.focus();}else if(e.key==='ArrowUp'){e.preventDefault();if(cur===0)$si.focus();else options[cur-1]?.focus();}else if(e.key==='Enter'){e.preventDefault();document.activeElement.click();}else if(e.key==='Escape'){$sr.classList.remove('on');$si.setAttribute('aria-expanded','false');$si.focus();}}
+function pick(id,type){$si.value='';$sr.classList.remove('on');$si.setAttribute('aria-expanded','false');if(type==='visn')selVISN(id);else if(type==='state'){const vk=(STATE_VISNS[id]||[])[0]||'';if(vk)selVISN(vk);renderState(id,vk);}else{const f=facilityMap[id];if(f)renderFacility(id,'VISN '+f.visn,f.state);}}
+document.addEventListener('click',e=>{if(!e.target.closest('#sw')){$sr.classList.remove('on');$si.setAttribute('aria-expanded','false');}});
+
+// ── EVENT WIRES ──
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('brand').addEventListener('click',()=>{document.getElementById('pc').classList.remove('on');document.getElementById('pc').style.display='none';selId=null;zonePaths.forEach(p=>p.classList.remove('zsel'));Object.values(visnCircleEls).forEach(p=>{p.style.stroke='';p.style.strokeWidth='';});renderLanding();});
+  document.getElementById('brand').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();document.getElementById('brand').click();}});
+  document.getElementById('rptClose').addEventListener('click',closeReport);
+  document.getElementById('rptOverlay').addEventListener('click',e=>{if(e.target.id==='rptOverlay')closeReport();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(document.getElementById('rptOverlay').classList.contains('on'))closeReport();else if(document.getElementById('trendOverlay').style.display==='flex')closeTrends();else if(document.getElementById('ucOverlay')?.style.display==='flex')closeUcModal();}});
+  ['fVisn','fState','fClass'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{if(currentTab==='table')renderReportTable();}));
+  document.getElementById('fSearch').addEventListener('input',()=>{if(currentTab==='table')renderReportTable();});
+  document.getElementById('btnCsv').addEventListener('click',exportCsv);
+  document.getElementById('btnCopy').addEventListener('click',copyReport);
+  document.getElementById('shadeSelect').addEventListener('change',e=>{shadeMode=parseInt(e.target.value);applyShade();});
+  document.getElementById('windowSelect').addEventListener('change',e=>{
+    activeWindowMonths=parseInt(e.target.value);windowLabel=windowLabelFor(activeWindowMonths);applyWindowChange();
+    if(document.getElementById('rptOverlay').classList.contains('on')){renderReportDq();if(currentTab==='table')renderReportTable();else renderRankedTab();const mode=currentReportMode;document.getElementById('rptModalSub').textContent=mode==='sleeping'?`Large adopted stations in the bottom 25% by request volume (${windowLabel}) — highest-value engagement targets`:mode==='low'?`Adopted station groups in the bottom 25% by request volume (${windowLabel}) — engagement targets`:mode==='belowMedian'?`All VISNs ranked by req/station · peer median: ${fmt(nationalMedianRps)} req/sta`:'Parent station groups with no telemetry in the full 18-month window';}
+  });
+  document.getElementById('tabTable').addEventListener('click',()=>switchTab('table'));
+  document.getElementById('tabRanked').addEventListener('click',()=>switchTab('ranked'));
+
+  fetch('https://leaf.va.gov/launchpad/files/leaf_national_telemetry.txt')
+    .then(r=>r.text())
+    .then(raw=>{
+      document.getElementById('lm').textContent='Processing data…';
+      const p=JSON.parse(raw);
+      const fd=JSON.parse(LZString.decompressFromBase64(p.data));
+      const gd=p.generateDate||'';
+      dataGenerateDate=gd;
+      const el=document.getElementById('asofDate');if(el)el.textContent=gd||'Unknown';
+      buildData(fd);buildMap();wireTrends();
+    })
+    .catch(err=>{console.error('Boot:',err);document.getElementById('lm').textContent='Failed to load telemetry.';});
+});
+
+// ── SNAPSHOT MODULE ──
+const SNAP=(function(){
+  const BASE='https://leaf.va.gov/platform/map_data/';
+  const FORM_ID='form_86ae5';const F_MAIN=2,F_GIANTS=3,F_META=4;const MAX_FIELD=60000;
+  function SNAP_CSRF(){return window.MAP_DATA_CSRF||window.CSRFToken;}
+  const token=SNAP_CSRF;let history=[],loaded=false;
+
+  function buildPayload(label){
+    const lkp={};facilities.forEach(f=>{if(f.code&&f.state)lkp[String(f.code).trim()]=String(f.state).trim().toUpperCase();});
+    const fullStationReq={};rawRows.forEach(row=>{const site=String(row.site||'').trim(),nr=Number(row.numRecords)||0;if(site){if(!fullStationReq[site])fullStationReq[site]=0;fullStationReq[site]+=nr;}});
+    const fullGroups=stationGroups.map(g=>{let req=0;g.children.forEach(k=>{req+=fullStationReq[k.code]||0;});return{...g,req};});
+    const fullAdoptedReqs=fullGroups.filter(g=>g.adopted).map(g=>g.req).sort((a,b)=>a-b);
+    const p25=fullAdoptedReqs.length?Math.floor(fullAdoptedReqs.length*.25):0;
+    const fullThreshold=Math.max(10,fullAdoptedReqs[p25]||10);
+    const giants=fullGroups.filter(g=>{if(!g.adopted)return false;if(g.req>fullThreshold)return false;return g.children.some(c=>LARGE_CLASSES.has(c.class));}).map(g=>({k:g.key,n:g.name,c:g.code,s:g.state,ct:g.city,cl:g.class,v:g.visn,r:g.req}));
+    const perVisnReq={};
+    fullGroups.forEach(g=>{const vk='VISN '+g.visn;if(!perVisnReq[vk])perVisnReq[vk]={adoptedReq:0,adopted:0,total:0};perVisnReq[vk].total++;if(g.adopted){perVisnReq[vk].adopted++;perVisnReq[vk].adoptedReq+=g.req;}});
+    const rpsArr=Object.values(perVisnReq).map(v=>v.adopted>0?Math.round(v.adoptedReq/v.adopted):0).sort((a,b)=>a-b);
+    const mid=Math.floor(rpsArr.length/2);
+    const snapNationalMedianRps=rpsArr.length%2!==0?rpsArr[mid]:Math.round((rpsArr[mid-1]+rpsArr[mid])/2);
+    const perVisn={};
+    Object.entries(perVisnReq).forEach(([vk,d])=>{const num=vk.replace('VISN ','');const rps=d.adopted>0?Math.round(d.adoptedReq/d.adopted):0;const pctOfMedian=snapNationalMedianRps>0?Math.round(rps/snapNationalMedianRps*100):0;perVisn[num]={a:d.adopted,t:d.total,rps,pct:pctOfMedian};});
+    const nat={groups:stationGroups.length,adopted:stationGroups.filter(g=>g.adopted).length,non:stationGroups.filter(g=>!g.adopted).length,giants:giants.length,thr:fullThreshold,medianRps:snapNationalMedianRps,visnsBelowMedian:Object.values(perVisn).filter(v=>v.rps>0&&v.pct<100).length,requests:rawRows.reduce((s,r)=>s+(r.numRecords||0),0)};
+    const date=new Date().toISOString().slice(0,10);
+    return{date,label:label||'',f_main:{v:2,date,label:label||'',nat,perVisn},f_giants:{v:2,giants},f_meta:date+' | '+(label||'snapshot')};
+  }
+
+  const comp=o=>LZString.compressToBase64(JSON.stringify(o));
+  const deco=s=>{try{return JSON.parse(LZString.decompressFromBase64(s));}catch(e){return null;}};
+
+  async function fetchMapDataToken(){try{const r=await fetch(BASE,{credentials:'include'});const html=await r.text();const m=html.match(/var CSRFToken\s*=\s*['"]([^'"]+)['"]/);if(m)return m[1];}catch(e){}return token();}
+
+  async function createRecord(title){
+    const qBefore={terms:[{id:'recordID',operator:'>',match:0}],joins:[],getData:[],sort:{}};
+    const rBefore=await fetch(BASE+'api/form/query?q='+encodeURIComponent(JSON.stringify(qBefore)),{credentials:'include'});
+    const recsBefore=await rBefore.json();
+    const maxBefore=Object.keys(recsBefore).map(Number).reduce((a,b)=>Math.max(a,b),0);
+    const csrf=await fetchMapDataToken();
+    const b=new URLSearchParams();b.set('service','0');b.set('priority','0');b.set('title',title||('Snapshot '+new Date().toISOString().slice(0,10)));b.set('numform_86ae5','on');b.set('CSRFToken',csrf);
+    await fetch(BASE+'ajaxIndex.php?a=newform',{method:'POST',credentials:'include',body:b,redirect:'follow'});
+    await new Promise(r=>setTimeout(r,1500));
+    const qAfter={terms:[{id:'recordID',operator:'>',match:maxBefore}],joins:[],getData:[],sort:{}};
+    const rAfter=await fetch(BASE+'api/form/query?q='+encodeURIComponent(JSON.stringify(qAfter)),{credentials:'include'});
+    const recsAfter=await rAfter.json();const newIds=Object.keys(recsAfter).map(Number);
+    if(!newIds.length)throw new Error('record not created');return Math.max(...newIds);
+  }
+
+  async function writeIndicator(rid,indicatorID,value,csrf){
+    const b=new URLSearchParams();b.set(String(indicatorID),value);b.set('recordID',String(rid));b.set('series','1');b.set('CSRFToken',csrf);
+    const r=await fetch(BASE+'api/form/'+rid,{method:'POST',credentials:'include',body:b});
+    if(!r.ok)throw new Error('write '+indicatorID+' failed '+r.status);return true;
+  }
+
+  async function submitRecord(rid,csrf){const b=new URLSearchParams();b.set('CSRFToken',csrf);const r=await fetch(BASE+'api/form/'+rid+'/submit',{method:'POST',credentials:'include',body:b});return r.ok;}
+  async function cancelRecord(rid){const csrf=await fetchMapDataToken();const b=new URLSearchParams();b.set('CSRFToken',csrf);b.set('comment','');const r=await fetch(BASE+'api/form/'+rid+'/cancel',{method:'POST',credentials:'include',body:b});if(!r.ok)throw new Error('cancel failed '+r.status);return true;}
+
+  async function capture(label){
+    const p=buildPayload(label);const c2=comp(p.f_main),c3=comp(p.f_giants);
+    if(c2.length>MAX_FIELD||c3.length>MAX_FIELD)throw new Error('Snapshot too large');
+    const csrf=await fetchMapDataToken();const rid=await createRecord(label?('Snapshot '+p.date+' — '+label):('Snapshot '+p.date));
+    await writeIndicator(rid,F_MAIN,c2,csrf);await writeIndicator(rid,F_GIANTS,c3,csrf);await writeIndicator(rid,F_META,p.f_meta,csrf);await submitRecord(rid,csrf);
+    return{rid,size:c2.length+c3.length,date:p.date};
+  }
+
+  async function load(){
+    const q={terms:[{id:'deleted',operator:'=',match:'0'}],joins:[],getData:[String(F_MAIN),String(F_GIANTS),String(F_META)],sort:{}};
+    const r=await fetch(BASE+'api/form/query?q='+encodeURIComponent(JSON.stringify(q)),{credentials:'include'});
+    if(!r.ok)throw new Error('history load failed '+r.status);
+    const recs=await r.json();
+    history=Object.entries(recs).map(([rid,rec])=>{const s=rec.s1||{};const main=deco(s['id'+F_MAIN]||'')||{};const giants=deco(s['id'+F_GIANTS]||'')||{};const meta=String(s['id'+F_META]||'');const date=main.date||(meta.split('|')[0]||'').trim()||'';return{recordID:Number(rid),date,label:(main.label||'').trim(),nat:main.nat||{},perVisn:main.perVisn||{},giants:giants.giants||[]};}).filter(h=>h.date).sort((a,b)=>a.date.localeCompare(b.date)||a.recordID-b.recordID);
+    loaded=true;return history;
+  }
+
+  function diff(A,B){
+    const aGiantKeys=new Map(A.giants.map(g=>[g.k,g]));const bGiantKeys=new Map(B.giants.map(g=>[g.k,g]));
+    const resolved=[...aGiantKeys.values()].filter(g=>!bGiantKeys.has(g.k));const newGiants=[...bGiantKeys.values()].filter(g=>!aGiantKeys.has(g.k));
+    const crossedAbove=[],crossedBelow=[];const allVISNs=new Set([...Object.keys(A.perVisn||{}),...Object.keys(B.perVisn||{})]);
+    allVISNs.forEach(num=>{const a=A.perVisn?.[num],b=B.perVisn?.[num];if(!a||!b||!a.rps||!b.rps)return;const wasBelow=a.pct<100,nowBelow=b.pct<100;if(wasBelow&&!nowBelow)crossedAbove.push({vk:'VISN '+num,...b});else if(!wasBelow&&nowBelow)crossedBelow.push({vk:'VISN '+num,...b});});
+    return{resolved,newGiants,crossedAbove,crossedBelow};
+  }
+
+  return{get history(){return history;},get loaded(){return loaded;},buildPayload,capture,load,diff,cancelRecord,todayCount(){return history.filter(h=>h.date===new Date().toISOString().slice(0,10)).length;}};
+})();
+
+async function deleteSnapshot(rid){if(!confirm('Delete snapshot #'+rid+'? This cannot be undone.'))return;try{await SNAP.cancelRecord(rid);showToast('Snapshot #'+rid+' deleted');await loadTrendHistory();}catch(e){alert('Delete failed:\n'+e.message);}}
+
+function openTrends(){trendTriggerEl=document.activeElement;document.getElementById('trendOverlay').style.display='flex';loadTrendHistory();trapFocus(document.getElementById('trendModal'));}
+function closeTrends(){releaseTrap(document.getElementById('trendModal'));document.getElementById('trendOverlay').style.display='none';if(trendTriggerEl){trendTriggerEl.focus();trendTriggerEl=null;}}
+
+async function loadTrendHistory(){
+  const body=document.getElementById('trendBody');
+  body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;gap:10px;padding:50px;color:var(--t3)" aria-live="polite"><div class="spin" style="width:20px;height:20px" aria-hidden="true"></div>Loading snapshot history…</div>';
+  try{await SNAP.load();document.getElementById('trendCount').textContent=SNAP.history.length;renderTrendPickers();renderTrendComparison();}
+  catch(e){body.innerHTML='<div style="text-align:center;padding:50px;color:var(--t3)" role="alert">Could not load history.<br><span style="font-size:12px">'+e.message+'</span></div>';}
+}
+
+function renderTrendPickers(){
+  const h=SNAP.history;const selA=document.getElementById('snapA'),selB=document.getElementById('snapB');
+  if(h.length<1){selA.innerHTML=selB.innerHTML='<option>No snapshots yet</option>';return;}
+  const opt=s=>`<option value="${s.recordID}">${s.date}${s.label?' · '+s.label:''} (#${s.recordID})</option>`;
+  selA.innerHTML=h.map(opt).join('');selB.innerHTML=h.map(opt).join('');selA.value=h[0].recordID;selB.value=h[h.length-1].recordID;
+  const listEl=document.getElementById('snapList');if(!listEl)return;
+  listEl.innerHTML=h.map(s=>`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--b1)" role="listitem"><div style="flex:1;font-size:13px"><b>${s.date}</b>${s.label?' · '+s.label:''} <span style="color:var(--t3);font-size:11px">#${s.recordID}</span></div><button data-del-rid="${s.recordID}" aria-label="Delete snapshot ${s.date}" style="border:1px solid rgba(168,48,42,.3);background:var(--rbg);color:var(--red);border-radius:var(--rs);padding:3px 9px;font-size:11px;cursor:pointer">Delete</button></div>`).join('');
+  listEl.querySelectorAll('[data-del-rid]').forEach(b=>{b.addEventListener('click',()=>deleteSnapshot(Number(b.dataset.delRid)));});
+}
+
+function fmtDelta(n,goodIsUp){if(n===0)return`<span style="color:var(--t3)">±0</span>`;const up=n>0,good=goodIsUp?up:!up;return`<span style="color:${good?'var(--teal)':'var(--red)'};font-weight:700">${up?'▲':'▼'}${Math.abs(n)}</span>`;}
+
+function renderTrendComparison(){
+  const body=document.getElementById('trendBody');const h=SNAP.history;
+  if(h.length===0){body.innerHTML=`<div style="text-align:center;padding:40px;color:var(--t3)">No snapshots captured yet.<br><span style="font-size:12px">Click "Capture today's snapshot" to create your first baseline.</span></div>`;return;}
+  if(h.length===1){const s=h[0];body.innerHTML=`<div style="padding:24px 20px"><div style="background:var(--bbg);border-radius:var(--r);padding:16px;margin-bottom:18px;color:var(--blue);font-size:13px" role="note">First snapshot captured <b>${s.date}</b>. Capture another later to see change over time.</div>${trendStatStrip(null,s)}${trendLineSvg()}</div>`;return;}
+  const ridA=Number(document.getElementById('snapA').value),ridB=Number(document.getElementById('snapB').value);
+  let A=h.find(x=>x.recordID===ridA),B=h.find(x=>x.recordID===ridB);
+  if(!A||!B){A=h[0];B=h[h.length-1];}
+  if(A.date>B.date){const t=A;A=B;B=t;}
+  document.getElementById('trendSpan').textContent=spanLabel(A.date,B.date);
+  const d=SNAP.diff(A,B);
+  body.innerHTML=`<div style="padding:20px">${trendStatStrip(A,B)}${trendLineSvg()}<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px">${diffColumn('Sleeping giants resolved',d.resolved,'teal','Were sleeping giants in '+A.date+', now above the volume threshold — utilization improved.')}${diffColumn('Newly sleeping',d.newGiants,'violet','Adopted large-facility groups that dropped into the bottom 25% since '+A.date+'. Warm outreach needed.')}${visnCrossColumn('VISNs crossed above median',d.crossedAbove,'teal','Were below the peer median in '+A.date+', now at or above it.')}${visnCrossColumn('VISNs dropped below median',d.crossedBelow,'red','Were at or above the peer median in '+A.date+', now below it.')}</div></div>`;
+}
+
+function spanLabel(a,b){const days=Math.round((new Date(b)-new Date(a))/86400000);if(days===0)return'same day';if(days<31)return days+' days';const m=Math.round(days/30.4);return m+' month'+(m>1?'s':'');}
+
+function trendStatStrip(A,B){
+  const cell=(label,val,delta)=>`<div class="rpt-stat" style="min-width:140px"><div class="rpt-stat-l">${label}</div><div class="rpt-stat-v">${val}${delta!==undefined?` <span style="font-size:13px">${delta}</span>`:''}</div></div>`;
+  if(!A)return`<div class="rpt-summary" style="border:none;padding:0 0 4px">${cell('Sleeping giants',B.nat.giants||0)}${cell('VISNs below median',B.nat.visnsBelowMedian||0)}${cell('Peer median rps',fmt(B.nat.medianRps||0))}${cell('Stations',B.nat.adopted||0)}</div>`;
+  return`<div class="rpt-summary" style="border:none;padding:0 0 4px">${cell('Peer median rps',fmt(B.nat.medianRps||0),fmtDelta((B.nat.medianRps||0)-(A.nat.medianRps||0),true))}${cell('Sleeping giants',B.nat.giants||0,fmtDelta((B.nat.giants||0)-(A.nat.giants||0),false))}${cell('VISNs below median',B.nat.visnsBelowMedian||0,fmtDelta((B.nat.visnsBelowMedian||0)-(A.nat.visnsBelowMedian||0),false))}${cell('On LEAF',B.nat.adopted||0,fmtDelta((B.nat.adopted||0)-(A.nat.adopted||0),true))}</div>`;
+}
+
+function trendLineSvg(){
+  const h=SNAP.history;if(h.length<2)return'';
+  const W=1100,H=180,padL=48,padR=16,padT=16,padB=28;
+  const xs=h.map((s,i)=>padL+(W-padL-padR)*(h.length===1?0:i/(h.length-1)));
+  const maxGiant=Math.max(...h.map(s=>s.nat.giants||0),1);const maxRps=Math.max(...h.map(s=>s.nat.medianRps||0),1);
+  const yG=v=>padT+(H-padT-padB)*(1-v/maxGiant);const yR=v=>padT+(H-padT-padB)*(1-v/maxRps);
+  const lineG='M '+h.map((s,i)=>`${xs[i]},${yG(s.nat.giants||0)}`).join(' L ');
+  const lineR='M '+h.map((s,i)=>`${xs[i]},${yR(s.nat.medianRps||0)}`).join(' L ');
+  const dotsG=h.map((s,i)=>`<circle cx="${xs[i]}" cy="${yG(s.nat.giants||0)}" r="3" fill="var(--violet)"/>`).join('');
+  const dotsR=h.map((s,i)=>`<circle cx="${xs[i]}" cy="${yR(s.nat.medianRps||0)}" r="3" fill="var(--blue)"/>`).join('');
+  const xlabels=h.map((s,i)=>`<text x="${xs[i]}" y="${H-8}" font-size="10" fill="var(--t3)" text-anchor="middle">${s.date.slice(5)}</text>`).join('');
+  const ylabelsG=[0,Math.round(maxGiant/2),maxGiant].map(v=>`<text x="${padL-6}" y="${yG(v)+3}" font-size="10" fill="var(--violet)" text-anchor="end">${v}</text>`).join('');
+  const ylabelsR=[0,Math.round(maxRps/2),maxRps].map(v=>`<text x="${W-padR+6}" y="${yR(v)+3}" font-size="10" fill="var(--blue)" text-anchor="start">${fmt(v)}</text>`).join('');
+  return`<div style="margin-top:18px;border:1px solid var(--b1);border-radius:var(--r);padding:12px 8px 4px;background:var(--s2)" role="img" aria-label="Line chart: sleeping giants count and peer median req/station across ${h.length} snapshots"><div style="display:flex;gap:18px;padding:0 8px 8px;font-size:12px" aria-hidden="true"><span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:3px;background:var(--violet);display:inline-block;border-radius:2px"></span>Sleeping giants (left axis)</span><span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:3px;background:var(--blue);display:inline-block;border-radius:2px"></span>Peer median req/sta (right axis)</span></div><svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto" aria-hidden="true">${ylabelsG}${ylabelsR}${xlabels}<path d="${lineG}" fill="none" stroke="var(--violet)" stroke-width="2"/>${dotsG}<path d="${lineR}" fill="none" stroke="var(--blue)" stroke-width="2"/>${dotsR}</svg></div>`;
+}
+
+function diffColumn(title,items,color,subtitle){
+  const colMap={teal:'var(--teal)',red:'var(--red)',violet:'var(--violet)'};const c=colMap[color]||'var(--t2)';
+  const rows=items.length?items.slice().sort((a,b)=>(SN[a.s]||a.s).localeCompare(SN[b.s]||b.s)||a.n.localeCompare(b.n)).map(g=>`<div role="button" tabindex="0" data-diff-code="${g.c}" aria-label="${g.n}, ${SN[g.s]||g.s}, VISN ${g.v}" style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid var(--b1);cursor:pointer"><div style="width:6px;height:6px;border-radius:50%;background:${c};margin-top:6px;flex-shrink:0" aria-hidden="true"></div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;line-height:1.35">${g.n}</div><div style="font-size:11px;color:var(--t3)">${g.c} · ${g.ct}, ${SN[g.s]||g.s} · VISN ${g.v}${g.r!==undefined?' · '+fmt(g.r)+' req':''}</div></div></div>`).join(''):'<div style="font-size:12px;color:var(--t3);padding:10px 0">None.</div>';
+  const html=`<div style="border:1px solid var(--b1);border-radius:var(--r);overflow:hidden"><div style="padding:11px 14px;background:var(--s2);border-bottom:1px solid var(--b1)"><div style="font-size:13px;font-weight:700;color:${c};display:flex;align-items:center;justify-content:space-between"><span>${title}</span><span>${items.length}</span></div><div style="font-size:11px;color:var(--t3);margin-top:3px;line-height:1.4">${subtitle}</div></div><div style="padding:4px 14px 10px;max-height:280px;overflow-y:auto" role="list">${rows}</div></div>`;
+  setTimeout(()=>{document.querySelectorAll('[data-diff-code]').forEach(el=>{const code=el.dataset.diffCode;const handler=()=>{closeTrends();const f=facilityMap[code];if(f)renderFacility(code,'VISN '+f.visn,f.state);};el.addEventListener('click',handler);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();handler();}});});},0);
+  return html;
+}
+
+function visnCrossColumn(title,items,color,subtitle){
+  const colMap={teal:'var(--teal)',red:'var(--red)'};const c=colMap[color]||'var(--t2)';
+  const rows=items.length?items.sort((a,b)=>a.vk.localeCompare(b.vk)).map(v=>`<div role="button" tabindex="0" data-cross-visn="${v.vk}" aria-label="${v.vk}: ${fmt(v.rps)} req/station" style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid var(--b1);cursor:pointer"><div style="width:6px;height:6px;border-radius:50%;background:${c};margin-top:6px;flex-shrink:0" aria-hidden="true"></div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500">${v.vk}</div><div style="font-size:11px;color:var(--t3)">${fmt(v.rps)} req/sta · ${v.pct}% of peer median</div></div></div>`).join(''):'<div style="font-size:12px;color:var(--t3);padding:10px 0">None.</div>';
+  const html=`<div style="border:1px solid var(--b1);border-radius:var(--r);overflow:hidden"><div style="padding:11px 14px;background:var(--s2);border-bottom:1px solid var(--b1)"><div style="font-size:13px;font-weight:700;color:${c};display:flex;align-items:center;justify-content:space-between"><span>${title}</span><span>${items.length}</span></div><div style="font-size:11px;color:var(--t3);margin-top:3px;line-height:1.4">${subtitle}</div></div><div style="padding:4px 14px 10px;max-height:280px;overflow-y:auto" role="list">${rows}</div></div>`;
+  setTimeout(()=>{document.querySelectorAll('[data-cross-visn]').forEach(el=>{const vk=el.dataset.crossVisn;const handler=()=>{closeTrends();selVISN(vk);};el.addEventListener('click',handler);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();handler();}});});},0);
+  return html;
+}
+
+async function doCapture(){
+  const today=new Date().toISOString().slice(0,10);
+  if(SNAP.loaded&&SNAP.todayCount()>0){if(!confirm('A snapshot for '+today+' already exists. Capture another anyway?'))return;}
+  const label=prompt('Optional label for this snapshot (e.g. "Q2 baseline"):','')||'';
+  const btn=document.getElementById('snapCaptureBtn');const orig=btn.innerHTML;
+  btn.disabled=true;btn.setAttribute('aria-busy','true');btn.innerHTML='Capturing…';
+  try{const res=await SNAP.capture(label.trim());showToast('Snapshot saved (record #'+res.rid+', '+fmt(res.size)+' chars)');await loadTrendHistory();}
+  catch(e){alert('Snapshot failed:\n'+e.message);}
+  finally{btn.disabled=false;btn.removeAttribute('aria-busy');btn.innerHTML=orig;}
+}
+
+function wireTrends(){
+  const chip=document.getElementById('trendChip');if(chip)chip.addEventListener('click',openTrends);
+  const close=document.getElementById('trendClose');if(close)close.addEventListener('click',closeTrends);
+  const ov=document.getElementById('trendOverlay');if(ov)ov.addEventListener('click',e=>{if(e.target.id==='trendOverlay')closeTrends();});
+  const cap=document.getElementById('snapCaptureBtn');if(cap)cap.addEventListener('click',doCapture);
+  const rf=document.getElementById('snapRefresh');if(rf)rf.addEventListener('click',loadTrendHistory);
+  ['snapA','snapB'].forEach(id=>{const s=document.getElementById(id);if(s)s.addEventListener('change',renderTrendComparison);});
+  SNAP.load().then(()=>{const c=document.getElementById('trendCount');if(c)c.textContent=SNAP.history.length;}).catch(()=>{});
+}
+</script>
+</html>
