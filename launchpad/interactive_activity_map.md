@@ -1,8 +1,8 @@
-# VHA LEAF Adoption Map — Technical Build Document
+# VHA LEAF Activity Map — Technical Build Document
 
 ## Overview
 
-The VHA LEAF Adoption Map is a single-file, client-side HTML application that visualizes Veterans Health Administration (VHA) LEAF (Lean Enterprise Automation Framework) adoption and utilization data across VA VISN regions nationally. It provides interactive drill-down from the national level to individual facility stations, supports snapshot-based trend tracking, and generates exportable reports.
+The VHA LEAF Activity Map is a single-file, client-side HTML application that visualizes Veterans Health Administration (VHA) LEAF (Lean Enterprise Automation Framework) adoption and utilization data across VA VISN regions nationally. It provides interactive drill-down from the national level to individual facility stations, supports snapshot-based trend tracking, and generates exportable reports.
 
 ---
 
