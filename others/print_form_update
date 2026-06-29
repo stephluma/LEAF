@@ -1,0 +1,5 @@
+1. The viewHistory() function was significantly overhauled — it now uses a paginated, async fetch-based approach (fetchRecordHistoryPage, loadRemainingRecordHistoryPages) instead of a single AJAX call. It also includes a filter system (Action, Notes, Email Delivery checkboxes), a LeafFormGrid-based table with sortable columns, and progressive loading with status updates.
+2. The buildRecordHistoryDialogContent() function is new — it generates the full dialog HTML including the filter fieldset, status region, and grid container.
+3. Several supporting history functions are new: escapeHistoryHTML, formatHistoryTimestamp, renderHistoryComment, getRecordHistoryItemTypeLabel, getRecordHistoryGridHeaders, setRecordHistoryGridMessage, sortRecordHistoryItems, sortRecordHistoryGridRows, renderRecordHistoryGrid, updateRecordHistoryFilterSelection, updateRecordHistoryStatus, initializeRecordHistoryDialog.
+4. The cancelRequest() function was updated to use template literals and adds a required-comment validation flow for non-admin users with allowCancel.
+5. The submitNote() function was modernized from $.ajax to fetch with proper error handling.
