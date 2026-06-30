@@ -4,17 +4,57 @@
   q.getData([8,9,10,44,11,12,13,14,16,17,18,30,39,47]);
   q.setExtraParams("&x-filterData=recordID,date,categoryID,stepID");
   var json = await q.execute();
-  console.log("RAW RESPONSE for task 278:", json);
+  console.log("RAW RESPONSE for task 278:\n" + JSON.stringify(json, null, 2));
 })();
 Promise {<pending>}
-VM61:7 RAW RESPONSE for task 278: {278: {…}}
+VM69:7 RAW RESPONSE for task 278:
+{
+  "278": {
+    "recordID": 278,
+    "date": 1773926939,
+    "s1": {
+      "id8": "",
+      "id9": "New Feature - In-App Notifications",
+      "id10": "Not Started",
+      "id44": "",
+      "id11": "Stephanie Lumagui",
+      "id12": "",
+      "id13": "",
+      "id14": "Low",
+      "id16": "Design/UX",
+      "id17": "[]",
+      "id18": "",
+      "id30": "",
+      "id39": "",
+      "id47": "",
+      "id11_orgchart": {
+        "empUID": 539772,
+        "email": "Stephanie.Lumagui@va.gov",
+        "lastName": "Lumagui",
+        "userName": "oitauslumags",
+        "firstName": "Stephanie",
+        "middleName": "L"
+      }
+    }
+  }
+}
 (async function debugKR80() {
   var q = new LeafFormQuery();
   q.addTerm("recordID", "=", "80");
   q.getData([35,36]);
   q.setExtraParams("&x-filterData=recordID,date,categoryID,stepID");
   var json = await q.execute();
-  console.log("RAW RESPONSE for key result 80:", json);
+  console.log("RAW RESPONSE for key result 80:\n" + JSON.stringify(json, null, 2));
 })();
 Promise {<pending>}
-VM65:7 RAW RESPONSE for key result 80: {80: {…}}
+VM73:7 RAW RESPONSE for key result 80:
+{
+  "80": {
+    "recordID": 80,
+    "date": 1771550888,
+    "s1": {
+      "id35": "OKR-22",
+      "id36": "Monthly 90th percentile API TTFB does not exceed 500ms (requires large query handler implementation)"
+    }
+  }
+}
