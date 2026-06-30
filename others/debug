@@ -1,80 +1,31 @@
-(async function debugStepID() {
-  var q1 = new LeafFormQuery();
-  q1.addTerm("recordID", "=", "278");
-  q1.join("status");
-  q1.setExtraParams("&x-filterData=recordID,date,categoryID,stepID,status");
-  var r1 = await q1.execute();
-  console.log("TASK 278 with status join:\n" + JSON.stringify(r1, null, 2));
-
-  var q2 = new LeafFormQuery();
-  q2.addTerm("recordID", "=", "80");
-  q2.join("status");
-  q2.setExtraParams("&x-filterData=recordID,date,categoryID,stepID,status");
-  var r2 = await q2.execute();
-  console.log("KEY RESULT 80 with status join:\n" + JSON.stringify(r2, null, 2));
-})();
-
-
-
-(async function testSubmittedFilter() {
+(async function testOldFilter() {
   var q = new LeafFormQuery();
   q.addTerm("recordID", "=", "278");
-  q.addTerm("stepID", "=", "submitted");
+  q.addTerm("stepID", "!=", "notSubmitted");
   var r = await q.execute();
-  console.log("TASK 278 WITH stepID=submitted filter:", r);
+  console.log("TASK 278 WITH OLD stepID!=notSubmitted filter:", r);
   console.log("Is empty?", !r || Object.keys(r).length === 0);
 })();
 
-
-
-(async function testSubmittedFilterKR() {
-  var q = new LeafFormQuery();
-  q.addTerm("recordID", "=", "80");
-  q.addTerm("stepID", "=", "submitted");
-  var r = await q.execute();
-  console.log("KR 80 WITH stepID=submitted filter:", r);
-  console.log("Is empty?", !r || Object.keys(r).length === 0);
-})();
 Promise {<pending>}
-VM315:35 KR 80 WITH stepID=submitted filter: {}
-VM315:36 Is empty? true
-VM315:7 TASK 278 with status join:
-{
-  "278": {
-    "recordID": 278,
-    "date": 1773926939,
-    "stepID": null
-  }
-}
-VM315:24 TASK 278 WITH stepID=submitted filter: {}
-VM315:25 Is empty? true
-VM315:14 KEY RESULT 80 with status join:
-{
-  "80": {
-    "recordID": 80,
-    "date": 1771550888,
-    "stepID": null
-  }
-}
-(async function testSubmittedFilter() {
+VM328:6 TASK 278 WITH OLD stepID!=notSubmitted filter: {}
+VM328:7 Is empty? true
+(async function testNotResolved() {
   var q = new LeafFormQuery();
   q.addTerm("recordID", "=", "278");
-  q.addTerm("stepID", "=", "submitted");
+  q.addTerm("stepID", "=", "notResolved");
   var r = await q.execute();
-  console.log("TASK 278 WITH stepID=submitted filter:", r);
-  console.log("Is empty?", !r || Object.keys(r).length === 0);
+  console.log("TASK 278 WITH stepID=notResolved:", r);
 })();
+
 Promise {<pending>}
-VM319:6 TASK 278 WITH stepID=submitted filter: {}
-VM319:7 Is empty? true
-(async function testSubmittedFilterKR() {
+VM332:6 TASK 278 WITH stepID=notResolved: {}
+(async function testActionable() {
   var q = new LeafFormQuery();
-  q.addTerm("recordID", "=", "80");
-  q.addTerm("stepID", "=", "submitted");
+  q.addTerm("recordID", "=", "278");
+  q.addTerm("stepID", "=", "actionable");
   var r = await q.execute();
-  console.log("KR 80 WITH stepID=submitted filter:", r);
-  console.log("Is empty?", !r || Object.keys(r).length === 0);
+  console.log("TASK 278 WITH stepID=actionable:", r);
 })();
 Promise {<pending>}
-VM323:6 KR 80 WITH stepID=submitted filter: {}
-VM323:7 Is empty? true
+VM336:6 TASK 278 WITH stepID=actionable: {}
