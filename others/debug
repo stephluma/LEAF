@@ -1,31 +1,18 @@
-(async function testOldFilter() {
+(async function testNoStepFilter() {
   var q = new LeafFormQuery();
   q.addTerm("recordID", "=", "278");
-  q.addTerm("stepID", "!=", "notSubmitted");
+  q.addTerm("deleted", "=", "0");
   var r = await q.execute();
-  console.log("TASK 278 WITH OLD stepID!=notSubmitted filter:", r);
-  console.log("Is empty?", !r || Object.keys(r).length === 0);
+  console.log("TASK 278 WITH deleted=0 only (no stepID term at all):", r);
 })();
-
 Promise {<pending>}
-VM328:6 TASK 278 WITH OLD stepID!=notSubmitted filter: {}
-VM328:7 Is empty? true
-(async function testNotResolved() {
+VM340:6 TASK 278 WITH deleted=0 only (no stepID term at all): {278: {…}}
+(async function testNoStepFilterKR() {
   var q = new LeafFormQuery();
-  q.addTerm("recordID", "=", "278");
-  q.addTerm("stepID", "=", "notResolved");
+  q.addTerm("recordID", "=", "80");
+  q.addTerm("deleted", "=", "0");
   var r = await q.execute();
-  console.log("TASK 278 WITH stepID=notResolved:", r);
-})();
-
-Promise {<pending>}
-VM332:6 TASK 278 WITH stepID=notResolved: {}
-(async function testActionable() {
-  var q = new LeafFormQuery();
-  q.addTerm("recordID", "=", "278");
-  q.addTerm("stepID", "=", "actionable");
-  var r = await q.execute();
-  console.log("TASK 278 WITH stepID=actionable:", r);
+  console.log("KR 80 WITH deleted=0 only (no stepID term at all):", r);
 })();
 Promise {<pending>}
-VM336:6 TASK 278 WITH stepID=actionable: {}
+VM344:6 KR 80 WITH deleted=0 only (no stepID term at all): {80: {…}}
