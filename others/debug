@@ -1,14 +1,80 @@
-pmDebug.traceTask(278)
-project_v19.js:289 [pmDebug] Tracing task 278
-project_v19.js:294 1) In state.tasksAll (passed query filter + pre-filter + normalize)? false 
-project_v19.js:301 Record did not survive the load pipeline (query term, categoryID guard, or hasAnyS1Value pre-filter). Run the raw LeafFormQuery check from the console (see earlier debugTask278 snippet) to inspect stepID/categoryID/s-blocks directly.
-traceTask @ project_v19.js:301
-(anonymous) @ VM240:1
-undefined
-pmDebug.traceKeyResult(80)
-project_v19.js:371 [pmDebug] Tracing key result 80
-project_v19.js:376 1) In state.keyResultsAll (passed query filter + pre-filter + normalize)? false 
-project_v19.js:382 Record did not survive the load pipeline. Run the raw LeafFormQuery check to inspect stepID/categoryID/s-blocks directly.
-traceKeyResult @ project_v19.js:382
-(anonymous) @ VM311:1
-undefined
+(async function debugStepID() {
+  var q1 = new LeafFormQuery();
+  q1.addTerm("recordID", "=", "278");
+  q1.join("status");
+  q1.setExtraParams("&x-filterData=recordID,date,categoryID,stepID,status");
+  var r1 = await q1.execute();
+  console.log("TASK 278 with status join:\n" + JSON.stringify(r1, null, 2));
+
+  var q2 = new LeafFormQuery();
+  q2.addTerm("recordID", "=", "80");
+  q2.join("status");
+  q2.setExtraParams("&x-filterData=recordID,date,categoryID,stepID,status");
+  var r2 = await q2.execute();
+  console.log("KEY RESULT 80 with status join:\n" + JSON.stringify(r2, null, 2));
+})();
+
+
+
+(async function testSubmittedFilter() {
+  var q = new LeafFormQuery();
+  q.addTerm("recordID", "=", "278");
+  q.addTerm("stepID", "=", "submitted");
+  var r = await q.execute();
+  console.log("TASK 278 WITH stepID=submitted filter:", r);
+  console.log("Is empty?", !r || Object.keys(r).length === 0);
+})();
+
+
+
+(async function testSubmittedFilterKR() {
+  var q = new LeafFormQuery();
+  q.addTerm("recordID", "=", "80");
+  q.addTerm("stepID", "=", "submitted");
+  var r = await q.execute();
+  console.log("KR 80 WITH stepID=submitted filter:", r);
+  console.log("Is empty?", !r || Object.keys(r).length === 0);
+})();
+Promise {<pending>}
+VM315:35 KR 80 WITH stepID=submitted filter: {}
+VM315:36 Is empty? true
+VM315:7 TASK 278 with status join:
+{
+  "278": {
+    "recordID": 278,
+    "date": 1773926939,
+    "stepID": null
+  }
+}
+VM315:24 TASK 278 WITH stepID=submitted filter: {}
+VM315:25 Is empty? true
+VM315:14 KEY RESULT 80 with status join:
+{
+  "80": {
+    "recordID": 80,
+    "date": 1771550888,
+    "stepID": null
+  }
+}
+(async function testSubmittedFilter() {
+  var q = new LeafFormQuery();
+  q.addTerm("recordID", "=", "278");
+  q.addTerm("stepID", "=", "submitted");
+  var r = await q.execute();
+  console.log("TASK 278 WITH stepID=submitted filter:", r);
+  console.log("Is empty?", !r || Object.keys(r).length === 0);
+})();
+Promise {<pending>}
+VM319:6 TASK 278 WITH stepID=submitted filter: {}
+VM319:7 Is empty? true
+(async function testSubmittedFilterKR() {
+  var q = new LeafFormQuery();
+  q.addTerm("recordID", "=", "80");
+  q.addTerm("stepID", "=", "submitted");
+  var r = await q.execute();
+  console.log("KR 80 WITH stepID=submitted filter:", r);
+  console.log("Is empty?", !r || Object.keys(r).length === 0);
+})();
+Promise {<pending>}
+VM323:6 KR 80 WITH stepID=submitted filter: {}
+VM323:7 Is empty? true
