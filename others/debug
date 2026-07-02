@@ -1,18 +1,12 @@
-(async function testNoStepFilter() {
-  var q = new LeafFormQuery();
-  q.addTerm("recordID", "=", "278");
-  q.addTerm("deleted", "=", "0");
-  var r = await q.execute();
-  console.log("TASK 278 WITH deleted=0 only (no stepID term at all):", r);
-})();
-Promise {<pending>}
-VM340:6 TASK 278 WITH deleted=0 only (no stepID term at all): {278: {…}}
-(async function testNoStepFilterKR() {
-  var q = new LeafFormQuery();
-  q.addTerm("recordID", "=", "80");
-  q.addTerm("deleted", "=", "0");
-  var r = await q.execute();
-  console.log("KR 80 WITH deleted=0 only (no stepID term at all):", r);
-})();
-Promise {<pending>}
-VM344:6 KR 80 WITH deleted=0 only (no stepID term at all): {80: {…}}
+designs/#steph_search:766 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
+leaf_nav.js:1337 [LP] Lazy-loading LEAF UI deps for fetched page: Array(2)
+ensureLeafUIDeps @ leaf_nav.js:1337
+jquery.min.js:2 jQuery.Deferred exception: VAFacilityHelper is not defined ReferenceError: VAFacilityHelper is not defined
+    at HTMLDocument.eval (eval at <anonymous> (https://leaf.va.gov/platform/designs/files/leaf_nav.js:1500:20), <anonymous>:381:26)
+    at e (https://leaf.va.gov/app/libs/js/jquery/jquery.min.js:2:30038)
+    at t (https://leaf.va.gov/app/libs/js/jquery/jquery.min.js:2:30340) undefined
+S.Deferred.exceptionHook @ jquery.min.js:2
+jquery.min.js:2 Uncaught ReferenceError: VAFacilityHelper is not defined
+    at HTMLDocument.eval (eval at <anonymous> (leaf_nav.js:1500:20), <anonymous>:381:26)
+    at e (jquery.min.js:2:30038)
+    at t (jquery.min.js:2:30340)
