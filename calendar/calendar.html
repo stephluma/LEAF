@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Team Continuity Calendar — LEAF</title>
+    <title>Team Command Center — LEAF</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,16 +30,17 @@
           "opsz" 24,
           "GRAD" 0 !important;
       }
-    </style>
 
-    <!-- Shared LEAF nav shell — same pattern as every other Launchpad page.
-         leaf_nav.js's suppressChrome() handles #header/#footer hiding when
-         this page is hash-routed into #lpSwapHost; hardcoding
-         `#header,#footer{display:none}` here would bleed into the outer
-         document if this page is ever swapped in (see help_library.html
-         comment for why that's avoided). -->
-    <!-- TODO: verify path before production -->
-    <script src="/platform/designs/files/leaf_nav.js"></script>
+      /* ── Hide legacy shell chrome ──
+           This page is standalone and doesn't use LEAF's native page
+           header/footer. Scoped here (not in calendar.css) since it's a
+           page-level decision specific to this route, not a reusable
+           calendar-component style. */
+      #header,
+      #footer {
+        display: none !important;
+      }
+    </style>
   </head>
 
   <body>
@@ -58,21 +59,8 @@
       };
     </script>
 
-    <div class="lp" id="lp-root">
-      <a class="lp-skip" href="#cal-main">Skip to main content</a>
-      <div id="lp-nav-host"></div>
-
-      <!-- Breadcrumb data — must be set before leaf_breadcrumb.js loads.
-           Guarded the same way ideas.html guards it, so a hash-routed swap
-           doesn't stomp on a breadcrumb leaf_nav.js already injected. -->
-      <script>
-        if (!document.getElementById("lpSwapHost")) {
-          window.LEAF_BREADCRUMB = [
-            { label: "Resources", href: "/platform/designs/report.php?a=find_site" },
-            { label: "Team Continuity Calendar" },
-          ];
-        }
-      </script>
+    <div id="cal-root">
+      <a class="cal-skip" href="#cal-main">Skip to main content</a>
 
       <main id="cal-main" tabindex="-1">
         <div class="cal-wrap" id="calApp">
@@ -93,79 +81,25 @@
           <!-- Header -->
           <header class="cal-header">
             <div class="cal-headerMain">
-              <h1 class="cal-title">Team Continuity Calendar</h1>
-              <p class="cal-subtitle">
-                Meeting notes, action items, and coverage — so nothing gets lost
-                when someone's out.
-              </p>
+              <img
+                class="cal-logo"
+                src="./files/leaf-icon_transparent-bg.png"
+                alt=""
+                aria-hidden="true"
+              />
+              <div class="cal-headerText">
+                <h1 class="cal-title">Team Command Center</h1>
+                <p class="cal-subtitle">
+                  Your team's meetings, action items, and coverage —
+                  organized and always up to date.
+                </p>
+              </div>
             </div>
             <button type="button" class="cal-primaryBtn" id="calAddBtn">
               <span class="material-symbols-outlined" aria-hidden="true">add</span>
               <span>New entry</span>
             </button>
           </header>
-
-          <!-- Toolbar: navigation + view toggle -->
-          <div class="cal-toolbar" role="region" aria-label="Calendar controls">
-            <div class="cal-navGroup">
-              <button
-                type="button"
-                class="cal-iconBtn"
-                id="calPrevBtn"
-                aria-label="Previous"
-              >
-                <span class="material-symbols-outlined" aria-hidden="true"
-                  >chevron_left</span
-                >
-              </button>
-              <button type="button" class="cal-todayBtn" id="calTodayBtn">
-                Today
-              </button>
-              <button
-                type="button"
-                class="cal-iconBtn"
-                id="calNextBtn"
-                aria-label="Next"
-              >
-                <span class="material-symbols-outlined" aria-hidden="true"
-                  >chevron_right</span
-                >
-              </button>
-              <h2 class="cal-rangeLabel" id="calRangeLabel" aria-live="polite">
-                —
-              </h2>
-            </div>
-
-            <div class="cal-viewToggle" role="tablist" aria-label="Calendar view">
-              <button
-                type="button"
-                class="cal-viewBtn is-active"
-                data-view="month"
-                role="tab"
-                aria-selected="true"
-              >
-                Month
-              </button>
-              <button
-                type="button"
-                class="cal-viewBtn"
-                data-view="week"
-                role="tab"
-                aria-selected="false"
-              >
-                Week
-              </button>
-              <button
-                type="button"
-                class="cal-viewBtn"
-                data-view="agenda"
-                role="tab"
-                aria-selected="false"
-              >
-                Agenda
-              </button>
-            </div>
-          </div>
 
           <!-- Filter row -->
           <div class="cal-filterRow">
@@ -203,20 +137,65 @@
             </button>
           </div>
 
-          <!-- Legend -->
-          <div class="cal-legend" aria-hidden="true">
-            <span class="cal-legendItem"
-              ><span class="cal-swatch cal-t-meeting"></span>Meeting Notes</span
-            >
-            <span class="cal-legendItem"
-              ><span class="cal-swatch cal-t-action"></span>Action Item</span
-            >
-            <span class="cal-legendItem"
-              ><span class="cal-swatch cal-t-ooo"></span>Out-of-Office</span
-            >
-            <span class="cal-legendItem"
-              ><span class="cal-swatch cal-t-log"></span>General Log</span
-            >
+          <!-- Toolbar: navigation + view toggle -->
+          <div class="cal-toolbar" role="region" aria-label="Calendar controls">
+            <div class="cal-navGroup">
+              <button
+                type="button"
+                class="cal-iconBtn"
+                id="calPrevBtn"
+                aria-label="Previous"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  >chevron_left</span
+                >
+              </button>
+              <button type="button" class="cal-todayBtn" id="calTodayBtn">
+                Today
+              </button>
+              <button
+                type="button"
+                class="cal-iconBtn"
+                id="calNextBtn"
+                aria-label="Next"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  >chevron_right</span
+                >
+              </button>
+              <h2 class="cal-rangeLabel" id="calRangeLabel" aria-live="polite">
+                —
+              </h2>
+            </div>
+
+            <div class="cal-viewToggleGroup">
+              <span class="cal-toggleLabel" id="calViewLabel">View:</span>
+              <div
+                class="cal-viewToggle"
+                role="tablist"
+                aria-label="Calendar view"
+                aria-labelledby="calViewLabel"
+              >
+                <button
+                  type="button"
+                  class="cal-viewBtn is-active"
+                  data-view="week"
+                  role="tab"
+                  aria-selected="true"
+                >
+                  Week
+                </button>
+                <button
+                  type="button"
+                  class="cal-viewBtn"
+                  data-view="month"
+                  role="tab"
+                  aria-selected="false"
+                >
+                  Month
+                </button>
+              </div>
+            </div>
           </div>
 
           <!-- Status / loading -->
@@ -224,28 +203,38 @@
 
           <!-- View surfaces -->
           <div class="cal-surface">
-            <section id="calMonthView" class="cal-view" aria-label="Month view">
-              <div class="cal-weekHead" id="calWeekHead"></div>
-              <div class="cal-monthGrid" id="calMonthGrid"></div>
-            </section>
-
-            <section
-              id="calWeekView"
-              class="cal-view"
-              hidden
-              aria-label="Week view"
-            >
+            <section id="calWeekView" class="cal-view" aria-label="Week view">
               <div class="cal-weekBoard" id="calWeekBoard"></div>
             </section>
 
             <section
-              id="calAgendaView"
+              id="calMonthView"
               class="cal-view"
               hidden
-              aria-label="Agenda view"
+              aria-label="Month view"
             >
-              <div class="cal-agenda" id="calAgenda"></div>
+              <div class="cal-weekHead" id="calWeekHead"></div>
+              <div class="cal-monthGrid" id="calMonthGrid"></div>
             </section>
+          </div>
+
+          <!-- Legend -->
+          <div class="cal-legendRow">
+            <span class="cal-toggleLabel" id="calLegendLabel">Legend:</span>
+            <div class="cal-legend" aria-labelledby="calLegendLabel">
+              <span class="cal-legendItem"
+                ><span class="cal-swatch cal-t-meeting"></span>Meeting Notes</span
+              >
+              <span class="cal-legendItem"
+                ><span class="cal-swatch cal-t-action"></span>Action Item</span
+              >
+              <span class="cal-legendItem"
+                ><span class="cal-swatch cal-t-ooo"></span>Out-of-Office</span
+              >
+              <span class="cal-legendItem"
+                ><span class="cal-swatch cal-t-log"></span>General Log</span
+              >
+            </div>
           </div>
         </div>
       </main>
@@ -473,6 +462,19 @@
               >
                 Delete
               </button>
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="cal-ghostBtn"
+                id="calEntryOpenTab"
+                hidden
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  >open_in_new</span
+                >
+                Open in LEAF
+              </a>
               <span class="cal-actionsSpacer"></span>
               <button type="button" class="cal-ghostBtn" data-close="entry">
                 Cancel
@@ -614,11 +616,7 @@
         >
       </button>
     </div>
-    <!-- /.lp -->
-
-    <!-- Breadcrumb — loaded at end of body so DOM is ready -->
-    <!-- TODO: verify path before production -->
-    <script src="/platform/designs/files/leaf_breadcrumb.js"></script>
+    <!-- /#cal-root -->
 
     <!-- LeafFormQuery is provided globally by LEAF. When testing standalone,
          you'll need to stub it or run this inside a LEAF page. -->
