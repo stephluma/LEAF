@@ -1,5 +1,5 @@
 /* ============================================================
-   TEAM CONTINUITY CALENDAR — LEAF standalone app
+   TEAM COMMAND CENTER — LEAF standalone app
    Pattern:
      • Reads   → LeafFormQuery (global on LEAF sites), per formQuery.md
      • Writes  → POST ./api/form/new  → POST ./api/form/{id} → submit
@@ -7,17 +7,7 @@
 
    ============================================================
    ▼▼▼  CONFIG — FILL THIS IN AFTER YOU BUILD THE FORM  ▼▼▼
-   ============================================================
-   HOW TO GET THESE VALUES
-   1. Build the "Calendar Entry" form in the Form Editor from the
-      spec we agreed on (single, no-reviewer workflow step).
-   2. Either:
-        a) Report Builder → build a report on this form →
-           JSON → "JavaScript Template" → copy the indicator IDs, OR
-        b) Set window.leafCalendar.debug = true (in calendar.html),
-           reload, and read the indicator list printed to the console.
-   3. Replace every REPLACE_ME below with the real numeric ID.
-   ------------------------------------------------------------ */
+   ============================================================ */
 const CONFIG = {
   // Form category for the Calendar Entry form
   categoryID: "form_34212",
@@ -53,9 +43,9 @@ const CONFIG = {
 const pageConfig = window.leafCalendar || {};
 const DEBUG = pageConfig.debug === true;
 
-// calendar.html now escapes CSRF/userID server-side via
-// |unescape|escape:"quotes" (same convention as ideas.html), so no
-// client-side comment-stripping workaround is needed here anymore.
+// calendar.html escapes CSRF/userID server-side via |unescape|escape:"quotes"
+// (same convention as ideas.html), so no client-side comment-stripping
+// workaround is needed here.
 const CSRF = String(pageConfig.csrfToken || "").trim();
 const CURRENT_USER = String(pageConfig.userID || "").trim();
 
@@ -71,7 +61,7 @@ const TYPE_CLASS = {
    State
    ============================================================ */
 const state = {
-  view: "month", // month | week | agenda
+  view: "week", // week | month
   cursor: startOfDay(new Date()), // the date the current view is centered on
   entries: [], // normalized entry view-models
   entriesByDate: {}, // 'YYYY-MM-DD' -> [entry]
@@ -256,16 +246,14 @@ async function apiGet(url) {
 }
 
 // Create a record of CONFIG.categoryID; returns the new numeric recordID.
-// NOTE: LEAF's ajaxIndex/new-form pattern (see leaf_national_telemetry
-// SNAP module + form_library.html contribute flow) expects a single
-// "num{form_id}" field set to "on" — the previous version wrote two
-// competing/conflicting keys here, which broke record creation.
+// Field name confirmed against the working SNAP/UC-cache pattern in
+// activity_map.html: the POST field is `num{categoryID}` with the
+// "form_" prefix INTACT (e.g. "numform_34212"), not stripped.
 async function createRecord() {
-  const formSlug = String(CONFIG.categoryID).replace("form_", "");
   const payload = {
     CSRFToken: CSRF,
     title: "Calendar Entry",
-    [`num${formSlug}`]: "on",
+    [`num${CONFIG.categoryID}`]: "on",
   };
   const res = await apiPost("./api/form/new", payload);
   const id = parseInt(String(res).trim().replace(/^"|"$/g, ""), 10);
@@ -273,9 +261,12 @@ async function createRecord() {
   return id;
 }
 
-// Write indicator values to a record
+// Write indicator values to a record.
+// Payload shape confirmed against LeafForm.doModify() (form.js): the POST
+// body must include `recordID` as a top-level field alongside each
+// {indicatorID: value} pair.
 async function writeIndicators(recordID, indicatorValues) {
-  const payload = { CSRFToken: CSRF, series: 1 };
+  const payload = { recordID, CSRFToken: CSRF };
   Object.keys(indicatorValues).forEach((indID) => {
     if (indID && indID !== "REPLACE_ME") payload[indID] = indicatorValues[indID];
   });
@@ -450,7 +441,8 @@ function indexEntries() {
   state.entries.forEach((e) => {
     (map[e.dateKey] = map[e.dateKey] || []).push(e);
 
-    // OOO ranges: also index each day between date..endDate
+    // OOO ranges: also index each day between date..endDate (used by week
+    // view; month view renders OOO as a spanning band instead)
     if (e.type === "Out-of-Office" && e.endDate && e.endDate > e.date) {
       let cur = addDays(e.date, 1);
       while (cur <= e.endDate) {
@@ -567,6 +559,44 @@ function stripHtml(html) {
   return tmp.textContent || tmp.innerText || "";
 }
 
+// document.execCommand (used by the rich-text toolbar) notoriously wraps
+// every line in its own <div> in Chromium browsers, producing "div soup"
+// like <div>text</div><div>text</div> instead of real paragraphs. This
+// collapses top-level <div> wrappers into <p> tags and normalizes legacy
+// <b>/<i> (also produced by execCommand) into <strong>/<em>.
+function normalizeRichText(html) {
+  if (!html) return "";
+  const tmp = document.createElement("div");
+  tmp.innerHTML = html;
+
+  Array.from(tmp.children).forEach((child) => {
+    if (child.tagName === "DIV") {
+      const p = document.createElement("p");
+      p.innerHTML = child.innerHTML;
+      child.replaceWith(p);
+    }
+  });
+
+  tmp.querySelectorAll("b").forEach((el) => {
+    const strong = document.createElement("strong");
+    strong.innerHTML = el.innerHTML;
+    el.replaceWith(strong);
+  });
+  tmp.querySelectorAll("i").forEach((el) => {
+    const em = document.createElement("em");
+    em.innerHTML = el.innerHTML;
+    el.replaceWith(em);
+  });
+
+  tmp.querySelectorAll("p").forEach((p) => {
+    if (p.innerHTML.trim() === "<br>" || p.innerHTML.trim() === "") {
+      p.remove();
+    }
+  });
+
+  return tmp.innerHTML.trim();
+}
+
 function entriesForDay(dateKey) {
   const list = (state.entriesByDate[dateKey] || []).filter(passesFilter);
   // Stable order: type priority then title
@@ -591,6 +621,14 @@ function chipHTML(e) {
 }
 
 /* ── Month view ──────────────────────────────────────────── */
+// Single CSS grid for the whole month (not one grid per week) with
+// explicit row/column line numbers on every cell. Each week occupies:
+//   - 1 row for day numbers
+//   - 1 row per OOO band that touches that week
+//   - 1 row for chip content
+// Using one grid (rather than nested grids) avoids cascade/context bugs
+// where a child grid's own `display:grid` fails to apply and its cells
+// fall back to block/flex stacking.
 function renderMonth() {
   const head = byId("calWeekHead");
   const grid = byId("calMonthGrid");
@@ -604,31 +642,94 @@ function renderMonth() {
   const monthEnd = new Date(state.cursor.getFullYear(), state.cursor.getMonth() + 1, 0);
   const gridStart = startOfWeek(first);
   const gridEnd = startOfWeek(monthEnd);
-  // Render exactly the weeks needed to cover the month (5 or 6 rows),
-  // instead of a fixed 42-cell loop that could leave a stray trailing
-  // all-outside-month row.
   const totalDays = Math.round((gridEnd - gridStart) / 86400000) + 7;
+  const totalWeeks = totalDays / 7;
+
+  const oooEntries = state.entries.filter((e) => e.type === "Out-of-Office" && passesFilter(e));
+
+  // First pass: figure out how many OOO band rows each week needs, and
+  // the absolute grid-row line number where each week's content starts.
+  const weekBands = []; // weekBands[w] = [{entry, colStart, colEnd}, ...]
+  const weekRowStart = []; // weekRowStart[w] = grid-row line where week w's day-number row begins
+  let cursorRow = 1;
+  for (let w = 0; w < totalWeeks; w++) {
+    const rowStart = addDays(gridStart, w * 7);
+    const rowEnd = addDays(rowStart, 6);
+    const bands = oooEntries
+      .map((e) => {
+        const spanStart = e.date;
+        const spanEnd = e.endDate && e.endDate > e.date ? e.endDate : e.date;
+        if (spanEnd < rowStart || spanStart > rowEnd) return null;
+        const segStart = spanStart > rowStart ? spanStart : rowStart;
+        const segEnd = spanEnd < rowEnd ? spanEnd : rowEnd;
+        return {
+          entry: e,
+          colStart: Math.round((segStart - rowStart) / 86400000),
+          colEnd: Math.round((segEnd - rowStart) / 86400000),
+        };
+      })
+      .filter(Boolean);
+    weekBands.push(bands);
+    weekRowStart.push(cursorRow);
+    cursorRow += 1 + bands.length + 1; // day-number row + band rows + chip row
+  }
+  const totalRows = cursorRow - 1;
+
+  // Build the grid-template-rows track list to match: auto for day-number
+  // rows, a fixed 22px for each band row, 1fr (min 96px) for chip rows.
+  const rowTracks = [];
+  for (let w = 0; w < totalWeeks; w++) {
+    rowTracks.push("auto"); // day numbers
+    weekBands[w].forEach(() => rowTracks.push("22px")); // one per band
+    rowTracks.push("minmax(96px, 1fr)"); // chip content
+  }
+  grid.style.gridTemplateColumns = "repeat(7, 1fr)";
+  grid.style.gridTemplateRows = rowTracks.join(" ");
 
   let html = "";
-  for (let i = 0; i < totalDays; i++) {
-    const day = addDays(gridStart, i);
-    const key = ymd(day);
-    const outside = day.getMonth() !== state.cursor.getMonth();
-    const list = entriesForDay(key);
-    const limit = CONFIG.monthCellChipLimit;
-    const shown = list.slice(0, limit);
-    const extra = list.length - shown.length;
+  for (let w = 0; w < totalWeeks; w++) {
+    const rowStart = addDays(gridStart, w * 7);
+    const dayNumRow = weekRowStart[w];
+    const bands = weekBands[w];
+    const chipRow = dayNumRow + 1 + bands.length;
 
-    html += `<div class="cal-dayCell${outside ? " is-outside" : ""}${isTodayDate(day) ? " is-today" : ""}" data-day="${key}" tabindex="0" role="button" aria-label="${escapeHtml(fmtLongDate(day))}, ${list.length} ${list.length === 1 ? "entry" : "entries"}">`;
-    html += `<span class="cal-dayNum">${day.getDate()}</span>`;
-    html += '<div class="cal-dayChips">';
-    shown.forEach((e) => {
-      html += chipHTML(e);
-    });
-    if (extra > 0) {
-      html += `<button type="button" class="cal-moreLink" data-more="${key}">+${extra} more</button>`;
+    // Day-number row
+    for (let d = 0; d < 7; d++) {
+      const day = addDays(rowStart, d);
+      const outside = day.getMonth() !== state.cursor.getMonth();
+      html += `<div class="cal-dayNumCell${outside ? " is-outside" : ""}${isTodayDate(day) ? " is-today" : ""}" style="grid-column:${d + 1};grid-row:${dayNumRow}"><span class="cal-dayNum">${day.getDate()}</span></div>`;
     }
-    html += "</div></div>";
+
+    // OOO band rows for this week
+    bands.forEach((b, bandIdx) => {
+      const gridRow = dayNumRow + 1 + bandIdx;
+      const spanStartLabel = fmtLongDate(b.entry.date);
+      const spanEndLabel =
+        b.entry.endDate && b.entry.endDate > b.entry.date ? ` through ${fmtLongDate(b.entry.endDate)}` : "";
+      html += `<button type="button" class="cal-oooBand" style="grid-column:${b.colStart + 1} / span ${b.colEnd - b.colStart + 1};grid-row:${gridRow}" data-record="${escapeHtml(b.entry.recordID)}" title="${escapeHtml(`${b.entry.type}: ${b.entry.title}`)}" aria-label="${escapeHtml(b.entry.title)}, Out-of-Office, ${escapeHtml(spanStartLabel)}${escapeHtml(spanEndLabel)}">${escapeHtml(b.entry.title)}</button>`;
+    });
+
+    // Chip content row — always the last row for this week, below every
+    // band row above it, so it can never be visually covered.
+    for (let d = 0; d < 7; d++) {
+      const day = addDays(rowStart, d);
+      const key = ymd(day);
+      const outside = day.getMonth() !== state.cursor.getMonth();
+      const list = entriesForDay(key).filter((e) => !(e.type === "Out-of-Office" && (e._spanDay || e.endDate)));
+      const limit = CONFIG.monthCellChipLimit;
+      const shown = list.slice(0, limit);
+      const extra = list.length - shown.length;
+
+      html += `<div class="cal-dayCell${outside ? " is-outside" : ""}${isTodayDate(day) ? " is-today" : ""}" style="grid-column:${d + 1};grid-row:${chipRow}" data-day="${key}" tabindex="0" role="button" aria-label="${escapeHtml(fmtLongDate(day))}, ${list.length} ${list.length === 1 ? "entry" : "entries"}">`;
+      html += '<div class="cal-dayChips">';
+      shown.forEach((e) => {
+        html += chipHTML(e);
+      });
+      if (extra > 0) {
+        html += `<button type="button" class="cal-moreLink" data-more="${key}">+${extra} more</button>`;
+      }
+      html += "</div></div>";
+    }
   }
   grid.innerHTML = html;
 }
@@ -673,59 +774,6 @@ function weekCardMeta(e) {
   return bits.join(" · ");
 }
 
-/* ── Agenda view ─────────────────────────────────────────── */
-function renderAgenda() {
-  const wrap = byId("calAgenda");
-  if (!wrap) return;
-  // Agenda spans the visible month, day by day, only days with entries
-  const first = new Date(state.cursor.getFullYear(), state.cursor.getMonth(), 1);
-  const last = new Date(state.cursor.getFullYear(), state.cursor.getMonth() + 1, 0);
-  let html = "";
-  let anyDay = false;
-  for (let day = new Date(first); day <= last; day = addDays(day, 1)) {
-    const key = ymd(day);
-    const list = entriesForDay(key);
-    if (!list.length) continue;
-    anyDay = true;
-    const today = isTodayDate(day);
-    html += '<div class="cal-agendaDay">';
-    html += `<div class="cal-agendaDayHead${today ? " is-today" : ""}">${escapeHtml(fmtLongDate(day))}<span class="cal-agendaCount">${list.length} ${list.length === 1 ? "entry" : "entries"}</span></div>`;
-    html += '<div class="cal-agendaList">';
-    list.forEach((e) => {
-      html += agendaItemHTML(e);
-    });
-    html += "</div></div>";
-  }
-  if (!anyDay) {
-    html = `<div class="cal-emptyState"><span class="material-symbols-outlined" aria-hidden="true">event_busy</span><p>No entries this month. Use <strong>New entry</strong> to add one.</p></div>`;
-  }
-  wrap.innerHTML = html;
-}
-
-function agendaItemHTML(e) {
-  const meta = [];
-  if (e.type === "Action Item") {
-    if (e.status) meta.push(`Status: ${escapeHtml(e.status)}`);
-    if (e.assignedTo) meta.push(`Assigned: ${escapeHtml(peopleLabel(e.assignedTo))}`);
-    if (e.dueDate) meta.push(`Due ${ymd(e.dueDate)}`);
-  }
-  if (e.type === "Out-of-Office") {
-    if (e.endDate && e.endDate > e.date) meta.push(`Through ${ymd(e.endDate)}`);
-    if (e.coveredBy) meta.push(`Covered by ${escapeHtml(peopleLabel(e.coveredBy))}`);
-  }
-  if (e.authorName) meta.push(`by ${escapeHtml(e.authorName)}`);
-  const linkPill =
-    e.links && e.links.length
-      ? `<span class="cal-linkCountPill"><span class="material-symbols-outlined" style="font-size:15px" aria-hidden="true">link</span>${e.links.length}</span>`
-      : "";
-  const metaHtml = meta.length
-    ? `<div class="cal-agendaMeta">${meta.join(" · ")} ${linkPill}</div>`
-    : linkPill
-      ? `<div class="cal-agendaMeta">${linkPill}</div>`
-      : "";
-  return `<div class="cal-agendaItem t-${e.typeClass}" data-record="${escapeHtml(e.recordID)}"><span class="cal-agendaBadge t-${e.typeClass}">${escapeHtml(e.type)}${e._carriedForward ? " ↺" : ""}</span><div class="cal-agendaBody"><div class="cal-agendaTitle">${escapeHtml(e.title)}</div>${metaHtml}</div></div>`;
-}
-
 // Display label for an empUID we may have cached; falls back to the raw value
 const peopleCache = {}; // empUID -> name
 function peopleLabel(empUID) {
@@ -738,10 +786,8 @@ function render() {
   updateRangeLabel();
   byId("calMonthView").hidden = state.view !== "month";
   byId("calWeekView").hidden = state.view !== "week";
-  byId("calAgendaView").hidden = state.view !== "agenda";
   if (state.view === "month") renderMonth();
-  else if (state.view === "week") renderWeek();
-  else renderAgenda();
+  else renderWeek();
 }
 
 function updateRangeLabel() {
@@ -835,13 +881,26 @@ function openEntryModal(entry, presetDate) {
   byId("calEntryModalTitle").textContent = entry ? "Edit entry" : "New entry";
   byId("calSaveBtn").textContent = entry ? "Save changes" : "Save entry";
   byId("calDeleteBtn").hidden = !entry;
+
+  const openTab = byId("calEntryOpenTab");
+  if (openTab) {
+    if (entry) {
+      openTab.href = recordViewURL(entry.recordID);
+      openTab.hidden = false;
+    } else {
+      openTab.hidden = true;
+    }
+  }
+
   byId("calEntryMsg").textContent = "";
 
   byId("calEntryRecordID").value = entry ? entry.recordID : "";
   byId("calFldDate").value = entry && entry.date ? ymd(entry.date) : presetDate || ymd(new Date());
   byId("calFldType").value = entry ? entry.type : "";
   byId("calFldTitle").value = entry ? entry.title : "";
-  byId("calFldBody").innerHTML = entry ? entry.body || "" : "";
+  // Ensure the editor starts from clean <p> markup even for entries saved
+  // before normalizeRichText() existed, so re-editing doesn't compound div soup.
+  byId("calFldBody").innerHTML = entry ? normalizeRichText(entry.body || "") : "";
   byId("calFldBody").setAttribute("data-placeholder", "Notes, decisions, links…");
 
   byId("calFldStatus").value = entry && entry.status ? entry.status : "Open";
@@ -923,8 +982,7 @@ async function searchPeople(term, role) {
   }
   try {
     // Real endpoint per employeeSelector.js: "./api/?a=employee/search"
-    // (query-string routed action, NOT a REST path segment). Params are
-    // q + noLimit (0/1); omitting noLimit entirely is equivalent to 0.
+    // (query-string routed action, NOT a REST path segment).
     const res = await apiGet(`./api/?a=employee/search&q=${encodeURIComponent(term)}`);
     const rows = Array.isArray(res) ? res : Object.values(res || {});
     if (!rows.length) {
@@ -958,10 +1016,9 @@ async function searchPeople(term, role) {
 }
 
 // NOTE: there is no confirmed "import employee" endpoint in the LEAF
-// source we've reviewed (only ./api/?a=employee/search is verified, via
-// employeeSelector.js). The empUID returned by that search is already
-// usable directly as an indicator value, so no separate import step is
-// required — this is now a no-op kept only so callers don't need to change.
+// source reviewed so far (only ./api/?a=employee/search is verified). The
+// empUID returned by that search is already usable directly as an
+// indicator value, so no separate import step is required.
 async function importEmployee() {
   // Intentionally does nothing until a real import endpoint is confirmed.
 }
@@ -1113,7 +1170,7 @@ async function saveEntry() {
   values[I.entryDate] = date;
   values[I.entryType] = type;
   values[I.title] = title;
-  values[I.body] = byId("calFldBody").innerHTML.trim();
+  values[I.body] = normalizeRichText(byId("calFldBody").innerHTML.trim());
   values[I.linked] = JSON.stringify(
     state.draftLinks.map((l) => ({ recordID: l.recordID, categoryID: l.categoryID || "" })),
   );
@@ -1307,6 +1364,17 @@ function wireControls() {
     document.execCommand(b.getAttribute("data-cmd"), false, null);
   });
 
+  // Nudge execCommand toward <p> paragraphs instead of its default bare
+  // <div> line-wrapping (normalizeRichText still does the full cleanup
+  // on save — this just reduces how much cleanup is needed).
+  byId("calFldBody").addEventListener("focus", () => {
+    try {
+      document.execCommand("defaultParagraphSeparator", false, "p");
+    } catch (e) {
+      /* unsupported in some browsers — normalizeRichText() still cleans up on save */
+    }
+  });
+
   // People pickers
   wirePeople("assigned", "calAssignedSearch", "calAssignedResults");
   wirePeople("covered", "calCoveredSearch", "calCoveredResults");
@@ -1364,6 +1432,15 @@ function wirePeople(role, searchId, listId) {
 }
 
 function onDelegatedClick(e) {
+  // OOO band (month view multi-day span)
+  const oooBand = e.target.closest(".cal-oooBand");
+  if (oooBand) {
+    const rid = oooBand.getAttribute("data-record");
+    const entry = state.entries.find((x) => x.recordID === rid);
+    if (entry) openEntryModal(entry);
+    return;
+  }
+
   // Open a record chip / card
   const recEl = e.target.closest("[data-record]");
   if (recEl && !e.target.closest("[data-remove-link],[data-open-link],[data-close]")) {
