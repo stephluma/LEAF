@@ -1,1 +1,627 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team Continuity Calendar — LEAF</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Material Symbols Outlined — FILL locked to 1 (filled) via CSS below,
+         consistent with every other LEAF Launchpad page -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,1,0"
+    />
+
+    <!-- TODO: verify path before production -->
+    <link rel="stylesheet" href="/platform/designs/files/launchpad.css" />
+    <link rel="stylesheet" href="./files/calendar.css" />
+
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 400,
+          "opsz" 24,
+          "GRAD" 0 !important;
+      }
+    </style>
+
+    <!-- Shared LEAF nav shell — same pattern as every other Launchpad page.
+         leaf_nav.js's suppressChrome() handles #header/#footer hiding when
+         this page is hash-routed into #lpSwapHost; hardcoding
+         `#header,#footer{display:none}` here would bleed into the outer
+         document if this page is ever swapped in (see help_library.html
+         comment for why that's avoided). -->
+    <!-- TODO: verify path before production -->
+    <script src="/platform/designs/files/leaf_nav.js"></script>
+  </head>
+
+  <body>
+    <!-- ============================================================
+         CONFIG HANDOFF
+         calendar.js reads window.leafCalendar for csrfToken / userID.
+         Smarty values are escaped exactly like ideas.html's pattern so a
+         quote or dash inside either value can never break the JS string
+         or leak into the page as literal text.
+         ============================================================ -->
+    <script>
+      window.leafCalendar = {
+        csrfToken: '<!--{$CSRFToken|unescape|escape:"quotes"}-->',
+        userID: '<!--{$userID|unescape|escape:"quotes"}-->',
+        debug: false, // set true to print diagnostics + discover indicator IDs
+      };
+    </script>
+
+    <div class="lp" id="lp-root">
+      <a class="lp-skip" href="#cal-main">Skip to main content</a>
+      <div id="lp-nav-host"></div>
+
+      <!-- Breadcrumb data — must be set before leaf_breadcrumb.js loads.
+           Guarded the same way ideas.html guards it, so a hash-routed swap
+           doesn't stomp on a breadcrumb leaf_nav.js already injected. -->
+      <script>
+        if (!document.getElementById("lpSwapHost")) {
+          window.LEAF_BREADCRUMB = [
+            { label: "Resources", href: "/platform/designs/report.php?a=find_site" },
+            { label: "Team Continuity Calendar" },
+          ];
+        }
+      </script>
+
+      <main id="cal-main" tabindex="-1">
+        <div class="cal-wrap" id="calApp">
+          <!-- ARIA live regions -->
+          <div
+            id="cal-live-polite"
+            class="cal-sr"
+            aria-live="polite"
+            aria-atomic="true"
+          ></div>
+          <div
+            id="cal-live-assertive"
+            class="cal-sr"
+            aria-live="assertive"
+            aria-atomic="true"
+          ></div>
+
+          <!-- Header -->
+          <header class="cal-header">
+            <div class="cal-headerMain">
+              <h1 class="cal-title">Team Continuity Calendar</h1>
+              <p class="cal-subtitle">
+                Meeting notes, action items, and coverage — so nothing gets lost
+                when someone's out.
+              </p>
+            </div>
+            <button type="button" class="cal-primaryBtn" id="calAddBtn">
+              <span class="material-symbols-outlined" aria-hidden="true">add</span>
+              <span>New entry</span>
+            </button>
+          </header>
+
+          <!-- Toolbar: navigation + view toggle -->
+          <div class="cal-toolbar" role="region" aria-label="Calendar controls">
+            <div class="cal-navGroup">
+              <button
+                type="button"
+                class="cal-iconBtn"
+                id="calPrevBtn"
+                aria-label="Previous"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  >chevron_left</span
+                >
+              </button>
+              <button type="button" class="cal-todayBtn" id="calTodayBtn">
+                Today
+              </button>
+              <button
+                type="button"
+                class="cal-iconBtn"
+                id="calNextBtn"
+                aria-label="Next"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  >chevron_right</span
+                >
+              </button>
+              <h2 class="cal-rangeLabel" id="calRangeLabel" aria-live="polite">
+                —
+              </h2>
+            </div>
+
+            <div class="cal-viewToggle" role="tablist" aria-label="Calendar view">
+              <button
+                type="button"
+                class="cal-viewBtn is-active"
+                data-view="month"
+                role="tab"
+                aria-selected="true"
+              >
+                Month
+              </button>
+              <button
+                type="button"
+                class="cal-viewBtn"
+                data-view="week"
+                role="tab"
+                aria-selected="false"
+              >
+                Week
+              </button>
+              <button
+                type="button"
+                class="cal-viewBtn"
+                data-view="agenda"
+                role="tab"
+                aria-selected="false"
+              >
+                Agenda
+              </button>
+            </div>
+          </div>
+
+          <!-- Filter row -->
+          <div class="cal-filterRow">
+            <label class="cal-filterField">
+              <span class="cal-filterLabel">Type</span>
+              <select id="calFilterType" class="cal-select">
+                <option value="">All types</option>
+                <option value="Meeting Notes">Meeting Notes</option>
+                <option value="Action Item">Action Items</option>
+                <option value="Out-of-Office">Out-of-Office</option>
+                <option value="General Log">General Log</option>
+              </select>
+            </label>
+            <label class="cal-filterField">
+              <span class="cal-filterLabel">Author</span>
+              <select id="calFilterAuthor" class="cal-select">
+                <option value="">Everyone</option>
+              </select>
+            </label>
+            <label class="cal-filterField cal-filterSearch">
+              <span class="cal-filterLabel">Search</span>
+              <input
+                id="calFilterSearch"
+                class="cal-input"
+                type="search"
+                placeholder="Title or notes…"
+              />
+            </label>
+            <label class="cal-checkField">
+              <input type="checkbox" id="calShowClosed" />
+              <span>Show closed action items</span>
+            </label>
+            <button type="button" class="cal-ghostBtn" id="calClearFilters">
+              Clear
+            </button>
+          </div>
+
+          <!-- Legend -->
+          <div class="cal-legend" aria-hidden="true">
+            <span class="cal-legendItem"
+              ><span class="cal-swatch cal-t-meeting"></span>Meeting Notes</span
+            >
+            <span class="cal-legendItem"
+              ><span class="cal-swatch cal-t-action"></span>Action Item</span
+            >
+            <span class="cal-legendItem"
+              ><span class="cal-swatch cal-t-ooo"></span>Out-of-Office</span
+            >
+            <span class="cal-legendItem"
+              ><span class="cal-swatch cal-t-log"></span>General Log</span
+            >
+          </div>
+
+          <!-- Status / loading -->
+          <div id="calStatus" class="cal-status" role="status" aria-live="polite"></div>
+
+          <!-- View surfaces -->
+          <div class="cal-surface">
+            <section id="calMonthView" class="cal-view" aria-label="Month view">
+              <div class="cal-weekHead" id="calWeekHead"></div>
+              <div class="cal-monthGrid" id="calMonthGrid"></div>
+            </section>
+
+            <section
+              id="calWeekView"
+              class="cal-view"
+              hidden
+              aria-label="Week view"
+            >
+              <div class="cal-weekBoard" id="calWeekBoard"></div>
+            </section>
+
+            <section
+              id="calAgendaView"
+              class="cal-view"
+              hidden
+              aria-label="Agenda view"
+            >
+              <div class="cal-agenda" id="calAgenda"></div>
+            </section>
+          </div>
+        </div>
+      </main>
+
+      <!-- ============================================================
+           ENTRY MODAL (add / edit / view)
+           ============================================================ -->
+      <div
+        class="cal-modal"
+        id="calEntryModal"
+        aria-hidden="true"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="calEntryModalTitle"
+      >
+        <div class="cal-modalBackdrop" data-close="entry"></div>
+        <div class="cal-modalPanel" role="document">
+          <div class="cal-modalHead">
+            <h2 class="cal-modalTitle" id="calEntryModalTitle">New entry</h2>
+            <button
+              type="button"
+              class="cal-iconBtn"
+              data-close="entry"
+              aria-label="Close"
+            >
+              <span class="material-symbols-outlined" aria-hidden="true"
+                >close</span
+              >
+            </button>
+          </div>
+
+          <form id="calEntryForm" class="cal-form" novalidate>
+            <input type="hidden" id="calEntryRecordID" value="" />
+
+            <div class="cal-formRow cal-formRow--split">
+              <label class="cal-field">
+                <span class="cal-label">Date <span class="cal-req">*</span></span>
+                <input type="date" id="calFldDate" class="cal-input" required />
+              </label>
+              <label class="cal-field">
+                <span class="cal-label">Type <span class="cal-req">*</span></span>
+                <select id="calFldType" class="cal-select" required>
+                  <option value="">Choose…</option>
+                  <option value="Meeting Notes">Meeting Notes</option>
+                  <option value="Action Item">Action Item</option>
+                  <option value="Out-of-Office">Out-of-Office</option>
+                  <option value="General Log">General Log</option>
+                </select>
+              </label>
+            </div>
+
+            <label class="cal-field">
+              <span class="cal-label">Title <span class="cal-req">*</span></span>
+              <input
+                type="text"
+                id="calFldTitle"
+                class="cal-input"
+                maxlength="200"
+                required
+                placeholder="e.g. Weekly sync — release blockers"
+              />
+            </label>
+
+            <label class="cal-field">
+              <span class="cal-label" id="calFldBodyLabel">Details</span>
+              <div
+                id="calFldBodyToolbar"
+                class="cal-rtToolbar"
+                role="toolbar"
+                aria-label="Formatting"
+                aria-controls="calFldBody"
+              >
+                <button
+                  type="button"
+                  data-cmd="bold"
+                  class="cal-rtBtn"
+                  aria-label="Bold"
+                >
+                  <b>B</b>
+                </button>
+                <button
+                  type="button"
+                  data-cmd="italic"
+                  class="cal-rtBtn"
+                  aria-label="Italic"
+                >
+                  <i>I</i>
+                </button>
+                <button
+                  type="button"
+                  data-cmd="insertUnorderedList"
+                  class="cal-rtBtn"
+                  aria-label="Bulleted list"
+                >
+                  •—
+                </button>
+                <button
+                  type="button"
+                  data-cmd="insertOrderedList"
+                  class="cal-rtBtn"
+                  aria-label="Numbered list"
+                >
+                  1.
+                </button>
+              </div>
+              <div
+                id="calFldBody"
+                class="cal-rtArea"
+                contenteditable="true"
+                role="textbox"
+                aria-multiline="true"
+                aria-labelledby="calFldBodyLabel"
+              ></div>
+            </label>
+
+            <!-- Action-item-only fields -->
+            <div class="cal-condGroup" id="calCondAction" hidden>
+              <div class="cal-formRow cal-formRow--split">
+                <label class="cal-field">
+                  <span class="cal-label">Status</span>
+                  <select id="calFldStatus" class="cal-select">
+                    <option value="Open">Open</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Done">Done</option>
+                    <option value="Carried Forward">Carried Forward</option>
+                  </select>
+                </label>
+                <label class="cal-field">
+                  <span class="cal-label">Due date</span>
+                  <input type="date" id="calFldDue" class="cal-input" />
+                </label>
+              </div>
+              <div class="cal-field cal-peoplePicker" data-role="assigned">
+                <span class="cal-label" id="calAssignedLabel">Assigned to</span>
+                <div class="cal-peopleSelected" id="calAssignedSelected"></div>
+                <input
+                  type="text"
+                  id="calAssignedSearch"
+                  class="cal-input"
+                  placeholder="Search people…"
+                  autocomplete="off"
+                  aria-labelledby="calAssignedLabel"
+                  role="combobox"
+                  aria-expanded="false"
+                  aria-controls="calAssignedResults"
+                  aria-autocomplete="list"
+                />
+                <ul
+                  class="cal-peopleResults"
+                  id="calAssignedResults"
+                  role="listbox"
+                  aria-label="Matching people"
+                  hidden
+                ></ul>
+              </div>
+            </div>
+
+            <!-- OOO-only fields -->
+            <div class="cal-condGroup" id="calCondOoo" hidden>
+              <div class="cal-formRow cal-formRow--split">
+                <label class="cal-field">
+                  <span class="cal-label"
+                    >End date
+                    <span class="cal-hint"
+                      >(leave blank for single day)</span
+                    ></span
+                  >
+                  <input type="date" id="calFldEnd" class="cal-input" />
+                </label>
+                <div class="cal-field cal-peoplePicker" data-role="covered">
+                  <span class="cal-label" id="calCoveredLabel">Covered by</span>
+                  <div class="cal-peopleSelected" id="calCoveredSelected"></div>
+                  <input
+                    type="text"
+                    id="calCoveredSearch"
+                    class="cal-input"
+                    placeholder="Search people…"
+                    autocomplete="off"
+                    aria-labelledby="calCoveredLabel"
+                    role="combobox"
+                    aria-expanded="false"
+                    aria-controls="calCoveredResults"
+                    aria-autocomplete="list"
+                  />
+                  <ul
+                    class="cal-peopleResults"
+                    id="calCoveredResults"
+                    role="listbox"
+                    aria-label="Matching people"
+                    hidden
+                  ></ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Linked records -->
+            <div class="cal-field">
+              <span class="cal-label" id="calLinkChipsLabel">Linked records</span>
+              <div
+                class="cal-linkChips"
+                id="calLinkChips"
+                role="list"
+                aria-labelledby="calLinkChipsLabel"
+              ></div>
+              <button
+                type="button"
+                class="cal-ghostBtn cal-ghostBtn--full"
+                id="calLinkAddBtn"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  >link</span
+                >
+                Attach a record
+              </button>
+            </div>
+
+            <div class="cal-formMsg" id="calEntryMsg" role="alert"></div>
+
+            <div class="cal-modalActions">
+              <button
+                type="button"
+                class="cal-dangerBtn"
+                id="calDeleteBtn"
+                hidden
+              >
+                Delete
+              </button>
+              <span class="cal-actionsSpacer"></span>
+              <button type="button" class="cal-ghostBtn" data-close="entry">
+                Cancel
+              </button>
+              <button type="submit" class="cal-primaryBtn" id="calSaveBtn">
+                Save entry
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           LINK PICKER MODAL (search all LEAF forms)
+           ============================================================ -->
+      <div
+        class="cal-modal"
+        id="calLinkModal"
+        aria-hidden="true"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="calLinkModalTitle"
+      >
+        <div class="cal-modalBackdrop" data-close="link"></div>
+        <div class="cal-modalPanel cal-modalPanel--sm" role="document">
+          <div class="cal-modalHead">
+            <h2 class="cal-modalTitle" id="calLinkModalTitle">Attach a record</h2>
+            <button
+              type="button"
+              class="cal-iconBtn"
+              data-close="link"
+              aria-label="Close"
+            >
+              <span class="material-symbols-outlined" aria-hidden="true"
+                >close</span
+              >
+            </button>
+          </div>
+          <div class="cal-linkSearchRow">
+            <label class="lp-skip-like cal-sr" for="calLinkSearch"
+              >Search records by title</label
+            >
+            <input
+              type="search"
+              id="calLinkSearch"
+              class="cal-input"
+              placeholder="Search records by title…"
+              autocomplete="off"
+            />
+            <label class="lp-skip-like cal-sr" for="calLinkFormFilter"
+              >Filter by form</label
+            >
+            <select
+              id="calLinkFormFilter"
+              class="cal-select"
+              aria-label="Filter by form"
+            >
+              <option value="">All forms</option>
+            </select>
+          </div>
+          <div
+            class="cal-linkResults"
+            id="calLinkResults"
+            role="region"
+            aria-live="polite"
+            aria-label="Search results"
+          >
+            <p class="cal-linkHint">
+              Type at least 2 characters to search across all forms.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           RECORD VIEWER MODAL (iframe)
+           ============================================================ -->
+      <div
+        class="cal-modal"
+        id="calRecordModal"
+        aria-hidden="true"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="calRecordModalTitle"
+      >
+        <div class="cal-modalBackdrop" data-close="record"></div>
+        <div class="cal-modalPanel cal-modalPanel--lg" role="document">
+          <div class="cal-modalHead">
+            <h2 class="cal-modalTitle" id="calRecordModalTitle">Record</h2>
+            <div class="cal-modalHeadActions">
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="cal-ghostBtn"
+                id="calRecordOpenTab"
+                >Open in new tab</a
+              >
+              <button
+                type="button"
+                class="cal-iconBtn"
+                data-close="record"
+                aria-label="Close"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  >close</span
+                >
+              </button>
+            </div>
+          </div>
+          <iframe
+            id="calRecordFrame"
+            class="cal-recordFrame"
+            title="Record details"
+            src="about:blank"
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- Day peek popover (month cell "+N more") -->
+      <div
+        class="cal-dayPeek"
+        id="calDayPeek"
+        hidden
+        role="dialog"
+        aria-modal="false"
+        aria-label="Day entries"
+      ></div>
+
+      <button
+        type="button"
+        class="cal-jumpTop"
+        id="calJumpTop"
+        aria-label="Jump to top"
+        hidden
+      >
+        <span class="material-symbols-outlined" aria-hidden="true"
+          >arrow_upward</span
+        >
+      </button>
+    </div>
+    <!-- /.lp -->
+
+    <!-- Breadcrumb — loaded at end of body so DOM is ready -->
+    <!-- TODO: verify path before production -->
+    <script src="/platform/designs/files/leaf_breadcrumb.js"></script>
+
+    <!-- LeafFormQuery is provided globally by LEAF. When testing standalone,
+         you'll need to stub it or run this inside a LEAF page. -->
+    <script src="./files/calendar.js"></script>
+  </body>
+</html>
