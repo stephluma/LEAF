@@ -19,27 +19,24 @@
    3. Replace every REPLACE_ME below with the real numeric ID.
    ------------------------------------------------------------ */
 const CONFIG = {
-  // Form category, e.g. "form_abc12"  (with the "form_" prefix)
-  categoryID: "REPLACE_ME_form_xxxxx",
+  // Form category for the Calendar Entry form
+  categoryID: "form_34212",
 
-  // The BASE URL of THIS LEAF site's record printview.
-  // ideas used: https://leaf.va.gov/platform/ideas/index.php?a=printview&recordID=
-  // Change "ideas" to this site's slug. A relative fallback is used if left as-is.
-  recordViewBase:
-    "REPLACE_ME_https://leaf.va.gov/platform/<site>/index.php?a=printview&recordID=",
+  // Base URL of this LEAF site's record printview
+  recordViewBase: "https://leaf.va.gov/platform/calendar/index.php?a=printview&recordID=",
 
   // Numeric indicator IDs from the Calendar Entry form
   indicators: {
-    entryDate: "REPLACE_ME", // Date       — the day the entry lands on
-    entryType: "REPLACE_ME", // Dropdown   — Meeting Notes / Action Item / Out-of-Office / General Log
-    title: "REPLACE_ME", // Text       — chip label
-    body: "REPLACE_ME", // Textarea / rich text — details
-    linked: "REPLACE_ME", // Textarea   — app-managed JSON list of {recordID, categoryID}
-    status: "REPLACE_ME", // Dropdown   — Open / In Progress / Done / Carried Forward
-    assignedTo: "REPLACE_ME", // Orgchart employee (empUID) — action-item owner
-    dueDate: "REPLACE_ME", // Date       — action-item due date
-    endDate: "REPLACE_ME", // Date       — OOO range end
-    coveredBy: "REPLACE_ME", // Orgchart employee (empUID) — OOO coverage
+    entryDate: "11", // Date       — the day the entry lands on
+    entryType: "2", // Dropdown   — Meeting Notes / Action Item / Out-of-Office / General Log
+    title: "3", // Text       — chip label
+    body: "4", // Textarea / rich text — details
+    linked: "5", // Textarea   — app-managed JSON list of {recordID, categoryID}
+    status: "6", // Dropdown   — Open / In Progress / Done / Carried Forward
+    assignedTo: "7", // Orgchart employee (empUID) — action-item owner
+    dueDate: "8", // Date       — action-item due date
+    endDate: "9", // Date       — OOO range end
+    coveredBy: "10", // Orgchart employee (empUID) — OOO coverage
   },
 
   // How many chips fit in a month cell before "+N more"
@@ -904,6 +901,15 @@ function renderPeopleSelected(role) {
   }
 }
 
+// Reads an orgchart "indicator data" cell out of an employee record's
+// `data` array, matching the shape used by employeeSelector.js:
+//   response[i].data[5] => { data: "555-1234" }  (phone)
+//   response[i].data[6] => { data: "a@b.gov" }   (email)
+function empIndicatorText(emp, indicatorID) {
+  const cell = emp && emp.data ? emp.data[indicatorID] : null;
+  return cell && cell.data ? String(cell.data) : "";
+}
+
 async function searchPeople(term, role) {
   const listId = role === "assigned" ? "calAssignedResults" : "calCoveredResults";
   const searchId = role === "assigned" ? "calAssignedSearch" : "calCoveredSearch";
@@ -916,7 +922,10 @@ async function searchPeople(term, role) {
     return;
   }
   try {
-    const res = await apiGet(`./api/orgchart/employee/search?q=${encodeURIComponent(term)}&noLimit=0`);
+    // Real endpoint per employeeSelector.js: "./api/?a=employee/search"
+    // (query-string routed action, NOT a REST path segment). Params are
+    // q + noLimit (0/1); omitting noLimit entirely is equivalent to 0.
+    const res = await apiGet(`./api/?a=employee/search&q=${encodeURIComponent(term)}`);
     const rows = Array.isArray(res) ? res : Object.values(res || {});
     if (!rows.length) {
       listEl.innerHTML = '<li role="option" aria-disabled="true">No matches</li>';
@@ -925,13 +934,18 @@ async function searchPeople(term, role) {
       return;
     }
     listEl.innerHTML = rows
+      .filter((p) => !p.deleted)
       .slice(0, 8)
       .map((p) => {
+        const middle = p.middleName ? ` ${p.middleName}.` : "";
         const name = decodeEntities(
-          p.lastName && p.firstName ? `${p.firstName} ${p.lastName}` : p.name || p.userName || `#${p.empUID || ""}`,
+          p.lastName || p.firstName
+            ? `${p.lastName || ""}, ${p.firstName || ""}${middle}`
+            : p.userName || `#${p.empUID || ""}`,
         );
+        const email = empIndicatorText(p, 6);
         const uid = p.empUID ?? "";
-        return `<li role="option" tabindex="-1" data-empuid="${escapeHtml(uid)}" data-name="${escapeHtml(name)}" data-role="${role}">${escapeHtml(name)}<small>${escapeHtml(p.userName || p.email || "")}</small></li>`;
+        return `<li role="option" tabindex="-1" data-empuid="${escapeHtml(uid)}" data-name="${escapeHtml(name)}" data-role="${role}">${escapeHtml(name)}<small>${escapeHtml(p.userName || email || "")}</small></li>`;
       })
       .join("");
     listEl.hidden = false;
@@ -943,14 +957,13 @@ async function searchPeople(term, role) {
   }
 }
 
-// Import an employee into the local orgchart so their empUID resolves later.
-async function importEmployee(userName) {
-  if (!userName) return;
-  try {
-    await apiPost(`./api/orgchart/employee/import/_${encodeURIComponent(userName)}`, { CSRFToken: CSRF });
-  } catch (e) {
-    logDebug("employee import skipped:", e.message);
-  }
+// NOTE: there is no confirmed "import employee" endpoint in the LEAF
+// source we've reviewed (only ./api/?a=employee/search is verified, via
+// employeeSelector.js). The empUID returned by that search is already
+// usable directly as an indicator value, so no separate import step is
+// required — this is now a no-op kept only so callers don't need to change.
+async function importEmployee() {
+  // Intentionally does nothing until a real import endpoint is confirmed.
 }
 
 function pickPerson(role, empUID, name, userName) {
