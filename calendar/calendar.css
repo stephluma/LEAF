@@ -1,5 +1,5 @@
 /* ============================================================
-   Team Continuity Calendar — styling
+   Team Command Center — styling
    Palette + spacing intentionally aligned with project_v19.css
    so it sits alongside the Project Dashboard as one product.
 
@@ -69,7 +69,7 @@
   max-width: 1400px;
   color: var(--cal-text);
   font-family: var(--cal-font);
-  background: var(--cal-bg);
+  background: transparent;
 }
 
 .cal-sr {
@@ -84,14 +84,53 @@
   border: 0;
 }
 
+/* Self-hosted skip link — this page no longer depends on launchpad.css
+   for any layout/positioning, only for its font/color variables, so its
+   own skip-link affordance is defined here instead of reusing .lp-skip. */
+.cal-skip {
+  position: absolute;
+  left: 16px;
+  top: -80px;
+  padding: 8px 14px;
+  background: var(--cal-surface);
+  border: 2px solid var(--cal-accent);
+  color: var(--cal-accent-strong);
+  border-radius: var(--cal-radius-sm);
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  z-index: 2000;
+  transition: top 0.15s ease;
+}
+.cal-skip:focus {
+  top: 16px;
+  outline: 3px solid var(--cal-focus);
+  outline-offset: 2px;
+}
+
 /* ── Header ───────────────────────────────────────────── */
 .cal-header {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   gap: var(--cal-space-4);
   flex-wrap: wrap;
   margin-bottom: var(--cal-space-4);
+}
+.cal-headerMain {
+  display: flex;
+  align-items: center;
+  gap: var(--cal-space-3);
+  min-width: 0;
+}
+.cal-logo {
+  height: 52px;
+  width: auto;
+  flex-shrink: 0;
+  align-self: center;
+}
+.cal-headerText {
+  min-width: 0;
 }
 .cal-title {
   margin: 0;
@@ -105,7 +144,9 @@
   margin: 6px 0 0;
   color: var(--cal-muted);
   font-size: 15px;
-  max-width: 60ch;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ── Buttons ──────────────────────────────────────────── */
@@ -129,10 +170,14 @@
 .cal-primaryBtn {
   background: var(--cal-accent);
   border: 1px solid var(--cal-accent-strong);
-  color: #fff;
+  color: #fff !important;
   font-weight: 700;
   padding: 10px 16px;
   font-size: 15px;
+}
+.cal-primaryBtn,
+.cal-primaryBtn span {
+  color: #fff !important;
 }
 .cal-primaryBtn:hover {
   background: var(--cal-accent-strong);
@@ -228,6 +273,19 @@
   min-width: 12ch;
 }
 
+.cal-viewToggleGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cal-space-2);
+}
+.cal-toggleLabel {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--cal-muted);
+}
+
 .cal-viewToggle {
   display: inline-flex;
   background: var(--cal-surface);
@@ -310,11 +368,17 @@
 }
 
 /* ── Legend ───────────────────────────────────────────── */
+.cal-legendRow {
+  display: flex;
+  align-items: center;
+  gap: var(--cal-space-3);
+  flex-wrap: wrap;
+  margin-top: var(--cal-space-3);
+}
 .cal-legend {
   display: flex;
   gap: var(--cal-space-4);
   flex-wrap: wrap;
-  margin-bottom: var(--cal-space-3);
   font-size: 13px;
   color: var(--cal-muted);
 }
@@ -437,6 +501,50 @@
   flex-direction: column;
   gap: 3px;
   overflow: hidden;
+}
+
+/* Reserves vertical space in the cell for the OOO band overlay drawn in
+   renderOooBands(); the band itself is absolutely positioned relative
+   to .cal-monthGrid, not this slot, but the slot keeps chip layout from
+   colliding with it. Only takes up space on days that actually have an
+   OOO span (renderOooBands toggles .has-band). */
+.cal-oooBandSlot {
+  height: 0;
+  flex-shrink: 0;
+}
+.cal-oooBandSlot.has-band {
+  height: 22px;
+}
+.cal-monthGrid {
+  position: relative;
+}
+.cal-oooBand {
+  position: absolute;
+  z-index: 5;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cal-ooo-text);
+  background: var(--cal-ooo-soft);
+  border: 1px solid var(--cal-ooo);
+  border-radius: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+}
+.cal-oooBand:hover {
+  filter: brightness(0.97);
+}
+.cal-oooBand:focus-visible {
+  outline: 2px solid var(--cal-focus);
+  outline-offset: 1px;
+  z-index: 6;
 }
 
 .cal-chip {
@@ -1169,11 +1277,8 @@
   .cal-formRow--split {
     grid-template-columns: 1fr;
   }
-  .cal-monthGrid {
-    grid-auto-rows: minmax(92px, 1fr);
-  }
   .cal-dayCell {
-    min-height: 92px;
+    min-height: 76px;
   }
   .cal-weekBoard {
     grid-template-columns: repeat(7, minmax(120px, 1fr));
@@ -1194,6 +1299,14 @@
   }
   .cal-title {
     font-size: 24px;
+  }
+  .cal-logo {
+    height: 40px;
+  }
+  .cal-subtitle {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
   }
   .cal-toolbar {
     align-items: flex-start;
