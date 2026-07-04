@@ -1,1 +1,17 @@
-
+<script>
+  $(document).ready(function () {
+    $("#3").on("change", function () {
+      var newTitle = $(this).val().trim();
+      if (newTitle !== "") {
+        $.ajax({
+          type: "POST",
+          url: "./api/form/" + recordID + "/title",
+          data: {
+            title: newTitle,
+            CSRFToken: CSRFToken,
+          },
+        });
+      }
+    });
+  });
+</script>
