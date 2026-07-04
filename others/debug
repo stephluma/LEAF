@@ -1,10 +1,2 @@
-VM55:6 === Indicator #3 change fired ===
-VM55:7 newTitle: Stephanie - OOO
-VM55:8 typeof recordID: number value: 14
-VM55:9 typeof CSRFToken: string value: b72ac14eaa9d7f4e2df144f0eb92418bba7860c19ab7f224ead47a35540b3867
-VM55:13 hidden CSRFToken inputs found on page: Array(1)
-VM55:15 current window.location.href: https://leaf.va.gov/platform/calendar/index.php?a=printview&recordID=14
-VM55:22 Resolved recordID: 14
-VM55:23 Resolved CSRFToken: b72ac14eaa9d7f4e2df144f0eb92418bba7860c19ab7f224ead47a35540b3867
-VM55:24 Final URL about to be called: ./api/form/14/title
-VM55:34 SUCCESS response: Stephanie - OOO
+<input id="empSel933_input" type="search" class="employeeSelectorInput" aria-label="Search for user to add as Covered By (Orgchart Employee)">
+<div id="empSel933_result" role="status" aria-label="search results"></div>
