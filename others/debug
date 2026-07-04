@@ -1,17 +1,22 @@
-<script>
-  $(document).ready(function () {
-    $("#3").on("change", function () {
-      var newTitle = $(this).val().trim();
-      if (newTitle !== "") {
-        $.ajax({
-          type: "POST",
-          url: "./api/form/" + recordID + "/title",
-          data: {
-            title: newTitle,
-            CSRFToken: CSRFToken,
-          },
-        });
-      }
-    });
-  });
-</script>
+fetch("https://leaf.va.gov/platform/calendar/api/form/10/title", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "en-US,en;q=0.9",
+    "cache-control": "no-cache",
+    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+    "pragma": "no-cache",
+    "sec-ch-ua": "\"Chromium\";v=\"148\", \"Microsoft Edge\";v=\"148\", \"Not/A)Brand\";v=\"99\"",
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": "\"Android\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
+    "x-dtpc": "57$525161253_198h10vBWFHCIVUKFALVKCJMPENVKECSKRHRRRQ-0e0",
+    "x-requested-with": "XMLHttpRequest"
+  },
+  "referrer": "https://leaf.va.gov/platform/calendar/index.php?a=printview&recordID=10",
+  "body": "title=7%2F7+Dev+Demo&CSRFToken=b72ac14eaa9d7f4e2df144f0eb92418bba7860c19ab7f224ead47a35540b3867",
+  "method": "POST",
+  "mode": "cors",
+  "credentials": "include"
+});
