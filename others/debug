@@ -1,22 +1,10 @@
-fetch("https://leaf.va.gov/platform/calendar/api/form/10/title", {
-  "headers": {
-    "accept": "*/*",
-    "accept-language": "en-US,en;q=0.9",
-    "cache-control": "no-cache",
-    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-    "pragma": "no-cache",
-    "sec-ch-ua": "\"Chromium\";v=\"148\", \"Microsoft Edge\";v=\"148\", \"Not/A)Brand\";v=\"99\"",
-    "sec-ch-ua-mobile": "?1",
-    "sec-ch-ua-platform": "\"Android\"",
-    "sec-fetch-dest": "empty",
-    "sec-fetch-mode": "cors",
-    "sec-fetch-site": "same-origin",
-    "x-dtpc": "57$525161253_198h10vBWFHCIVUKFALVKCJMPENVKECSKRHRRRQ-0e0",
-    "x-requested-with": "XMLHttpRequest"
-  },
-  "referrer": "https://leaf.va.gov/platform/calendar/index.php?a=printview&recordID=10",
-  "body": "title=7%2F7+Dev+Demo&CSRFToken=b72ac14eaa9d7f4e2df144f0eb92418bba7860c19ab7f224ead47a35540b3867",
-  "method": "POST",
-  "mode": "cors",
-  "credentials": "include"
-});
+VM55:6 === Indicator #3 change fired ===
+VM55:7 newTitle: Stephanie - OOO
+VM55:8 typeof recordID: number value: 14
+VM55:9 typeof CSRFToken: string value: b72ac14eaa9d7f4e2df144f0eb92418bba7860c19ab7f224ead47a35540b3867
+VM55:13 hidden CSRFToken inputs found on page: Array(1)
+VM55:15 current window.location.href: https://leaf.va.gov/platform/calendar/index.php?a=printview&recordID=14
+VM55:22 Resolved recordID: 14
+VM55:23 Resolved CSRFToken: b72ac14eaa9d7f4e2df144f0eb92418bba7860c19ab7f224ead47a35540b3867
+VM55:24 Final URL about to be called: ./api/form/14/title
+VM55:34 SUCCESS response: Stephanie - OOO
