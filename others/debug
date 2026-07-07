@@ -1,10 +1,10 @@
-ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252  GET https://leaf.va.gov/platform/orgchart/api/employee/oitauslumags 400 (Bad Request)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-fetch @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
-wa @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:277
-apiGet @ calendar.js:385
-(anonymous) @ calendar.js:764
-resolveAuthorAndAssigneeNames @ calendar.js:762
-loadEntries @ calendar.js:641
-await in loadEntries
-main @ calendar.js:2538
+calendar.js:445 === CALENDAR DIAGNOSTICS ===
+calendar.js:446 Configured categoryID: form_34212
+calendar.js:449 --- Forms available on this site ---
+calendar.js:451   form_34212 => Calendar Entry
+calendar.js:451   form_bd945 => Feedback
+/platform/calendar/api/formEditor/indicator/list/category/34212:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+calendar.js:472 Could not fetch indicator list — build the form first, then set categoryID. GET ./api/formEditor/indicator/list/category/34212 → HTTP 400
+/platform/orgchart/api/employee/_oitauslumags:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+calendar.js:110 [Calendar] name lookup failed for oitauslumags GET /platform/orgchart/api/employee/_oitauslumags → HTTP 400
+calendar.js:110 [Calendar] Loaded entries: 10
