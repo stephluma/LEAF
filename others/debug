@@ -1,5 +1,4 @@
-outlook-sync.js:1  Failed to load resource: the server responded with a status of 404 (Not Found)
-calendar.js:831 [TEMP DIAG] peopleCache: Object
-calendar.js:832 [TEMP DIAG] seen (author -> label): Object
-calendar.js:831 [TEMP DIAG] peopleCache: Object
-calendar.js:832 [TEMP DIAG] seen (author -> label): Object
+calendar.js:831 [TEMP DIAG] peopleCache: {"Sulgeiry Gardner":"Sulgeiry Gardner","Stephanie Lumagui":"Stephanie Lumagui","Harlie Haag":"Harlie Haag"}
+calendar.js:832 [TEMP DIAG] seen (author -> label): {"oitauslumags":"oitauslumags"}
+calendar.js:831 [TEMP DIAG] peopleCache: {"Sulgeiry Gardner":"Sulgeiry Gardner","Stephanie Lumagui":"Stephanie Lumagui","Harlie Haag":"Harlie Haag","oitauslumags":"Stephanie Lumagui"}
+calendar.js:832 [TEMP DIAG] seen (author -> label): {"oitauslumags":"Stephanie Lumagui"}
