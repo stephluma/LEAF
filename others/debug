@@ -8,3 +8,9 @@ calendar.js:472 Could not fetch indicator list — build the form first, then se
 /platform/orgchart/api/employee/_oitauslumags:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
 calendar.js:110 [Calendar] name lookup failed for oitauslumags GET /platform/orgchart/api/employee/_oitauslumags → HTTP 400
 calendar.js:110 [Calendar] Loaded entries: 10
+calendar.js:110 [Calendar] [rt:calFldBody] initRichTextField() called {wasAlreadyReady: false, fieldOffsetParentIsNull: true, rectWidth: 0, rectHeight: 0, modalHasIsOpenClass: true, …}
+calendar.js:110 [Calendar] [rt:calFldBody] post-build check {editorFound: false, contentEditableAttr: null, editorRect: null}
+calendar.js:110 [Calendar] [rt:calFldOpsScrum] initRichTextField() called {wasAlreadyReady: false, fieldOffsetParentIsNull: false, rectWidth: 160, rectHeight: 40, modalHasIsOpenClass: true, …}
+calendar.js:110 [Calendar] [rt:calFldOpsScrum] post-build check {editorFound: false, contentEditableAttr: null, editorRect: null}
+calendar.js:110 [Calendar] [rt:calFldDevScrum] initRichTextField() called {wasAlreadyReady: false, fieldOffsetParentIsNull: false, rectWidth: 160, rectHeight: 40, modalHasIsOpenClass: true, …}
+calendar.js:110 [Calendar] [rt:calFldDevScrum] post-build check {editorFound: false, contentEditableAttr: null, editorRect: null}
