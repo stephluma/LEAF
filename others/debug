@@ -1,20 +1,17 @@
-calendar.js:528 === CALENDAR DIAGNOSTICS ===
-calendar.js:529 Configured categoryID: form_34212
-calendar.js:532 --- Forms available on this site ---
-calendar.js:534   form_34212 => Calendar Entry
-calendar.js:534   form_bd945 => Feedback
-/platform/calendar/api/formEditor/indicator/list/category/34212:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
-calendar.js:555 Could not fetch indicator list — build the form first, then set categoryID. GET ./api/formEditor/indicator/list/category/34212 → HTTP 400
-/platform/orgchart/api/employee/_oitauslumags:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
-calendar.js:193 [Calendar] name lookup failed for oitauslumags GET /platform/orgchart/api/employee/_oitauslumags → HTTP 400
-calendar.js:193 [Calendar] Loaded entries: 12
-calendar.js:193 [Calendar] [rt:calFldBody] initRichTextField() called Object
-calendar.js:193 [Calendar] [rt:calFldBody] post-build check Object
-calendar.js:193 [Calendar] [rt:calFldOpsScrum] initRichTextField() called Object
-calendar.js:193 [Calendar] [rt:calFldOpsScrum] post-build check Object
-calendar.js:193 [Calendar] [rt:calFldDevScrum] initRichTextField() called Object
-calendar.js:193 [Calendar] [rt:calFldDevScrum] post-build check Object
-calendar.js:115 [Calendar][click-diag:calFldOpsScrum] click within rt wrapper bounds Object
-calendar.js:115 [Calendar][click-diag:calFldOpsScrum] click within rt wrapper bounds Object
-calendar.js:115 [Calendar][click-diag:calFldOpsScrum] click within rt wrapper bounds Object
-calendar.js:115 [Calendar][click-diag:calFldOpsScrum] click within rt wrapper bounds Object
+<script>
+  $(document).ready(function () {
+    $("#3").on("change", function () {
+      var newTitle = $(this).val().trim();
+      if (newTitle !== "") {
+        $.ajax({
+          type: "POST",
+          url: "./api/form/" + recordID + "/title",
+          data: {
+            title: newTitle,
+            CSRFToken: CSRFToken,
+          },
+        });
+      }
+    });
+  });
+</script>
