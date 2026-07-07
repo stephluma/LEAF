@@ -1,21 +1,5 @@
-GET /platform/orgchart/api/national/employee/search?q=userName:oitauslumags&noLimit=0&domain= HTTP/1.1
-Accept: application/json
-Accept-Encoding: gzip, deflate, br, zstd
-Accept-Language: en-US,en;q=0.9
-Cache-Control: no-cache
-Connection: keep-alive
-Cookie: PHPSESSID=vogqovvtg0ilfo5oufkmoft43e; dtCookie=v_4_srv_52_sn_72FB9E26E8030320C1785179E052FABC_perc_100000_ol_0_mul_1_app-3A0b5de6c003f4dc0c_1_rcs-3Acss_0; af4441596b110025d1cd66a9a205a170=86b6afa8285da6ae02c21d347fee7c1b; REMOTE_USER=555644484b454d72713642497a65766d3a3a3363656166633130343639363662393664373537356137663063643737313030; rxVisitor=1783428081530NTNU8B9AIG94JL4LKH6BU4IIT0TUGU2E; dtSa=-; rxvt=1783453888657|1783449592933; dtPC=52$252087180_425h4vSRDLIIUHJFBEKBUTWLFRSJNQPMMCRWST-0e0
-Host: leaf.va.gov
-Pragma: no-cache
-Referer: https://leaf.va.gov/platform/calendar/
-Sec-Fetch-Dest: empty
-Sec-Fetch-Mode: cors
-Sec-Fetch-Site: same-origin
-User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36 Edg/148.0.0.0
-sec-ch-ua: "Chromium";v="148", "Microsoft Edge";v="148", "Not/A)Brand";v="99"
-sec-ch-ua-mobile: ?1
-sec-ch-ua-platform: "Android"
-x-dtpc: 52$252087180_425h4vSRDLIIUHJFBEKBUTWLFRSJNQPMMCRWST-0e0
-x-requested-with: XMLHttpRequest
-
-{"4078424":{"empUID":4078424,"userName":"oitauslumags","lastName":"Lumagui","firstName":"Stephanie","middleName":"L","phoneticFirstName":"STFN","phoneticLastName":"LMK","domain":"aac.dva.va.gov","deleted":0,"lastUpdated":1783382515,"new_empUUID":"5fb34fc7-f03e-11ee-a22a-02ec84287b82","email":"Stephanie.Lumagui@va.gov","data":{"-2":{"indicatorID":-2,"name":"POA Exempt","format":"radio","required":0,"data":"Yes","isWritable":0,"options":["Yes","No"],"timestamp":0},"-1":{"indicatorID":-1,"name":"Domain","format":"text","required":0,"data":"aac.dva.va.gov","isWritable":0,"timestamp":0},"1":{"indicatorID":1,"name":"Photo","format":"image","required":0,"data":"","isWritable":0},"5":{"indicatorID":5,"name":"Phone","format":"text","required":1,"data":"","isWritable":0,"timestamp":1733415965},"6":{"indicatorID":6,"name":"Email","format":"text","required":1,"data":"Stephanie.Lumagui@va.gov","isWritable":0,"timestamp":1733415965},"7":{"indicatorID":7,"name":"Pager","format":"text","required":0,"data":"","isWritable":0},"8":{"indicatorID":8,"name":"Room","format":"text","required":1,"data":"Infrastructure Operations Services (IOS)","isWritable":0,"timestamp":1733415965},"16":{"indicatorID":16,"name":"Mobile","format":"text","required":0,"data":"","isWritable":0,"timestamp":0},"20":{"indicatorID":20,"name":"EIN","format":"number","required":0,"data":"","isWritable":0},"23":{"indicatorID":23,"name":"AD Title","format":"text","required":0,"data":"Program Analyst","isWritable":0,"timestamp":1733415965},"27":{"indicatorID":27,"name":"LEAF Developer Console Access","format":"checkbox","required":0,"data":"","isWritable":0,"options":["Yes"]},"28":{"indicatorID":28,"name":"LEAF Developer Console Request Reference","format":"text","required":0,"data":"","isWritable":0}}}}
+outlook-sync.js:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+calendar.js:831 [TEMP DIAG] peopleCache: Object
+calendar.js:832 [TEMP DIAG] seen (author -> label): Object
+calendar.js:831 [TEMP DIAG] peopleCache: Object
+calendar.js:832 [TEMP DIAG] seen (author -> label): Object
