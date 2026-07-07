@@ -1,24 +1,266 @@
-POST /platform/stephanie_sandbox/api/form/24/submit HTTP/1.1
-Accept: */*
-Accept-Encoding: gzip, deflate, br, zstd
-Accept-Language: en-US,en;q=0.9
-Cache-Control: no-cache
-Connection: keep-alive
-Content-Length: 74
-Content-Type: application/x-www-form-urlencoded; charset=UTF-8
-Cookie: PHPSESSID=vogqovvtg0ilfo5oufkmoft43e; dtCookie=v_4_srv_52_sn_72FB9E26E8030320C1785179E052FABC_perc_100000_ol_0_mul_1_app-3A0b5de6c003f4dc0c_1_rcs-3Acss_0; af4441596b110025d1cd66a9a205a170=86b6afa8285da6ae02c21d347fee7c1b; REMOTE_USER=555644484b454d72713642497a65766d3a3a3363656166633130343639363662393664373537356137663063643737313030; rxVisitor=1783428081530NTNU8B9AIG94JL4LKH6BU4IIT0TUGU2E; dtSa=-; rxvt=1783432984351|1783428081533; dtPC=52$231181123_669h6vCSNMCEMOFCJUFQUPOAMCLPBRLFGEUHMP-0e0
-Host: leaf.va.gov
-Origin: https://leaf.va.gov
-Pragma: no-cache
-Referer: https://leaf.va.gov/platform/stephanie_sandbox/index.php?a=printview&recordID=24
-Sec-Fetch-Dest: empty
-Sec-Fetch-Mode: cors
-Sec-Fetch-Site: same-origin
-User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Mobile Safari/537.36 Edg/148.0.0.0
-X-Requested-With: XMLHttpRequest
-sec-ch-ua: "Chromium";v="148", "Microsoft Edge";v="148", "Not/A)Brand";v="99"
-sec-ch-ua-mobile: ?1
-sec-ch-ua-platform: "Android"
-x-dtpc: 52$231181123_669h6vCSNMCEMOFCJUFQUPOAMCLPBRLFGEUHMP-0e0
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>LEAF Bulk Title Updater</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <h2>LEAF Bulk Title Updater</h2>
 
-{"status":1,"errors":[]}
+    <p>
+      <label
+        >CSRFToken:
+        <input
+          type="text"
+          id="csrfToken"
+          size="70"
+          placeholder="Paste CSRFToken here"
+      /></label>
+    </p>
+
+    <table border="1" cellpadding="4">
+      <tr>
+        <th>Job</th>
+        <th>Category ID</th>
+        <th>Indicator ID</th>
+        <th></th>
+      </tr>
+      <tbody id="jobs-container"></tbody>
+    </table>
+    <br />
+    <button onclick="addJob()">+ Add Job</button>
+    <br /><br />
+
+    <button onclick="startUpdate()">Run All Jobs</button>
+    <button onclick="stopUpdate()">Stop</button>
+
+    <p id="status">Ready.</p>
+
+    <div
+      id="log"
+      style="
+        height: 400px;
+        overflow-y: scroll;
+        border: 1px solid #ccc;
+        padding: 8px;
+        font-family: monospace;
+        font-size: 12px;
+      "
+    ></div>
+
+    <script>
+      var BASE_URL = "https://leaf.va.gov/platform/projects/";
+      var shouldStop = false;
+      var jobCount = 0;
+
+      function addJob(categoryID, indicatorID) {
+        jobCount++;
+        var num = jobCount;
+        var row =
+          '<tr id="job-' +
+          num +
+          '">' +
+          "<td>Job " +
+          num +
+          "</td>" +
+          '<td><input type="text" class="job-category" value="' +
+          (categoryID || "") +
+          '" size="20" /></td>' +
+          '<td><input type="text" class="job-indicator" value="' +
+          (indicatorID || "") +
+          '" size="6" /></td>' +
+          "<td><button onclick=\"$('#job-" +
+          num +
+          "').remove()\">Remove</button></td>" +
+          "</tr>";
+        $("#jobs-container").append(row);
+      }
+
+      function log(msg) {
+        $("#log").append("<div>" + msg + "</div>");
+        var el = document.getElementById("log");
+        el.scrollTop = el.scrollHeight;
+      }
+
+      function stopUpdate() {
+        shouldStop = true;
+        log("Stop requested.");
+      }
+
+      async function startUpdate() {
+        shouldStop = false;
+        $("#log").empty();
+
+        var CSRFToken = $("#csrfToken").val().trim();
+        if (!CSRFToken) {
+          alert("Please enter your CSRFToken.");
+          return;
+        }
+
+        var jobs = [];
+        $("#jobs-container tr").each(function () {
+          var cat = $(this).find(".job-category").val().trim();
+          var ind = $(this).find(".job-indicator").val().trim();
+          if (ind !== "") jobs.push({ categoryID: cat, indicatorID: ind });
+        });
+
+        if (jobs.length === 0) {
+          alert("Please add at least one job.");
+          return;
+        }
+
+        var totalUpdated = 0,
+          totalSkipped = 0,
+          totalErrors = 0;
+
+        for (var j = 0; j < jobs.length; j++) {
+          if (shouldStop) break;
+
+          var job = jobs[j];
+          log(
+            "--- Job " +
+              (j + 1) +
+              ": Category=" +
+              (job.categoryID || "ALL") +
+              " Indicator=" +
+              job.indicatorID +
+              " ---",
+          );
+
+          var terms = [{ id: "deleted", operator: "=", match: "0" }];
+          if (job.categoryID !== "") {
+            terms.push({
+              id: "categoryID",
+              operator: "=",
+              match: job.categoryID,
+              gate: "AND",
+            });
+          }
+
+          var records;
+          try {
+            records = await $.ajax({
+              type: "GET",
+              url: BASE_URL + "api/form/query",
+              data: {
+                q: JSON.stringify({ terms: terms }),
+                "x-filterData": "recordID",
+              },
+              dataType: "json",
+            });
+          } catch (e) {
+            log("ERROR fetching records: " + e.statusText);
+            continue;
+          }
+
+          var recordIDs = Object.keys(records);
+          log("Found " + recordIDs.length + " records.");
+
+          var updated = 0,
+            skipped = 0,
+            errors = 0;
+
+          for (var i = 0; i < recordIDs.length; i++) {
+            if (shouldStop) break;
+
+            var recordID = recordIDs[i];
+            $("#status").text(
+              "Job " +
+                (j + 1) +
+                " — " +
+                (i + 1) +
+                "/" +
+                recordIDs.length +
+                " (Record #" +
+                recordID +
+                ")",
+            );
+
+            try {
+              var titleValue = await $.ajax({
+                type: "GET",
+                url:
+                  BASE_URL +
+                  "ajaxIndex.php?a=getprintindicator&recordID=" +
+                  recordID +
+                  "&indicatorID=" +
+                  job.indicatorID +
+                  "&series=1",
+                dataType: "text",
+              });
+
+              // Parse response as HTML so the browser handles all tags and scripts
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(titleValue, "text/html");
+              // Remove all script elements
+              doc.querySelectorAll("script").forEach(function (s) {
+                s.remove();
+              });
+              // Get plain text only
+              titleValue = (
+                doc.body.innerText ||
+                doc.body.textContent ||
+                ""
+              ).trim();
+
+              if (!titleValue) {
+                log("#" + recordID + " — skipped (empty)");
+                skipped++;
+              } else {
+                await $.ajax({
+                  type: "POST",
+                  url: BASE_URL + "api/form/" + recordID + "/title",
+                  data: { title: titleValue, CSRFToken: CSRFToken },
+                });
+                log("#" + recordID + ' — updated: "' + titleValue + '"');
+                updated++;
+              }
+            } catch (e) {
+              log("#" + recordID + " — ERROR: " + (e.statusText || e));
+              errors++;
+            }
+
+            await new Promise((r) => setTimeout(r, 150));
+          }
+
+          totalUpdated += updated;
+          totalSkipped += skipped;
+          totalErrors += errors;
+          log(
+            "Job " +
+              (j + 1) +
+              " done — Updated: " +
+              updated +
+              " | Skipped: " +
+              skipped +
+              " | Errors: " +
+              errors,
+          );
+        }
+
+        $("#status").text(
+          "Done. Updated: " +
+            totalUpdated +
+            " | Skipped: " +
+            totalSkipped +
+            " | Errors: " +
+            totalErrors,
+        );
+        log(
+          "=== COMPLETE — Updated: " +
+            totalUpdated +
+            " | Skipped: " +
+            totalSkipped +
+            " | Errors: " +
+            totalErrors +
+            " ===",
+        );
+      }
+
+      // Pre-load the two jobs
+      addJob("form_9b302", "9");
+      addJob("form_55445", "3");
+    </script>
+  </body>
+</html>
