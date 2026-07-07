@@ -1,55 +1,266 @@
-calendar.js:445 === CALENDAR DIAGNOSTICS ===
-calendar.js:446 Configured categoryID: form_34212
-calendar.js:449 --- Forms available on this site ---
-calendar.js:451   form_34212 => Calendar Entry
-calendar.js:451   form_bd945 => Feedback
-ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252  GET https://leaf.va.gov/platform/calendar/api/formEditor/indicator/list/category/34212 400 (Bad Request)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-fetch @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
-wa @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:277
-apiGet @ calendar.js:385
-runDiagnostics @ calendar.js:460
-await in runDiagnostics
-main @ calendar.js:2581
-calendar.js:472 Could not fetch indicator list — build the form first, then set categoryID. GET ./api/formEditor/indicator/list/category/34212 → HTTP 400
-ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252  GET https://leaf.va.gov/platform/orgchart/api/employee/_oitauslumags 400 (Bad Request)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-fetch @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
-wa @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:277
-apiGet @ calendar.js:385
-(anonymous) @ calendar.js:769
-resolveAuthorAndAssigneeNames @ calendar.js:762
-loadEntries @ calendar.js:641
-await in loadEntries
-main @ calendar.js:2604
-calendar.js:110 [Calendar] name lookup failed for oitauslumags GET /platform/orgchart/api/employee/_oitauslumags → HTTP 400
-calendar.js:110 [Calendar] Loaded entries: 10
-calendar.js:110 [Calendar] [rt:calFldBody] initRichTextField() called {wasAlreadyReady: false, fieldOffsetParentIsNull: true, rectWidth: 0, rectHeight: 0, modalHasIsOpenClass: true, …}
-calendar.js:110 [Calendar] [rt:calFldBody] post-build check {editorFound: true, contentEditableAttr: 'true', editorRect: DOMRect, focusActuallyLanded: false}
-calendar.js:110 [Calendar] [rt:calFldOpsScrum] initRichTextField() called {wasAlreadyReady: false, fieldOffsetParentIsNull: false, rectWidth: 160, rectHeight: 40, modalHasIsOpenClass: true, …}
-calendar.js:110 [Calendar] [rt:calFldOpsScrum] post-build check {editorFound: true, contentEditableAttr: 'true', editorRect: DOMRect, focusActuallyLanded: true}
-calendar.js:110 [Calendar] [rt:calFldDevScrum] initRichTextField() called {wasAlreadyReady: false, fieldOffsetParentIsNull: false, rectWidth: 160, rectHeight: 40, modalHasIsOpenClass: true, …}
-calendar.js:110 [Calendar] [rt:calFldDevScrum] post-build check {editorFound: true, contentEditableAttr: 'true', editorRect: DOMRect, focusActuallyLanded: true}
-calendar.js:110 [Calendar] [rt:calFldBody] initRichTextField() called {wasAlreadyReady: true, fieldOffsetParentIsNull: false, rectWidth: 199.92709350585938, rectHeight: 1, modalHasIsOpenClass: true, …}
-calendar.js:110 [Calendar] [rt:calFldBody] destroy() succeeded
-calendar.js:110 [Calendar] [rt:calFldBody] post-build check {editorFound: true, contentEditableAttr: 'true', editorRect: DOMRect, focusActuallyLanded: true}
-calendar.js:110 [Calendar] [rt:calFldOpsScrum] initRichTextField() called {wasAlreadyReady: true, fieldOffsetParentIsNull: true, rectWidth: 0, rectHeight: 0, modalHasIsOpenClass: true, …}
-calendar.js:110 [Calendar] [rt:calFldOpsScrum] destroy() succeeded
-calendar.js:110 [Calendar] [rt:calFldOpsScrum] post-build check {editorFound: true, contentEditableAttr: 'true', editorRect: DOMRect, focusActuallyLanded: false}
-calendar.js:110 [Calendar] [rt:calFldDevScrum] initRichTextField() called {wasAlreadyReady: true, fieldOffsetParentIsNull: true, rectWidth: 0, rectHeight: 0, modalHasIsOpenClass: true, …}
-calendar.js:110 [Calendar] [rt:calFldDevScrum] destroy() succeeded
-calendar.js:110 [Calendar] [rt:calFldDevScrum] post-build check {editorFound: true, contentEditableAttr: 'true', editorRect: DOMRect, focusActuallyLanded: false}
-ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252  GET https://leaf.va.gov/platform/orgchart/api/employee/_oitauslumags 400 (Bad Request)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-fetch @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
-wa @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:277
-apiGet @ calendar.js:385
-(anonymous) @ calendar.js:769
-resolveAuthorAndAssigneeNames @ calendar.js:762
-loadEntries @ calendar.js:641
-await in loadEntries
-saveEntry @ calendar.js:2197
-await in saveEntry
-(anonymous) @ calendar.js:2392
-calendar.js:110 [Calendar] name lookup failed for oitauslumags GET /platform/orgchart/api/employee/_oitauslumags → HTTP 400
-calendar.js:110 [Calendar] Loaded entries: 10
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>LEAF Bulk Title Updater</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <h2>LEAF Bulk Title Updater</h2>
+
+    <p>
+      <label
+        >CSRFToken:
+        <input
+          type="text"
+          id="csrfToken"
+          size="70"
+          placeholder="Paste CSRFToken here"
+      /></label>
+    </p>
+
+    <table border="1" cellpadding="4">
+      <tr>
+        <th>Job</th>
+        <th>Category ID</th>
+        <th>Indicator ID</th>
+        <th></th>
+      </tr>
+      <tbody id="jobs-container"></tbody>
+    </table>
+    <br />
+    <button onclick="addJob()">+ Add Job</button>
+    <br /><br />
+
+    <button onclick="startUpdate()">Run All Jobs</button>
+    <button onclick="stopUpdate()">Stop</button>
+
+    <p id="status">Ready.</p>
+
+    <div
+      id="log"
+      style="
+        height: 400px;
+        overflow-y: scroll;
+        border: 1px solid #ccc;
+        padding: 8px;
+        font-family: monospace;
+        font-size: 12px;
+      "
+    ></div>
+
+    <script>
+      var BASE_URL = "https://leaf.va.gov/platform/projects/";
+      var shouldStop = false;
+      var jobCount = 0;
+
+      function addJob(categoryID, indicatorID) {
+        jobCount++;
+        var num = jobCount;
+        var row =
+          '<tr id="job-' +
+          num +
+          '">' +
+          "<td>Job " +
+          num +
+          "</td>" +
+          '<td><input type="text" class="job-category" value="' +
+          (categoryID || "") +
+          '" size="20" /></td>' +
+          '<td><input type="text" class="job-indicator" value="' +
+          (indicatorID || "") +
+          '" size="6" /></td>' +
+          "<td><button onclick=\"$('#job-" +
+          num +
+          "').remove()\">Remove</button></td>" +
+          "</tr>";
+        $("#jobs-container").append(row);
+      }
+
+      function log(msg) {
+        $("#log").append("<div>" + msg + "</div>");
+        var el = document.getElementById("log");
+        el.scrollTop = el.scrollHeight;
+      }
+
+      function stopUpdate() {
+        shouldStop = true;
+        log("Stop requested.");
+      }
+
+      async function startUpdate() {
+        shouldStop = false;
+        $("#log").empty();
+
+        var CSRFToken = $("#csrfToken").val().trim();
+        if (!CSRFToken) {
+          alert("Please enter your CSRFToken.");
+          return;
+        }
+
+        var jobs = [];
+        $("#jobs-container tr").each(function () {
+          var cat = $(this).find(".job-category").val().trim();
+          var ind = $(this).find(".job-indicator").val().trim();
+          if (ind !== "") jobs.push({ categoryID: cat, indicatorID: ind });
+        });
+
+        if (jobs.length === 0) {
+          alert("Please add at least one job.");
+          return;
+        }
+
+        var totalUpdated = 0,
+          totalSkipped = 0,
+          totalErrors = 0;
+
+        for (var j = 0; j < jobs.length; j++) {
+          if (shouldStop) break;
+
+          var job = jobs[j];
+          log(
+            "--- Job " +
+              (j + 1) +
+              ": Category=" +
+              (job.categoryID || "ALL") +
+              " Indicator=" +
+              job.indicatorID +
+              " ---",
+          );
+
+          var terms = [{ id: "deleted", operator: "=", match: "0" }];
+          if (job.categoryID !== "") {
+            terms.push({
+              id: "categoryID",
+              operator: "=",
+              match: job.categoryID,
+              gate: "AND",
+            });
+          }
+
+          var records;
+          try {
+            records = await $.ajax({
+              type: "GET",
+              url: BASE_URL + "api/form/query",
+              data: {
+                q: JSON.stringify({ terms: terms }),
+                "x-filterData": "recordID",
+              },
+              dataType: "json",
+            });
+          } catch (e) {
+            log("ERROR fetching records: " + e.statusText);
+            continue;
+          }
+
+          var recordIDs = Object.keys(records);
+          log("Found " + recordIDs.length + " records.");
+
+          var updated = 0,
+            skipped = 0,
+            errors = 0;
+
+          for (var i = 0; i < recordIDs.length; i++) {
+            if (shouldStop) break;
+
+            var recordID = recordIDs[i];
+            $("#status").text(
+              "Job " +
+                (j + 1) +
+                " — " +
+                (i + 1) +
+                "/" +
+                recordIDs.length +
+                " (Record #" +
+                recordID +
+                ")",
+            );
+
+            try {
+              var titleValue = await $.ajax({
+                type: "GET",
+                url:
+                  BASE_URL +
+                  "ajaxIndex.php?a=getprintindicator&recordID=" +
+                  recordID +
+                  "&indicatorID=" +
+                  job.indicatorID +
+                  "&series=1",
+                dataType: "text",
+              });
+
+              // Parse response as HTML so the browser handles all tags and scripts
+              var parser = new DOMParser();
+              var doc = parser.parseFromString(titleValue, "text/html");
+              // Remove all script elements
+              doc.querySelectorAll("script").forEach(function (s) {
+                s.remove();
+              });
+              // Get plain text only
+              titleValue = (
+                doc.body.innerText ||
+                doc.body.textContent ||
+                ""
+              ).trim();
+
+              if (!titleValue) {
+                log("#" + recordID + " — skipped (empty)");
+                skipped++;
+              } else {
+                await $.ajax({
+                  type: "POST",
+                  url: BASE_URL + "api/form/" + recordID + "/title",
+                  data: { title: titleValue, CSRFToken: CSRFToken },
+                });
+                log("#" + recordID + ' — updated: "' + titleValue + '"');
+                updated++;
+              }
+            } catch (e) {
+              log("#" + recordID + " — ERROR: " + (e.statusText || e));
+              errors++;
+            }
+
+            await new Promise((r) => setTimeout(r, 150));
+          }
+
+          totalUpdated += updated;
+          totalSkipped += skipped;
+          totalErrors += errors;
+          log(
+            "Job " +
+              (j + 1) +
+              " done — Updated: " +
+              updated +
+              " | Skipped: " +
+              skipped +
+              " | Errors: " +
+              errors,
+          );
+        }
+
+        $("#status").text(
+          "Done. Updated: " +
+            totalUpdated +
+            " | Skipped: " +
+            totalSkipped +
+            " | Errors: " +
+            totalErrors,
+        );
+        log(
+          "=== COMPLETE — Updated: " +
+            totalUpdated +
+            " | Skipped: " +
+            totalSkipped +
+            " | Errors: " +
+            totalErrors +
+            " ===",
+        );
+      }
+
+      // Pre-load the two jobs
+      addJob("form_9b302", "9");
+      addJob("form_55445", "3");
+    </script>
+  </body>
+</html>
