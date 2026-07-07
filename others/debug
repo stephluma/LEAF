@@ -1,4 +1,7 @@
-calendar.js:831 [TEMP DIAG] peopleCache: {"Sulgeiry Gardner":"Sulgeiry Gardner","Stephanie Lumagui":"Stephanie Lumagui","Harlie Haag":"Harlie Haag"}
-calendar.js:832 [TEMP DIAG] seen (author -> label): {"oitauslumags":"oitauslumags"}
-calendar.js:831 [TEMP DIAG] peopleCache: {"Sulgeiry Gardner":"Sulgeiry Gardner","Stephanie Lumagui":"Stephanie Lumagui","Harlie Haag":"Harlie Haag","oitauslumags":"Stephanie Lumagui"}
-calendar.js:832 [TEMP DIAG] seen (author -> label): {"oitauslumags":"Stephanie Lumagui"}
+.pm-nameTruncated {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
