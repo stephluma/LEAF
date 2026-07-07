@@ -1,1 +1,10 @@
-calendar.js:2406 Uncaught SyntaxError: Identifier 'CONFIG' has already been declared
+ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252  GET https://leaf.va.gov/platform/orgchart/api/employee/oitauslumags 400 (Bad Request)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
+fetch @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
+wa @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:277
+apiGet @ calendar.js:385
+(anonymous) @ calendar.js:764
+resolveAuthorAndAssigneeNames @ calendar.js:762
+loadEntries @ calendar.js:641
+await in loadEntries
+main @ calendar.js:2538
