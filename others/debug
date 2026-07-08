@@ -14,7 +14,7 @@ window.leafIdeaPortal: (not set)
 
 -- window keys matching /^leaf/i --
   window.LeafSession_warningTime = 120
-  window.LeafSession_lastActiveTime = 1783545601
+  window.LeafSession_lastActiveTime = 1783545942
   window.LeafSessionAnnounce = function LeafSessionAnnounce() {
     document.querySelector('body').insertAdjacentHTML('beforeend', '<div id="LeafSession_dialog" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0;
   window.LeafForm = function (containerID) {
@@ -66,6 +66,10 @@ window.leafIdeaPortal: (not set)
 -- DOM scan --
 input#CSRFToken or input[name=CSRFToken]: (not found)
 meta[name=csrf-token]: (not found)
+[data-csrf] / [data-csrf-token]: (not found)
+
+-- Inline script constructor-call scan --
+  (no LeafWorkflow/LeafForm/setCSRFToken calls with a real-looking token found)
 
 -- Result from getCSRFTokenFromPage() --
-FOUND: ...
+NOT FOUND — no token could be located.
