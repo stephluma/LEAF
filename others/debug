@@ -1,7 +1,20 @@
-<span class="printResponse" id="data_8_1">
-                LEAF-27
-            </span>
-
-<span class="printResponse" id="data_30_1">
-                OKR-19
-            </span>
+ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252  GET https://leaf.va.gov/platform/ux/api/me/csrfToken 400 (Bad Request)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
+fetch @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
+wa @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:277
+fetchCSRFFromAPI @ report.php?a=sync:580
+(anonymous) @ report.php?a=sync:664
+report.php?a=sync:737 Submit failed SyntaxError: Failed to execute 'json' on 'Response': Unexpected end of JSON input
+    at report.php?a=sync:582:22
+    at Object.dtAWF [as aWF] (ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252:107)
+    at Object.Jb (ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:279:37)
+    at Za.<computed> (ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274:84)
+(anonymous) @ report.php?a=sync:737
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
+Kb @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:279
+Za.<computed> @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
+then @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
+(anonymous) @ report.php?a=sync:736
