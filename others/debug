@@ -1,14 +1,71 @@
-report.php?a=sync:856 Submit failed Error: CSRF token not found in start-request response
-    at report.php?a=sync:680:21
-    at Object.dtAWF [as aWF] (ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252:107)
-    at Object.Jb (ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:279:37)
-    at Za.<computed> (ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274:84)
-(anonymous) @ report.php?a=sync:856
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-Kb @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:279
-Za.<computed> @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252
-then @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:274
-(anonymous) @ report.php?a=sync:855
+=== CSRF Diagnostic Scan ===
+Page URL: https://leaf.va.gov/platform/ux/report.php?a=sync
+
+typeof CSRFToken: undefined
+
+window.CSRFToken: (not set)
+
+window.leafHCDSync: (not set)
+window.leafSyncPortal: (not set)
+window.leafIdeaPortal: (not set)
+
+-- window keys matching /csrf/i --
+  (none found)
+
+-- window keys matching /^leaf/i --
+  window.LeafSession_warningTime = 120
+  window.LeafSession_lastActiveTime = 1783545601
+  window.LeafSessionAnnounce = function LeafSessionAnnounce() {
+    document.querySelector('body').insertAdjacentHTML('beforeend', '<div id="LeafSession_dialog" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0;
+  window.LeafForm = function (containerID) {
+  var containerID = containerID;
+  var prefixID = "LeafForm" + Math.floor(Math.random() * 1000) + "_";
+  var htmlFormID = prefixID + "record";
+  var dialog;
+  var recordID = 0
+  window.LeafWorkflow = function (containerID, CSRFToken) {
+    var containerID = containerID;
+    var CSRFToken = CSRFToken;
+    var prefixID = "LeafFlow" + Math.floor(Math.random() * 1000) + "_";
+    var htmlFormID = prefi
+  window.LeafFormGrid = function (containerID, options) {
+  var containerID = containerID;
+  var prefixID = "LeafFormGrid" + Math.floor(Math.random() * 1000) + "_";
+  var showIndex = true;
+  var form;
+  var headers;
+  var cu
+  window.LeafFormQuery = function () {
+  let query = {};
+  let successCallback = null;
+  let progressCallback = null;
+  let rootURL = "";
+  let useJSONP = false;
+  let extraParams = "";
+  let results = {};
+  let batchSize = 5
+  window.LeafFormSearch = function (containerID) {
+    var containerID = containerID;
+    var prefixID = "LeafFormSearch" + Math.floor(Math.random() * 1000) + "_";
+    var localStorageNamespace = "LeafFormSearch" + getLocalSto
+  window.LEAFNexusAPI = function () {
+    var baseURL = './api/?a=',
+        Employee = NexusEmployeeAPI(baseURL),
+        Groups = NexusGroupsAPI(baseURL),
+        Positions = NexusPositionsAPI(baseURL),
+
+        /**
+      
+  window.LEAFRequestPortalAPI = function () {
+    var baseURL = './api/?a=',
+        Forms = PortalFormsAPI(baseURL),
+        FormEditor = PortalFormEditorAPI(baseURL),
+        Import = PortalImportAPI(baseURL),
+        Signature = 
+
+-- DOM scan --
+input#CSRFToken or input[name=CSRFToken]: (not found)
+meta[name=csrf-token]: (not found)
+
+-- Result from getCSRFTokenFromPage() --
+FOUND: ...
