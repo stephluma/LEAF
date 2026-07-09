@@ -1,75 +1,23 @@
-=== CSRF Diagnostic Scan ===
-Page URL: https://leaf.va.gov/platform/ux/report.php?a=sync
-
-typeof CSRFToken: undefined
-
-window.CSRFToken: (not set)
-
-window.leafHCDSync: (not set)
-window.leafSyncPortal: (not set)
-window.leafIdeaPortal: (not set)
-
--- window keys matching /csrf/i --
-  (none found)
-
--- window keys matching /^leaf/i --
-  window.LeafSession_warningTime = 120
-  window.LeafSession_lastActiveTime = 1783545942
-  window.LeafSessionAnnounce = function LeafSessionAnnounce() {
-    document.querySelector('body').insertAdjacentHTML('beforeend', '<div id="LeafSession_dialog" style="display: none; position: fixed; z-index: 9999; left: 0; top: 0;
-  window.LeafForm = function (containerID) {
-  var containerID = containerID;
-  var prefixID = "LeafForm" + Math.floor(Math.random() * 1000) + "_";
-  var htmlFormID = prefixID + "record";
-  var dialog;
-  var recordID = 0
-  window.LeafWorkflow = function (containerID, CSRFToken) {
-    var containerID = containerID;
-    var CSRFToken = CSRFToken;
-    var prefixID = "LeafFlow" + Math.floor(Math.random() * 1000) + "_";
-    var htmlFormID = prefi
-  window.LeafFormGrid = function (containerID, options) {
-  var containerID = containerID;
-  var prefixID = "LeafFormGrid" + Math.floor(Math.random() * 1000) + "_";
-  var showIndex = true;
-  var form;
-  var headers;
-  var cu
-  window.LeafFormQuery = function () {
-  let query = {};
-  let successCallback = null;
-  let progressCallback = null;
-  let rootURL = "";
-  let useJSONP = false;
-  let extraParams = "";
-  let results = {};
-  let batchSize = 5
-  window.LeafFormSearch = function (containerID) {
-    var containerID = containerID;
-    var prefixID = "LeafFormSearch" + Math.floor(Math.random() * 1000) + "_";
-    var localStorageNamespace = "LeafFormSearch" + getLocalSto
-  window.LEAFNexusAPI = function () {
-    var baseURL = './api/?a=',
-        Employee = NexusEmployeeAPI(baseURL),
-        Groups = NexusGroupsAPI(baseURL),
-        Positions = NexusPositionsAPI(baseURL),
-
-        /**
-      
-  window.LEAFRequestPortalAPI = function () {
-    var baseURL = './api/?a=',
-        Forms = PortalFormsAPI(baseURL),
-        FormEditor = PortalFormEditorAPI(baseURL),
-        Import = PortalImportAPI(baseURL),
-        Signature = 
-
--- DOM scan --
-input#CSRFToken or input[name=CSRFToken]: (not found)
-meta[name=csrf-token]: (not found)
-[data-csrf] / [data-csrf-token]: (not found)
-
--- Inline script constructor-call scan --
-  (no LeafWorkflow/LeafForm/setCSRFToken calls with a real-looking token found)
-
--- Result from getCSRFTokenFromPage() --
-NOT FOUND — no token could be located.
+index.php?a=printview&recordID=49:2 Uncaught ReferenceError: $ is not defined
+index.php?a=printview&recordID=49:2 Uncaught ReferenceError: formConditions is not defined
+index.php?a=printview&recordID=49:429 Uncaught SyntaxError: Failed to execute 'querySelector' on 'Document': 'select#8' is not a valid selector.
+    at Object.success (index.php?a=printview&recordID=49:429:31)
+    at c (jquery.min.js:2:28327)
+    at Object.fireWith [as resolveWith] (jquery.min.js:2:29072)
+    at l (jquery.min.js:2:80045)
+    at Va.<anonymous> (jquery.min.js:2:82499)
+    at Object.dtAWF [as aWF] (ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252:107)
+    at Object.handleEventCallback (ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:425:253)
+    at L (ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:398:337)
+    at C.t.<computed> (ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:398:58)
+index.php?a=printview&recordID=49:1555 Uncaught ReferenceError: _pvImportedVotes is not defined
+    at _pvRenderVotes (index.php?a=printview&recordID=49:1555:43)
+    at Object.success (index.php?a=printview&recordID=49:1543:17)
+    at c (jquery.min.js:2:28327)
+    at Object.fireWith [as resolveWith] (jquery.min.js:2:29072)
+    at l (jquery.min.js:2:80045)
+    at Va.<anonymous> (jquery.min.js:2:82499)
+    at Object.dtAWF [as aWF] (ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:252:107)
+    at Object.handleEventCallback (ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:425:253)
+    at L (ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:398:337)
+    at C.t.<computed> (ruxitagentjs_ICA7NVfhqrux_10335260518104739.js:398:58)
