@@ -1,0 +1,44 @@
+Team Command Center — 10-Minute Demo Outline
+1. What it is (30 sec)
+•	One shared calendar for the LEAF team: meetings, action items, coverage, and general notes — in Week/Month views.
+•	Syncs with the LEAF@va.gov shared Outlook calendar automatically.
+2. Access & who can see this (30 sec)
+•	Restricted to the LEAF Team membership group, managed in the admin panel.
+•	Anyone outside that group hitting the URL sees a "Restricted Access" landing page instead of the calendar.
+•	They can request access via a built-in request form — no need to email anyone directly.
+3. The 5 entry types (1.5 min)
+•	Outlook Event — pulled in automatically from Outlook, read-only origin.
+•	Meeting Notes — notes tied to a specific meeting (manual, or auto-linked to an Outlook event).
+•	Action Item — a task with a due date, assignee, and status; routes through workflow approval.
+•	Out-of-Office — coverage tracking with an end date and a "covered by" person.
+•	General Log — catch-all note.
+•	Color-coded legend; clicking a swatch filters the calendar.
+4. Rules of engagement (1 min)
+•	This is a reference and tracking tool — not a live meeting notepad.
+•	Don't type notes/minutes into the Command Center during a meeting.
+•	After the meeting: add your summary/notes to the Outlook meeting record itself (or use "+ Meeting Notes" from the linked Outlook event here) — keeps one clean source of truth per meeting.
+•	Think "what happened and what's next," logged after the fact — not a live scratchpad.
+5. Everyday navigation (1 min)
+•	Week/Month toggle, Today button, prev/next, clickable date range (mini date-jumper).
+•	Filters: Type, Author, Assigned to, search, "show closed," "work week only."
+•	Click a day cell to add an entry; click a chip/card to view it.
+6. Creating and editing an entry (1.5 min)
+•	Live demo: add a Meeting Notes entry or Action Item.
+•	Type-specific fields (due date/assignee for Action Items; end date/coverage for OOO).
+•	Linking a record to another LEAF form ("Select record").
+7. The Outlook connection (1.5 min)
+•	Outlook events appear automatically for everyone — no manual entry needed to see meetings on the calendar.
+•	The "Sync Outlook" button itself is only visible to people who have read/write access to the LEAF@va.gov shared mailbox — most of the team will see events populate without ever needing to click it themselves; the button is only there for the subset who manage that sync directly.
+•	"+ Meeting Notes" shortcut: one click from an Outlook event creates notes pre-linked to it.
+•	"Add Action Item" shortcut: spin off a follow-up task from a meeting or its notes, auto-linked back.
+•	Auto-suggest offers to link similarly-titled Meeting Notes to a nearby Outlook event.
+8. Action Items & workflow (1.5 min)
+•	Status tracking: Open / In Progress / Done / Carried Forward. Overdue items auto-carry-forward to today.
+•	This is workflow-driven, not just a to-do list: 
+o	Assigning someone triggers an automated email immediately.
+o	If the item sits inactive, reminder emails go out every 2 days until it's actioned.
+o	Approval actions (Approve/Send Back) happen right in the entry via the workflow widget.
+9. Wrap-up (30 sec)
+•	Feedback button (bottom-left) — encourage use.
+•	Questions.
+
