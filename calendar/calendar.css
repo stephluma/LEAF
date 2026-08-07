@@ -33,25 +33,31 @@
   --cal-accent-strong: #1d4ed8;
   --cal-focus: #0b5cab;
 
-  /* Entry-type colors: hue carries meaning, kept low-saturation for density.
-     Text-on-soft colors below are chosen to meet WCAG AA (4.5:1) against
-     their *-soft background. */
-  --cal-meeting: #2563eb;
-  --cal-meeting-soft: #e7efff;
-  --cal-meeting-text: #1a3f8f;
-  --cal-action: #8a5800;
-  --cal-action-soft: #fdf0dc;
-  --cal-action-text: #6b4400;
-  --cal-ooo: #6b3fa0;
-  --cal-ooo-soft: #f0e9fe;
-  --cal-ooo-text: #4b2c8f;
+  --cal-meeting: #b8860b;
+  --cal-meeting-soft: #fdf3d9;
+  --cal-meeting-tint: #fef8e8;
+  --cal-meeting-text: #7a5a06;
+  --cal-action: #b5442e;
+  --cal-action-soft: #fbe9e5;
+  --cal-action-tint: #fdf1ee;
+  --cal-action-text: #8a2f1c;
+  --cal-ooo: #6b7280;
+  --cal-ooo-soft: #eceef1;
+  --cal-ooo-tint: #f4f5f7;
+  --cal-ooo-text: #40464e;
   --cal-log: #276945;
   --cal-log-soft: #e4f2ea;
+  --cal-log-tint: #eef8f2;
   --cal-log-text: #1f5236;
+  --cal-outlook: #0364b8;
+  --cal-outlook-soft: #e6f1fb;
+  --cal-outlook-tint: #eef6fc;
+  --cal-outlook-text: #024a8c;
 
   --cal-danger: #a8302a;
-  --cal-today: #fff7e6;
-  --cal-today-ring: #f0b429;
+  --cal-today: #ffffff;
+  --cal-today-ring: #16a34a;
+  --cal-today-border: #111827;
 
   --cal-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.08);
   --cal-shadow-md: 0 6px 16px rgba(15, 23, 42, 0.12);
@@ -84,9 +90,6 @@
   border: 0;
 }
 
-/* Self-hosted skip link — this page no longer depends on launchpad.css
-   for any layout/positioning, only for its font/color variables, so its
-   own skip-link affordance is defined here instead of reusing .lp-skip. */
 .cal-skip {
   position: absolute;
   left: 16px;
@@ -108,7 +111,6 @@
   outline-offset: 2px;
 }
 
-/* ── Header ───────────────────────────────────────────── */
 .cal-header {
   display: flex;
   align-items: center;
@@ -149,7 +151,6 @@
   text-overflow: ellipsis;
 }
 
-/* ── Buttons ──────────────────────────────────────────── */
 .cal-primaryBtn,
 .cal-ghostBtn,
 .cal-dangerBtn,
@@ -182,6 +183,10 @@
 .cal-primaryBtn:hover {
   background: var(--cal-accent-strong);
 }
+.cal-primaryBtn.is-saving {
+  opacity: 0.75;
+  cursor: progress;
+}
 .cal-primaryBtn:focus-visible,
 .cal-ghostBtn:focus-visible,
 .cal-dangerBtn:focus-visible,
@@ -200,16 +205,102 @@
   border: 1px solid var(--cal-border-strong);
   color: var(--cal-text);
   font-weight: 600;
-  padding: 8px 12px;
   font-size: 14px;
+  line-height: 1;
+  padding: 8px 12px;
+  height: 38px;
+  box-sizing: border-box;
 }
 .cal-ghostBtn:hover {
   background: var(--cal-surface-alt);
+}
+.cal-ghostBtn:active {
+  background: var(--cal-border);
+  transform: translateY(1px);
 }
 .cal-ghostBtn--full {
   width: 100%;
   justify-content: center;
   margin-top: var(--cal-space-2);
+}
+
+.cal-syncGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cal-space-3);
+}
+
+#calSyncOutlookBtn:hover {
+  background: var(--cal-outlook-soft);
+  border-color: var(--cal-outlook);
+  color: var(--cal-outlook-text);
+}
+#calSyncOutlookBtn:active {
+  background: var(--cal-outlook-soft);
+  border-color: var(--cal-outlook);
+  color: var(--cal-outlook-text);
+  transform: translateY(1px) scale(0.98);
+}
+#calSyncOutlookBtn.is-syncing {
+  pointer-events: none;
+  opacity: 0.85;
+}
+#calSyncOutlookBtn.is-syncing .material-symbols-outlined {
+  animation: cal-sync-spin 0.9s linear infinite;
+}
+
+/* Initial page-load Outlook sync indicator — shown while
+   LeafCalendarOutlookSync.init() runs its first syncNow() call, before
+   the sync button itself is even revealed/wired to a click-driven
+   status. Distinct element (rather than reusing #calSyncOutlookBtn) so
+   it's visible even for the moment before the button's hidden state is
+   resolved. */
+.cal-syncSpinner {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cal-outlook-text);
+  background: var(--cal-outlook-soft);
+  border: 1px solid var(--cal-outlook);
+  border-radius: var(--cal-radius-sm);
+  padding: 7px 12px;
+}
+.cal-syncSpinner[hidden] {
+  display: none;
+}
+.cal-syncSpinner .material-symbols-outlined {
+  font-size: 16px !important;
+  color: var(--cal-outlook);
+  animation: cal-sync-spin 0.9s linear infinite;
+}
+@keyframes cal-sync-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #calSyncOutlookBtn.is-syncing .material-symbols-outlined,
+  .cal-syncSpinner .material-symbols-outlined {
+    animation: none;
+  }
+}
+
+/* Persistent "Synced Xm ago" readout next to the Sync button — see
+   onOutlookSyncSuccess()/renderLastSynced() in calendar.js. Deliberately
+   quiet/small since it's ambient confirmation, not a status the person
+   needs to actively parse the way the syncing/error states are. */
+.cal-lastSynced {
+  font-size: 12px;
+  color: var(--cal-muted);
+  white-space: nowrap;
+}
+.cal-lastSynced:empty {
+  display: none;
 }
 
 .cal-dangerBtn {
@@ -223,6 +314,16 @@
 .cal-dangerBtn:hover {
   background: var(--cal-danger);
   color: #fff;
+}
+.cal-dangerBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #fff;
+  color: var(--cal-danger);
+}
+.cal-dangerBtn:disabled:hover {
+  background: #fff;
+  color: var(--cal-danger);
 }
 
 .cal-iconBtn {
@@ -250,14 +351,14 @@
   background: var(--cal-accent-soft);
 }
 
-/* ── Toolbar ──────────────────────────────────────────── */
 .cal-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--cal-space-4);
   flex-wrap: wrap;
-  margin-bottom: var(--cal-space-3);
+  padding-top: var(--cal-space-3);
+  margin-bottom: var(--cal-space-2);
 }
 .cal-navGroup {
   display: inline-flex;
@@ -271,6 +372,132 @@
   font-size: 20px;
   font-weight: 700;
   min-width: 12ch;
+}
+.cal-rangeLabel--btn {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--cal-radius-sm);
+  color: var(--cal-text);
+  cursor: pointer;
+  padding: 4px 10px;
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-color: var(--cal-border-strong);
+  text-underline-offset: 4px;
+}
+.cal-rangeLabel--btn:hover {
+  background: var(--cal-surface-alt);
+  border-color: var(--cal-border-strong);
+  text-decoration-color: var(--cal-accent);
+}
+.cal-rangeLabel--btn:focus-visible {
+  outline: 2px solid var(--cal-focus);
+  outline-offset: 1px;
+}
+.cal-rangeLabel--btn[aria-expanded="true"] {
+  background: var(--cal-accent-soft);
+  border-color: var(--cal-accent);
+}
+
+.cal-navGroup {
+  position: relative;
+}
+.cal-miniPicker {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 1000;
+  width: 260px;
+  background: var(--cal-surface);
+  border: 1px solid var(--cal-border-strong);
+  border-radius: var(--cal-radius-md);
+  box-shadow: var(--cal-shadow-md);
+  padding: 10px;
+}
+.cal-miniPicker[hidden] {
+  display: none;
+}
+.cal-miniHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.cal-miniMonthLabel {
+  font-family: var(--cal-display);
+  font-weight: 800;
+  font-size: 14px;
+}
+.cal-miniNav {
+  border: 1px solid var(--cal-border-strong);
+  background: var(--cal-surface);
+  border-radius: 6px;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--cal-text);
+}
+.cal-miniNav:hover {
+  background: var(--cal-surface-alt);
+}
+.cal-miniNav:focus-visible {
+  outline: 2px solid var(--cal-focus);
+  outline-offset: 1px;
+}
+.cal-miniNav .material-symbols-outlined {
+  font-size: 16px !important;
+}
+.cal-miniDow {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 4px;
+}
+.cal-miniDow span {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--cal-muted);
+  text-transform: uppercase;
+}
+.cal-miniGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.cal-miniDay {
+  border: 0;
+  background: none;
+  border-radius: 6px;
+  padding: 6px 0;
+  font-size: 13px;
+  color: var(--cal-text);
+  cursor: pointer;
+  font-family: inherit;
+}
+.cal-miniDay:hover {
+  background: var(--cal-surface-alt);
+}
+.cal-miniDay:focus-visible {
+  outline: 2px solid var(--cal-focus);
+  outline-offset: 1px;
+}
+.cal-miniDay.is-outside {
+  color: #b7bfc9;
+}
+.cal-miniDay.is-today {
+  font-weight: 800;
+  color: var(--cal-accent-strong);
+}
+.cal-miniDay.is-cursor {
+  background: var(--cal-accent);
+  color: #fff;
+  font-weight: 700;
+}
+.cal-miniDay.is-cursor:hover {
+  background: var(--cal-accent-strong);
 }
 
 .cal-viewToggleGroup {
@@ -308,7 +535,6 @@
   color: #fff;
 }
 
-/* ── Filters ──────────────────────────────────────────── */
 .cal-filterRow {
   display: flex;
   align-items: flex-end;
@@ -354,6 +580,14 @@
   outline: 2px solid var(--cal-focus);
   outline-offset: 1px;
 }
+.cal-select:disabled,
+.cal-input:disabled {
+  background: var(--cal-surface-alt);
+  border-color: var(--cal-border);
+  color: var(--cal-muted);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
 .cal-checkField {
   display: inline-flex;
   align-items: center;
@@ -367,7 +601,87 @@
   outline-offset: 2px;
 }
 
-/* ── Legend ───────────────────────────────────────────── */
+.cal-msSelect {
+  position: relative;
+}
+.cal-msBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 150px;
+  font-family: var(--cal-font);
+  font-size: 14px;
+  color: var(--cal-text);
+  background: var(--cal-surface);
+  border: 1px solid var(--cal-border-strong);
+  border-radius: var(--cal-radius-sm);
+  padding: 8px 10px;
+  cursor: pointer;
+}
+.cal-msBtn:focus-visible {
+  outline: 2px solid var(--cal-focus);
+  outline-offset: 1px;
+}
+.cal-msBtn .material-symbols-outlined {
+  font-size: 18px !important;
+  color: var(--cal-muted);
+}
+.cal-msBtnLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cal-msPanel {
+  position: absolute;
+  z-index: 150;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 200px;
+  max-height: 260px;
+  overflow-y: auto;
+  background: var(--cal-surface);
+  border: 1px solid var(--cal-border-strong);
+  border-radius: var(--cal-radius-sm);
+  box-shadow: var(--cal-shadow-md);
+  padding: 6px;
+}
+.cal-msPanel[hidden] {
+  display: none;
+}
+.cal-msOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.cal-msOption:hover {
+  background: var(--cal-surface-alt);
+}
+.cal-msOption input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--cal-focus);
+  outline-offset: 2px;
+}
+.cal-msEmpty {
+  font-size: 13px;
+  color: var(--cal-muted);
+  padding: 6px 8px;
+  font-style: italic;
+}
+.cal-viewOptionsPanel {
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.cal-viewOptionsPanel .cal-msOption {
+  cursor: pointer;
+}
+
 .cal-legendRow {
   display: flex;
   align-items: center;
@@ -377,6 +691,7 @@
 }
 .cal-legend {
   display: flex;
+  align-items: center;
   gap: var(--cal-space-4);
   flex-wrap: wrap;
   font-size: 13px;
@@ -386,6 +701,28 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  border: 1px solid transparent;
+  background: none;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--cal-muted);
+  padding: 3px 8px 3px 6px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.cal-legendItem:hover {
+  background: var(--cal-surface-alt);
+  color: var(--cal-text);
+}
+.cal-legendItem:focus-visible {
+  outline: 2px solid var(--cal-focus);
+  outline-offset: 1px;
+}
+.cal-legendItem.is-active {
+  border-color: var(--cal-border-strong);
+  background: var(--cal-accent-soft);
+  color: var(--cal-text);
+  font-weight: 700;
 }
 .cal-swatch {
   width: 12px;
@@ -405,20 +742,74 @@
 .cal-t-log {
   background: var(--cal-log);
 }
+.cal-t-outlook {
+  background: var(--cal-outlook);
+}
 
-/* ── Status ───────────────────────────────────────────── */
+/* Outlook Event legend button + "with notes" toggle grouped visually so
+   they read as one related control. The toggle itself is hidden by
+   default (see .cal-legendNotesToggle[hidden] below) and only revealed
+   by calendar.js's syncLegendActive() once the Outlook Event legend
+   filter is active. */
+.cal-legendOutlookGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid var(--cal-border-strong);
+  border-radius: 999px;
+  padding: 2px;
+  background: var(--cal-surface);
+}
+.cal-legendOutlookGroup .cal-legendItem {
+  margin: 0;
+}
+.cal-legendOutlookGroup .cal-legendItem.is-active {
+  background: var(--cal-outlook-soft);
+  border-color: var(--cal-outlook);
+}
+
+.cal-legendNotesToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--cal-muted);
+  padding: 3px 10px 3px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.cal-legendNotesToggle[hidden] {
+  display: none;
+}
+.cal-legendNotesToggle:hover {
+  background: var(--cal-surface-alt);
+  color: var(--cal-text);
+}
+.cal-legendNotesToggle .material-symbols-outlined {
+  font-size: 14px !important;
+  color: var(--cal-outlook);
+}
+.cal-legendNotesToggle input[type="checkbox"] {
+  margin: 0;
+  accent-color: var(--cal-outlook);
+}
+.cal-legendNotesToggle input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--cal-focus);
+  outline-offset: 2px;
+}
+
 .cal-status {
-  min-height: 20px;
   font-size: 14px;
   color: var(--cal-muted);
-  margin-bottom: var(--cal-space-2);
+}
+.cal-status:empty {
+  display: none;
 }
 .cal-status.is-error {
   color: var(--cal-danger);
   font-weight: 600;
 }
 
-/* ── Surface / views ──────────────────────────────────── */
 .cal-surface {
   background: var(--cal-surface);
   border: 1px solid var(--cal-border);
@@ -429,11 +820,19 @@
 .cal-view[hidden] {
   display: none;
 }
+.cal-form[hidden],
+.cal-modalActions[hidden],
+.cal-readOnly[hidden],
+.cal-dangerBtn[hidden],
+.cal-iconBtn[hidden],
+.cal-dateError[hidden],
+.cal-field[hidden] {
+  display: none;
+}
 
-/* ── Month view ───────────────────────────────────────── */
 .cal-weekHead {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   background: var(--cal-surface-alt);
   border-bottom: 1px solid var(--cal-border);
 }
@@ -448,7 +847,7 @@
 }
 .cal-monthGrid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   grid-auto-rows: minmax(118px, 1fr);
 }
 .cal-dayCell {
@@ -475,9 +874,15 @@
 .cal-dayCell.is-outside .cal-dayNum {
   color: #6b7684;
 }
+.cal-dayCell.is-today {
+  background: var(--cal-today);
+  outline: 1px solid var(--cal-today-border);
+  outline-offset: -1px;
+  z-index: 1;
+}
 .cal-dayCell.is-today .cal-dayNum {
   background: var(--cal-today-ring);
-  color: #3b2f00;
+  color: #fff;
   border-radius: 999px;
 }
 .cal-dayCell:focus-visible {
@@ -501,13 +906,9 @@
   flex-direction: column;
   gap: 3px;
   overflow: hidden;
+  min-width: 0;
 }
 
-/* Reserves vertical space in the cell for the OOO band overlay drawn in
-   renderOooBands(); the band itself is absolutely positioned relative
-   to .cal-monthGrid, not this slot, but the slot keeps chip layout from
-   colliding with it. Only takes up space on days that actually have an
-   OOO span (renderOooBands toggles .has-band). */
 .cal-oooBandSlot {
   height: 0;
   flex-shrink: 0;
@@ -520,6 +921,8 @@
 }
 .cal-oooBand {
   position: absolute;
+  left: 2px;
+  right: 2px;
   z-index: 5;
   height: 20px;
   display: flex;
@@ -547,13 +950,24 @@
   z-index: 6;
 }
 
+/* Chips: soft tinted background per type (using each type's existing
+   -soft variable) replaces the old colored-dot indicator. Left border
+   keeps a slightly stronger accent so the type read remains scannable
+   at a glance, and doubles as the overdue/carried-forward accent
+   below. Text stays --cal-text throughout for contrast; these -soft
+   tints were already designed as light backgrounds elsewhere in this
+   file (e.g. legend/badges), so contrast against --cal-text is already
+   proven safe. */
 .cal-chip {
+  position: relative;
+  display: block;
   font-size: 12px;
   line-height: 1.25;
-  padding: 3px 6px;
+  padding: 3px 8px;
   border-radius: 6px;
-  border-left: 3px solid transparent;
-  background: var(--cal-surface-alt);
+  border: 1px solid var(--cal-border);
+  border-left: 3px solid var(--cal-border-strong);
+  background: var(--cal-surface);
   color: var(--cal-text);
   white-space: nowrap;
   overflow: hidden;
@@ -562,6 +976,9 @@
   font-family: inherit;
   text-align: left;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 .cal-chip:hover {
   filter: brightness(0.97);
@@ -573,22 +990,22 @@
 .cal-chip.t-meeting {
   background: var(--cal-meeting-soft);
   border-left-color: var(--cal-meeting);
-  color: var(--cal-meeting-text);
 }
 .cal-chip.t-action {
   background: var(--cal-action-soft);
   border-left-color: var(--cal-action);
-  color: var(--cal-action-text);
 }
 .cal-chip.t-ooo {
   background: var(--cal-ooo-soft);
   border-left-color: var(--cal-ooo);
-  color: var(--cal-ooo-text);
 }
 .cal-chip.t-log {
   background: var(--cal-log-soft);
   border-left-color: var(--cal-log);
-  color: var(--cal-log-text);
+}
+.cal-chip.t-outlook {
+  background: var(--cal-outlook-soft);
+  border-left-color: var(--cal-outlook);
 }
 .cal-chip.is-done {
   opacity: 0.7;
@@ -596,6 +1013,17 @@
 }
 .cal-chip.is-carried {
   border-left-style: dashed;
+}
+.cal-chip.is-overdue {
+  border-left-color: var(--cal-danger);
+  background: var(--cal-danger-soft, #fdecec);
+  color: var(--cal-danger);
+}
+.cal-chipDue {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .cal-moreLink {
@@ -618,11 +1046,12 @@
   outline-offset: 1px;
 }
 
-/* ── Week view ────────────────────────────────────────── */
 .cal-weekBoard {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  min-height: 480px;
+  position: relative;
+  min-height: 200px;
+  margin-top: 6px;
 }
 .cal-weekCol {
   border-right: 1px solid var(--cal-border);
@@ -662,13 +1091,15 @@
   gap: 6px;
   cursor: pointer;
   flex: 1;
+  min-height: 90px;
 }
 .cal-weekColBody:hover {
   background: var(--cal-surface-alt);
 }
 .cal-weekCard {
+  position: relative;
   border: 1px solid var(--cal-border);
-  border-left-width: 4px;
+  border-left: 3px solid var(--cal-border-strong);
   border-radius: 8px;
   padding: 8px;
   background: var(--cal-surface);
@@ -684,17 +1115,31 @@
   outline: 2px solid var(--cal-focus);
   outline-offset: 1px;
 }
+
 .cal-weekCard.t-meeting {
+  background: var(--cal-meeting-soft);
   border-left-color: var(--cal-meeting);
 }
 .cal-weekCard.t-action {
+  background: var(--cal-action-soft);
   border-left-color: var(--cal-action);
 }
 .cal-weekCard.t-ooo {
+  background: var(--cal-ooo-soft);
   border-left-color: var(--cal-ooo);
 }
 .cal-weekCard.t-log {
+  background: var(--cal-log-soft);
   border-left-color: var(--cal-log);
+}
+.cal-weekCard.t-outlook {
+  background: var(--cal-outlook-soft);
+  border-left-color: var(--cal-outlook);
+}
+.cal-weekCard.is-overdue {
+  border-color: var(--cal-danger);
+  border-left-color: var(--cal-danger);
+  background: var(--cal-danger-soft, #fdecec);
 }
 .cal-weekCardType {
   font-size: 11px;
@@ -712,8 +1157,47 @@
   font-size: 12px;
   color: var(--cal-muted);
 }
+.cal-weekCardDue {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--cal-danger);
+  margin-top: 2px;
+}
 
-/* ── Agenda view ──────────────────────────────────────── */
+.cal-cardEditBtn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1px solid var(--cal-border-strong);
+  background: var(--cal-surface);
+  color: var(--cal-muted);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+}
+.cal-cardEditBtn .material-symbols-outlined {
+  font-size: 14px !important;
+}
+.cal-weekCard:hover .cal-cardEditBtn,
+.cal-chip:hover .cal-cardEditBtn,
+.cal-cardEditBtn:focus-visible {
+  display: inline-flex;
+}
+.cal-cardEditBtn--chip {
+  top: 1px;
+  right: 1px;
+  width: 18px;
+  height: 18px;
+}
+.cal-cardEditBtn--chip .material-symbols-outlined {
+  font-size: 12px !important;
+}
+
 .cal-agenda {
   padding: var(--cal-space-4);
   display: flex;
@@ -749,7 +1233,6 @@
   gap: 12px;
   padding: 10px 12px;
   border: 1px solid var(--cal-border);
-  border-left-width: 4px;
   border-radius: var(--cal-radius-sm);
   background: var(--cal-surface);
   cursor: pointer;
@@ -764,18 +1247,6 @@
 .cal-agendaItem:focus-visible {
   outline: 2px solid var(--cal-focus);
   outline-offset: 1px;
-}
-.cal-agendaItem.t-meeting {
-  border-left-color: var(--cal-meeting);
-}
-.cal-agendaItem.t-action {
-  border-left-color: var(--cal-action);
-}
-.cal-agendaItem.t-ooo {
-  border-left-color: var(--cal-ooo);
-}
-.cal-agendaItem.t-log {
-  border-left-color: var(--cal-log);
 }
 .cal-agendaBody {
   flex: 1;
@@ -838,7 +1309,6 @@
   opacity: 0.6;
 }
 
-/* ── Modals ───────────────────────────────────────────── */
 .cal-modal {
   position: fixed;
   inset: 0;
@@ -876,6 +1346,14 @@
   display: flex;
   flex-direction: column;
 }
+.cal-modalPanel--wide {
+  width: 80vw;
+  max-width: 80vw;
+}
+
+#ui-datepicker-div {
+  z-index: 1400 !important;
+}
 .cal-modalHead {
   display: flex;
   align-items: center;
@@ -899,8 +1377,14 @@
   font-size: 20px;
   font-weight: 800;
 }
+.cal-modalDesc {
+  margin: 0;
+  padding: 12px 20px 0;
+  font-size: 13px;
+  color: var(--cal-muted);
+  line-height: 1.5;
+}
 
-/* ── Form ─────────────────────────────────────────────── */
 .cal-form {
   padding: 20px;
   display: flex;
@@ -927,8 +1411,17 @@
   color: var(--cal-muted);
   font-size: 12px;
 }
-.cal-req {
+.cal-dateError {
+  display: block;
   color: var(--cal-danger);
+  font-size: 12px;
+  margin-top: 2px;
+}
+.cal-input.cal-dateInput.is-invalid {
+  border-color: var(--cal-danger);
+}
+.cal-input.cal-dateInput {
+  cursor: pointer;
 }
 .cal-field .cal-input,
 .cal-field .cal-select {
@@ -947,50 +1440,202 @@
 .cal-condGroup[hidden] {
   display: none;
 }
-
-/* Rich text */
-.cal-rtToolbar {
+.cal-typeInfoBanner {
   display: flex;
-  gap: 4px;
-  margin-bottom: 4px;
-}
-.cal-rtBtn {
-  border: 1px solid var(--cal-border-strong);
-  background: var(--cal-surface);
-  border-radius: 6px;
-  min-width: 32px;
-  height: 30px;
-  font-size: 13px;
-  cursor: pointer;
-}
-.cal-rtBtn:hover {
-  background: var(--cal-surface-alt);
-}
-.cal-rtBtn:focus-visible {
-  outline: 2px solid var(--cal-focus);
-  outline-offset: 1px;
-}
-.cal-rtArea {
-  min-height: 110px;
-  border: 1px solid var(--cal-border-strong);
+  align-items: flex-start;
+  gap: 8px;
+  background: var(--cal-accent-soft);
+  border: 1px solid var(--cal-accent);
+  color: var(--cal-text);
   border-radius: var(--cal-radius-sm);
   padding: 10px 12px;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
-  background: var(--cal-surface);
-  overflow-y: auto;
-  max-height: 260px;
 }
-.cal-rtArea:focus-visible {
-  outline: 2px solid var(--cal-focus);
-  outline-offset: 1px;
+.cal-typeInfoBanner[hidden] {
+  display: none;
 }
-.cal-rtArea:empty::before {
-  content: attr(data-placeholder);
-  color: #6b7684;
+.cal-typeInfoBanner .material-symbols-outlined {
+  font-size: 18px !important;
+  color: var(--cal-accent-strong);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+/* Manual/unlinked entry types (Meeting Notes, Out-of-Office) get a
+   warning treatment instead of the default informational one, since
+   choosing them means the entry won't be linked to or kept in sync
+   with Outlook the way the linked alternatives are. */
+.cal-typeInfoBanner.is-warning {
+  background: var(--cal-meeting-soft);
+  border-color: var(--cal-meeting);
+}
+.cal-typeInfoBanner.is-warning .material-symbols-outlined {
+  color: var(--cal-meeting-text);
+}
+.cal-ooOutlookNote {
+  margin: 0;
+}
+.cal-scrumDupe {
+  background: var(--cal-danger-soft, #fdecec);
+  border: 1px solid var(--cal-danger);
+  color: var(--cal-danger);
+  border-radius: var(--cal-radius-sm);
+  padding: 10px 12px;
+  font-size: 13px;
+  margin-bottom: var(--cal-space-3);
+}
+.cal-linkLikeBtn {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
-/* People picker */
+.cal-readOnly {
+  padding: 24px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  box-sizing: border-box;
+}
+.cal-roHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cal-roPill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+.cal-roPill.t-meeting {
+  background: var(--cal-meeting-tint);
+  color: var(--cal-meeting-text);
+}
+.cal-roPill.t-action {
+  background: var(--cal-action-tint);
+  color: var(--cal-action-text);
+}
+.cal-roPill.t-ooo {
+  background: var(--cal-ooo-tint);
+  color: var(--cal-ooo-text);
+}
+.cal-roPill.t-log {
+  background: var(--cal-log-tint);
+  color: var(--cal-log-text);
+}
+.cal-roRows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cal-roRow {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+}
+.cal-roLabel {
+  min-width: 120px;
+  font-weight: 700;
+  color: var(--cal-muted);
+  flex-shrink: 0;
+}
+.cal-roValue {
+  color: var(--cal-text);
+}
+.cal-roValue.is-overdue {
+  color: var(--cal-danger);
+  font-weight: 700;
+}
+.cal-roSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 4px;
+  border-top: 1px solid var(--cal-border);
+}
+.cal-roHeading {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--cal-text);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.cal-roDetails {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--cal-text);
+}
+.cal-roDetails p {
+  margin: 0 0 10px;
+}
+.cal-roDetails p:last-child {
+  margin-bottom: 0;
+}
+.cal-roEmpty {
+  margin: 0;
+  font-size: 13px;
+  color: var(--cal-muted);
+  font-style: italic;
+}
+.cal-roDetails--collapsible.is-collapsed {
+  max-height: 160px;
+  overflow: hidden;
+  position: relative;
+  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+}
+.cal-roDetailsToggle {
+  display: inline-block;
+  margin-top: 4px;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--cal-accent-strong);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.cal-roDetailsToggle:hover {
+  text-decoration: underline;
+}
+.cal-roDetailsToggle:focus-visible {
+  outline: 2px solid var(--cal-focus);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+.cal-linkChip--ro {
+  cursor: pointer;
+}
+.cal-linkChip--ro .cal-linkChipMain:focus-visible {
+  outline: 2px solid var(--cal-focus);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.cal-rtWrap {
+  border-radius: var(--cal-radius-sm);
+}
+.cal-rtWrap .trumbowyg-box,
+.cal-rtWrap .trumbowyg-editor {
+  min-height: 140px;
+  font-size: 14px;
+}
+.cal-rtWrap .trumbowyg-box {
+  margin: 0;
+}
+
 .cal-peoplePicker {
   position: relative;
 }
@@ -1027,6 +1672,9 @@
 .cal-personChip .material-symbols-outlined {
   font-size: 16px;
 }
+.cal-empSelector {
+  min-height: 38px;
+}
 .cal-peopleResults {
   position: absolute;
   z-index: 1000;
@@ -1062,11 +1710,94 @@
   font-size: 12px;
 }
 
-/* Link chips */
+.cal-linkFieldHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.cal-linkFieldHead .cal-label {
+  margin: 0;
+}
+.cal-linkActionsGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cal-linkMorePanel {
+  min-width: 180px;
+  padding: 4px;
+}
+.cal-msOption--btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  text-align: left;
+  color: var(--cal-text);
+}
+.cal-msOption--btn .material-symbols-outlined {
+  font-size: 18px !important;
+  color: var(--cal-muted);
+}
+
+/* "+ Meeting Notes" shortcut shown on an Outlook Event's read-only view
+   when it has no meeting notes attached yet — creates a new Meeting
+   Notes entry pre-linked to that event, skipping the manual
+   suggest/link step entirely. Uses .cal-primaryBtn as its base (solid,
+   white text) but overrides the background to Meeting Notes' own
+   identity (--cal-meeting-text, NOT the lighter --cal-meeting, which
+   only reaches ~3.25:1 contrast against white — below WCAG AA's 4.5:1
+   threshold for normal text. --cal-meeting-text reaches ~6.4:1, safely
+   accessible). */
+.cal-addMeetingNotesBtn.cal-primaryBtn {
+  align-self: flex-start;
+  background: var(--cal-meeting-text);
+  border-color: var(--cal-meeting-text);
+}
+.cal-addMeetingNotesBtn.cal-primaryBtn:hover {
+  background: #5c4405;
+}
+
+/* "Add Action Item" quick-shortcut section — deliberately separate from
+   .cal-roSection--notes (yellow, Meeting Notes' own identity) and
+   styled with the SAME red/rust palette already used for Action Item
+   chips/badges/pills elsewhere (--cal-action*), so it reads as its own
+   distinct concept rather than a sub-feature bundled into meeting
+   notes. */
+.cal-roSection--actionShortcut {
+  background: var(--cal-action-tint);
+  border: 1px solid var(--cal-action-soft);
+  border-left: 4px solid var(--cal-action);
+  border-radius: var(--cal-radius-md);
+  padding: 14px;
+}
+/* Uses .cal-primaryBtn as its base (solid, white text, same visual
+   weight as the "+ Meeting Notes" button) rather than .cal-ghostBtn —
+   per design direction, the two shortcut buttons should match in
+   solidity/prominence, differing only in color identity. Overrides
+   .cal-primaryBtn's default blue background/border to Action Item's
+   own red/rust instead. */
+.cal-addActionItemBtn.cal-primaryBtn {
+  align-self: flex-start;
+  background: var(--cal-action);
+  border-color: var(--cal-action-text);
+}
+.cal-addActionItemBtn.cal-primaryBtn:hover {
+  background: var(--cal-action-text);
+}
 .cal-linkChips {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+}
+.cal-linkChipsEmpty {
+  font-size: 13px;
+  color: var(--cal-muted);
+  font-style: italic;
 }
 .cal-linkChip {
   display: inline-flex;
@@ -1111,7 +1842,6 @@
   font-size: 16px;
 }
 
-/* Link search */
 .cal-linkSearchRow {
   display: flex;
   gap: 10px;
@@ -1176,8 +1906,12 @@
 .cal-linkResult.is-linked .cal-linkResultAdd {
   color: var(--cal-log-text);
 }
+.cal-linkResult.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
 
-/* Form actions */
 .cal-formMsg {
   font-size: 13px;
   color: var(--cal-danger);
@@ -1190,11 +1924,13 @@
   padding-top: 4px;
   flex-wrap: wrap;
 }
+#calReadOnlyActions {
+  padding: 16px 28px 24px;
+}
 .cal-actionsSpacer {
   flex: 1;
 }
 
-/* Record iframe */
 .cal-recordFrame {
   flex: 1;
   width: 100%;
@@ -1202,7 +1938,6 @@
   background: #fff;
 }
 
-/* Day peek popover */
 .cal-dayPeek {
   position: absolute;
   z-index: 1000;
@@ -1246,7 +1981,6 @@
   margin-bottom: 4px;
 }
 
-/* Jump to top */
 .cal-jumpTop {
   position: fixed;
   right: 20px;
@@ -1270,6 +2004,376 @@
 }
 .cal-jumpTop[hidden] {
   display: none;
+}
+.cal-jumpTop .material-symbols-outlined {
+  color: #fff !important;
+}
+
+.cal-feedbackBtn {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 1200;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: 1px solid var(--cal-accent-strong);
+  background: var(--cal-accent);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: var(--cal-shadow-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.cal-feedbackBtn:hover {
+  background: var(--cal-accent-strong);
+}
+.cal-feedbackBtn:focus-visible {
+  outline: 3px solid var(--cal-focus);
+  outline-offset: 2px;
+}
+.cal-feedbackBtn .material-symbols-outlined {
+  color: #fff !important;
+}
+
+.cal-feedbackModal {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 0 0 84px 20px;
+}
+.cal-feedbackModal[hidden] {
+  display: none;
+}
+.cal-feedbackInner {
+  position: relative;
+  background: var(--cal-surface);
+  border: 1px solid var(--cal-border);
+  border-radius: var(--cal-radius-lg);
+  box-shadow: var(--cal-shadow-lg);
+  width: 320px;
+  max-width: calc(100vw - 40px);
+  padding: var(--cal-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--cal-space-3);
+}
+.cal-feedbackHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.cal-feedbackTitle {
+  margin: 0;
+  font-family: var(--cal-display);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--cal-text);
+}
+.cal-feedbackClose {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  display: inline-flex;
+  padding: 2px;
+  border-radius: 50%;
+  color: var(--cal-muted);
+}
+.cal-feedbackClose:hover {
+  color: var(--cal-text);
+}
+.cal-feedbackClose:focus-visible {
+  outline: 2px solid var(--cal-focus);
+  outline-offset: 1px;
+}
+.cal-feedbackTextarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 90px;
+  padding: var(--cal-space-2) var(--cal-space-3);
+  border: 1px solid var(--cal-border);
+  border-radius: var(--cal-radius-sm);
+  font-family: var(--cal-font);
+  font-size: 13px;
+  color: var(--cal-text);
+}
+.cal-feedbackTextarea:focus-visible {
+  outline: 2px solid var(--cal-focus);
+  outline-offset: 1px;
+}
+.cal-feedbackFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.cal-feedbackStatus {
+  font-size: 12px;
+  color: var(--cal-muted);
+  flex: 1;
+}
+
+/* ============================================================
+   Meeting Notes <-> Outlook Event linking additions
+   ============================================================ */
+.cal-meetingLinkSuggest {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: var(--cal-meeting-soft);
+  border: 1px solid var(--cal-meeting);
+  color: var(--cal-meeting-text);
+  border-radius: var(--cal-radius-sm);
+  padding: 10px 12px;
+  font-size: 13px;
+}
+.cal-meetingLinkSuggest[hidden] {
+  display: none;
+}
+.cal-meetingLinkSuggest .material-symbols-outlined {
+  font-size: 18px !important;
+  color: var(--cal-meeting);
+}
+.cal-meetingLinkSuggestText {
+  flex: 1 1 auto;
+  min-width: 160px;
+}
+.cal-ghostBtn--sm {
+  height: auto;
+  padding: 5px 10px;
+  font-size: 12.5px;
+}
+
+.cal-meetingLinkConfirmed {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--cal-meeting-soft);
+  border: 1px solid var(--cal-meeting);
+  color: var(--cal-meeting-text);
+  border-radius: 999px;
+  padding: 5px 6px 5px 10px;
+  font-size: 13px;
+  width: 100%;
+  margin-bottom: 6px;
+}
+.cal-meetingLinkConfirmed .material-symbols-outlined {
+  font-size: 16px !important;
+  color: var(--cal-meeting);
+}
+.cal-meetingLinkConfirmed button {
+  margin-left: auto;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+  display: inline-flex;
+  padding: 2px;
+  border-radius: 50%;
+}
+.cal-meetingLinkConfirmed button:focus-visible {
+  outline: 2px solid var(--cal-focus);
+  outline-offset: 1px;
+}
+.cal-meetingLinkConfirmedTitle {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.cal-meetingLinkConfirmedTitle:disabled {
+  cursor: default;
+  text-decoration: none;
+  opacity: 0.85;
+}
+.cal-meetingLinkConfirmedTitle:focus-visible {
+  outline: 2px solid var(--cal-focus);
+  outline-offset: 1px;
+  border-radius: 3px;
+}
+
+.cal-notesAffix {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+  color: var(--cal-meeting);
+  cursor: pointer;
+  vertical-align: middle;
+  border-radius: 4px;
+}
+.cal-notesAffix .material-symbols-outlined {
+  font-size: 14px !important;
+}
+.cal-notesAffix:hover {
+  background: var(--cal-meeting-soft);
+}
+.cal-notesAffix:focus-visible {
+  outline: 2px solid var(--cal-focus);
+  outline-offset: 1px;
+}
+
+/* Covered-by person icon on OOO chips/cards/bands — see
+   coveredByAffixHTML() in calendar.js. Small inline icon so someone can
+   spot "this OOO has coverage assigned" at a glance without opening the
+   entry. Kept visually quiet (muted, not accent-colored) since it's a
+   secondary detail, not a status/type signal like the chip's own color. */
+.cal-coveredAffix {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  margin-left: 4px;
+  color: var(--cal-ooo-text);
+  opacity: 0.85;
+}
+.cal-coveredAffix .material-symbols-outlined {
+  font-size: 13px !important;
+}
+.cal-oooBand .cal-coveredAffix {
+  color: inherit;
+}
+
+.cal-roSection--notes {
+  background: var(--cal-meeting-tint);
+  border: 1px solid var(--cal-meeting-soft);
+  border-radius: var(--cal-radius-md);
+  padding: 14px;
+  border-top: 1px solid var(--cal-meeting-soft);
+  border-left: 4px solid var(--cal-meeting);
+}
+/* Persistent "Notes for: [Meeting]" context banner — shown at the top of
+   the Meeting Notes modal in both edit mode (#calNotesContextBanner, a
+   fixed element in the form) and read-only mode (built inline into
+   renderReadOnlyEntryInto()'s output, reusing this same class). Bold,
+   high-contrast treatment deliberately — this needs to be the first
+   thing anyone notices when opening a Meeting Notes entry, not another
+   quiet secondary detail, since it's the primary fix for "which meeting
+   do these notes belong to" confusion. */
+.cal-notesContextBanner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: var(--cal-meeting-soft);
+  border: 1px solid var(--cal-meeting);
+  border-left: 4px solid var(--cal-meeting);
+  color: var(--cal-meeting-text);
+  border-radius: var(--cal-radius-sm);
+  padding: 10px 14px;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.cal-notesContextBanner[hidden] {
+  display: none;
+}
+.cal-notesContextBanner .material-symbols-outlined {
+  font-size: 18px !important;
+  color: var(--cal-meeting);
+  flex-shrink: 0;
+}
+.cal-notesContextText {
+  flex: 1 1 auto;
+  min-width: 160px;
+}
+.cal-notesContextText strong {
+  font-weight: 700;
+}
+.cal-notesContextBanner .cal-linkLikeBtn {
+  color: var(--cal-meeting-text);
+  white-space: nowrap;
+}
+
+/* Action Item variant of the same context banner — see
+   actionItemContextBannerHTML()/renderMeetingNotesContextBanner()'s
+   quickActionItemSource branch in calendar.js. Applied as an ADDITIONAL
+   class on the same #calNotesContextBanner element (not a separate
+   element), overriding just the color identity to Action Item's
+   established red/rust palette instead of Meeting Notes' yellow. */
+.cal-actionContextBanner {
+  background: var(--cal-action-tint);
+  border-color: var(--cal-action);
+  border-left-color: var(--cal-action);
+  color: var(--cal-action-text);
+}
+.cal-actionContextBanner .material-symbols-outlined {
+  color: var(--cal-action);
+}
+.cal-actionContextBanner .cal-linkLikeBtn {
+  color: var(--cal-action-text);
+}
+
+/* Hint shown under the relabeled "Linked records for this meeting note"
+   heading/field — quiet, small, clarifying text, not a banner of its
+   own. See applyConditionalFields()/renderReadOnlyEntryInto() in
+   calendar.js. */
+.cal-linkedRecordsHint {
+  margin: -4px 0 4px;
+  font-size: 12px;
+  color: var(--cal-muted);
+  line-height: 1.5;
+}
+.cal-linkedRecordsHint[hidden] {
+  display: none;
+}
+
+/* Read-only view's "Meeting notes" section — see the merged rule above
+   for background/border/left-accent. (Previously this was split across
+   two separate rules in this file, which risked one being edited and
+   the other silently left stale — merged into one for this reason.) */
+
+.cal-roMeetingNotesMeta {
+  margin: -4px 0 4px;
+  font-size: 12px;
+  color: var(--cal-meeting-text);
+  opacity: 0.85;
+}
+.cal-roMeetingNotesSubhead {
+  margin: 10px 0 2px;
+  font-size: 12px;
+  color: var(--cal-meeting-text);
+}
+.cal-roMeetingNotesSubhead:first-of-type {
+  margin-top: 0;
+}
+
+/* Sticky Outlook-sync-failure banner — see showSyncFailureBanner() in
+   calendar.js. Deliberately loud/persistent (unlike the transient
+   #calStatus text) since a silently-failing sync otherwise leaves
+   stale/deleted Outlook entries on screen with no visible warning. */
+.cal-syncFailBanner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  background: var(--cal-action-soft);
+  border: 1px solid var(--cal-action);
+  color: var(--cal-action-text);
+  border-radius: var(--cal-radius-md);
+  padding: 10px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: var(--cal-space-3);
+}
+.cal-syncFailBanner[hidden] {
+  display: none;
+}
+.cal-syncFailBanner .material-symbols-outlined {
+  font-size: 20px !important;
+  color: var(--cal-action);
+  flex-shrink: 0;
+}
+.cal-syncFailBannerText {
+  flex: 1 1 auto;
+  min-width: 200px;
+}
+.cal-syncFailBannerText strong {
+  font-weight: 600;
 }
 
 /* ── Responsive ───────────────────────────────────────── */
@@ -1338,7 +2442,283 @@
   }
 }
 
-/* ── Motion ───────────────────────────────────────────── */
+/* ============================================================
+   ACTION ITEMS PANEL + OVERDUE ALERT BANNER
+   Append this block to the end of calendar.css.
+   ============================================================ */
+
+/* Overdue alert banner — same visual family as .cal-syncFailBanner
+   (full-width, danger-colored, icon + text), since both are the same
+   category of "something needs your attention" alert. Inserted between
+   the header and the filter row by renderOverdueActionBanner() in
+   calendar.js — see that function for the insertion logic. Hidden
+   entirely (not just emptied) whenever overdueCount is 0. */
+.cal-overdueActionBanner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  background: var(--cal-danger-soft, #fdecec);
+  border: 1px solid var(--cal-danger);
+  color: var(--cal-danger);
+  border-radius: var(--cal-radius-md);
+  padding: 10px 14px;
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: var(--cal-space-3);
+  cursor: pointer;
+}
+.cal-overdueActionBanner:hover {
+  filter: brightness(0.97);
+}
+.cal-overdueActionBanner:focus-visible {
+  outline: 3px solid var(--cal-focus);
+  outline-offset: 2px;
+}
+.cal-overdueActionBanner[hidden] {
+  display: none;
+}
+.cal-overdueActionBanner .material-symbols-outlined {
+  font-size: 20px !important;
+  color: var(--cal-danger);
+  flex-shrink: 0;
+}
+.cal-overdueActionBannerText {
+  flex: 1 1 auto;
+  min-width: 160px;
+}
+.cal-overdueActionBannerArrow {
+  font-size: 18px !important;
+  opacity: 0.75;
+}
+
+/* Panel shell */
+.cal-actionPanel {
+  margin-top: var(--cal-space-4);
+  background: var(--cal-surface);
+  border: 1px solid var(--cal-border);
+  border-radius: var(--cal-radius-lg);
+  box-shadow: var(--cal-shadow-sm);
+  overflow: hidden;
+}
+.cal-apHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cal-space-3);
+  flex-wrap: wrap;
+  padding: 14px var(--cal-space-4);
+  border-bottom: 1px solid var(--cal-border);
+  background: var(--cal-surface-alt);
+}
+.cal-apHeadMain {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.cal-apTitle {
+  margin: 0;
+  font-family: var(--cal-display);
+  font-size: 17px;
+  font-weight: 800;
+}
+.cal-apSummary {
+  font-size: 13px;
+  color: var(--cal-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cal-apToggle {
+  border: 1px solid var(--cal-border-strong);
+  background: var(--cal-surface);
+  border-radius: var(--cal-radius-sm);
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--cal-text);
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+.cal-apToggle:hover {
+  background: var(--cal-surface-alt);
+}
+.cal-apToggle:focus-visible {
+  outline: 2px solid var(--cal-focus);
+  outline-offset: 1px;
+}
+.cal-actionPanel.is-collapsed .cal-apToggle .material-symbols-outlined {
+  transform: rotate(180deg);
+}
+.cal-apToggle .material-symbols-outlined {
+  transition: transform 0.15s ease;
+}
+
+.cal-apBody {
+  padding: var(--cal-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--cal-space-4);
+}
+.cal-actionPanel.is-collapsed .cal-apBody {
+  display: none;
+}
+
+.cal-apEmpty {
+  margin: 0;
+  text-align: center;
+  padding: 20px 0;
+  color: var(--cal-muted);
+  font-size: 14px;
+}
+
+.cal-apGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cal-apGroupHead {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cal-apGroupCount {
+  font-size: 12px;
+  font-weight: 800;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--cal-surface-alt);
+  color: var(--cal-muted);
+}
+.cal-apGroupHead--overdue {
+  color: var(--cal-danger);
+}
+.cal-apGroupHead--overdue .cal-apGroupCount {
+  background: var(--cal-danger-soft, #fdecec);
+  color: var(--cal-danger);
+}
+.cal-apGroupHead--dueSoon {
+  color: var(--cal-action-text);
+}
+.cal-apGroupHead--dueSoon .cal-apGroupCount {
+  background: var(--cal-action-soft);
+  color: var(--cal-action-text);
+}
+.cal-apGroupHead--open {
+  color: var(--cal-muted);
+}
+
+.cal-apGroupRows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cal-apRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border: 1px solid var(--cal-border);
+  border-left: 3px solid var(--cal-border-strong);
+  border-radius: var(--cal-radius-sm);
+  background: var(--cal-surface);
+  cursor: pointer;
+  font-family: inherit;
+}
+.cal-apRow:hover {
+  background: var(--cal-surface-alt);
+  box-shadow: var(--cal-shadow-sm);
+}
+.cal-apRow:focus-visible {
+  outline: 2px solid var(--cal-focus);
+  outline-offset: 1px;
+}
+.cal-apRow.is-flagged {
+  border-left-color: var(--cal-danger);
+  background: var(--cal-danger-soft, #fdecec);
+}
+
+.cal-apRowMain {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.cal-apRowTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--cal-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cal-apRowMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--cal-muted);
+}
+.cal-apRowAssignee {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.cal-apRowAssignee.is-flagged {
+  color: var(--cal-danger);
+  font-weight: 700;
+}
+.cal-apRowAssignee.is-flagged .material-symbols-outlined {
+  font-size: 15px !important;
+  color: var(--cal-danger);
+}
+.cal-apRowStatus {
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.cal-apRowDue {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--cal-danger);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.cal-apRowDue--none {
+  color: var(--cal-muted);
+  font-weight: 400;
+}
+.cal-apRowDue:not(.is-overdue):not(.cal-apRowDue--none) {
+  color: var(--cal-text);
+}
+
+@media (max-width: 560px) {
+  .cal-apRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .cal-apRowDue {
+    align-self: flex-start;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
