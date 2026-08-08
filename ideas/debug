@@ -1,32 +1,137 @@
-Captured JS errors
-[3:27:03 PM] Uncaught SyntaxError: Unexpected token '<'
-  at index.php?a=printview&recordID=108:1375:1
-Live diagnostics
-pvShowToast defined
-MISSING
-pvSubmitDraft defined
-OK
-doSubmit defined
-OK
-pvOpenEdit defined
-MISSING
-recordID defined
-OK
-CSRFToken present
-OK
-form (LeafForm) ready
-OK
-workflow ready
-OK
-jQuery ($) loaded
-OK
-Submit button in DOM
-OK
-Cancel button in DOM
-OK
-#toolbar226 in DOM
-MISSING
-#adminTools in DOM
-MISSING
-#tools226 in DOM
-MISSING
+(function() {
+    var errors = [];
+
+    function fmtErr(e) {
+        var src = e.filename ? e.filename.split('/').pop() : '(unknown file)';
+        return '[' + new Date().toLocaleTimeString() + '] ' + (e.message || String(e.error || e.reason || 'Unknown error'))
+            + '\n  at ' + src + ':' + (e.lineno || '?') + ':' + (e.colno || '?');
+    }
+
+    function renderLog() {
+        var log = document.getElementById('pvDebugLog');
+        var badge = document.getElementById('pvDebugBadge');
+        if (!log || !badge) { return; }
+        if (errors.length === 0) {
+            log.innerHTML = '<div class="pv-dbg-log-empty">No errors captured yet.</div>';
+        } else {
+            log.innerHTML = errors.map(function(e) {
+                var div = document.createElement('div');
+                div.className = 'pv-dbg-log-entry';
+                div.textContent = e;
+                return div.outerHTML;
+            }).join('');
+        }
+        badge.textContent = String(errors.length);
+        badge.classList.toggle('has-errors', errors.length > 0);
+    }
+
+    window.addEventListener('error', function(e) {
+        errors.push(fmtErr(e));
+        renderLog();
+    });
+    window.addEventListener('unhandledrejection', function(e) {
+        errors.push('[' + new Date().toLocaleTimeString() + '] Unhandled promise rejection: ' + (e.reason && e.reason.message ? e.reason.message : String(e.reason)));
+        renderLog();
+    });
+
+    function row(key, ok, valText) {
+        return '<div class="pv-dbg-row"><span class="pv-dbg-key">' + key + '</span><span class="pv-dbg-val ' + (ok ? 'ok' : 'bad') + '">' + valText + '</span></div>';
+    }
+
+    function runDiagnostics() {
+        var out = document.getElementById('pvDebugDiagnostics');
+        if (!out) { return; }
+        var checks = [
+            ['pvCanEdit defined',        typeof pvCanEdit !== 'undefined'],
+            ['pvIsTrueDraft defined',    typeof pvIsTrueDraft !== 'undefined'],
+            ['_pvFields exposed',        typeof window._pvFields !== 'undefined'],
+            ['pvShowToast defined',      typeof window.pvShowToast === 'function'],
+            ['pvOpenEdit defined',       typeof pvOpenEdit === 'function'],
+            ['pvSubmitDraft defined',    typeof pvSubmitDraft === 'function'],
+            ['doSubmit defined',         typeof doSubmit === 'function'],
+            ['recordID defined',         typeof recordID !== 'undefined'],
+            ['CSRFToken present',        typeof CSRFToken === 'string' && CSRFToken.length > 0],
+            ['form (LeafForm) ready',    typeof form !== 'undefined' && !!form],
+            ['workflow ready',           typeof workflow !== 'undefined' && !!workflow],
+            ['jQuery ($) loaded',        typeof window.$ === 'function'],
+            ['Submit button in DOM',     !!document.querySelector('.pv-submit-btn')],
+            ['Cancel button in DOM',     !!document.querySelector('.pv-cancel-btn')],
+            ['#toolbar226 in DOM',       !!document.getElementById('toolbar226')],
+            ['#adminTools in DOM',       !!document.getElementById('adminTools')],
+            ['#tools226 in DOM',         !!document.getElementById('tools226')],
+        ];
+        out.innerHTML = checks.map(function(c) {
+            return row(c[0], c[1], c[1] ? 'OK' : 'MISSING');
+        }).join('');
+    }
+
+    // Even when a <script> tag fails to parse as JS, the browser still
+    // stores its raw text in the DOM (HTML parsing and JS execution are
+    // separate steps) — so this pulls the ACTUAL live source straight
+    // from the page, bypassing any cache/encoding/transcription
+    // uncertainty entirely. Finds the Data-loader block specifically by
+    // a unique string it contains.
+    function showScriptSource() {
+        var out = document.getElementById('pvDebugScriptSource');
+        if (!out) { return; }
+        var scripts = Array.prototype.slice.call(document.querySelectorAll('script:not([src])'));
+        var target = scripts.find(function(s) { return s.textContent.indexOf('pvOpenEdit') !== -1; });
+        if (!target) {
+            out.innerHTML = '<div class="pv-dbg-log-empty">Could not find the Data-loader script tag in the DOM.</div>';
+            return;
+        }
+        var text = target.textContent;
+        // Flag any non-ASCII character (code > 126) with its position and
+        // code point — the most likely form of silent corruption from an
+        // encoding mismatch somewhere in a deployment pipeline.
+        var flagged = [];
+        for (var i = 0; i < text.length; i++) {
+            var code = text.charCodeAt(i);
+            if (code > 126) {
+                flagged.push('pos ' + i + ': "' + text[i] + '" (U+' + code.toString(16).toUpperCase().padStart(4, '0') + ')');
+            }
+        }
+        var flaggedHtml = flagged.length
+            ? '<div class="pv-dbg-log" style="margin-top:6px;max-height:100px;">' + flagged.map(function(f) {
+                var d = document.createElement('div'); d.className = 'pv-dbg-log-entry'; d.textContent = f; return d.outerHTML;
+              }).join('') + '</div>'
+            : '<div class="pv-dbg-log-empty">No non-ASCII characters found.</div>';
+        out.innerHTML = '<div class="pv-dbg-row"><span class="pv-dbg-key">Script length</span><span class="pv-dbg-val ok">' + text.length + ' chars</span></div>'
+            + '<h4 style="margin-top:8px;">Non-ASCII characters (possible encoding corruption)</h4>' + flaggedHtml
+            + '<h4 style="margin-top:8px;">Full live source (copy this)</h4>'
+            + '<textarea readonly style="width:100%;height:140px;background:#020617;color:#e2e8f0;font-family:inherit;font-size:11px;border:1px solid #334155;border-radius:6px;padding:6px;box-sizing:border-box;" onclick="this.select()">' + text.replace(/</g, '<') + '</textarea>';
+    }
+
+    function testToast() {
+        if (typeof window.pvShowToast === 'function') {
+            window.pvShowToast('Debug panel: toast pipeline is working.');
+        } else {
+            alert('pvShowToast is not defined — the toast/vote/unvote script block failed to load or parse. Check the error log above.');
+        }
+    }
+
+    function clearLog() {
+        errors = [];
+        renderLog();
+    }
+
+    function toggle() {
+        var panel = document.getElementById('pvDebugPanel');
+        if (panel) { panel.classList.toggle('is-collapsed'); }
+    }
+
+    window._pvDebug = {
+        runDiagnostics: runDiagnostics,
+        testToast: testToast,
+        clearLog: clearLog,
+        toggle: toggle,
+        showScriptSource: showScriptSource
+    };
+
+    // Run once immediately, and again after the page has had a chance to
+    // fully load (so form/workflow/pvShowToast etc. have had time to
+    // initialize — a false "MISSING" right at parse time isn't useful).
+    document.addEventListener('DOMContentLoaded', runDiagnostics);
+    window.addEventListener('load', function() { setTimeout(runDiagnostics, 500); });
+    runDiagnostics();
+}());
