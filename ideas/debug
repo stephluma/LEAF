@@ -1,3 +1,4 @@
+
 var pvCanEdit = true;
 // True only for a record that has never been submitted (a real draft).
 // Used to force the status pill to "Draft" rather than trusting
@@ -245,11 +246,11 @@ var pvIsTrueDraft = true;
             out += '<figure class="pv-attach-figure">';
             out +=   '<button type="button" class="pv-attach-btn"'
                   +        ' onclick="window.open(\'' + src.replace(/'/g, "\\'") + '\',\'pv_img_' + i + '\',\'width=750,height=750,resizable=yes,scrollbars=yes\')"'
-                  +        ' aria-label="View full size: ' + filename.replace(/"/g, '"') + '">';
-            out +=     '<img src="' + src + '" alt="' + filename.replace(/"/g, '"') + '" class="pv-attach-thumb"'
-                  +         ' onerror="this.closest(\'.pv-attach-btn\').setAttribute(\'aria-label\',\'Image could not load: ' + filename.replace(/"/g, '"') + '\')" />';
+                  +        ' aria-label="View full size: ' + filename.replace(/"/g, '&quot;') + '">';
+            out +=     '<img src="' + src + '" alt="' + filename.replace(/"/g, '&quot;') + '" class="pv-attach-thumb"'
+                  +         ' onerror="this.closest(\'.pv-attach-btn\').setAttribute(\'aria-label\',\'Image could not load: ' + filename.replace(/"/g, '&quot;') + '\')" />';
             out +=   '</button>';
-            out +=   '<span class="pv-attach-caption" aria-hidden="true" title="' + filename.replace(/"/g, '"') + '">' + filename + '</span>';
+            out +=   '<span class="pv-attach-caption" aria-hidden="true" title="' + filename.replace(/"/g, '&quot;') + '">' + filename + '</span>';
             out += '</figure>';
         });
         if (links.length > 0) {
@@ -265,7 +266,7 @@ var pvIsTrueDraft = true;
                     +      '</svg>'
                     +    '</span>'
                     +    '<a href="' + href + '" target="_blank" rel="noopener noreferrer" class="pv-file-link"'
-                    +       ' aria-label="Download ' + filename.replace(/"/g, '"') + ' (opens in new tab)"'
+                    +       ' aria-label="Download ' + filename.replace(/"/g, '&quot;') + ' (opens in new tab)"'
                     +    '>' + filename + '</a>'
                     +  '</li>';
             });
@@ -768,42 +769,42 @@ function pvOpenEdit(indicatorID) {
 
     <div class="pm-transfer-wrap">
         <button type="button" class="tools pm-transfer-btn" onclick="transferToPMDashboard()" title="Transfer to LEAF Projects">
-            <img src="dynicons/?img=go-next.svg&w=32" alt="" aria-hidden="true" style="vertical-align: middle" /> Transfer to LEAF Projects
+            <img src="dynicons/?img=go-next.svg&amp;w=32" alt="" aria-hidden="true" style="vertical-align: middle" /> Transfer to LEAF Projects
         </button>
     </div>
 
     <div id="tools226" class="tools">
         <h1>Idea Tools</h1>
-                    <button type="button" class="tools" onclick="window.location='?a=view&recordID=108'">
-                <img src="dynicons/?img=edit-find-replace.svg&w=32" alt="" aria-hidden="true" style="vertical-align: middle" />
+                    <button type="button" class="tools" onclick="window.location='?a=view&amp;recordID=108'">
+                <img src="dynicons/?img=edit-find-replace.svg&amp;w=32" alt="" aria-hidden="true" style="vertical-align: middle" />
                 Edit this form
             </button><br /><br />
                 <button type="button" class="tools" onclick="viewHistory()">
-            <img src="dynicons/?img=appointment.svg&w=32" alt="" aria-hidden="true" style="vertical-align: middle" />
+            <img src="dynicons/?img=appointment.svg&amp;w=32" alt="" aria-hidden="true" style="vertical-align: middle" />
             View History
         </button>
         <button type="button" class="tools"
-            onclick="window.location='mailto:?subject=FW:%20Request%20%23108%20-%20draft&body=Request%20URL:%20http://leaf.va.gov%2Fplatform%2Fideas%2Findex.php%3Fa%3Dprintview%26recordID%3D108%0A%0A'">
-            <img src="dynicons/?img=internet-mail.svg&w=32" alt="" aria-hidden="true" style="vertical-align: middle" />
+            onclick="window.location='mailto:?subject=FW:%20Request%20%23108%20-%20draft&amp;body=Request%20URL:%20http://leaf.va.gov%2Fplatform%2Fideas%2Findex.php%3Fa%3Dprintview%26recordID%3D108%0A%0A'">
+            <img src="dynicons/?img=internet-mail.svg&amp;w=32" alt="" aria-hidden="true" style="vertical-align: middle" />
             Write Email
         </button>
         <button type="button" class="tools" id="btn_printForm" title="Print this Form">
-            <img src="dynicons/?img=printer.svg&w=32" alt="" style="vertical-align: middle" />
+            <img src="dynicons/?img=printer.svg&amp;w=32" alt="" style="vertical-align: middle" />
             Print to PDF
             <span style="font-style: italic; background-color: white; color: #d00; border: 1px solid black; padding: 4px">BETA</span>
         </button>
         <input type='hidden' id='abs_portal_path' value='https://leaf.va.gov/platform/ideas' />
                     <button type="button" class="tools" onclick="toggleBookmark()" id="tool_bookmarkText" title="Add Bookmark">
-                <img src="dynicons/?img=bookmark-new.svg&w=32" alt="" style="vertical-align: middle" />
+                <img src="dynicons/?img=bookmark-new.svg&amp;w=32" alt="" style="vertical-align: middle" />
                 <span role="status" aria-live="polite">Add Bookmark</span>
             </button>
                 <button type="button" class="tools" onclick="copyRequest()" title="Copy Request"
-            style="background-image: url(dynicons/?img=edit-copy.svg&w=32); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 35px; height: 38px">
+            style="background-image: url(dynicons/?img=edit-copy.svg&amp;w=32); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 35px; height: 38px">
             Copy Request
         </button>
         <br /><br />
                     <button type="button" class="tools" id="btn_cancelRequest" title="Cancel Request" onclick="cancelRequest()">
-                <img src="dynicons/?img=process-stop.svg&w=16" alt="" style="vertical-align: middle" />
+                <img src="dynicons/?img=process-stop.svg&amp;w=16" alt="" style="vertical-align: middle" />
                 Cancel Request
             </button>
             </div>
@@ -822,20 +823,20 @@ function pvOpenEdit(indicatorID) {
     <div id="category_list">
         <h1>Internal Use</h1>
         <button class="IUbutton"
-            onclick="scrollPage('formcontent');openContent('ajaxIndex.php?a=printview&recordID=108');"
-            style="background-image: url(dynicons/?img=text-x-generic.svg&w=16); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 20px;">
+            onclick="scrollPage('formcontent');openContent('ajaxIndex.php?a=printview&amp;recordID=108');"
+            style="background-image: url(dynicons/?img=text-x-generic.svg&amp;w=16); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 20px;">
             Main Request
         </button>
                     <button class="IUbutton"
-                onclick="scrollPage('formcontent');openContent('ajaxIndex.php?a=internalonlyview&recordID=108&childCategoryID=form_935d1');"
-                style="background-image: url(dynicons/?img=text-x-generic.svg&w=16); background-repeat: no-repeat; background-position: left; text-align: center">
+                onclick="scrollPage('formcontent');openContent('ajaxIndex.php?a=internalonlyview&amp;recordID=108&amp;childCategoryID=form_935d1');"
+                style="background-image: url(dynicons/?img=text-x-generic.svg&amp;w=16); background-repeat: no-repeat; background-position: left; text-align: center">
                 Internal Review
             </button>
                         <button class="IUbutton pv-votes-btn" id="btn-votes"
             onclick="toggleVotes(108);"
             aria-expanded="false"
             aria-controls="formcontent">
-            <img src="dynicons/?img=award-ribbon.svg&w=16" alt="" aria-hidden="true" style="vertical-align:middle;margin-right:5px;" />
+            <img src="dynicons/?img=award-ribbon.svg&amp;w=16" alt="" aria-hidden="true" style="vertical-align:middle;margin-right:5px;" />
             <span id="btn-votes-label">Votes</span>
         </button>
             </div>
@@ -848,15 +849,15 @@ function pvOpenEdit(indicatorID) {
             <div id="adminTools" class="tools">
             <h1>Administrative Tools</h1>
                         <button class="AdminButton" onclick="changeService()" title="Change Service"
-                style="background-image: url(dynicons/?img=user-home.svg&w=32); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 35px; height: 38px">
+                style="background-image: url(dynicons/?img=user-home.svg&amp;w=32); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 35px; height: 38px">
                 Change Service
             </button>
             <button class="AdminButton" onclick="admin_changeForm()" title="Change Forms"
-                style="background-image: url(dynicons/?img=system-file-manager.svg&w=32); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 35px; height: 38px">
+                style="background-image: url(dynicons/?img=system-file-manager.svg&amp;w=32); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 35px; height: 38px">
                 Change Form(s)
             </button>
             <button class="AdminButton" onclick="admin_changeInitiator()" title="Change Initiator"
-                style="background-image: url(dynicons/?img=gnome-stock-person.svg&w=32); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 35px; height: 38px">
+                style="background-image: url(dynicons/?img=gnome-stock-person.svg&amp;w=32); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 35px; height: 38px">
                 Change Initiator
             </button>
         </div>
@@ -864,10 +865,10 @@ function pvOpenEdit(indicatorID) {
     <div class="toolbar_security">
         <h1 role="heading">Security Permissions</h1>
         <button class="buttonPermission" onclick="viewAccessLogsRead()">
-                            <img src="dynicons/?img=edit-find.svg&w=32" alt="" style="vertical-align: middle" /> You have read access
+                            <img src="dynicons/?img=edit-find.svg&amp;w=32" alt="" style="vertical-align: middle" /> You have read access
                     </button>
         <button class="buttonPermission" onclick="viewAccessLogsWrite()">
-                            <img src="dynicons/?img=accessories-text-editor.svg&w=32" alt="" style="vertical-align: middle" /> You have write access
+                            <img src="dynicons/?img=accessories-text-editor.svg&amp;w=32" alt="" style="vertical-align: middle" /> You have write access
                     </button>
     </div>
 
@@ -884,8 +885,8 @@ function pvOpenEdit(indicatorID) {
 <div id="xhrDialog" style="visibility: hidden; display: none; background-color: white; border-style: none solid solid; border-width: 0 1px 1px; border-color: #e0e0e0; padding: 4px">
 <form id="record" enctype="multipart/form-data" action="javascript:void(0);">
     <div>
-        <button type="button" id="button_cancelchange" class="buttonNorm" style="position: absolute; left: 10px" disabled><img src="dynicons/?img=process-stop.svg&w=16" alt="" /> Cancel</button>
-        <button type="button" id="button_save" class="buttonNorm" style="position: absolute; right: 10px" disabled><img src="dynicons/?img=media-floppy.svg&w=16" alt="" /> Save Change</button>
+        <button type="button" id="button_cancelchange" class="buttonNorm" style="position: absolute; left: 10px" disabled><img src="dynicons/?img=process-stop.svg&amp;w=16" alt="" /> Cancel</button>
+        <button type="button" id="button_save" class="buttonNorm" style="position: absolute; right: 10px" disabled><img src="dynicons/?img=media-floppy.svg&amp;w=16" alt="" /> Save Change</button>
         <div style="border-bottom: 2px solid black; line-height: 30px"><br /></div>
         <div id="loadIndicator" style="visibility: hidden; z-index: 9000; position: absolute; text-align: center; font-size: 24px; font-weight: bold; background-color: #f2f5f7; padding: 16px; height: 400px; width: 526px"><img src="images/largespinner.gif" alt="" /></div>
         <div id="xhr" style="min-width: 540px; min-height: 420px; padding: 8px; overflow: auto; font-size: 12px"></div>
@@ -897,8 +898,8 @@ function pvOpenEdit(indicatorID) {
     <div>
         <div id="confirm_loadIndicator" style="visibility: hidden; position: absolute; text-align: center; font-size: 24px; font-weight: bold; background: white; padding: 16px; height: 100px; width: 360px">Loading... <img src="images/largespinner.gif" alt="" /></div>
         <div id="confirm_xhr" style="font-size: 130%; width: 400px; min-height: 120px; padding: 16px; overflow: auto"></div>
-        <div style="position: absolute; left: 10px; font-size: 140%"><button type="button" class="buttonNorm" id="confirm_button_cancelchange" disabled><img src="dynicons/?img=edit-undo.svg&w=32" alt="" /> No</button></div>
-        <div style="text-align: right; padding-right: 6px"><button type="button" class="buttonNorm" id="confirm_button_save" disabled><img src="dynicons/?img=dialog-apply.svg&w=32" alt="" /><span id="confirm_saveBtnText" style="color:inherit;"> Yes</span></button></div><br />
+        <div style="position: absolute; left: 10px; font-size: 140%"><button type="button" class="buttonNorm" id="confirm_button_cancelchange" disabled><img src="dynicons/?img=edit-undo.svg&amp;w=32" alt="" /> No</button></div>
+        <div style="text-align: right; padding-right: 6px"><button type="button" class="buttonNorm" id="confirm_button_save" disabled><img src="dynicons/?img=dialog-apply.svg&amp;w=32" alt="" /><span id="confirm_saveBtnText" style="color:inherit;"> Yes</span></button></div><br />
     </div>
 </form>
 </div>
@@ -913,7 +914,7 @@ function pvOpenEdit(indicatorID) {
 <div id="ok_xhrDialog" style="background-color: #feffd1; border: 1px solid black; visibility: hidden; display: none">
 <div>
     <div id="ok_xhr" style="font-size: 130%; width: 400px; height: 120px; padding: 16px; overflow: auto"></div>
-    <div style="text-align: right; padding-right: 6px"><button class="buttonNorm" id="confirm_button_ok" disabled><img src="dynicons/?img=dialog-apply.svg&w=32" alt="" /><span id="confirm_saveBtnText"> Ok</span></button></div><br />
+    <div style="text-align: right; padding-right: 6px"><button class="buttonNorm" id="confirm_button_ok" disabled><img src="dynicons/?img=dialog-apply.svg&amp;w=32" alt="" /><span id="confirm_saveBtnText"> Ok</span></button></div><br />
 </div>
 </div>
 
