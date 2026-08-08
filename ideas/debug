@@ -75,7 +75,7 @@
         var out = document.getElementById('pvDebugScriptSource');
         if (!out) { return; }
         var scripts = Array.prototype.slice.call(document.querySelectorAll('script:not([src])'));
-        var target = scripts.find(function(s) { return s.textContent.indexOf('pvOpenEdit') !== -1; });
+        var target = scripts.find(function(s) { return s.textContent.indexOf('function pvOpenEdit(') !== -1; });
         if (!target) {
             out.innerHTML = '<div class="pv-dbg-log-empty">Could not find the Data-loader script tag in the DOM.</div>';
             return;
