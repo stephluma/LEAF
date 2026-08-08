@@ -1,0 +1,8 @@
+<button type="button" class="ip-upvote is-voted" data-detail-vote="73" aria-label="Remove your vote for idea 73" title="Click to remove your vote">
+        <span class="material-symbols-outlined" aria-hidden="true">thumb_up</span> Voted
+      </button>
+
+<button type="button" class="ip-share" data-record-link="https://leaf.va.gov/platform/ideas/index.php?a=printview&amp;recordID=73" aria-label="Copy link to idea #73" title="Copy shareable link">
+        <span class="material-symbols-outlined" aria-hidden="true">share</span>
+        Share
+      </button>
