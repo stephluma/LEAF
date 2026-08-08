@@ -1,1 +1,6 @@
 index.php?a=printview&recordID=108:1221 Uncaught SyntaxError: Unexpected token '<'
+index.php?a=printview&recordID=108:1450 Uncaught ReferenceError: pvShowToast is not defined
+    at pvSubmitDraft (index.php?a=printview&recordID=108:1450:9)
+    at HTMLButtonElement.onclick (index.php?a=printview&recordID=108:283:42)
+pvSubmitDraft @ index.php?a=printview&recordID=108:1450
+onclick @ index.php?a=printview&recordID=108:283
