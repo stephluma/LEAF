@@ -1,5 +1,49 @@
-open_in_new
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z"/></svg>
+/* ── Edit handler ── */
+function pvOpenEdit(indicatorID) {
+    if (!pvCanEdit) { return; }
+    if (typeof form === 'undefined') { console.warn('pvOpenEdit: LeafForm not ready yet'); return; }
+    form.setPostModifyCallback(function() {
+        var fields = window._pvFields || [];
+        var loadFn = window._pvLoadIndicator;
+        var cfg    = null;
+        for (var i = 0; i < fields.length; i++) {
+            if (fields[i].id === indicatorID) { cfg = fields[i]; break; }
+        }
+        if (!cfg) { cfg = { id: indicatorID, target: 'pv-value-' + indicatorID }; }
+        if (typeof loadFn === 'function') { loadFn(indicatorID, cfg); }
+        form.dialog().hide();
+    });
+    form.dialog().show();
+    form.getForm(indicatorID, 1);
+}
+</script>
 
-edit
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/></svg>
+</div>
+
+<!-- Group 226 toolbar -->
+<div id="toolbar226" class="toolbar_right toolbar noprint">
+
+
+
+
+
+
+---------------------
+// Powers the standalone "Submit" button next to Cancel Request
+    // (visible immediately for any true draft, unlike the native
+    // submitControl UI above which only renders once getsubmitcontrol
+    // has loaded at 100% form completeness). Calls the same real submit
+    // endpoint as doSubmit(), but reports back through pvShowToast()
+    // since that's guaranteed to exist regardless of whether the native
+    // submit-control markup has rendered yet.
+    function pvSubmitDraft(btn) {
+        if (btn) { btn.disabled = true; }
+        pvShowToast('Submitting your idea...');
+
+        $.ajax({
+            type: 'POST',
+            url: './api/form/' + recordID + '/submit',
+            data: { CSRFToken: '96e1faf7fd49da16dedcfca2dd888569b1e0332952199312579ce4d4433423b1' },
+            success: function(response) {
+                if (response?.errors?.length === 0) {
+                    pvShowToast('Your idea has been submitted successfully.');
