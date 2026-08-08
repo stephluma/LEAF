@@ -1,0 +1,73 @@
+How to Reference LEAF Fonts in Your Code
+Option 1: Use Pre-defined Font Families (Recommended)
+Import the LEAF stylesheet and use the font family names directly:
+
+CSS
+/* In your CSS or SCSS */
+font-family: 'PublicSans-Regular', sans-serif;
+font-family: 'PublicSans-Medium', sans-serif;
+font-family: 'PublicSans-Bold', sans-serif;
+font-family: 'PublicSans-Light', sans-serif;
+font-family: 'PublicSans-Thin', sans-serif;
+font-family: 'Source Sans Pro Web', sans-serif;
+font-family: 'Source Sans Pro Web-Bold', sans-serif;
+font-family: 'fa-solid';  /* FontAwesome solid icons */
+Example in HTML/CSS:
+
+HTML
+<style>
+  .my-heading {
+    font-family: 'PublicSans-Bold', sans-serif;
+    font-size: 2rem;
+  }
+  
+  .my-text {
+    font-family: 'Source Sans Pro Web', sans-serif;
+  }
+</style>
+Option 2: Import LEAF's Main Stylesheet
+If you're working in a Vue/Webpack environment:
+
+JavaScript
+// In your JavaScript or Vue component
+import '~/libs/css/leaf.css';  // or leaf.scss if using SASS
+
+// Then use the fonts in your styles
+export default {
+  styles: `
+    .custom-element {
+      font-family: 'PublicSans-Medium', sans-serif;
+    }
+  `
+}
+Option 3: Reference Font Files Directly
+If you need to define your own @font-face, you can reference the compiled fonts:
+
+CSS
+@font-face {
+  font-family: 'MyCustomFont';
+  src: url('/libs/css/fonts/PublicSans-Bold.woff2') format('woff2'),
+       url('/libs/css/fonts/PublicSans-Bold.woff') format('woff');
+}
+
+.my-element {
+  font-family: 'MyCustomFont', sans-serif;
+}
+Available Font Families
+Public Sans (Regular weights)
+PublicSans-Thin
+PublicSans-Light
+PublicSans-Regular
+PublicSans-Medium
+PublicSans-Bold
+Source Sans Pro
+Source Sans Pro Web (Regular)
+Source Sans Pro Web-Bold (Bold)
+Icons
+fa-solid (FontAwesome solid icons)
+Important Notes
+Font files are in: docker/vue-app/src/common/assets/
+Compiled output: libs/css/fonts/
+Declarations: docker/vue-app/src/sass/leaf.scss
+Always include a fallback font (e.g., sans-serif) in case the custom font doesn't load
+Use woff2 format for modern browsers (better compression), with woff as a fallback for older browsers
