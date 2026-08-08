@@ -287,6 +287,48 @@
       .ip-hero-cta:hover .ip-hero-cta__arrow {
         transform: translateX(3px);
       }
+      /* Persistent "How it works" trigger — sits alongside the primary
+         CTA but visually secondary (outline, not filled), reusing the
+         hero's own token palette so it doesn't compete with "Share Your
+         Idea" for attention. Reachable at any time, not just on first
+         visit — see maybeShowHowItWorksOnFirstVisit() in ideas_v3.js for
+         the automatic first-visit trigger, which opens the same modal
+         this button opens on demand. */
+      .ip-hero-actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .ip-hero-howItWorks {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: transparent;
+        color: #fff;
+        font-family: "Public Sans", sans-serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        padding: 11px 22px;
+        border-radius: 50px;
+        border: 1.5px solid rgba(255, 255, 255, 0.55);
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          border-color 0.2s;
+      }
+      .ip-hero-howItWorks:hover {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: #fff;
+      }
+      .ip-hero-howItWorks:focus-visible {
+        outline: 3px solid #fff;
+        outline-offset: 3px;
+      }
+      .ip-hero-howItWorks .material-symbols-outlined {
+        font-size: 1.05rem;
+      }
       @keyframes ipFadeSlideDown {
         from {
           opacity: 0;
@@ -472,6 +514,24 @@
       .ip-catItem.is-active .ip-catCount {
         background: var(--ip-blue);
         color: #fff;
+      }
+      /* Category sidebar becomes visually inert while the Top 10 tab is
+         active — Top 10 is a fixed top-10-by-votes ranking across all
+         categories, not a filterable list, so clicking a category there
+         has never actually changed what's shown. Previously the sidebar
+         fell back to showing All Ideas' own counts while on this tab,
+         which looked like a live, actionable control even though it
+         wasn't — this state makes that explicit instead. */
+      .ip-catList.is-inert {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+      .ip-catSidebarNote {
+        padding: 10px 14px;
+        font-size: 0.825rem;
+        color: var(--ip-muted);
+        font-style: italic;
+        border-top: 1px solid var(--ip-blue-10);
       }
       .ip-myActivity {
         list-style: none;
@@ -1317,6 +1377,104 @@
         padding: 20px 24px;
         display: grid;
         gap: 14px;
+      }
+
+      /* ── How It Works modal ──
+         Single static explainer panel (not a multi-step spotlight tour)
+         — the lifecycle content is a linear 3-stage process explained as
+         text, not something anchored to specific UI elements that would
+         need position-tracking logic and would break every time the
+         surrounding layout changes. Reuses the same card/icon visual
+         language already established by .feat/.step elsewhere in this
+         design system rather than introducing new patterns. */
+      .ip-howItWorks__content {
+        max-width: 900px;
+      }
+      .ip-howItWorks__intro {
+        font-size: 0.95rem;
+        color: var(--ip-muted);
+        margin: 0 0 18px;
+        line-height: 1.6;
+      }
+      .ip-howItWorks__stages {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr auto 1fr;
+        align-items: start;
+        gap: 8px;
+      }
+      .ip-howItWorks__stage {
+        background: #fff;
+        border: 1px solid var(--ip-blue-10);
+        border-radius: var(--ip-r-lg);
+        padding: 20px 16px;
+        text-align: center;
+        position: relative;
+      }
+      .ip-howItWorks__stageIcon {
+        width: 44px;
+        height: 44px;
+        margin: 0 auto 10px;
+        border-radius: 50%;
+        background: var(--ip-blue-lt);
+        color: var(--ip-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .ip-howItWorks__stageIcon .material-symbols-outlined {
+        font-size: 1.4rem;
+      }
+      .ip-howItWorks__stageNum {
+        position: absolute;
+        top: 10px;
+        left: 12px;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: var(--ip-navy);
+        color: #fff;
+        font-family: "Public Sans", sans-serif;
+        font-size: 0.75rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .ip-howItWorks__stageTitle {
+        font-family: "Public Sans", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--ip-navy);
+        margin: 0 0 8px;
+      }
+      .ip-howItWorks__stageDesc {
+        font-size: 0.85rem;
+        color: var(--ip-muted);
+        line-height: 1.55;
+        margin: 0;
+      }
+      .ip-howItWorks__arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding-top: 34px;
+        color: var(--ip-blue-20);
+      }
+      .ip-howItWorks__arrow .material-symbols-outlined {
+        font-size: 1.4rem;
+      }
+      /* Stacked layout on narrow viewports — arrows rotate to point down
+         between stacked cards instead of sideways between columns. */
+      @media (max-width: 720px) {
+        .ip-howItWorks__stages {
+          grid-template-columns: 1fr;
+        }
+        .ip-howItWorks__arrow {
+          padding-top: 0;
+          height: auto;
+          transform: rotate(90deg);
+        }
       }
 
       /* ── Form fields ── */
@@ -2211,33 +2369,47 @@
             </h1>
             <p class="ip-hero-tagline">Your ideas grow here.</p>
             <p class="ip-hero-desc">
-              This is your space to share, shape, and spark change. Every idea
-              you submit is read, reviewed, and taken seriously — because the
-              best improvements come from the people doing the work every day.
+              This is your space to share, shape, and spark change. Every
+              idea submitted is reviewed by our team, though evaluation and
+              implementation depend on resources and organizational
+              priorities.
             </p>
-            <button
-              class="ip-hero-cta"
-              type="button"
-              data-ip-open="addIdeaModal"
-            >
-              Share Your Idea
-              <svg
-                class="ip-hero-cta__arrow"
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                aria-hidden="true"
+            <div class="ip-hero-actions">
+              <button
+                class="ip-hero-cta"
+                type="button"
+                data-ip-open="addIdeaModal"
               >
-                <path
-                  d="M3 8h10M9 4l4 4-4 4"
-                  stroke="currentColor"
-                  stroke-width="1.6"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </button>
+                Share Your Idea
+                <svg
+                  class="ip-hero-cta__arrow"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M3 8h10M9 4l4 4-4 4"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+              <button
+                class="ip-hero-howItWorks"
+                type="button"
+                id="ipHowItWorksBtn"
+                aria-haspopup="dialog"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  >help</span
+                >
+                How it works
+              </button>
+            </div>
           </div>
         </div>
 
@@ -2298,6 +2470,9 @@
                   </button>
                 </li>
               </ul>
+              <p class="ip-catSidebarNote" id="ipCatSidebarNote" hidden>
+                Not applicable to Top 10 Ideas.
+              </p>
             </div>
             <div class="ip-sideCard">
               <div class="ip-sideCard__hd">My Activity</div>
@@ -3139,6 +3314,115 @@
                 <tbody id="ipVotedTableBody"></tbody>
               </table>
             </div>
+          </div>
+        </div>
+      </div>
+      <!-- How It Works modal — onboarding walkthrough (single static
+           explainer panel, not a multi-step tour, per design decision:
+           the lifecycle content is a linear 3-stage process, not
+           something that benefits from being anchored to specific,
+           evolving UI elements). Shown automatically once per browser on
+           first visit (see maybeShowHowItWorksOnFirstVisit() in
+           ideas_v3.js), and reachable anytime afterward via the
+           persistent "How it works" button in the hero. -->
+      <div
+        class="ip-modal"
+        id="howItWorksModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="howItWorksModalLabel"
+        aria-hidden="true"
+      >
+        <div class="ip-modal__overlay" data-ip-close="howItWorksModal"></div>
+        <div class="ip-modal__content ip-howItWorks__content" role="document">
+          <div class="ip-modal__header">
+            <h3 class="ip-modal__title" id="howItWorksModalLabel">
+              <span
+                class="material-symbols-outlined"
+                aria-hidden="true"
+                style="
+                  color: var(--ip-blue);
+                  vertical-align: middle;
+                  margin-right: 6px;
+                  font-size: 1.1rem;
+                "
+                >help</span
+              >
+              How the Idea Portal Works
+            </h3>
+            <button
+              type="button"
+              class="ip-btn ip-btn--icon"
+              aria-label="Close"
+              data-ip-close="howItWorksModal"
+            >
+              <span aria-hidden="true" style="font-size: 1.3rem">×</span>
+            </button>
+          </div>
+          <div class="ip-modal__body">
+            <p class="ip-howItWorks__intro">
+              Every idea moves through the same simple lifecycle, from the
+              moment you submit it to a possible outcome.
+            </p>
+            <div class="ip-howItWorks__stages">
+              <div class="ip-howItWorks__stage">
+                <div class="ip-howItWorks__stageIcon" aria-hidden="true">
+                  <span class="material-symbols-outlined">send</span>
+                </div>
+                <span class="ip-howItWorks__stageNum">1</span>
+                <h4 class="ip-howItWorks__stageTitle">Submission</h4>
+                <p class="ip-howItWorks__stageDesc">
+                  You share your idea with a title, description, benefit,
+                  category, and impact. You can save it as a draft first and
+                  come back to finish it anytime before submitting.
+                </p>
+              </div>
+              <div
+                class="ip-howItWorks__arrow"
+                aria-hidden="true"
+              >
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </div>
+              <div class="ip-howItWorks__stage">
+                <div class="ip-howItWorks__stageIcon" aria-hidden="true">
+                  <span class="material-symbols-outlined">fact_check</span>
+                </div>
+                <span class="ip-howItWorks__stageNum">2</span>
+                <h4 class="ip-howItWorks__stageTitle">Review</h4>
+                <p class="ip-howItWorks__stageDesc">
+                  Our team reviews every idea that's submitted. Community
+                  votes help show which ideas resonate most, and idea status
+                  updates as review progresses.
+                </p>
+              </div>
+              <div
+                class="ip-howItWorks__arrow"
+                aria-hidden="true"
+              >
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </div>
+              <div class="ip-howItWorks__stage">
+                <div class="ip-howItWorks__stageIcon" aria-hidden="true">
+                  <span class="material-symbols-outlined">task_alt</span>
+                </div>
+                <span class="ip-howItWorks__stageNum">3</span>
+                <h4 class="ip-howItWorks__stageTitle">Possible Implementation</h4>
+                <p class="ip-howItWorks__stageDesc">
+                  Ideas that move forward are prioritized based on available
+                  resources and organizational priorities. Not every idea can
+                  be implemented, but every idea is genuinely considered.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="ip-actions" style="justify-content: flex-end">
+            <button
+              type="button"
+              class="ip-btn ip-btn--primary"
+              data-ip-close="howItWorksModal"
+            >
+              Got it
+            </button>
           </div>
         </div>
       </div>
