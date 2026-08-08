@@ -1,6 +1,48 @@
-index.php?a=printview&recordID=108:1221 Uncaught SyntaxError: Unexpected token '<'
-index.php?a=printview&recordID=108:1450 Uncaught ReferenceError: pvShowToast is not defined
-    at pvSubmitDraft (index.php?a=printview&recordID=108:1450:9)
-    at HTMLButtonElement.onclick (index.php?a=printview&recordID=108:283:42)
-pvSubmitDraft @ index.php?a=printview&recordID=108:1450
-onclick @ index.php?a=printview&recordID=108:283
+/* ── Edit handler ── */
+function pvOpenEdit(indicatorID) {
+    if (!pvCanEdit) { return; }
+    if (typeof form === 'undefined') { console.warn('pvOpenEdit: LeafForm not ready yet'); return; }
+    form.setPostModifyCallback(function() {
+        var fields = window._pvFields || [];
+        var loadFn = window._pvLoadIndicator;
+        var cfg    = null;
+        for (var i = 0; i < fields.length; i++) {
+            if (fields[i].id === indicatorID) { cfg = fields[i]; break; }
+        }
+        if (!cfg) { cfg = { id: indicatorID, target: 'pv-value-' + indicatorID }; }
+        if (typeof loadFn === 'function') { loadFn(indicatorID, cfg); }
+        form.dialog().hide();
+    });
+    form.dialog().show();
+    form.getForm(indicatorID, 1);
+}
+</script>
+
+</div>
+
+<!-- Group 226 toolbar -->
+<div id="toolbar226" class="toolbar_right toolbar noprint">
+
+
+---------------------------------
+
+
+
+// Powers the standalone "Submit" button next to Cancel Request
+    // (visible immediately for any true draft, unlike the native
+    // submitControl UI above which only renders once getsubmitcontrol
+    // has loaded at 100% form completeness). Calls the same real submit
+    // endpoint as doSubmit(), but reports back through pvShowToast()
+    // since that's guaranteed to exist regardless of whether the native
+    // submit-control markup has rendered yet.
+    function pvSubmitDraft(btn) {
+        if (btn) { btn.disabled = true; }
+        pvShowToast('Submitting your idea...');
+
+        $.ajax({
+            type: 'POST',
+            url: './api/form/' + recordID + '/submit',
+            data: { CSRFToken: '96e1faf7fd49da16dedcfca2dd888569b1e0332952199312579ce4d4433423b1' },
+            success: function(response) {
+                if (response?.errors?.length === 0) {
+                    pvShowToast('Your idea has been submitted successfully.');
