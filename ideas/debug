@@ -1,1 +1,920 @@
-if(navigator.userAgent.indexOf("Trident") != -1) {alert('Please use Microsoft Edge or Google Chrome to access this site.');}
+var pvCanEdit = true;
+// True only for a record that has never been submitted (a real draft).
+// Used to force the status pill to "Draft" rather than trusting
+// indicator 12, which writeDraftStatus() in ideas_v4.js intentionally
+// blanks on every draft save — a blank field here was rendering as the
+// form's configured default option text ("Submitted") instead of
+// nothing, which incorrectly told the idea's author their unsubmitted
+// draft had already been submitted.
+var pvIsTrueDraft = true;
+
+(function() {
+    var recordID  = 108;
+    var portalURL = '';
+
+    var categoryOptionsList = [];
+    var lastCategoryRaw = null;
+
+    /* Fetch the known category labels (used to split legacy multi-select
+       values that come back concatenated with no delimiter), same source
+       the "Add Idea" form uses. Re-renders the category pills once loaded
+       if the field already rendered with the un-split fallback. */
+    function fetchCategoryOptionsList() {
+        $.ajax({
+            type: 'GET',
+            url: 'ajaxIndex.php?a=getindicator&indicatorID=8&series=1&recordID=0',
+            dataType: 'html',
+            cache: false,
+            success: function(html) {
+                try {
+                    var doc = new DOMParser().parseFromString(html, 'text/html');
+                    /* Use an attribute selector, not #8 — a bare numeric ID
+                       is not a valid CSS selector token and throws. */
+                    var sel = doc.querySelector('select[id="8"]');
+                    if (sel && sel.options.length) {
+                        categoryOptionsList = Array.prototype.map.call(sel.options, function(o) { return o.value; }).filter(Boolean);
+                    }
+                } catch (e) {
+                    console.warn('[fetchCategoryOptionsList] could not parse category options:', e);
+                }
+                if (lastCategoryRaw !== null) {
+                    var el = document.getElementById('pv-value-8');
+                    if (el) { renderCategoryPills(el, lastCategoryRaw); }
+                }
+            }
+        });
+    }
+
+    /* Split a category value into individual labels. Handles both
+       delimited values and legacy-imported values concatenated with no
+       delimiter, by greedily matching against categoryOptionsList. */
+    function parseCategoryValue(raw) {
+        var str = String(raw || '').trim();
+        if (!str) { return []; }
+        if (/[,;\n]/.test(str)) {
+            return str.split(/[,;\n]+/).map(function(s) { return s.trim(); }).filter(Boolean);
+        }
+        var known = categoryOptionsList.slice().sort(function(a, b) { return b.length - a.length; });
+        if (known.length) {
+            var out = [];
+            var remaining = str;
+            var guard = 0;
+            while (remaining.length && guard < 50) {
+                guard++;
+                var match = null;
+                for (var i = 0; i < known.length; i++) {
+                    if (remaining.toLowerCase().indexOf(known[i].toLowerCase()) === 0) { match = known[i]; break; }
+                }
+                if (!match) { break; }
+                out.push(match);
+                remaining = remaining.slice(match.length);
+            }
+            if (out.length && !remaining.trim()) { return out; }
+        }
+        return [str];
+    }
+
+    /* Render category pills matching the .ip-cat-pill style used across
+       the ideas portal's tables and detail modal. */
+    function renderCategoryPills(el, raw) {
+        var cats = parseCategoryValue(raw);
+        if (!cats.length) {
+            el.innerHTML = '<span class="pv-empty">Not provided</span>';
+            return;
+        }
+        var out = '<span class="ip-cat-pills">';
+        cats.forEach(function(c) {
+            var span = document.createElement('span');
+            span.textContent = c;
+            out += '<span class="ip-cat-pill">' + span.innerHTML + '</span>';
+        });
+        out += '</span>';
+        el.innerHTML = out;
+    }
+
+    var fields = [
+        { id: 5,  target: 'pv-value-5' },
+        { id: 6,  target: 'pv-value-6' },
+        { id: 7,  target: 'pv-value-7' },
+        { id: 8,  target: 'pv-value-8', isPills: true,
+          onValue: function(text) {
+              var cats = parseCategoryValue(text).map(function(c) { return c.toLowerCase(); });
+              if (cats.indexOf('other') !== -1) {
+                  /* Only reveal the sub-card if something was actually
+                     typed into 13 — an empty answer stays fully hidden. */
+                  loadIndicator(13, { target: 'pv-value-13',
+                      onValue: function(subText) {
+                          if (subText && subText.trim()) {
+                              var subq = document.getElementById('pv-subq-13');
+                              if (subq) { subq.removeAttribute('hidden'); }
+                          }
+                      }
+                  });
+              }
+          }
+        },
+        { id: 9,  target: 'pv-value-9' },
+        { id: 21, target: 'pv-value-21',
+          onValue: function(text) {
+              if (text.trim().toLowerCase() === 'yes') {
+                  /* Only reveal the sub-card if a URL was actually
+                     provided — an empty answer stays fully hidden. */
+                  loadIndicator(22, { target: 'pv-value-22', isLink: true,
+                      onValue: function(subText) {
+                          if (subText && subText.trim()) {
+                              var subq = document.getElementById('pv-subq-22');
+                              if (subq) { subq.removeAttribute('hidden'); }
+                          }
+                      }
+                  });
+              }
+          }
+        },
+        { id: 22, target: 'pv-value-22', isLink: true },
+        { id: 10, target: 'pv-value-10', isAttachment: true },
+        { id: 12, target: null,
+          onValue: function(text) {
+              var pill = document.getElementById('pv-status-pill');
+              var item = document.getElementById('pv-status-item');
+              var sep  = document.getElementById('pv-info-sep');
+
+              var val;
+              if (pvIsTrueDraft) {
+                  // Ground truth: $submitted == 0 means this record has
+                  // never been submitted, full stop — always show
+                  // "Draft" here regardless of whatever indicator 12
+                  // happens to contain.
+                  val = 'Draft';
+              } else {
+                  val = text.trim();
+                  if (!val || val === 'N/A') { return; }
+              }
+
+              if (pill) { pill.textContent = val; }
+              if (item) { item.removeAttribute('hidden'); }
+              if (sep)  { sep.removeAttribute('hidden'); }
+          }
+        }
+    ];
+
+    /* Known sub-question prompt text that LEAF sometimes inlines directly
+       (as plain text, with no distinguishing markup) into a parent
+       field's print value. Keyed by the parent indicatorID; each value
+       is cut at the first case-insensitive occurrence of the marker. */
+    var BLEED_MARKERS = {
+        8:  'if other',
+        21: 'please provide'
+    };
+
+    function stripKnownBleed(text, indicatorID) {
+        var marker = BLEED_MARKERS[indicatorID];
+        if (!marker) { return text; }
+        var idx = text.toLowerCase().indexOf(marker);
+        if (idx === -1) { return text; }
+        return text.slice(0, idx).trim();
+    }
+
+    function extractCleanValue(html, indicatorID) {
+        var tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        var span = tmp.querySelector('[id^="data_' + indicatorID + '_"]');
+        var raw;
+        if (span) {
+            /* Strip any nested blocks belonging to a *different* indicator
+               (e.g. a sub-question's prompt the server sometimes inlines
+               into a parent field's markup) so it doesn't bleed into this
+               field's text. */
+            var clone = span.cloneNode(true);
+            var foreign = clone.querySelectorAll('[id^="data_"]:not([id^="data_' + indicatorID + '_"])');
+            foreign.forEach(function(el2) { el2.remove(); });
+            raw = (clone.textContent || clone.innerText || '').trim();
+        } else {
+            var scripts = tmp.querySelectorAll('script, input, button, textarea, select');
+            scripts.forEach(function(s) { s.remove(); });
+            raw = (tmp.textContent || tmp.innerText || '').trim();
+        }
+        return stripKnownBleed(raw, indicatorID);
+    }
+
+    function renderText(el, html, indicatorID) {
+        var value = extractCleanValue(html, indicatorID);
+        if (value === '' || value === 'N/A') {
+            el.innerHTML = '<span class="pv-empty">Not provided</span>';
+        } else {
+            el.textContent = value;
+        }
+    }
+
+    /* ── Render a URL value as a clickable, safe link ── */
+    function renderLink(el, html, indicatorID) {
+        var value = extractCleanValue(html, indicatorID);
+        if (value === '' || value === 'N/A') {
+            el.innerHTML = '<span class="pv-empty">Not provided</span>';
+            return;
+        }
+        var href = value;
+        if (!/^https?:\/\//i.test(href)) { href = 'https://' + href; }
+        var a = document.createElement('a');
+        a.href = href;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.className = 'pv-file-link';
+        a.textContent = value;
+        el.innerHTML = '';
+        el.appendChild(a);
+    }
+
+    function extractText(html, indicatorID) {
+        return extractCleanValue(html, indicatorID);
+    }
+
+    function renderAttachments(el, html) {
+        var tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        var imgs  = tmp.querySelectorAll('img[src*="image.php"]');
+        var links = tmp.querySelectorAll('a[href*="file.php"]');
+        if (imgs.length === 0 && links.length === 0) {
+            el.innerHTML = '<span class="pv-empty">No attachments provided.</span>';
+            return;
+        }
+        var out = '<div class="pv-attach-grid">';
+        imgs.forEach(function(img, i) {
+            var src      = img.getAttribute('src') || '';
+            var altRaw   = img.getAttribute('alt') || '';
+            var filename = altRaw.replace(/^image upload:\s*/i, '').trim() || ('Image ' + (i + 1));
+            out += '<figure class="pv-attach-figure">';
+            out +=   '<button type="button" class="pv-attach-btn"'
+                  +        ' onclick="window.open(\'' + src.replace(/'/g, "\\'") + '\',\'pv_img_' + i + '\',\'width=750,height=750,resizable=yes,scrollbars=yes\')"'
+                  +        ' aria-label="View full size: ' + filename.replace(/"/g, '"') + '">';
+            out +=     '<img src="' + src + '" alt="' + filename.replace(/"/g, '"') + '" class="pv-attach-thumb"'
+                  +         ' onerror="this.closest(\'.pv-attach-btn\').setAttribute(\'aria-label\',\'Image could not load: ' + filename.replace(/"/g, '"') + '\')" />';
+            out +=   '</button>';
+            out +=   '<span class="pv-attach-caption" aria-hidden="true" title="' + filename.replace(/"/g, '"') + '">' + filename + '</span>';
+            out += '</figure>';
+        });
+        if (links.length > 0) {
+            out += '<ul class="pv-file-list" aria-label="Downloadable files">';
+            links.forEach(function(a) {
+                var href     = a.getAttribute('href') || '#';
+                var filename = (a.textContent || '').trim() || 'Download file';
+                out += '<li class="pv-file-item">'
+                    +    '<span class="pv-file-icon" aria-hidden="true">'
+                    +      '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false">'
+                    +        '<path d="M9 2H4a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1V6L9 2z"/>'
+                    +        '<path d="M9 2v4h4"/>'
+                    +      '</svg>'
+                    +    '</span>'
+                    +    '<a href="' + href + '" target="_blank" rel="noopener noreferrer" class="pv-file-link"'
+                    +       ' aria-label="Download ' + filename.replace(/"/g, '"') + ' (opens in new tab)"'
+                    +    '>' + filename + '</a>'
+                    +  '</li>';
+            });
+            out += '</ul>';
+        }
+        out += '</div>';
+        el.innerHTML = out;
+    }
+
+    function loadIndicator(indicatorID, cfg) {
+        if (!cfg) {
+            for (var fi = 0; fi < fields.length; fi++) {
+                if (fields[fi].id === indicatorID) { cfg = fields[fi]; break; }
+            }
+        }
+        cfg = cfg || { target: 'pv-value-' + indicatorID, isAttachment: false };
+        var el = cfg.target ? document.getElementById(cfg.target) : null;
+        $.ajax({
+            type: 'GET',
+            url: 'ajaxIndex.php?a=getprintindicator'
+                + '&recordID='     + encodeURIComponent(recordID)
+                + '&indicatorID='  + encodeURIComponent(indicatorID)
+                + '&series=1',
+            dataType: 'text',
+            cache: false,
+            success: function(html) {
+                if (cfg.isAttachment && el) {
+                    renderAttachments(el, html);
+                } else if (cfg.isLink && el) {
+                    renderLink(el, html, indicatorID);
+                    if (typeof cfg.onValue === 'function') {
+                        cfg.onValue(extractText(html, indicatorID));
+                    }
+                } else if (cfg.isPills && el) {
+                    var pillsValue = extractText(html, indicatorID);
+                    lastCategoryRaw = pillsValue;
+                    renderCategoryPills(el, pillsValue);
+                    if (typeof cfg.onValue === 'function') {
+                        cfg.onValue(pillsValue);
+                    }
+                } else {
+                    if (el) { renderText(el, html, indicatorID); }
+                    if (typeof cfg.onValue === 'function') {
+                        cfg.onValue(extractText(html, indicatorID));
+                    }
+                }
+            },
+            error: function() {
+                if (el) { el.innerHTML = '<span class="pv-empty">Could not load this field.</span>'; }
+            }
+        });
+    }
+
+    /* Imported legacy vote baseline (indicator 23) and live voter count —
+       populated once pvFetchVoteCount() resolves, and reused by the admin
+       voters panel (_pvRenderVotes) for its summary line. */
+    window._pvImportedVotes = 0;
+    var _pvLiveVoteCount = 0;
+
+    /* ── Live vote count pill (all users) ── */
+    function pvFetchVoteCount() {
+        var ideaKey = String(recordID);
+        var q = {
+            terms: [
+                { id: 'categoryID', operator: '=', match: 'form_57e89', gate: 'AND' },
+                { id: 'deleted',    operator: '=', match: 0,             gate: 'AND' }
+            ],
+            joins: [],
+            getData: ['2']
+        };
+
+        function renderCombined() {
+            var count = window._pvImportedVotes + _pvLiveVoteCount;
+            var countEl = document.getElementById('pv-votes-count');
+            if (countEl) { countEl.textContent = count + ' ' + (count === 1 ? 'vote' : 'votes'); }
+            /* Keep admin sidebar label in sync */
+            var lbl = document.getElementById('btn-votes-label');
+            if (lbl) { lbl.textContent = 'Votes (' + count + ')'; }
+            window._pvVoteCount = count;
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: './api/form/query',
+            data: { q: JSON.stringify(q), 'x-filterData': 'recordID,s1' },
+            dataType: 'json',
+            cache: false,
+            success: function(res) {
+                var count = 0;
+                $.each(res, function(_, vote) {
+                    if (String((vote.s1 && vote.s1['id2']) || '') === ideaKey) { count++; }
+                });
+                _pvLiveVoteCount = count;
+                renderCombined();
+            },
+            error: function() {
+                var countEl = document.getElementById('pv-votes-count');
+                if (countEl) { countEl.textContent = '—'; }
+            }
+        });
+
+        /* Imported legacy vote baseline (indicator 23) — same field the
+           portal's tables/detail modal seed their totals from. */
+        $.ajax({
+            type: 'GET',
+            url: 'ajaxIndex.php?a=getprintindicator&recordID=' + encodeURIComponent(recordID) + '&indicatorID=23&series=1',
+            dataType: 'text',
+            cache: false,
+            success: function(html) {
+                var n = parseInt(extractCleanValue(html, 23), 10);
+                window._pvImportedVotes = isNaN(n) ? 0 : n;
+                renderCombined();
+            },
+            error: function() {
+                window._pvImportedVotes = 0;
+                renderCombined();
+            }
+        });
+    }
+
+    $(function() {
+        fetchCategoryOptionsList();
+        /* Skip 22 (LEAF site URL) — only loaded on demand once 21's
+           onValue callback confirms the answer was "Yes". */
+        fields.forEach(function(cfg) {
+            if (cfg.id === 22) { return; }
+            loadIndicator(cfg.id, cfg);
+        });
+        pvFetchVoteCount();
+    });
+
+    window._pvLoadIndicator  = loadIndicator;
+    window._pvFields         = fields;
+    window._pvFetchVoteCount = pvFetchVoteCount;
+
+}());
+
+/* ── Vote + Share IIFE ── */
+(function() {
+    var PV_RECORD_ID     = 108;
+    var PV_USER_ID       = 'oitauslumags';
+    var PV_FORM_KEY      = '57e89';
+    var PV_VOTE_IND_IDEA = 2;
+    var PV_VOTE_IND_USER = 3;
+    var _pvVotingInProgress = false;
+    var _pvResolvedEmail    = '';
+    var _pvEmailResolved    = false;
+    // recordID of the current user's own vote record for this idea (the
+    // vote FORM record's own recordID, distinct from PV_RECORD_ID which
+    // it points at). Required to target a specific vote record when
+    // un-voting. Populated by pvCheckVoted() on load and immediately on
+    // a fresh vote via pvIdeaVotes().
+    var _pvMyVoteRecordID   = null;
+
+    function pvIsRealEmail(str) {
+        return typeof str === 'string' && str.includes('@') && !str.includes('<!--');
+    }
+
+    function pvResolveEmail() {
+        return new Promise(function(resolve) {
+            if (!PV_USER_ID) { resolve(''); return; }
+            var url = '/platform/orgchart/api/employee/search'
+                + '?q=userName:' + encodeURIComponent(PV_USER_ID)
+                + '&noLimit=0&_=' + Date.now();
+            fetch(url, { credentials: 'same-origin' })
+                .then(function(r) { return r.ok ? r.json() : Promise.reject(r.status); })
+                .then(function(data) {
+                    var employees = Array.isArray(data) ? data : Object.values(data || {});
+                    var match = employees.find(function(e) {
+                        return e && (e.userName === PV_USER_ID || e.userName === PV_USER_ID.split('\\').pop());
+                    });
+                    var email = (match && (match.Email || match.email)) || '';
+                    _pvResolvedEmail = pvIsRealEmail(email) ? email : PV_USER_ID;
+                    _pvEmailResolved = true;
+                    resolve(_pvResolvedEmail);
+                })
+                .catch(function(err) {
+                    console.warn('[pvResolveEmail] orgchart API failed:', err);
+                    _pvResolvedEmail = PV_USER_ID;
+                    _pvEmailResolved = true;
+                    resolve(_pvResolvedEmail);
+                });
+        });
+    }
+
+    function pvEscapeHtml(str) {
+        var div = document.createElement('div');
+        div.textContent = str == null ? '' : String(str);
+        return div.innerHTML;
+    }
+
+    /* Sticky top banner, matching ideas_v4.html's .ip-toast: icon +
+       message + manual-dismiss close button, no auto-hide timer (per
+       WCAG 2.2.1/2.2.3 — the previous 4s auto-hide here has been
+       dropped to match). */
+    function pvHideToast() {
+        var toast = document.getElementById('pvToast');
+        if (toast) { toast.classList.remove('is-visible'); }
+    }
+
+    function pvShowToast(msg, isError) {
+        var toast = document.getElementById('pvToast');
+        if (!toast) { return; }
+        var iconName = isError ? 'error' : 'check_circle';
+        toast.innerHTML =
+            '<span class="pv-toast__icon" aria-hidden="true"><span class="material-symbols-outlined">' + iconName + '</span></span>' +
+            '<span class="pv-toast__msg">' + pvEscapeHtml(msg) + '</span>' +
+            '<button type="button" class="pv-toast__close" aria-label="Dismiss notification"><span class="material-symbols-outlined">close</span>Close</button>';
+        toast.classList.toggle('is-error', !!isError);
+        toast.classList.add('is-visible');
+        var closeBtn = toast.querySelector('.pv-toast__close');
+        if (closeBtn) { closeBtn.addEventListener('click', pvHideToast, { once: true }); }
+    }
+
+    function pvCopyFallback(text) {
+        try {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+            document.body.appendChild(ta);
+            ta.focus(); ta.select();
+            var ok = document.execCommand('copy');
+            document.body.removeChild(ta);
+            pvShowToast(ok ? 'Idea link copied to clipboard.' : 'Could not copy — please copy the URL manually.', !ok);
+        } catch(e) {
+            pvShowToast('Could not copy — please copy the URL manually.', true);
+        }
+    }
+
+    function pvSetVoted(isVoted) {
+        var btn = document.getElementById('pv-vote-btn');
+        if (!btn) { return; }
+
+        if (_pvIsOwnIdea) { return; } // pvSetOwnIdea owns this state — never overwrite it here
+
+        // Voted, but we couldn't resolve which vote record is ours (e.g.
+        // a query hiccup) — same "unavailable" fallback as the table/
+        // record-modal use, rather than silently allowing an unvote
+        // click that has nothing to target.
+        var unavailable = isVoted && !_pvMyVoteRecordID;
+
+        btn.classList.toggle('is-voted', isVoted);
+        btn.innerHTML = '<span class="material-symbols-outlined" aria-hidden="true">thumb_up</span>'
+            + (isVoted ? 'Voted' : 'Vote for this idea');
+
+        if (unavailable) {
+            btn.disabled = true;
+            btn.setAttribute('aria-disabled', 'true');
+            btn.setAttribute('aria-label', "Vote recorded, but could not be loaded for removal — refresh and try again");
+            btn.title = 'Vote record not found — refresh and try again';
+            return;
+        }
+
+        btn.disabled = false;
+        btn.setAttribute('aria-disabled', 'false');
+        btn.setAttribute('aria-label', isVoted ? 'Remove your vote for this idea' : 'Vote for this idea');
+        btn.title = isVoted ? 'Click to remove your vote' : 'Vote for this idea';
+    }
+
+    function pvCheckVoted() {
+        if (!PV_USER_ID) { return; }
+        var q = {
+            terms: [
+                { id: 'categoryID', operator: '=', match: 'form_57e89', gate: 'AND' },
+                { id: 'deleted',    operator: '=', match: 0,             gate: 'AND' }
+            ],
+            joins: [],
+            getData: [String(PV_VOTE_IND_IDEA), String(PV_VOTE_IND_USER)]
+        };
+        $.ajax({
+            type: 'GET',
+            url: './api/form/query',
+            data: { q: JSON.stringify(q), 'x-filterData': 'recordID,s1' },
+            dataType: 'json',
+            cache: false,
+            success: function(res) {
+                var ideaKey  = String(PV_RECORD_ID);
+                var emailKey = _pvResolvedEmail ? _pvResolvedEmail.toLowerCase() : '';
+                var userKey  = PV_USER_ID.toLowerCase();
+                var hasVoted = false;
+                $.each(res, function(_, vote) {
+                    var linkedIdea = String((vote.s1 && vote.s1['id' + PV_VOTE_IND_IDEA]) || '');
+                    var voter      = String((vote.s1 && vote.s1['id' + PV_VOTE_IND_USER]) || '').toLowerCase();
+                    if (linkedIdea === ideaKey && (voter === emailKey || voter === userKey)) {
+                        hasVoted = true;
+                        var voteRecId = vote.recordID != null ? vote.recordID : (vote.recordId != null ? vote.recordId : vote.id);
+                        _pvMyVoteRecordID = (voteRecId !== undefined && voteRecId !== null && voteRecId !== '') ? String(voteRecId) : null;
+                        return false;
+                    }
+                });
+                if (hasVoted) { pvSetVoted(true); }
+            },
+            error: function() { /* silently fail */ }
+        });
+    }
+
+    /* Authors can't vote for their own idea — check the record's
+       submitter against the current viewer and disable the button. */
+    var _pvIsOwnIdea = false;
+
+    function pvCheckIsOwn() {
+        if (!PV_USER_ID) { return; }
+        var q = {
+            terms: [
+                { id: 'categoryID', operator: '=', match: 'form_ae642', gate: 'AND' },
+                { id: 'recordID',   operator: '=', match: PV_RECORD_ID, gate: 'AND' }
+            ],
+            joins: [],
+            getData: []
+        };
+        $.ajax({
+            type: 'GET',
+            url: './api/form/query',
+            data: { q: JSON.stringify(q), 'x-filterData': 'recordID,userID' },
+            dataType: 'json',
+            cache: false,
+            success: function(res) {
+                var rec = Object.values(res || {})[0];
+                var ownerID = rec && rec.userID;
+                if (ownerID && String(ownerID) === String(PV_USER_ID)) {
+                    _pvIsOwnIdea = true;
+                    pvSetOwnIdea();
+                }
+            },
+            error: function() { /* silently fail — vote button stays enabled */ }
+        });
+    }
+
+    function pvSetOwnIdea() {
+        var btn = document.getElementById('pv-vote-btn');
+        if (!btn) { return; }
+        btn.disabled = true;
+        btn.classList.add('is-own');
+        btn.setAttribute('aria-disabled', 'true');
+        btn.setAttribute('aria-label', "You can't vote on your own idea");
+        btn.title = "You can't vote on your own idea";
+    }
+
+    function pvIdeaVotes() {
+        if (_pvVotingInProgress) { return; }
+        if (_pvIsOwnIdea) { pvShowToast("You can't vote on your own idea.", true); return; }
+
+        var btn = document.getElementById('pv-vote-btn');
+        // Already voted → this click means "remove my vote", one click,
+        // no confirmation (matching the table/record-modal behavior).
+        if (btn && btn.classList.contains('is-voted')) {
+            pvUnvoteIdea();
+            return;
+        }
+        if (btn && btn.disabled) { pvShowToast('You already voted on this idea.', true); return; }
+
+        _pvVotingInProgress = true;
+        pvSetVoted(true);
+
+        var doSubmit = function(voterIdentity) {
+            var payload = new URLSearchParams();
+            payload.append('service', '');
+            payload.append('title', 'Idea #' + PV_RECORD_ID);
+            payload.append('priority', '0');
+            payload.append('CSRFToken', CSRFToken);
+            payload.append('numform_' + PV_FORM_KEY, '1');
+            payload.append(String(PV_VOTE_IND_USER), voterIdentity);
+            payload.append(String(PV_VOTE_IND_IDEA), String(PV_RECORD_ID));
+            fetch('./api/?a=form/new', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: payload.toString()
+            })
+            .then(function(r) { return r.text(); })
+            .then(function(text) {
+                var newID = parseFloat(text.replace(/^"|"$/g, ''));
+                if (!isNaN(newID) && isFinite(newID) && newID !== 0) {
+                    _pvMyVoteRecordID = String(newID);
+                    pvSetVoted(true); // re-render now that we have a vote record ID (enables unvote)
+                    pvShowToast('Thanks for voting!');
+                    if (typeof window._pvInvalidateVotesPanel === 'function') { window._pvInvalidateVotesPanel(); }
+                    /* Refresh votes pill after successful vote */
+                    if (typeof window._pvFetchVoteCount === 'function') { window._pvFetchVoteCount(); }
+                } else {
+                    throw new Error('Unexpected response: ' + text);
+                }
+            })
+            .catch(function(err) {
+                console.error('[pvIdeaVotes] error:', err);
+                pvShowToast('Error processing vote. Please try again.', true);
+                pvSetVoted(false);
+            })
+            .finally(function() { _pvVotingInProgress = false; });
+        };
+
+        if (_pvEmailResolved) {
+            doSubmit(_pvResolvedEmail);
+        } else {
+            pvResolveEmail().then(function(identity) { doSubmit(identity); });
+        }
+    }
+
+    /* ── Un-vote ──
+       Uses the same real LEAF soft-delete route as ideas_v4.js
+       (POST ./api/form/{recordID}/cancel → Form::cancelRecord()) rather
+       than the earlier deleted=1 POST body param, which returned HTTP
+       200 without actually persisting anything since `deleted` is a
+       system-managed timestamp column, not a writable indicator.
+       suppressNotification=1 avoids cancelRecord() emailing "prior
+       approvers" that don't apply to a workflow-less vote record. */
+    function pvUnvoteIdea() {
+        if (_pvVotingInProgress) { return; }
+        if (!_pvMyVoteRecordID) {
+            pvShowToast("Couldn't find your vote record to remove it. Try refreshing the page.", true);
+            return;
+        }
+
+        _pvVotingInProgress = true;
+        var voteRecordID = _pvMyVoteRecordID;
+        pvSetVoted(false);
+
+        var body = new URLSearchParams({ CSRFToken: CSRFToken, suppressNotification: '1' });
+        fetch('./api/form/' + encodeURIComponent(voteRecordID) + '/cancel', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+            body: body.toString()
+        })
+        .then(function(res) {
+            if (!res.ok) { throw new Error('HTTP ' + res.status); }
+            return res.text();
+        })
+        .then(function(text) {
+            text = text.trim();
+            if (text !== '1' && text !== '"1"') { throw new Error('Delete request was not accepted: ' + text); }
+            _pvMyVoteRecordID = null;
+            if (typeof window._pvInvalidateVotesPanel === 'function') { window._pvInvalidateVotesPanel(); }
+            pvShowToast('Your vote has been removed.');
+            if (typeof window._pvFetchVoteCount === 'function') { window._pvFetchVoteCount(); }
+        })
+        .catch(function(err) {
+            console.error('[pvUnvoteIdea] error:', err);
+            _pvMyVoteRecordID = voteRecordID; // roll back
+            pvSetVoted(true);
+            pvShowToast("Couldn't remove your vote. Please try again — if this keeps happening, let us know.", true);
+        })
+        .finally(function() { _pvVotingInProgress = false; });
+    }
+
+    function pvShare() {
+        var btn  = document.getElementById('pv-share-btn');
+        var link = btn ? btn.getAttribute('data-record-link') : window.location.href;
+        if (!link) { return; }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(link)
+                .then(function()  { pvShowToast('Idea link copied to clipboard.'); })
+                .catch(function() { pvCopyFallback(link); });
+        } else {
+            pvCopyFallback(link);
+        }
+    }
+
+    $(function() {
+        var voteBtn  = document.getElementById('pv-vote-btn');
+        var shareBtn = document.getElementById('pv-share-btn');
+        if (voteBtn)  { voteBtn.addEventListener('click',  pvIdeaVotes); }
+        if (shareBtn) { shareBtn.addEventListener('click', pvShare); }
+        pvResolveEmail().then(function() { pvCheckVoted(); });
+        pvCheckIsOwn();
+    });
+
+    // pvShowToast/pvHideToast live in this IIFE's private scope, but the
+    // Submit button (pvSubmitDraft, defined later in the page's own
+    // global <script> block, outside any IIFE) needs to reach them too —
+    // expose them on window rather than duplicating the toast logic.
+    window.pvShowToast = pvShowToast;
+    window.pvHideToast = pvHideToast;
+
+}());
+
+/* ── Edit handler ── */
+function pvOpenEdit(indicatorID) {
+    if (!pvCanEdit) { return; }
+    if (typeof form === 'undefined') { console.warn('pvOpenEdit: LeafForm not ready yet'); return; }
+    form.setPostModifyCallback(function() {
+        var fields = window._pvFields || [];
+        var loadFn = window._pvLoadIndicator;
+        var cfg    = null;
+        for (var i = 0; i < fields.length; i++) {
+            if (fields[i].id === indicatorID) { cfg = fields[i]; break; }
+        }
+        if (!cfg) { cfg = { id: indicatorID, target: 'pv-value-' + indicatorID }; }
+        if (typeof loadFn === 'function') { loadFn(indicatorID, cfg); }
+        form.dialog().hide();
+    });
+    form.dialog().show();
+    form.getForm(indicatorID, 1);
+}
+</script>
+
+</div>
+
+<!-- Group 226 toolbar -->
+<div id="toolbar226" class="toolbar_right toolbar noprint">
+
+    <div class="pm-transfer-wrap">
+        <button type="button" class="tools pm-transfer-btn" onclick="transferToPMDashboard()" title="Transfer to LEAF Projects">
+            <img src="dynicons/?img=go-next.svg&w=32" alt="" aria-hidden="true" style="vertical-align: middle" /> Transfer to LEAF Projects
+        </button>
+    </div>
+
+    <div id="tools226" class="tools">
+        <h1>Idea Tools</h1>
+                    <button type="button" class="tools" onclick="window.location='?a=view&recordID=108'">
+                <img src="dynicons/?img=edit-find-replace.svg&w=32" alt="" aria-hidden="true" style="vertical-align: middle" />
+                Edit this form
+            </button><br /><br />
+                <button type="button" class="tools" onclick="viewHistory()">
+            <img src="dynicons/?img=appointment.svg&w=32" alt="" aria-hidden="true" style="vertical-align: middle" />
+            View History
+        </button>
+        <button type="button" class="tools"
+            onclick="window.location='mailto:?subject=FW:%20Request%20%23108%20-%20draft&body=Request%20URL:%20http://leaf.va.gov%2Fplatform%2Fideas%2Findex.php%3Fa%3Dprintview%26recordID%3D108%0A%0A'">
+            <img src="dynicons/?img=internet-mail.svg&w=32" alt="" aria-hidden="true" style="vertical-align: middle" />
+            Write Email
+        </button>
+        <button type="button" class="tools" id="btn_printForm" title="Print this Form">
+            <img src="dynicons/?img=printer.svg&w=32" alt="" style="vertical-align: middle" />
+            Print to PDF
+            <span style="font-style: italic; background-color: white; color: #d00; border: 1px solid black; padding: 4px">BETA</span>
+        </button>
+        <input type='hidden' id='abs_portal_path' value='https://leaf.va.gov/platform/ideas' />
+                    <button type="button" class="tools" onclick="toggleBookmark()" id="tool_bookmarkText" title="Add Bookmark">
+                <img src="dynicons/?img=bookmark-new.svg&w=32" alt="" style="vertical-align: middle" />
+                <span role="status" aria-live="polite">Add Bookmark</span>
+            </button>
+                <button type="button" class="tools" onclick="copyRequest()" title="Copy Request"
+            style="background-image: url(dynicons/?img=edit-copy.svg&w=32); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 35px; height: 38px">
+            Copy Request
+        </button>
+        <br /><br />
+                    <button type="button" class="tools" id="btn_cancelRequest" title="Cancel Request" onclick="cancelRequest()">
+                <img src="dynicons/?img=process-stop.svg&w=16" alt="" style="vertical-align: middle" />
+                Cancel Request
+            </button>
+            </div>
+
+    <div id="comments" style="display: none">
+        <h1 id='comment_header'><label for="note">Comments</label></h1>
+        <div id="notes">
+            <form id='note_form'>
+                <input type='hidden' name='userID' value='oitauslumags' />
+                <input type='text' id='note' name='note' placeholder='Enter a note!' />
+                <button type="button" id='add_note' class='button' onclick="submitNote(108)">Post</button>
+            </form>
+        </div>
+            </div>
+
+    <div id="category_list">
+        <h1>Internal Use</h1>
+        <button class="IUbutton"
+            onclick="scrollPage('formcontent');openContent('ajaxIndex.php?a=printview&recordID=108');"
+            style="background-image: url(dynicons/?img=text-x-generic.svg&w=16); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 20px;">
+            Main Request
+        </button>
+                    <button class="IUbutton"
+                onclick="scrollPage('formcontent');openContent('ajaxIndex.php?a=internalonlyview&recordID=108&childCategoryID=form_935d1');"
+                style="background-image: url(dynicons/?img=text-x-generic.svg&w=16); background-repeat: no-repeat; background-position: left; text-align: center">
+                Internal Review
+            </button>
+                        <button class="IUbutton pv-votes-btn" id="btn-votes"
+            onclick="toggleVotes(108);"
+            aria-expanded="false"
+            aria-controls="formcontent">
+            <img src="dynicons/?img=award-ribbon.svg&w=16" alt="" aria-hidden="true" style="vertical-align:middle;margin-right:5px;" />
+            <span id="btn-votes-label">Votes</span>
+        </button>
+            </div>
+
+    <div id="metaContainer" style="display: none">
+        <div id="metaLabel"></div>
+        <div id="metaContent"></div>
+    </div>
+
+            <div id="adminTools" class="tools">
+            <h1>Administrative Tools</h1>
+                        <button class="AdminButton" onclick="changeService()" title="Change Service"
+                style="background-image: url(dynicons/?img=user-home.svg&w=32); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 35px; height: 38px">
+                Change Service
+            </button>
+            <button class="AdminButton" onclick="admin_changeForm()" title="Change Forms"
+                style="background-image: url(dynicons/?img=system-file-manager.svg&w=32); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 35px; height: 38px">
+                Change Form(s)
+            </button>
+            <button class="AdminButton" onclick="admin_changeInitiator()" title="Change Initiator"
+                style="background-image: url(dynicons/?img=gnome-stock-person.svg&w=32); background-repeat: no-repeat; background-position: left; text-align: left; text-indent: 35px; height: 38px">
+                Change Initiator
+            </button>
+        </div>
+    
+    <div class="toolbar_security">
+        <h1 role="heading">Security Permissions</h1>
+        <button class="buttonPermission" onclick="viewAccessLogsRead()">
+                            <img src="dynicons/?img=edit-find.svg&w=32" alt="" style="vertical-align: middle" /> You have read access
+                    </button>
+        <button class="buttonPermission" onclick="viewAccessLogsWrite()">
+                            <img src="dynicons/?img=accessories-text-editor.svg&w=32" alt="" style="vertical-align: middle" /> You have write access
+                    </button>
+    </div>
+
+</div>
+</div>
+<div class="pv-internal-banner noprint" role="note" aria-label="Internal view notice">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false" style="width:15px;height:15px;flex-shrink:0;"><path d="M8 1L1 14h14L8 1z"/><path d="M8 6v4M8 11.5v.5"/></svg>
+    LEAF TEAM — INTERNAL VIEW ONLY
+</div>
+<div id="formcontent" style="margin-top: 0;"></div>
+
+<!-- DIALOG BOXES -->
+<div id="formContainer"></div>
+<div id="xhrDialog" style="visibility: hidden; display: none; background-color: white; border-style: none solid solid; border-width: 0 1px 1px; border-color: #e0e0e0; padding: 4px">
+<form id="record" enctype="multipart/form-data" action="javascript:void(0);">
+    <div>
+        <button type="button" id="button_cancelchange" class="buttonNorm" style="position: absolute; left: 10px" disabled><img src="dynicons/?img=process-stop.svg&w=16" alt="" /> Cancel</button>
+        <button type="button" id="button_save" class="buttonNorm" style="position: absolute; right: 10px" disabled><img src="dynicons/?img=media-floppy.svg&w=16" alt="" /> Save Change</button>
+        <div style="border-bottom: 2px solid black; line-height: 30px"><br /></div>
+        <div id="loadIndicator" style="visibility: hidden; z-index: 9000; position: absolute; text-align: center; font-size: 24px; font-weight: bold; background-color: #f2f5f7; padding: 16px; height: 400px; width: 526px"><img src="images/largespinner.gif" alt="" /></div>
+        <div id="xhr" style="min-width: 540px; min-height: 420px; padding: 8px; overflow: auto; font-size: 12px"></div>
+    </div>
+</form>
+</div>
+<div id="confirm_xhrDialog" style="background-color: #feffd1; border: 1px solid black; visibility: hidden; display: none">
+<form id="confirm_record" enctype="multipart/form-data" action="javascript:void(0);">
+    <div>
+        <div id="confirm_loadIndicator" style="visibility: hidden; position: absolute; text-align: center; font-size: 24px; font-weight: bold; background: white; padding: 16px; height: 100px; width: 360px">Loading... <img src="images/largespinner.gif" alt="" /></div>
+        <div id="confirm_xhr" style="font-size: 130%; width: 400px; min-height: 120px; padding: 16px; overflow: auto"></div>
+        <div style="position: absolute; left: 10px; font-size: 140%"><button type="button" class="buttonNorm" id="confirm_button_cancelchange" disabled><img src="dynicons/?img=edit-undo.svg&w=32" alt="" /> No</button></div>
+        <div style="text-align: right; padding-right: 6px"><button type="button" class="buttonNorm" id="confirm_button_save" disabled><img src="dynicons/?img=dialog-apply.svg&w=32" alt="" /><span id="confirm_saveBtnText" style="color:inherit;"> Yes</span></button></div><br />
+    </div>
+</form>
+</div>
+<div id="genericDialog" style="visibility: hidden; display: none">
+    <div>
+        <div id="genericDialogbutton_cancelchange" style="display: none"></div>
+        <div id="genericDialogbutton_save" style="display: none"></div>
+        <div id="genericDialogloadIndicator" style="visibility: hidden; z-index: 9000; position: absolute; text-align: center; font-size: 24px; font-weight: bold; background-color: #f2f5f7; padding: 16px; height: 400px; width: 526px"><img src="images/largespinner.gif" alt="" /></div>
+        <div id="genericDialogxhr" style="min-width: 540px; min-height: 420px; padding: 8px; overflow: auto; font-size: 12px"></div>
+    </div>
+</div>
+<div id="ok_xhrDialog" style="background-color: #feffd1; border: 1px solid black; visibility: hidden; display: none">
+<div>
+    <div id="ok_xhr" style="font-size: 130%; width: 400px; height: 120px; padding: 16px; overflow: auto"></div>
+    <div style="text-align: right; padding-right: 6px"><button class="buttonNorm" id="confirm_button_ok" disabled><img src="dynicons/?img=dialog-apply.svg&w=32" alt="" /><span id="confirm_saveBtnText"> Ok</span></button></div><br />
+</div>
+</div>
+
+<script type="text/javascript" src="js/functions/toggleZoom.js">
