@@ -1,0 +1,1236 @@
+<!--{if $empMembership['groupID'][12]}-->
+<!-- LEAF Team user group. Grant team members access to this group to see the Team Command Center calendar. -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team Command Center — LEAF</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,1,0"
+    />
+
+    <link rel="stylesheet" href="/platform/designs/files/launchpad.css" />
+    <link rel="stylesheet" href="./files/calendar.css" />
+
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 1,
+          "wght" 400,
+          "opsz" 24,
+          "GRAD" 0 !important;
+        /* Hidden until the Material Symbols font is confirmed loaded, so
+           the icon ligature text (e.g. "sync", "add") never flashes as
+           literal words before the icon font paints. Flipped visible by
+           the inline script below, which fades icons in once
+           document.fonts confirms the face is ready (or after a safety
+           timeout so icons are never permanently hidden if the font
+           fails to load). */
+        opacity: 0;
+        transition: opacity 0.15s ease;
+      }
+      html.cal-icons-ready .material-symbols-outlined {
+        opacity: 1;
+      }
+
+      #header,
+      #footer {
+        display: none !important;
+      }
+    </style>
+    <script>
+      (function () {
+        function reveal() {
+          document.documentElement.classList.add("cal-icons-ready");
+        }
+        if (document.fonts && document.fonts.load) {
+          Promise.race([
+            document.fonts.load('24px "Material Symbols Outlined"').then(reveal),
+            new Promise((resolve) => setTimeout(resolve, 800)).then(reveal),
+          ]).catch(reveal);
+        } else {
+          // No Font Loading API available — reveal immediately rather
+          // than hide icons indefinitely.
+          reveal();
+        }
+      })();
+    </script>
+  </head>
+
+  <body>
+    <script>
+      window.leafCalendar = {
+        csrfToken: '<!--{$CSRFToken|unescape|escape:"quotes"}-->',
+        userID: '<!--{$userID|unescape|escape:"quotes"}-->',
+        orgchartPath: '<!--{$orgchartPath|unescape|escape:"quotes"}-->',
+        debug: false,
+      };
+    </script>
+
+    <div id="cal-root">
+      <a class="cal-skip" href="#cal-main">Skip to main content</a>
+
+      <main id="cal-main" tabindex="-1">
+        <div class="cal-wrap" id="calApp">
+          <div
+            id="cal-live-polite"
+            class="cal-sr"
+            aria-live="polite"
+            aria-atomic="true"
+          ></div>
+          <div
+            id="cal-live-assertive"
+            class="cal-sr"
+            aria-live="assertive"
+            aria-atomic="true"
+          ></div>
+
+          <header class="cal-header">
+            <div class="cal-headerMain">
+              <img
+                class="cal-logo"
+                src="./files/leaf-icon_transparent-bg.png"
+                alt=""
+                aria-hidden="true"
+              />
+              <div class="cal-headerText">
+                <h1 class="cal-title">Team Command Center</h1>
+                <p class="cal-subtitle">
+                  LEAF Team meetings, action items, and coverage - organized and always up to date.
+                </p>
+              </div>
+            </div>
+            <!--{if $empMembership['groupID'][472]}-->
+            <span class="cal-syncGroup">
+              <button
+                type="button"
+                class="cal-ghostBtn"
+                id="calSyncOutlookBtn"
+                hidden
+                title="Sync with the LEAF@va.gov shared Outlook calendar"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  >sync</span
+                >
+                <span>Sync Outlook</span>
+              </button>
+              <span
+                class="cal-syncSpinner"
+                id="calInitialSyncSpinner"
+                role="status"
+                aria-label="Syncing Outlook calendar"
+                hidden
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  >progress_activity</span
+                >
+                <span>Syncing Outlook…</span>
+              </span>
+              <span
+                class="cal-lastSynced"
+                id="calLastSynced"
+                role="status"
+                aria-live="polite"
+              ></span>
+            </span>
+            <!--{/if}-->
+  
+            <button type="button" class="cal-primaryBtn" id="calAddBtn">
+              <span class="material-symbols-outlined" aria-hidden="true"
+                >add</span
+              >
+              <span>New Entry</span>
+            </button>
+          </header>
+
+          <div class="cal-filterRow">
+            <div class="cal-filterField">
+              <span class="cal-filterLabel" id="calFilterTypeLabel">Type</span>
+              <div class="cal-msSelect" id="calFilterTypeMS">
+                <button
+                  type="button"
+                  class="cal-msBtn"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  aria-labelledby="calFilterTypeLabel"
+                >
+                  <span class="cal-msBtnLabel">All</span>
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    >expand_more</span
+                  >
+                </button>
+                <div
+                  class="cal-msPanel"
+                  role="listbox"
+                  aria-multiselectable="true"
+                  aria-label="Type"
+                  hidden
+                ></div>
+              </div>
+            </div>
+            <div class="cal-filterField">
+              <span class="cal-filterLabel" id="calFilterAuthorLabel"
+                >Author</span
+              >
+              <div class="cal-msSelect" id="calFilterAuthorMS">
+                <button
+                  type="button"
+                  class="cal-msBtn"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  aria-labelledby="calFilterAuthorLabel"
+                >
+                  <span class="cal-msBtnLabel">All</span>
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    >expand_more</span
+                  >
+                </button>
+                <div
+                  class="cal-msPanel"
+                  role="listbox"
+                  aria-multiselectable="true"
+                  aria-label="Author"
+                  hidden
+                ></div>
+              </div>
+            </div>
+            <div class="cal-filterField">
+              <span class="cal-filterLabel" id="calFilterAssigneeLabel"
+                >Assigned to</span
+              >
+              <div class="cal-msSelect" id="calFilterAssigneeMS">
+                <button
+                  type="button"
+                  class="cal-msBtn"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  aria-labelledby="calFilterAssigneeLabel"
+                >
+                  <span class="cal-msBtnLabel">All</span>
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    >expand_more</span
+                  >
+                </button>
+                <div
+                  class="cal-msPanel"
+                  role="listbox"
+                  aria-multiselectable="true"
+                  aria-label="Assigned to"
+                  hidden
+                ></div>
+              </div>
+            </div>
+            <label class="cal-filterField cal-filterSearch">
+              <span class="cal-filterLabel">Search</span>
+              <input
+                id="calFilterSearch"
+                class="cal-input"
+                type="search"
+                placeholder="Title or notes…"
+              />
+            </label>
+            <div class="cal-msSelect" id="calViewOptionsMS">
+              <button
+                type="button"
+                class="cal-ghostBtn"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  >tune</span
+                >
+                <span>More options</span>
+              </button>
+              <div class="cal-msPanel cal-viewOptionsPanel" hidden>
+                <label class="cal-msOption">
+                  <input type="checkbox" id="calShowClosed" />
+                  <span>Show closed action items</span>
+                </label>
+                <label class="cal-msOption">
+                  <input type="checkbox" id="calWorkWeekOnly" checked />
+                  <span>Work week only (Mon–Fri)</span>
+                </label>
+              </div>
+            </div>
+            <button type="button" class="cal-ghostBtn" id="calClearFilters">
+              <span class="material-symbols-outlined" aria-hidden="true"
+                >filter_alt_off</span
+              >
+              <span>Clear</span>
+            </button>
+          </div>
+
+          <div class="cal-toolbar" role="region" aria-label="Calendar controls">
+            <div class="cal-navGroup">
+              <button
+                type="button"
+                class="cal-iconBtn"
+                id="calPrevBtn"
+                aria-label="Previous"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  >chevron_left</span
+                >
+              </button>
+              <button type="button" class="cal-todayBtn" id="calTodayBtn">
+                Today
+              </button>
+              <button
+                type="button"
+                class="cal-iconBtn"
+                id="calNextBtn"
+                aria-label="Next"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  >chevron_right</span
+                >
+              </button>
+              <h2 class="cal-rangeLabel cal-rangeLabel--btn" id="calRangeLabel" aria-live="polite" tabindex="0" role="button" aria-haspopup="dialog" aria-expanded="false">
+                —
+              </h2>
+              <div
+                class="cal-miniPicker"
+                id="calMiniPicker"
+                hidden
+                role="dialog"
+                aria-label="Jump to date"
+              ></div>
+            </div>
+
+            <div class="cal-viewToggleGroup">
+              <span class="cal-toggleLabel" id="calViewLabel">View:</span>
+              <div
+                class="cal-viewToggle"
+                role="tablist"
+                aria-label="Calendar view"
+                aria-labelledby="calViewLabel"
+              >
+                <button
+                  type="button"
+                  class="cal-viewBtn is-active"
+                  data-view="week"
+                  role="tab"
+                  aria-selected="true"
+                >
+                  Week
+                </button>
+                <button
+                  type="button"
+                  class="cal-viewBtn"
+                  data-view="month"
+                  role="tab"
+                  aria-selected="false"
+                >
+                  Month
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            id="calStatus"
+            class="cal-status"
+            role="status"
+            aria-live="polite"
+          ></div>
+
+          <div class="cal-surface">
+            <section id="calWeekView" class="cal-view" aria-label="Week view">
+              <div class="cal-weekBoard" id="calWeekBoard"></div>
+            </section>
+
+            <section
+              id="calMonthView"
+              class="cal-view"
+              hidden
+              aria-label="Month view"
+            >
+              <div class="cal-weekHead" id="calWeekHead"></div>
+              <div class="cal-monthGrid" id="calMonthGrid"></div>
+            </section>
+          </div>
+
+          <div class="cal-legendRow">
+            <span class="cal-toggleLabel" id="calLegendLabel">Legend:</span>
+            <div class="cal-legend" aria-labelledby="calLegendLabel">
+              <button
+                type="button"
+                class="cal-legendItem"
+                data-legend-type="General Log"
+                title="Click to filter the calendar to General Log"
+              >
+                <span class="cal-swatch cal-t-log"></span>General Log
+              </button>
+              <button
+                type="button"
+                class="cal-legendItem"
+                data-legend-type="Out-of-Office"
+                title="Click to filter the calendar to Out-of-Office"
+              >
+                <span class="cal-swatch cal-t-ooo"></span>Out-of-Office
+              </button>
+              <button
+                type="button"
+                class="cal-legendItem"
+                data-legend-type="Action Item"
+                title="Click to filter the calendar to Action Items"
+              >
+                <span class="cal-swatch cal-t-action"></span>Action Item
+              </button>
+              <span class="cal-legendOutlookGroup">
+                <button
+                  type="button"
+                  class="cal-legendItem"
+                  data-legend-type="Outlook Event"
+                  title="Click to filter the calendar to Outlook Events"
+                >
+                  <span class="cal-swatch cal-t-outlook"></span>Outlook Event
+                </button>
+                <label
+                  class="cal-legendNotesToggle"
+                  id="calLegendNotesToggleWrap"
+                  title="Show only Outlook events that have meeting notes attached"
+                  hidden
+                >
+                  <input type="checkbox" id="calLegendNotesToggle" />
+                  <span class="material-symbols-outlined" aria-hidden="true">description</span>
+                  With notes
+                </label>
+              </span>
+            </div>
+          </div>
+
+          <!-- ============================================================
+               ACTION ITEMS PANEL — huddle-board view of every open Action
+               Item across the whole dataset, independent of the visible
+               week/month. See renderActionItemsPanel() in calendar.js.
+               ============================================================ -->
+          <section class="cal-actionPanel" id="calActionPanel" aria-label="Action items">
+            <div class="cal-apHead">
+              <div class="cal-apHeadMain">
+                <h2 class="cal-apTitle">Action Items</h2>
+                <span class="cal-apSummary" id="calActionPanelSummary" role="status" aria-live="polite"></span>
+              </div>
+              <button
+                type="button"
+                class="cal-apToggle"
+                id="calActionPanelToggle"
+                aria-expanded="true"
+                aria-controls="calActionPanelBody"
+                aria-label="Collapse or expand action items"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true">expand_less</span>
+              </button>
+            </div>
+            <div class="cal-apBody" id="calActionPanelBody"></div>
+          </section>
+        </div>
+      </main>
+
+<!-- ============================================================
+           ENTRY MODAL (add / edit / view)
+           ============================================================ -->
+      <div
+        class="cal-modal"
+        id="calEntryModal"
+        aria-hidden="true"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="calEntryModalTitle"
+      >
+        <div class="cal-modalBackdrop" data-close="entry"></div>
+        <div class="cal-modalPanel cal-modalPanel--wide" role="document">
+          <div class="cal-modalHead">
+            <h2 class="cal-modalTitle" id="calEntryModalTitle">New Calendar Entry</h2>
+            <div class="cal-modalHeadActions">
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="cal-iconBtn"
+                id="calEntryOpenTab"
+                title="Open in new tab"
+                aria-label="Open in new tab"
+                hidden
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  >open_in_new</span
+                >
+              </a>
+              <button
+                type="button"
+                class="cal-iconBtn"
+                data-close="entry"
+                aria-label="Close"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  >close</span
+                >
+              </button>
+            </div>
+          </div>
+
+          <form id="calEntryForm" class="cal-form" novalidate>
+            <input type="hidden" id="calEntryRecordID" value="" />
+
+            <!-- Persistent context banner shown ONLY when the open entry
+                 is a Meeting Notes entry with a resolved meeting link —
+                 populated by renderMeetingNotesContextBanner() in
+                 calendar.js. Sits above everything else, in both edit
+                 and read-only modes, so it's impossible to open a
+                 Meeting Notes entry without immediately seeing which
+                 meeting it belongs to. -->
+            <div
+              class="cal-notesContextBanner"
+              id="calNotesContextBanner"
+              role="status"
+              hidden
+            ></div>
+
+            <div class="cal-typeInfoBanner" id="calTypeInfoBanner" role="status">
+              <span class="material-symbols-outlined" aria-hidden="true">info</span>
+              <span id="calTypeInfoBannerText">Select an entry type below to see what it's for.</span>
+            </div>
+
+            <div class="cal-formRow cal-formRow--split">
+              <label class="cal-field">
+                <span class="cal-label">Date</span>
+                <input
+                  type="date"
+                  id="calFldDate"
+                  class="cal-input cal-dateInput"
+                  aria-describedby="calFldDate_error"
+                />
+                <span class="cal-dateError" id="calFldDate_error" hidden
+                  >Please choose a valid date.</span
+                >
+              </label>
+              <label class="cal-field">
+                <span class="cal-label">Type</span>
+                <select id="calFldType" class="cal-select">
+                  <option value="">Choose…</option>
+                  <option value="Action Item">Action Item</option>
+                  <option value="General Log">General Log</option>
+                  <option value="Out-of-Office">Out-of-Office*</option>
+                  <option value="Meeting Notes">Meeting Notes*</option>
+                </select>
+              </label>
+            </div>
+
+            <label class="cal-field">
+              <span class="cal-label">Title</span>
+              <input
+                type="text"
+                id="calFldTitle"
+                class="cal-input"
+                maxlength="200"
+                placeholder="e.g. MM/DD/YY - Sprint Planning"
+              />
+            </label>
+
+            <div class="cal-field" id="calFldBodyField">
+              <span class="cal-label" id="calFldBodyLabel">Details</span>
+              <div class="cal-rtWrap">
+                <textarea
+                  id="calFldBody"
+                  aria-labelledby="calFldBodyLabel"
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- Action-item-only fields -->
+            <div class="cal-condGroup" id="calCondAction" hidden>
+              <div class="cal-formRow cal-formRow--split">
+                <label class="cal-field">
+                  <span class="cal-label">Status</span>
+                  <select id="calFldStatus" class="cal-select">
+                    <option value="Open">Open</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Done">Done</option>
+                    <option value="Carried Forward">Carried Forward</option>
+                  </select>
+                </label>
+                <label class="cal-field">
+                  <span class="cal-label">Due date</span>
+                  <input
+                    type="date"
+                    id="calFldDue"
+                    class="cal-input cal-dateInput"
+                    aria-describedby="calFldDue_error"
+                  />
+                  <span class="cal-dateError" id="calFldDue_error" hidden
+                    >Please choose a valid date.</span
+                  >
+                </label>
+              </div>
+              <div class="cal-field cal-peoplePicker" data-role="assigned">
+                <span class="cal-label" id="calAssignedLabel">Assigned to</span>
+                <div class="cal-peopleSelected" id="calAssignedSelected"></div>
+                <div
+                  id="empSel_calAssigned"
+                  class="cal-empSelector"
+                  data-role="assigned"
+                  aria-label="Search for user to add as Assigned to"
+                ></div>
+              </div>
+            </div>
+
+            <!-- OOO-only fields -->
+            <div class="cal-condGroup" id="calCondOoo" hidden>
+              <div class="cal-formRow cal-formRow--split">
+                <label class="cal-field">
+                  <span class="cal-label">End date</span>
+                  <input
+                    type="date"
+                    id="calFldEnd"
+                    class="cal-input cal-dateInput"
+                    aria-describedby="calFldEnd_error"
+                  />
+                  <span class="cal-hint">Leave blank for single day</span>
+                  <span class="cal-dateError" id="calFldEnd_error" hidden
+                    >Please choose a valid date.</span
+                  >
+                </label>
+                <div class="cal-field cal-peoplePicker" data-role="covered">
+                  <span class="cal-label" id="calCoveredLabel">Covered by</span>
+                  <div class="cal-peopleSelected" id="calCoveredSelected"></div>
+                  <div
+                    id="empSel_calCovered"
+                    class="cal-empSelector"
+                    data-role="covered"
+                    aria-label="Search for user to add as Covered by"
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Meeting Notes <-> Outlook Event auto-suggest
+                 banner. Populated/toggled by maybeSuggestMeetingLink() in
+                 calendar.js. Only ever shown for entries that don't
+                 already have a confirmed meeting link. -->
+            <div
+              class="cal-meetingLinkSuggest"
+              id="calMeetingLinkSuggest"
+              role="status"
+              hidden
+            ></div>
+
+            <!-- Linked records -->
+            <div class="cal-field">
+              <div class="cal-linkFieldHead">
+                <span class="cal-label" id="calLinkChipsLabel"
+                  >Linked records</span
+                >
+                <div class="cal-linkActionsGroup">
+                  <button type="button" class="cal-ghostBtn" id="calLinkAddBtn">
+                    <span class="material-symbols-outlined" aria-hidden="true"
+                      >link</span
+                    >
+                    Select record
+                  </button>
+                  <!-- Overflow menu — only populated/shown for Meeting
+                       Notes entries, toggled by applyConditionalFields(type)
+                       in calendar.js. Holds "Link to meeting" so the
+                       primary action stays "Select record" (used by every
+                       entry type) while the less-common manual meeting
+                       link stays reachable. -->
+                  <div class="cal-msSelect" id="calLinkMoreMS" hidden>
+                    <button
+                      type="button"
+                      class="cal-iconBtn"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                      aria-label="More linking options"
+                      title="More linking options"
+                    >
+                      <span class="material-symbols-outlined" aria-hidden="true"
+                        >more_horiz</span
+                      >
+                    </button>
+                    <div class="cal-msPanel cal-linkMorePanel" hidden>
+                      <button
+                        type="button"
+                        class="cal-msOption cal-msOption--btn"
+                        id="calMeetingLinkBtn"
+                      >
+                        <span class="material-symbols-outlined" aria-hidden="true"
+                          >event_available</span
+                        >
+                        Link to meeting
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Hint shown ONLY for Meeting Notes entries — toggled by
+                   applyConditionalFields(type) in calendar.js, alongside
+                   the calLinkChipsLabel text swap. Clarifies that this
+                   section is for EXTRA references, since the meeting
+                   itself is already linked via the context
+                   banner/"Linked meeting" mechanism above. -->
+              <p class="cal-linkedRecordsHint" id="calLinkChipsHint" hidden>
+                The meeting itself is linked above — use this for anything else you want to reference.
+              </p>
+              <div
+                class="cal-linkChips"
+                id="calLinkChips"
+                role="list"
+                aria-labelledby="calLinkChipsLabel"
+              ></div>
+            </div>
+
+            <div class="cal-formMsg" id="calEntryMsg" role="alert"></div>
+
+            <div class="cal-modalActions" id="calEditFormActions">
+              <button
+                type="button"
+                class="cal-dangerBtn"
+                id="calDeleteBtn"
+                hidden
+              >
+                Delete
+              </button>
+              <span class="cal-actionsSpacer"></span>
+              <button type="button" class="cal-ghostBtn" data-close="entry">
+                Cancel
+              </button>
+              <button type="submit" class="cal-primaryBtn" id="calSaveBtn">
+                Save entry
+              </button>
+            </div>
+          </form>
+
+          <div id="calEntryReadOnly" class="cal-readOnly" hidden></div>
+          <div class="cal-modalActions" id="calReadOnlyActions" hidden>
+            <button type="button" class="cal-ghostBtn" data-close="entry">
+              Close
+            </button>
+            <span class="cal-actionsSpacer"></span>
+            <button type="button" class="cal-primaryBtn" id="calEditBtn">
+              <span class="material-symbols-outlined" aria-hidden="true"
+                >edit</span
+              >
+              Edit
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           LINK PICKER MODAL (search all LEAF forms)
+           ============================================================ -->
+      <div
+        class="cal-modal"
+        id="calLinkModal"
+        aria-hidden="true"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="calLinkModalTitle"
+      >
+        <div class="cal-modalBackdrop" data-close="link"></div>
+        <div class="cal-modalPanel cal-modalPanel--sm" role="document">
+          <div class="cal-modalHead">
+            <h2 class="cal-modalTitle" id="calLinkModalTitle">Select record</h2>
+            <button
+              type="button"
+              class="cal-iconBtn"
+              data-close="link"
+              aria-label="Close"
+            >
+              <span class="material-symbols-outlined" aria-hidden="true"
+                >close</span
+              >
+            </button>
+          </div>
+          <p class="cal-modalDesc">
+            Link this entry to a record elsewhere in LEAF. Linking doesn't move
+            or change that record — it just adds a quick shortcut so you can
+            jump to it from here.
+          </p>
+          <div class="cal-linkSearchRow">
+            <label class="lp-skip-like cal-sr" for="calLinkSearch"
+              >Search records by title or record number</label
+            >
+            <input
+              type="search"
+              id="calLinkSearch"
+              class="cal-input"
+              placeholder="Search by title or record number…"
+              autocomplete="off"
+            />
+            <label class="lp-skip-like cal-sr" for="calLinkFormFilter"
+              >Filter by form</label
+            >
+            <select
+              id="calLinkFormFilter"
+              class="cal-select"
+              aria-label="Filter by form"
+            >
+              <option value="">All forms</option>
+            </select>
+          </div>
+          <div
+            class="cal-linkResults"
+            id="calLinkResults"
+            role="region"
+            aria-live="polite"
+            aria-label="Search results"
+          >
+            <p class="cal-linkHint">
+              Type at least 2 characters to search across all forms.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           MANUAL MEETING-LINK PICKER MODAL
+           ============================================================ -->
+      <div
+        class="cal-modal"
+        id="calMeetingPickerModal"
+        aria-hidden="true"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="calMeetingPickerModalTitle"
+      >
+        <div class="cal-modalBackdrop" data-close="meetingPicker"></div>
+        <div class="cal-modalPanel cal-modalPanel--sm" role="document">
+          <div class="cal-modalHead">
+            <h2 class="cal-modalTitle" id="calMeetingPickerModalTitle">
+              Link to meeting
+            </h2>
+            <button
+              type="button"
+              class="cal-iconBtn"
+              data-close="meetingPicker"
+              aria-label="Close"
+            >
+              <span class="material-symbols-outlined" aria-hidden="true"
+                >close</span
+              >
+            </button>
+          </div>
+          <p class="cal-modalDesc">
+            Choose the Outlook event this entry belongs to. Once linked,
+            this entry's own card is hidden from the calendar — its notes
+            are reachable from the Outlook event's card instead.
+          </p>
+          <div
+            class="cal-linkResults"
+            id="calMeetingPickerResults"
+            role="region"
+            aria-live="polite"
+            aria-label="Nearby Outlook events"
+          ></div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           RECORD VIEWER MODAL (iframe)
+           ============================================================ -->
+      <div
+        class="cal-modal"
+        id="calRecordModal"
+        aria-hidden="true"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="calRecordModalTitle"
+      >
+        <div class="cal-modalBackdrop" data-close="record"></div>
+        <div class="cal-modalPanel cal-modalPanel--lg" role="document">
+          <div class="cal-modalHead">
+            <h2 class="cal-modalTitle" id="calRecordModalTitle">Record</h2>
+            <div class="cal-modalHeadActions">
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="cal-ghostBtn"
+                id="calRecordOpenTab"
+                >Open in new tab</a
+              >
+              <button
+                type="button"
+                class="cal-iconBtn"
+                data-close="record"
+                aria-label="Close"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  >close</span
+                >
+              </button>
+            </div>
+          </div>
+          <iframe
+            id="calRecordFrame"
+            class="cal-recordFrame"
+            title="Record details"
+            src="about:blank"
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- Day peek popover (month cell "+N more") -->
+      <div
+        class="cal-dayPeek"
+        id="calDayPeek"
+        hidden
+        role="dialog"
+        aria-modal="false"
+        aria-label="Day entries"
+      ></div>
+
+      <button
+        type="button"
+        class="cal-jumpTop"
+        id="calJumpTop"
+        aria-label="Jump to top"
+        hidden
+      >
+        <span class="material-symbols-outlined" aria-hidden="true"
+          >arrow_upward</span
+        >
+      </button>
+
+      <!-- ============================================================
+           FEEDBACK WIDGET
+           ============================================================ -->
+      <button
+        type="button"
+        class="cal-feedbackBtn"
+        id="calFeedbackBtn"
+        aria-label="Submit feedback"
+        aria-haspopup="dialog"
+        data-tooltip="Submit your feedback"
+      >
+        <span class="material-symbols-outlined" aria-hidden="true"
+          >add_reaction</span
+        >
+      </button>
+
+      <div
+        id="calFeedbackModal"
+        class="cal-feedbackModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="calFeedbackModalTitle"
+        hidden
+      >
+        <div class="cal-feedbackInner">
+          <div class="cal-feedbackHeader">
+            <h2 class="cal-feedbackTitle" id="calFeedbackModalTitle">
+              Submit your feedback
+            </h2>
+            <button
+              type="button"
+              class="cal-feedbackClose"
+              id="calFeedbackClose"
+              aria-label="Close feedback"
+            >
+              <span class="material-symbols-outlined" aria-hidden="true"
+                >close</span
+              >
+            </button>
+          </div>
+          <textarea
+            id="calFeedbackText"
+            class="cal-feedbackTextarea"
+            placeholder="Share your thoughts..."
+            rows="5"
+            aria-label="Your feedback"
+          ></textarea>
+          <div class="cal-feedbackFooter">
+            <span
+              class="cal-feedbackStatus"
+              id="calFeedbackStatus"
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+            ></span>
+            <button type="button" class="cal-primaryBtn" id="calFeedbackSubmit">
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /#cal-root -->
+
+<!-- MSAL Browser — public client auth against Entra ID, no client
+         secret required (safe for a static/frontend-only page).
+         Self-hosted (not loaded from the jsDelivr CDN) so browser
+         tracking-prevention features (Safari ITP, Edge/Chrome strict
+         tracking prevention) don't block it from accessing storage —
+         those features can flag scripts loaded from third-party CDN
+         origins and restrict their sessionStorage/localStorage access,
+         which breaks MSAL's ability to persist auth state between page
+         loads. Version pinned to 3.18.0 to match outlook_sync.js's
+         tested API usage (PublicClientApplication.createPublicClientApplication,
+         etc.) — if you ever update this file, re-verify outlook_sync.js
+         still works against the new version before deploying. -->
+<script src="./files/msal-browser.min.js"></script>
+<script src="./files/outlook_sync.js"></script>
+<link rel="stylesheet" href="https://leaf.va.gov/app/libs/js/jquery/css/dcvamc/jquery-ui.custom.min.css" />
+<script src="https://leaf.va.gov/app/libs/js/jquery/jquery-ui.custom.min.js"></script>
+<script src="https://leaf.va.gov/platform/calendar/js/workflow.js"></script>
+<script src="./files/calendar.js"></script>
+  </body>
+</html>
+<!--{else}-->
+<style>
+  body,
+  main#body,
+  #content,
+  #bodyarea {
+    background: #f0f2f5 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  #calAccessRequest {
+    min-height: 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    background: transparent;
+    font-family:
+      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 24px 16px;
+    box-sizing: border-box;
+  }
+  #calAccessRequest .cal-ar-card {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: 24px 32px;
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+  }
+  #calAccessRequest .cal-ar-icon {
+    font-size: 40px;
+    color: #6b7280;
+    margin-bottom: 8px;
+    display: block;
+  }
+  #calAccessRequest h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 8px;
+  }
+  #calAccessRequest .cal-ar-desc {
+    font-size: 0.9rem;
+    color: #4b5563;
+    line-height: 1.5;
+    margin: 0 0 20px;
+  }
+  #calAccessRequest .cal-ar-btn {
+    width: 100%;
+    padding: 11px 20px;
+    background: #1a4480;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+    box-sizing: border-box;
+  }
+  #calAccessRequest .cal-ar-btn:hover {
+    background: #162e51;
+  }
+
+  #calArModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.55);
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+  }
+  #calArModal.is-open {
+    display: flex;
+  }
+  #calArModal .cal-ar-modal-box {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+    width: 100%;
+    max-width: 760px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  #calArModal .cal-ar-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    flex-shrink: 0;
+  }
+  #calArModal .cal-ar-modal-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+  }
+  #calArModal .cal-ar-modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+  #calArModal .cal-ar-modal-close:hover {
+    color: #111827;
+    background: #f3f4f6;
+  }
+  #calArModal .cal-ar-modal-frame {
+    width: 100%;
+    flex: 1;
+    border: none;
+    min-height: 500px;
+  }
+</style>
+
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/icon?family=Material+Icons"
+/>
+
+<div id="calAccessRequest">
+  <div class="cal-ar-card">
+    <span class="cal-ar-icon material-icons" aria-hidden="true">lock</span>
+    <h1>Access Required</h1>
+    <p class="cal-ar-desc">
+      The Team Command Center calendar is limited to those who need to know.<br />
+      If this applies to you, click below to submit an access request.
+    </p>
+    <button type="button" class="cal-ar-btn" id="calArOpenBtn">
+      Request Access
+    </button>
+  </div>
+</div>
+
+<div
+  id="calArModal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="calArModalTitle"
+>
+  <div class="cal-ar-modal-box">
+    <div class="cal-ar-modal-header">
+      <h2 class="cal-ar-modal-title" id="calArModalTitle">
+        Request Calendar Access
+      </h2>
+      <button
+        type="button"
+        class="cal-ar-modal-close"
+        id="calArCloseBtn"
+        aria-label="Close"
+      >
+        <span class="material-icons" aria-hidden="true">close</span>
+      </button>
+    </div>
+    <iframe
+      id="calArFrame"
+      class="cal-ar-modal-frame"
+      title="Access Request Form"
+      src="about:blank"
+      sandbox="allow-forms allow-scripts allow-same-origin allow-popups"
+    ></iframe>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var FORM_URL =
+      "https://leaf.va.gov/platform/calendar/report.php?a=LEAF_Start_Request&id=form_32bbf&title=Calendar+Access+Request&iframe=1";
+
+    var openBtn = document.getElementById("calArOpenBtn");
+    var closeBtn = document.getElementById("calArCloseBtn");
+    var modal = document.getElementById("calArModal");
+    var frame = document.getElementById("calArFrame");
+
+    function suppressHeader() {
+      try {
+        var doc =
+          frame.contentDocument ||
+          (frame.contentWindow && frame.contentWindow.document);
+        if (!doc || !doc.head) return;
+        if (doc.getElementById("cal-ar-header-suppress")) return;
+
+        var style = doc.createElement("style");
+        style.id = "cal-ar-header-suppress";
+        style.textContent = [
+          "header#header,",
+          "#header,",
+          "#footer,",
+          "#nav-skip-link,",
+          "footer { display: none !important; }",
+          "body, main#body, #content, #bodyarea {",
+          "  margin-top: 0 !important;",
+          "  padding-top: 0 !important;",
+          "}",
+        ].join("\n");
+        doc.head.appendChild(style);
+
+        var ids = ["header", "footer", "nav-skip-link"];
+        ids.forEach(function (id) {
+          var el = doc.getElementById(id);
+          if (el) el.style.setProperty("display", "none", "important");
+        });
+      } catch (e) {}
+    }
+
+    function openModal() {
+      frame.src = FORM_URL;
+      modal.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+      closeBtn.focus();
+    }
+
+    function closeModal() {
+      modal.classList.remove("is-open");
+      document.body.style.overflow = "";
+      frame.src = "about:blank";
+      openBtn.focus();
+    }
+
+    frame.addEventListener("load", suppressHeader);
+
+    openBtn.addEventListener("click", openModal);
+    closeBtn.addEventListener("click", closeModal);
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.classList.contains("is-open"))
+        closeModal();
+    });
+  })();
+</script>
+<!--{/if}-->
