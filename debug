@@ -1,253 +1,333 @@
-/launchpad/report.php?a=lp_home#cop:652 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
-leaf_nav_v3.js:1363 [LP] Lazy-loading LEAF UI deps for fetched page: (2) ['https://leaf.va.gov/libs/js/jquery/jquery-ui.custom.min.js', 'https://leaf.va.gov/launchpad/js/dialogController.js']
-ensureLeafUIDeps @ leaf_nav_v3.js:1363
-mountContent @ leaf_nav_v3.js:1840
-(anonymous) @ leaf_nav_v3.js:1980
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-loadView @ leaf_nav_v3.js:1955
-router @ leaf_nav_v3.js:2017
-wireRouter @ leaf_nav_v3.js:2118
-inject @ leaf_nav_v3.js:1158
-leaf_nav_v3.js:1832  GET https://leaf.va.gov/path/to/smarty_styles.css net::ERR_ABORTED 404 (Not Found)
-mountContent @ leaf_nav_v3.js:1832
-(anonymous) @ leaf_nav_v3.js:1980
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-loadView @ leaf_nav_v3.js:1955
-router @ leaf_nav_v3.js:2017
-wireRouter @ leaf_nav_v3.js:2118
-inject @ leaf_nav_v3.js:1158
-leaf_nav_v3.js:1866 [LP] Deferred init error: Cannot read properties of null (reading 'addEventListener')
-(anonymous) @ leaf_nav_v3.js:1866
-(anonymous) @ leaf_nav_v3.js:1862
-setTimeout
-(anonymous) @ leaf_nav_v3.js:1858
-Promise.then
-mountContent @ leaf_nav_v3.js:1840
-(anonymous) @ leaf_nav_v3.js:1980
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-loadView @ leaf_nav_v3.js:1955
-router @ leaf_nav_v3.js:2017
-wireRouter @ leaf_nav_v3.js:2118
-inject @ leaf_nav_v3.js:1158
-/launchpad/report.php?a=lp_home#cop:1 Tracking Prevention blocked access to storage for https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js.
-/launchpad/report.php?a=lp_home#cop:1 Tracking Prevention blocked access to storage for https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js.
-/launchpad/report.php?a=lp_home#cop:1 Tracking Prevention blocked access to storage for https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js.
-/launchpad/report.php?a=lp_home#cop:1 Tracking Prevention blocked access to storage for https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js.
-ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251  GET https://leaf.va.gov/platform/api/form/query?q={%22terms%22:[{%22id%22:%22categoryID%22,%22operator%22:%22=%22,%22match%22:%22form_605bd%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[],%22sort%22:{%22column%22:%22recordID%22,%22direction%22:%22DESC%22},%22getData%22:[%2216%22,%2217%22],%22limit%22:500,%22limitOffset%22:0} 404 (Not Found)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-fetch @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-la @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:276
-getBulkData @ formQuery.js:281
-execute @ formQuery.js:323
-main @ VM203:21
-(anonymous) @ leaf_nav_v3.js:1864
-(anonymous) @ leaf_nav_v3.js:1862
-setTimeout
-(anonymous) @ leaf_nav_v3.js:1858
-Promise.then
-mountContent @ leaf_nav_v3.js:1840
-(anonymous) @ leaf_nav_v3.js:1980
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-loadView @ leaf_nav_v3.js:1955
-router @ leaf_nav_v3.js:2017
-wireRouter @ leaf_nav_v3.js:2118
-inject @ leaf_nav_v3.js:1158
-indicator.gif:1  GET https://leaf.va.gov/platform/images/indicator.gif 404 (Not Found)
-Image
-(anonymous) @ jquery.min.js:2
-B @ jquery.min.js:2
-html @ jquery.min.js:2
-renderUI @ formSearch.js:28
-init @ formSearch.js:155
-runQuery @ VM204:270
-main @ VM204:289
-(anonymous) @ leaf_nav_v3.js:1864
-(anonymous) @ leaf_nav_v3.js:1862
-setTimeout
-(anonymous) @ leaf_nav_v3.js:1858
-Promise.then
-mountContent @ leaf_nav_v3.js:1840
-(anonymous) @ leaf_nav_v3.js:1980
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-loadView @ leaf_nav_v3.js:1955
-router @ leaf_nav_v3.js:2017
-wireRouter @ leaf_nav_v3.js:2118
-inject @ leaf_nav_v3.js:1158
-formQuery.js:301 SyntaxError: Unexpected token 'F', "File not found.
-" is not valid JSON
-(anonymous) @ formQuery.js:301
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-Jb @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-getBulkData @ formQuery.js:301
-execute @ formQuery.js:323
-main @ VM203:21
-(anonymous) @ leaf_nav_v3.js:1864
-(anonymous) @ leaf_nav_v3.js:1862
-setTimeout
-(anonymous) @ leaf_nav_v3.js:1858
-Promise.then
-mountContent @ leaf_nav_v3.js:1840
-(anonymous) @ leaf_nav_v3.js:1980
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-loadView @ leaf_nav_v3.js:1955
-router @ leaf_nav_v3.js:2017
-wireRouter @ leaf_nav_v3.js:2118
-inject @ leaf_nav_v3.js:1158
-VM203:22 Uncaught (in promise) TypeError: Cannot read properties of undefined (reading '4')
-    at main (eval at <anonymous> (leaf_nav_v3.js:1526:20), <anonymous>:22:21)
-main @ VM203:22
-await in main
-(anonymous) @ leaf_nav_v3.js:1864
-(anonymous) @ leaf_nav_v3.js:1862
-setTimeout
-(anonymous) @ leaf_nav_v3.js:1858
-Promise.then
-mountContent @ leaf_nav_v3.js:1840
-(anonymous) @ leaf_nav_v3.js:1980
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-loadView @ leaf_nav_v3.js:1955
-router @ leaf_nav_v3.js:2017
-wireRouter @ leaf_nav_v3.js:2118
-inject @ leaf_nav_v3.js:1158
-platform/:1  GET https://leaf.va.gov/platform/?img=search.svg&w=16 403 (Forbidden)
-Image
-(anonymous) @ jquery.min.js:2
-B @ jquery.min.js:2
-html @ jquery.min.js:2
-renderUI @ formSearch.js:28
-init @ formSearch.js:155
-runQuery @ VM204:270
-main @ VM204:289
-(anonymous) @ leaf_nav_v3.js:1864
-(anonymous) @ leaf_nav_v3.js:1862
-setTimeout
-(anonymous) @ leaf_nav_v3.js:1858
-Promise.then
-mountContent @ leaf_nav_v3.js:1840
-(anonymous) @ leaf_nav_v3.js:1980
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-loadView @ leaf_nav_v3.js:1955
-router @ leaf_nav_v3.js:2017
-wireRouter @ leaf_nav_v3.js:2118
-inject @ leaf_nav_v3.js:1158
-ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251  GET https://leaf.va.gov/platform/api/form/query?q={%22terms%22:[{%22id%22:%22userID%22,%22operator%22:%22=%22,%22match%22:%22oitauslumags%22,%22gate%22:%22AND%22},{%22id%22:%22title%22,%22operator%22:%22LIKE%22,%22match%22:%22*%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[%22status%22,%22categoryName%22,%22initiatorName%22],%22sort%22:{%22column%22:%22date%22,%22direction%22:%22DESC%22},%22limit%22:50} 404 (Not Found)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-fetch @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-la @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:276
-execute @ formQuery.js:332
-eval @ VM204:268
-search @ formSearch.js:356
-inputLoop @ formSearch.js:382
-(anonymous) @ formSearch.js:158
-setInterval
-init @ formSearch.js:157
-runQuery @ VM204:270
-main @ VM204:289
-(anonymous) @ leaf_nav_v3.js:1864
-(anonymous) @ leaf_nav_v3.js:1862
-setTimeout
-(anonymous) @ leaf_nav_v3.js:1858
-Promise.then
-mountContent @ leaf_nav_v3.js:1840
-(anonymous) @ leaf_nav_v3.js:1980
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-loadView @ leaf_nav_v3.js:1955
-router @ leaf_nav_v3.js:2017
-wireRouter @ leaf_nav_v3.js:2118
-inject @ leaf_nav_v3.js:1158
-formQuery.js:345 SyntaxError: Unexpected token 'F', "File not found.
-" is not valid JSON
-(anonymous) @ formQuery.js:345
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-Jb @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-execute @ formQuery.js:345
-eval @ VM204:268
-search @ formSearch.js:356
-inputLoop @ formSearch.js:382
-(anonymous) @ formSearch.js:158
-setInterval
-init @ formSearch.js:157
-runQuery @ VM204:270
-main @ VM204:289
-(anonymous) @ leaf_nav_v3.js:1864
-(anonymous) @ leaf_nav_v3.js:1862
-setTimeout
-(anonymous) @ leaf_nav_v3.js:1858
-Promise.then
-mountContent @ leaf_nav_v3.js:1840
-(anonymous) @ leaf_nav_v3.js:1980
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-Promise.then
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
-then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
-(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
-loadView @ leaf_nav_v3.js:1955
-router @ leaf_nav_v3.js:2017
-wireRouter @ leaf_nav_v3.js:2118
-inject @ leaf_nav_v3.js:1158
+<nav class="lp-nav lp-icons-ready" id="lpNav" aria-label="Launchpad navigation">
+  <div class="lp-nav-in">
+
+    <!-- Left: public nav sections -->
+    <ul class="lp-nav-links" role="list">
+      
+      <li class="dd-item" id="dd-item-0">
+        <button class="dd-trigger" aria-expanded="false" aria-controls="dd-0">
+          About LEAF <span class="dd-chevron" aria-hidden="true"><span class="material-symbols-outlined">arrow_drop_down</span></span>
+        </button>
+        <div class="dd-panel" id="dd-0" hidden="">
+          <ul class="dd-list">
+            
+      <li>
+        <button class="dd-link" data-href="/launchpad/report.php?a=lp_impact">
+          <span class="dd-link-ico">
+            <span class="material-symbols-outlined" aria-hidden="true">bar_chart</span>
+          </span>
+          <span class="dd-link-text">
+            <strong>Our Impact</strong>
+            <span>LEAF's impact across the VA enterprise</span>
+          </span>
+        </button>
+      </li>
+          </ul>
+        </div>
+      </li>
+      <li class="dd-item" id="dd-item-1">
+        <button class="dd-trigger" aria-expanded="false" aria-controls="dd-1">
+          Solutions <span class="dd-chevron" aria-hidden="true"><span class="material-symbols-outlined">arrow_drop_down</span></span>
+        </button>
+        <div class="dd-panel" id="dd-1" hidden="">
+          <ul class="dd-list">
+            
+      <li>
+        <button class="dd-link" data-href="/launchpad/report.php?a=lp_form_library">
+          <span class="dd-link-ico">
+            <span class="material-symbols-outlined" aria-hidden="true">description</span>
+          </span>
+          <span class="dd-link-text">
+            <strong>Form Library</strong>
+            <span>Forms and templates built by VA teams</span>
+          </span>
+        </button>
+      </li>
+          </ul>
+        </div>
+      </li>
+      <li class="dd-item" id="dd-item-2">
+        <button class="dd-trigger" aria-expanded="false" aria-controls="dd-2">
+          Resources <span class="dd-chevron" aria-hidden="true"><span class="material-symbols-outlined">arrow_drop_down</span></span>
+        </button>
+        <div class="dd-panel" id="dd-2" hidden="">
+          <ul class="dd-list">
+            
+      <li>
+        <button class="dd-link" data-href="/launchpad/report.php?a=lp_find_site">
+          <span class="dd-link-ico">
+            <span class="material-symbols-outlined" aria-hidden="true">location_on</span>
+          </span>
+          <span class="dd-link-text">
+            <strong>Find a LEAF Site</strong>
+            <span>Locate a LEAF site at your VA facility</span>
+          </span>
+        </button>
+      </li>
+      <li>
+        <button class="dd-link" data-href="/platform/CoP">
+          <span class="dd-link-ico">
+            <span class="material-symbols-outlined" aria-hidden="true">group</span>
+          </span>
+          <span class="dd-link-text">
+            <strong>Community of Practice</strong>
+            <span>Connect with LEAF users VA-wide</span>
+          </span>
+        </button>
+      </li>
+      <li>
+        <button class="dd-link" data-href="https://leaf.va.gov/platform/ideas">
+          <span class="dd-link-ico">
+            <span class="material-symbols-outlined" aria-hidden="true">lightbulb</span>
+          </span>
+          <span class="dd-link-text">
+            <strong>Suggest an Idea</strong>
+            <span>Submit an idea to improve LEAF</span>
+          </span>
+        </button>
+      </li>
+      <li>
+        <button class="dd-link" data-href="https://leaf.va.gov/platform/privacy/resources.php?a=resources">
+          <span class="dd-link-ico">
+            <span class="material-symbols-outlined" aria-hidden="true">privacy_tip</span>
+          </span>
+          <span class="dd-link-text">
+            <strong>Privacy &amp; Compliance</strong>
+            <span>LEAF privacy and compliance resources</span>
+          </span>
+        </button>
+      </li>
+          </ul>
+        </div>
+      </li>
+      <li class="dd-item" id="dd-item-3">
+        <button class="dd-trigger" aria-expanded="false" aria-controls="dd-3">
+          Knowledge Center <span class="dd-chevron" aria-hidden="true"><span class="material-symbols-outlined">arrow_drop_down</span></span>
+        </button>
+        <div class="dd-panel" id="dd-3" hidden="">
+          <ul class="dd-list">
+            
+      <li>
+        <button class="dd-link" data-href="https://leaf.va.gov/platform/help_library/report.php?a=homepage">
+          <span class="dd-link-ico">
+            <span class="material-symbols-outlined" aria-hidden="true">menu_book</span>
+          </span>
+          <span class="dd-link-text">
+            <strong>Help Library</strong>
+            <span>Guides and documentation</span>
+          </span>
+        </button>
+      </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+
+    <!-- Right: internal group (margin-left:auto pushes it to the edge) -->
+    
+<!--{if $empMembership['groupID'][REPLACE_ME_LEAF_TEAM_GROUP_ID]}-->
+<div class="lp-nav-internal" role="navigation" aria-label="Internal team links">
+
+  <!-- "Internal" label — non-interactive, purely visual -->
+  <span class="lp-internal-label" aria-hidden="true">
+    <span class="material-symbols-outlined lp-internal-label-icon" aria-hidden="true">lock</span>
+    Internal
+  </span>
+
+  <!-- Vertical rule separating label from buttons -->
+  <span class="lp-internal-rule" aria-hidden="true"></span>
+
+<!--{if $empMembership['groupID'][REPLACE_ME_LEADERSHIP_GROUP_ID]}-->
+  <!-- Leadership: direct hash-routed link -->
+  <button class="lp-internal-btn" data-href="/platform/projects/report.php?a=leadership">
+    Leadership
+  </button>
+<!--{/if}-->
+
+  <!-- LEAF Team: dropdown trigger + panel -->
+  <div class="dd-item dd-item--internal" id="dd-item-leaf-team" style="position:relative;">
+    <button class="lp-internal-btn lp-internal-btn--dd dd-trigger" aria-expanded="false" aria-controls="dd-leaf-team" aria-haspopup="false">
+      LEAF Team
+      <span class="dd-chevron" aria-hidden="true">
+        <span class="material-symbols-outlined">arrow_drop_down</span>
+      </span>
+    </button>
+    <div class="dd-panel dd-panel--internal" id="dd-leaf-team" hidden="">
+      <ul class="dd-list" id="lpNavLeafTeamLinks" aria-live="polite"><li><a class="dd-link" href="https://leaf.va.gov/platform/service_requests_launchpad/?a=reports&amp;v=3&amp;query=N4IgLgpgTgtgziAXAbVASwCZJAYwIaQDmA9lAJ4CSAIiADQjEAO0Bp2AvHSDATgBbYAZqRgB9HAAY8AVjxdCBCNgCCAORoBfWuiyIQGCABsIkLPSYswbPZ3o8w/JBPoLIK9SA0BdegCtiaAB2CCg%20IHCkYEjAWiCEJlQEciggACwAzACMXKkATACcOekSIGGGaDBoUYiZEnX05ZVgAPKCgnAmThpAA==&amp;indicators=NobwRAlgdgJhDGBDALgewE4EkAiYBcYALAMwCMYANGFIgLYCm%20YAmvYupWAM4bL6kBfCuGhwkaLLgKEATAE5ONBkwCCAd3YwABADk6jKj3R88MoSNgIUGHExIAGRftUb027PS7x0EAA7IIVChOIxNiAQBdIA&amp;title=TEVBRidzIEF3YXJkcyA%3D" data-nav-external="" target="_blank" rel="noopener noreferrer"><span class="dd-link-text"><strong>Awards</strong></span><span class="lp-sr-only">(opens in new tab)</span></a></li></ul>
+    </div>
+  </div>
+
+</div>
+<!--{/if}-->
+
+    <!-- Mobile hamburger toggle -->
+    <button class="lp-nav-toggle" id="lpNavToggle" type="button" aria-expanded="false" aria-controls="lpMobilePanel" aria-label="Open menu">
+      <span class="lp-nav-toggle-icon" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+
+    <!-- Mobile panel -->
+    <div class="lp-mobile-panel" id="lpMobilePanel" hidden="">
+      <ul class="lp-accordion" role="list">
+        
+      <li class="acc-item" id="acc-item-0">
+        <button class="acc-trigger" aria-expanded="false" aria-controls="acc-0">
+          About LEAF <span class="dd-chevron" aria-hidden="true"><span class="material-symbols-outlined">arrow_drop_down</span></span>
+        </button>
+        <div class="acc-panel" id="acc-0" hidden="">
+          <ul class="dd-list">
+            
+      <li>
+        <button class="dd-link" data-href="/launchpad/report.php?a=lp_impact">
+          <span class="dd-link-ico">
+            <span class="material-symbols-outlined" aria-hidden="true">bar_chart</span>
+          </span>
+          <span class="dd-link-text">
+            <strong>Our Impact</strong>
+            <span>LEAF's impact across the VA enterprise</span>
+          </span>
+        </button>
+      </li>
+          </ul>
+        </div>
+      </li>
+      <li class="acc-item" id="acc-item-1">
+        <button class="acc-trigger" aria-expanded="false" aria-controls="acc-1">
+          Solutions <span class="dd-chevron" aria-hidden="true"><span class="material-symbols-outlined">arrow_drop_down</span></span>
+        </button>
+        <div class="acc-panel" id="acc-1" hidden="">
+          <ul class="dd-list">
+            
+      <li>
+        <button class="dd-link" data-href="/launchpad/report.php?a=lp_form_library">
+          <span class="dd-link-ico">
+            <span class="material-symbols-outlined" aria-hidden="true">description</span>
+          </span>
+          <span class="dd-link-text">
+            <strong>Form Library</strong>
+            <span>Forms and templates built by VA teams</span>
+          </span>
+        </button>
+      </li>
+          </ul>
+        </div>
+      </li>
+      <li class="acc-item" id="acc-item-2">
+        <button class="acc-trigger" aria-expanded="false" aria-controls="acc-2">
+          Resources <span class="dd-chevron" aria-hidden="true"><span class="material-symbols-outlined">arrow_drop_down</span></span>
+        </button>
+        <div class="acc-panel" id="acc-2" hidden="">
+          <ul class="dd-list">
+            
+      <li>
+        <button class="dd-link" data-href="/launchpad/report.php?a=lp_find_site">
+          <span class="dd-link-ico">
+            <span class="material-symbols-outlined" aria-hidden="true">location_on</span>
+          </span>
+          <span class="dd-link-text">
+            <strong>Find a LEAF Site</strong>
+            <span>Locate a LEAF site at your VA facility</span>
+          </span>
+        </button>
+      </li>
+      <li>
+        <button class="dd-link" data-href="/platform/CoP">
+          <span class="dd-link-ico">
+            <span class="material-symbols-outlined" aria-hidden="true">group</span>
+          </span>
+          <span class="dd-link-text">
+            <strong>Community of Practice</strong>
+            <span>Connect with LEAF users VA-wide</span>
+          </span>
+        </button>
+      </li>
+      <li>
+        <button class="dd-link" data-href="https://leaf.va.gov/platform/ideas">
+          <span class="dd-link-ico">
+            <span class="material-symbols-outlined" aria-hidden="true">lightbulb</span>
+          </span>
+          <span class="dd-link-text">
+            <strong>Suggest an Idea</strong>
+            <span>Submit an idea to improve LEAF</span>
+          </span>
+        </button>
+      </li>
+      <li>
+        <button class="dd-link" data-href="https://leaf.va.gov/platform/privacy/resources.php?a=resources">
+          <span class="dd-link-ico">
+            <span class="material-symbols-outlined" aria-hidden="true">privacy_tip</span>
+          </span>
+          <span class="dd-link-text">
+            <strong>Privacy &amp; Compliance</strong>
+            <span>LEAF privacy and compliance resources</span>
+          </span>
+        </button>
+      </li>
+          </ul>
+        </div>
+      </li>
+      <li class="acc-item" id="acc-item-3">
+        <button class="acc-trigger" aria-expanded="false" aria-controls="acc-3">
+          Knowledge Center <span class="dd-chevron" aria-hidden="true"><span class="material-symbols-outlined">arrow_drop_down</span></span>
+        </button>
+        <div class="acc-panel" id="acc-3" hidden="">
+          <ul class="dd-list">
+            
+      <li>
+        <button class="dd-link" data-href="https://leaf.va.gov/platform/help_library/report.php?a=homepage">
+          <span class="dd-link-ico">
+            <span class="material-symbols-outlined" aria-hidden="true">menu_book</span>
+          </span>
+          <span class="dd-link-text">
+            <strong>Help Library</strong>
+            <span>Guides and documentation</span>
+          </span>
+        </button>
+      </li>
+          </ul>
+        </div>
+      </li>
+        
+<!--{if $empMembership['groupID'][REPLACE_ME_LEAF_TEAM_GROUP_ID]}-->
+
+<!-- Mobile separator before Internal section -->
+<li class="lp-internal-mobile-item" role="separator" aria-hidden="true">
+  <div class="lp-mobile-internal-sep">
+    <span class="material-symbols-outlined" aria-hidden="true">lock</span>
+    Internal
+  </div>
+</li>
+
+<!--{if $empMembership['groupID'][REPLACE_ME_LEADERSHIP_GROUP_ID]}-->
+<li class="lp-internal-mobile-item">
+  <button class="dd-link" data-href="/platform/projects/report.php?a=leadership">
+    <span class="dd-link-ico">
+      <span class="material-symbols-outlined" aria-hidden="true">groups</span>
+    </span>
+    <span class="dd-link-text">
+      <strong>Leadership</strong>
+      <span>Platform leadership dashboard</span>
+    </span>
+  </button>
+</li>
+<!--{/if}-->
+
+<li class="lp-internal-mobile-item acc-item acc-item--internal" id="acc-item-leaf-team">
+  <button class="acc-trigger" aria-expanded="false" aria-controls="acc-leaf-team">
+    LEAF Team
+    <span class="dd-chevron" aria-hidden="true">
+      <span class="material-symbols-outlined">arrow_drop_down</span>
+    </span>
+  </button>
+  <div class="acc-panel" id="acc-leaf-team" hidden="">
+    <ul class="dd-list" id="lpNavLeafTeamLinksMobile" aria-live="polite"><li><a class="dd-link" href="https://leaf.va.gov/platform/service_requests_launchpad/?a=reports&amp;v=3&amp;query=N4IgLgpgTgtgziAXAbVASwCZJAYwIaQDmA9lAJ4CSAIiADQjEAO0Bp2AvHSDATgBbYAZqRgB9HAAY8AVjxdCBCNgCCAORoBfWuiyIQGCABsIkLPSYswbPZ3o8w/JBPoLIK9SA0BdegCtiaAB2CCg%20IHCkYEjAWiCEJlQEciggACwAzACMXKkATACcOekSIGGGaDBoUYiZEnX05ZVgAPKCgnAmThpAA==&amp;indicators=NobwRAlgdgJhDGBDALgewE4EkAiYBcYALAMwCMYANGFIgLYCm%20YAmvYupWAM4bL6kBfCuGhwkaLLgKEATAE5ONBkwCCAd3YwABADk6jKj3R88MoSNgIUGHExIAGRftUb027PS7x0EAA7IIVChOIxNiAQBdIA&amp;title=TEVBRidzIEF3YXJkcyA%3D" data-nav-external="" target="_blank" rel="noopener noreferrer"><span class="dd-link-text"><strong>Awards</strong></span><span class="lp-sr-only">(opens in new tab)</span></a></li></ul>
+  </div>
+</li>
+
+<!--{/if}-->
+      </ul>
+    </div>
+
+  </div>
+</nav>
