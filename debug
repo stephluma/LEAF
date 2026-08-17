@@ -1,0 +1,253 @@
+/launchpad/report.php?a=lp_home#cop:652 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
+leaf_nav_v3.js:1363 [LP] Lazy-loading LEAF UI deps for fetched page: (2) ['https://leaf.va.gov/libs/js/jquery/jquery-ui.custom.min.js', 'https://leaf.va.gov/launchpad/js/dialogController.js']
+ensureLeafUIDeps @ leaf_nav_v3.js:1363
+mountContent @ leaf_nav_v3.js:1840
+(anonymous) @ leaf_nav_v3.js:1980
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+loadView @ leaf_nav_v3.js:1955
+router @ leaf_nav_v3.js:2017
+wireRouter @ leaf_nav_v3.js:2118
+inject @ leaf_nav_v3.js:1158
+leaf_nav_v3.js:1832  GET https://leaf.va.gov/path/to/smarty_styles.css net::ERR_ABORTED 404 (Not Found)
+mountContent @ leaf_nav_v3.js:1832
+(anonymous) @ leaf_nav_v3.js:1980
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+loadView @ leaf_nav_v3.js:1955
+router @ leaf_nav_v3.js:2017
+wireRouter @ leaf_nav_v3.js:2118
+inject @ leaf_nav_v3.js:1158
+leaf_nav_v3.js:1866 [LP] Deferred init error: Cannot read properties of null (reading 'addEventListener')
+(anonymous) @ leaf_nav_v3.js:1866
+(anonymous) @ leaf_nav_v3.js:1862
+setTimeout
+(anonymous) @ leaf_nav_v3.js:1858
+Promise.then
+mountContent @ leaf_nav_v3.js:1840
+(anonymous) @ leaf_nav_v3.js:1980
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+loadView @ leaf_nav_v3.js:1955
+router @ leaf_nav_v3.js:2017
+wireRouter @ leaf_nav_v3.js:2118
+inject @ leaf_nav_v3.js:1158
+/launchpad/report.php?a=lp_home#cop:1 Tracking Prevention blocked access to storage for https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js.
+/launchpad/report.php?a=lp_home#cop:1 Tracking Prevention blocked access to storage for https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js.
+/launchpad/report.php?a=lp_home#cop:1 Tracking Prevention blocked access to storage for https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js.
+/launchpad/report.php?a=lp_home#cop:1 Tracking Prevention blocked access to storage for https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js.
+ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251  GET https://leaf.va.gov/platform/api/form/query?q={%22terms%22:[{%22id%22:%22categoryID%22,%22operator%22:%22=%22,%22match%22:%22form_605bd%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[],%22sort%22:{%22column%22:%22recordID%22,%22direction%22:%22DESC%22},%22getData%22:[%2216%22,%2217%22],%22limit%22:500,%22limitOffset%22:0} 404 (Not Found)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+fetch @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+la @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:276
+getBulkData @ formQuery.js:281
+execute @ formQuery.js:323
+main @ VM203:21
+(anonymous) @ leaf_nav_v3.js:1864
+(anonymous) @ leaf_nav_v3.js:1862
+setTimeout
+(anonymous) @ leaf_nav_v3.js:1858
+Promise.then
+mountContent @ leaf_nav_v3.js:1840
+(anonymous) @ leaf_nav_v3.js:1980
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+loadView @ leaf_nav_v3.js:1955
+router @ leaf_nav_v3.js:2017
+wireRouter @ leaf_nav_v3.js:2118
+inject @ leaf_nav_v3.js:1158
+indicator.gif:1  GET https://leaf.va.gov/platform/images/indicator.gif 404 (Not Found)
+Image
+(anonymous) @ jquery.min.js:2
+B @ jquery.min.js:2
+html @ jquery.min.js:2
+renderUI @ formSearch.js:28
+init @ formSearch.js:155
+runQuery @ VM204:270
+main @ VM204:289
+(anonymous) @ leaf_nav_v3.js:1864
+(anonymous) @ leaf_nav_v3.js:1862
+setTimeout
+(anonymous) @ leaf_nav_v3.js:1858
+Promise.then
+mountContent @ leaf_nav_v3.js:1840
+(anonymous) @ leaf_nav_v3.js:1980
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+loadView @ leaf_nav_v3.js:1955
+router @ leaf_nav_v3.js:2017
+wireRouter @ leaf_nav_v3.js:2118
+inject @ leaf_nav_v3.js:1158
+formQuery.js:301 SyntaxError: Unexpected token 'F', "File not found.
+" is not valid JSON
+(anonymous) @ formQuery.js:301
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+Jb @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+getBulkData @ formQuery.js:301
+execute @ formQuery.js:323
+main @ VM203:21
+(anonymous) @ leaf_nav_v3.js:1864
+(anonymous) @ leaf_nav_v3.js:1862
+setTimeout
+(anonymous) @ leaf_nav_v3.js:1858
+Promise.then
+mountContent @ leaf_nav_v3.js:1840
+(anonymous) @ leaf_nav_v3.js:1980
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+loadView @ leaf_nav_v3.js:1955
+router @ leaf_nav_v3.js:2017
+wireRouter @ leaf_nav_v3.js:2118
+inject @ leaf_nav_v3.js:1158
+VM203:22 Uncaught (in promise) TypeError: Cannot read properties of undefined (reading '4')
+    at main (eval at <anonymous> (leaf_nav_v3.js:1526:20), <anonymous>:22:21)
+main @ VM203:22
+await in main
+(anonymous) @ leaf_nav_v3.js:1864
+(anonymous) @ leaf_nav_v3.js:1862
+setTimeout
+(anonymous) @ leaf_nav_v3.js:1858
+Promise.then
+mountContent @ leaf_nav_v3.js:1840
+(anonymous) @ leaf_nav_v3.js:1980
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+loadView @ leaf_nav_v3.js:1955
+router @ leaf_nav_v3.js:2017
+wireRouter @ leaf_nav_v3.js:2118
+inject @ leaf_nav_v3.js:1158
+platform/:1  GET https://leaf.va.gov/platform/?img=search.svg&w=16 403 (Forbidden)
+Image
+(anonymous) @ jquery.min.js:2
+B @ jquery.min.js:2
+html @ jquery.min.js:2
+renderUI @ formSearch.js:28
+init @ formSearch.js:155
+runQuery @ VM204:270
+main @ VM204:289
+(anonymous) @ leaf_nav_v3.js:1864
+(anonymous) @ leaf_nav_v3.js:1862
+setTimeout
+(anonymous) @ leaf_nav_v3.js:1858
+Promise.then
+mountContent @ leaf_nav_v3.js:1840
+(anonymous) @ leaf_nav_v3.js:1980
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+loadView @ leaf_nav_v3.js:1955
+router @ leaf_nav_v3.js:2017
+wireRouter @ leaf_nav_v3.js:2118
+inject @ leaf_nav_v3.js:1158
+ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251  GET https://leaf.va.gov/platform/api/form/query?q={%22terms%22:[{%22id%22:%22userID%22,%22operator%22:%22=%22,%22match%22:%22oitauslumags%22,%22gate%22:%22AND%22},{%22id%22:%22title%22,%22operator%22:%22LIKE%22,%22match%22:%22*%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[%22status%22,%22categoryName%22,%22initiatorName%22],%22sort%22:{%22column%22:%22date%22,%22direction%22:%22DESC%22},%22limit%22:50} 404 (Not Found)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+fetch @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+la @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:276
+execute @ formQuery.js:332
+eval @ VM204:268
+search @ formSearch.js:356
+inputLoop @ formSearch.js:382
+(anonymous) @ formSearch.js:158
+setInterval
+init @ formSearch.js:157
+runQuery @ VM204:270
+main @ VM204:289
+(anonymous) @ leaf_nav_v3.js:1864
+(anonymous) @ leaf_nav_v3.js:1862
+setTimeout
+(anonymous) @ leaf_nav_v3.js:1858
+Promise.then
+mountContent @ leaf_nav_v3.js:1840
+(anonymous) @ leaf_nav_v3.js:1980
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+loadView @ leaf_nav_v3.js:1955
+router @ leaf_nav_v3.js:2017
+wireRouter @ leaf_nav_v3.js:2118
+inject @ leaf_nav_v3.js:1158
+formQuery.js:345 SyntaxError: Unexpected token 'F', "File not found.
+" is not valid JSON
+(anonymous) @ formQuery.js:345
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+Jb @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+execute @ formQuery.js:345
+eval @ VM204:268
+search @ formSearch.js:356
+inputLoop @ formSearch.js:382
+(anonymous) @ formSearch.js:158
+setInterval
+init @ formSearch.js:157
+runQuery @ VM204:270
+main @ VM204:289
+(anonymous) @ leaf_nav_v3.js:1864
+(anonymous) @ leaf_nav_v3.js:1862
+setTimeout
+(anonymous) @ leaf_nav_v3.js:1858
+Promise.then
+mountContent @ leaf_nav_v3.js:1840
+(anonymous) @ leaf_nav_v3.js:1980
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+Ib @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+$a.<computed> @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251
+then @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273
+loadView @ leaf_nav_v3.js:1955
+router @ leaf_nav_v3.js:2017
+wireRouter @ leaf_nav_v3.js:2118
+inject @ leaf_nav_v3.js:1158
