@@ -1,0 +1,1008 @@
+<!-- Generated with Claude Sonnet 4.6 -->
+<link rel="stylesheet" href="/platform/designs/files/smarty_styles.css" />
+<script src="../libs/js/LEAF/intervalQueue.js"></script>
+<script src="./files/visnFacilityHelper.js"></script>
+
+<style>
+.leaf-find {
+  padding: 2rem 1.5rem;
+}
+
+/* ── Main container ── */
+.leaf-find .lf-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ── Header ── */
+.leaf-find .lf-header {
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.leaf-find .lf-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 0.2rem;
+}
+
+.leaf-find .lf-header .lead {
+  margin: 0 0 0.2rem;
+}
+
+.leaf-find .lf-header .lf-disclaimer {
+  font-size: 0.8rem;
+  color: var(--lp-muted);
+  margin: 0;
+}
+
+/* ── Unified card ── */
+.leaf-find .lf-card {
+  background: var(--lp-panel);
+  border: 1px solid var(--lp-border);
+  border-radius: var(--lp-radius);
+  box-shadow: var(--lp-shadow);
+  overflow: hidden;
+}
+
+/* ── Search toggle bar ── */
+.leaf-find .lf-search-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.875rem 1.25rem;
+  cursor: pointer;
+  background: var(--lp-blue-soft);
+  border: none;
+  border-bottom: 1px solid var(--lp-blue-mid);
+  width: 100%;
+  font-family: inherit;
+  text-align: left;
+  transition: background 0.12s;
+}
+
+.leaf-find .lf-search-toggle:hover {
+  background: var(--lp-blue-mid);
+}
+
+.leaf-find .lf-search-toggle:focus-visible {
+  outline: 3px solid var(--lp-accent);
+  outline-offset: -3px;
+}
+
+.leaf-find .lf-toggle-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--lp-text);
+}
+
+.leaf-find .lf-toggle-icon {
+  font-size: 1rem;
+  color: var(--lp-accent);
+  flex-shrink: 0;
+}
+
+.leaf-find .lf-toggle-summary {
+  font-weight: 400;
+  color: var(--lp-muted);
+  font-size: 0.825rem;
+}
+
+.leaf-find .lf-toggle-right {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--lp-accent);
+  flex-shrink: 0;
+}
+
+.leaf-find .lf-toggle-chevron {
+  display: inline-block;
+  transition: transform 0.2s ease;
+  font-style: normal;
+}
+
+.leaf-find .lf-search-toggle[aria-expanded="true"] .lf-toggle-chevron {
+  transform: rotate(180deg);
+}
+
+/* ── Search form panel ── */
+.leaf-find .lf-search-panel {
+  overflow: hidden;
+  max-height: 600px;
+  transition: max-height 0.3s ease, opacity 0.25s ease;
+  opacity: 1;
+  border-bottom: 1px solid var(--lp-border);
+}
+
+.leaf-find .lf-search-panel.is-collapsed {
+  max-height: 0;
+  opacity: 0;
+  border-bottom: none;
+}
+
+.leaf-find .lf-search-inner {
+  padding: 1.5rem 1.25rem;
+}
+
+.leaf-find .lp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 1rem;
+}
+
+.leaf-find .lp-field label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--lp-muted);
+}
+
+.leaf-find select,
+.leaf-find input[type="text"] {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--lp-border);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-family: inherit;
+  background: var(--lp-panel);
+  color: var(--lp-text);
+  transition: border-color 0.15s;
+}
+
+.leaf-find select:focus,
+.leaf-find input[type="text"]:focus {
+  outline: 3px solid var(--lp-accent-weak);
+  border-color: var(--lp-accent);
+}
+
+.leaf-find .lp-btn-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+/* ── Progress ── */
+.leaf-find .lf-progress-area {
+  padding: 1.5rem 1.25rem;
+}
+
+.leaf-find .lp-progress-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--lp-muted);
+  margin: 0 0 0.6rem;
+  text-align: center;
+}
+
+.leaf-find .lp-progressbar-track {
+  width: 100%;
+  height: 8px;
+  background: var(--lp-border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.leaf-find .lp-progressbar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--lp-accent);
+  border-radius: 999px;
+  transition: width 0.2s ease;
+}
+
+/* ── Results meta bar ── */
+.leaf-find .lf-meta-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1.25rem;
+  border-bottom: 1px solid var(--lp-border);
+  background: var(--surface-alt, #f8fafc);
+}
+
+.leaf-find .lf-meta-bar p {
+  margin: 0;
+  font-size: 0.825rem;
+  color: var(--lp-muted);
+}
+
+.leaf-find .lf-error-notice {
+  font-size: 0.825rem;
+  color: #8a0000;
+}
+
+/* ── Split panel ── */
+.leaf-find .lf-split {
+  display: flex;
+  height: calc(100vh - 280px);
+  min-height: 380px;
+}
+
+/* ── Left: site list ── */
+.leaf-find .lf-sitelist-wrap {
+  width: 300px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--lp-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.leaf-find .lf-col-header {
+  padding: 0.6rem 1rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--lp-muted);
+  border-bottom: 1px solid var(--lp-border);
+  background: var(--surface-alt, #f8fafc);
+  flex-shrink: 0;
+}
+
+.leaf-find .lf-sitelist {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.leaf-find .lf-site-row {
+  display: block;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--lp-border);
+  border-left: 3px solid transparent;
+  cursor: pointer;
+  background: transparent;
+  border-top: none;
+  border-right: none;
+  width: 100%;
+  font-family: inherit;
+  text-align: left;
+  transition: background 0.12s;
+}
+
+.leaf-find .lf-site-row:hover {
+  background: var(--lp-blue-soft);
+}
+
+.leaf-find .lf-site-row.is-active {
+  background: var(--lp-blue-soft);
+  border-left-color: var(--lp-accent);
+}
+
+.leaf-find .lf-site-row:focus-visible {
+  outline: 3px solid var(--lp-accent);
+  outline-offset: -3px;
+}
+
+.leaf-find .lf-site-row__name {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--lp-accent);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.leaf-find .lf-site-row__admin {
+  font-size: 0.75rem;
+  color: var(--lp-muted);
+  margin: 0.15rem 0 0;
+  font-style: italic;
+}
+
+/* ── Right: detail panel ── */
+.leaf-find .lf-detail-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.leaf-find .lf-detail {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem 1.5rem;
+}
+
+/* Prompt */
+.leaf-find .lf-prompt {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--lp-muted);
+  text-align: center;
+}
+
+.leaf-find .lf-prompt__icon {
+  font-size: 2rem;
+  opacity: 0.25;
+}
+
+.leaf-find .lf-prompt__text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.leaf-find .lf-prompt__sub {
+  font-size: 0.825rem;
+  margin: 0;
+}
+
+/* Detail content */
+.leaf-find .lf-detail__header {
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--lp-border);
+}
+
+.leaf-find .lf-detail__name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+}
+
+.leaf-find .lf-detail__name a {
+  color: var(--lp-accent);
+  text-decoration: none;
+}
+
+.leaf-find .lf-detail__name a:hover {
+  text-decoration: underline;
+  color: var(--lp-accent-strong);
+}
+
+.leaf-find .lf-detail__name a:focus-visible {
+  outline: 3px solid var(--lp-accent);
+  outline-offset: 2px;
+}
+
+.leaf-find .lf-section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--lp-muted);
+  margin: 0 0 0.2rem;
+}
+
+.leaf-find .lf-detail__admin-value {
+  font-size: 0.9rem;
+  color: var(--lp-text);
+  margin: 0;
+}
+
+.leaf-find .lf-detail__admin-value.is-muted {
+  color: var(--lp-muted);
+  font-style: italic;
+}
+
+.leaf-find .lf-forms-section {
+  margin-top: 1.25rem;
+}
+
+.leaf-find .lf-form-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.leaf-find .lf-form-list li a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: var(--lp-accent);
+  text-decoration: none;
+  padding: 5px 8px;
+  border-radius: var(--radius-sm);
+  transition: background 0.12s;
+}
+
+.leaf-find .lf-form-list li a::before {
+  content: "→";
+  font-size: 0.7rem;
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.leaf-find .lf-form-list li a:hover {
+  background: var(--lp-blue-soft);
+  text-decoration: underline;
+  color: var(--lp-accent-strong);
+}
+
+.leaf-find .lf-form-list li a:focus-visible {
+  outline: 3px solid var(--lp-accent);
+  outline-offset: 2px;
+}
+
+.leaf-find .lf-no-forms {
+  font-size: 0.875rem;
+  color: var(--lp-muted);
+  font-style: italic;
+  margin: 0.5rem 0 0;
+}
+
+/* ── Notice ── */
+.leaf-find .lf-notice {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--lp-warning-border);
+  background: var(--lp-warning-bg);
+  color: var(--lp-warning-text);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.leaf-find .lf-notice p  { margin: 0 0 0.4rem; font-weight: 600; }
+.leaf-find .lf-notice ul { margin: 0; padding-left: 1.25rem; }
+.leaf-find .lf-notice li + li { margin-top: 0.2rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .leaf-find .lp-progressbar-fill,
+  .leaf-find .lf-toggle-chevron,
+  .leaf-find .lf-search-panel,
+  .leaf-find .lf-site-row,
+  .leaf-find .lf-form-list li a {
+    transition: none;
+  }
+}
+</style>
+
+<script>
+(function () {
+
+  // --- State ---
+  let siteData    = {};
+  let failedSites = [];
+  let totalSites  = 0;
+  let activeSiteURL = null;
+  let staticStates  = '';
+  let currentQuery  = '';
+
+  function resetState() {
+    siteData      = {};
+    failedSites   = [];
+    totalSites    = 0;
+    activeSiteURL = null;
+  }
+
+  // --- Progress ---
+  function setProgress(loaded, total) {
+    const pct = total > 0 ? Math.round((loaded / total) * 100) : 0;
+    $('#lf-progressFill').css('width', pct + '%');
+    $('#lf-numLoaded').text(loaded);
+    $('#lf-numTotal').text(total);
+  }
+
+  // --- Search toggle ---
+  function collapseSearch(summary) {
+    $('#lf-searchPanel').addClass('is-collapsed');
+    const $btn = $('#lf-searchToggle');
+    $btn.attr('aria-expanded', 'false');
+    $btn.find('.lf-toggle-summary').text(summary ? '— ' + summary : '');
+    $btn.find('.lf-toggle-right').html('<em class="lf-toggle-chevron">▼</em> Refine');
+  }
+
+  function expandSearch() {
+    $('#lf-searchPanel').removeClass('is-collapsed');
+    const $btn = $('#lf-searchToggle');
+    $btn.attr('aria-expanded', 'true');
+    $btn.find('.lf-toggle-summary').text('');
+    $btn.find('.lf-toggle-right').html('<em class="lf-toggle-chevron">▲</em> Collapse');
+  }
+
+  // --- Activity check ---
+  function checkActive(siteURL) {
+    const today   = new Date();
+    const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30);
+    return $.ajax({
+      type: 'GET',
+      url:  siteURL + '/api/telemetry/simple/requests'
+                    + '?startTime=' + Math.round(minDate / 1000)
+                    + '&endTime='   + Math.round(today   / 1000)
+    });
+  }
+
+  // --- Row / detail helpers ---
+  function rowId(url)   { return 'row-' + url.replace(/[^a-z0-9]/gi, '-'); }
+  function adminId(url) { return 'adm-' + url.replace(/[^a-z0-9]/gi, '-'); }
+
+  function insertRow(siteURL, label) {
+    const html = `
+      <button class="lf-site-row"
+              id="${rowId(siteURL)}"
+              data-url="${siteURL}"
+              aria-pressed="false"
+              aria-label="View forms for ${label}">
+        <p class="lf-site-row__name">${label}</p>
+        <p class="lf-site-row__admin" id="${adminId(siteURL)}" aria-live="polite"></p>
+      </button>`;
+    $('#lf-sitelist').append(html);
+    $('#' + rowId(siteURL)).on('click', function () { selectSite(siteURL); });
+  }
+
+  function updateRowAdmin(siteURL, email) {
+    const $el = $('#' + adminId(siteURL));
+    if (email) {
+      $el.text(email);
+    }
+    // If no email, leave the line empty — no placeholder shown
+    siteData[siteURL].admin       = email || null;
+    siteData[siteURL].adminLoaded = true;
+    if (activeSiteURL === siteURL) renderDetail(siteURL);
+  }
+
+  function updateRowForms(siteURL, names) {
+    siteData[siteURL].forms       = names;
+    siteData[siteURL].formsLoaded = true;
+    if (activeSiteURL === siteURL) renderDetail(siteURL);
+  }
+
+  // --- Detail panel ---
+  function selectSite(siteURL) {
+    if (activeSiteURL) {
+      $('#' + rowId(activeSiteURL)).removeClass('is-active').attr('aria-pressed', 'false');
+    }
+    activeSiteURL = siteURL;
+    $('#' + rowId(siteURL)).addClass('is-active').attr('aria-pressed', 'true');
+    renderDetail(siteURL);
+  }
+
+  function renderDetail(siteURL) {
+    const d = siteData[siteURL];
+    if (!d) return;
+
+    // Admin section
+    let adminHtml = '';
+    if (!d.adminLoaded) {
+      adminHtml = `
+        <p class="lf-section-label">Primary Administrator</p>
+        <p class="lf-detail__admin-value is-muted" aria-live="polite">Loading…</p>`;
+    } else if (d.admin) {
+      adminHtml = `
+        <p class="lf-section-label">Primary Administrator</p>
+        <p class="lf-detail__admin-value">${d.admin}</p>`;
+    } else {
+      adminHtml = `
+        <p class="lf-section-label">Primary Administrator</p>
+        <p class="lf-detail__admin-value is-muted">No administrator set</p>`;
+    }
+
+    // Forms section
+    let formsHtml = '';
+    if (!d.formsLoaded) {
+      formsHtml = `<p class="lf-no-forms" aria-live="polite">Loading forms…</p>`;
+    } else if (d.forms.length === 0) {
+      formsHtml = `<p class="lf-no-forms">No forms available for this site.</p>`;
+    } else {
+      const items = d.forms.map(n =>
+        `<li><a href="${siteURL}" target="_blank" rel="noopener">${n}</a></li>`
+      ).join('');
+      formsHtml = `<ul class="lf-form-list">${items}</ul>`;
+    }
+
+    $('#lf-detail').html(`
+      <div class="lf-detail__header">
+        <h2 class="lf-detail__name">
+          <a href="${siteURL}" target="_blank" rel="noopener">${d.label}</a>
+        </h2>
+        ${adminHtml}
+      </div>
+      <div class="lf-forms-section">
+        <p class="lf-section-label">Forms${d.formsLoaded ? ' (' + d.forms.length + ')' : ''}</p>
+        ${formsHtml}
+      </div>`);
+  }
+
+  function showPrompt() {
+    $('#lf-detail').html(`
+      <div class="lf-prompt" role="status">
+        <span class="lf-prompt__icon" aria-hidden="true">☰</span>
+        <p class="lf-prompt__text">Select a site to view its details</p>
+        <p class="lf-prompt__sub">Choose any site from the list on the left</p>
+      </div>`);
+  }
+
+  // --- Site loading ---
+  function loadSites(sites) {
+    resetState();
+    const keys = Object.keys(sites);
+
+    $('#lf-sitelist').empty();
+    showPrompt();
+    $('#lf-resultsArea').hide();
+    $('#lf-noticeArea').hide();
+
+    if (keys.length === 0) { showNoResults(); return; }
+
+    $('#lf-progressArea').show();
+    totalSites = keys.length;
+    setProgress(0, totalSites);
+
+    let queue = new intervalQueue();
+    queue.setConcurrency(5);
+    keys.forEach(i => queue.push({ rootURL: sites[i].s1.id22, siteName: sites[i].s1.id21 }));
+
+    queue.setOnWorkerError(item => {
+      failedSites.push('/' + item.rootURL + '/' + item.siteName);
+    });
+
+    queue.setWorker(item => {
+      const siteURL = '/' + item.rootURL + '/' + item.siteName;
+      return checkActive(siteURL).then(res => {
+        if (res.length < 1) return;
+        return $.ajax({ type: 'GET', url: siteURL + '/api/system/settings' })
+          .then(r => {
+            const label = r.heading || siteURL;
+            siteData[siteURL] = { label, admin: null, forms: [], adminLoaded: false, formsLoaded: false };
+            insertRow(siteURL, label);
+
+            const formsP = $.ajax({
+              type: 'GET',
+              url:  siteURL + '/api/formStack/categoryList/all?x-filterData=workflowID,categoryName,visible,disabled'
+            }).then(forms => {
+              const names = forms
+                .filter(f => f.workflowID != 0 && f.visible == 1 && f.disabled == 0)
+                .map(f => f.categoryName)
+                .sort();
+              updateRowForms(siteURL, names);
+            });
+
+            const adminP = fetch(`${siteURL}/api/system/primaryadmin`)
+              .then(r => r.json())
+              .then(d => updateRowAdmin(siteURL, d.email || null))
+              .catch(() => updateRowAdmin(siteURL, null));
+
+            return Promise.all([formsP, adminP]);
+          });
+      }).always(() => {
+        setProgress(queue.getLoaded(), totalSites);
+      });
+    });
+
+    queue.start().then(finalizeResults);
+  }
+
+  // --- Finalize ---
+  function finalizeResults() {
+    $('#lf-progressArea').hide();
+
+    const count = Object.keys(siteData).length;
+    if (count === 0) { showNoResults(); return; }
+
+    // Sort rows alphabetically
+    const sorted = Object.entries(siteData).sort((a, b) => a[1].label.localeCompare(b[1].label));
+    const $list  = $('#lf-sitelist');
+    sorted.forEach(([url]) => $list.append($('#' + rowId(url))));
+
+    const errHtml = failedSites.length > 0
+      ? `<span class="lf-error-notice">⚠️ ${failedSites.length} site(s) unreachable</span>`
+      : '';
+
+    $('#lf-resultsMeta').text(`${count} active site${count !== 1 ? 's' : ''}`);
+    $('#lf-errorNotice').html(errHtml);
+    $('#lf-resultsArea').show();
+    collapseSearch(`Station ${$('#lf-stationNumber').val().trim() || $('#lf-visn').val() || $('#lf-state').val()}`);
+  }
+
+  function showNoResults() {
+    $('#lf-progressArea').hide();
+    $('#lf-noticeArea').show();
+  }
+
+  // --- Search ---
+  function buildQuerySummary() {
+    const s = $('#lf-stationNumber').val().trim();
+    const v = $('#lf-visn').val();
+    const st = $('#lf-state').val();
+    if (s)       return `Station ${s}`;
+    if (v && st) return `VISN ${v} · ${st}`;
+    if (v)       return `VISN ${v}`;
+    if (st)      return st;
+    return '';
+  }
+
+  function findSite() {
+    const stationVal = $('#lf-stationNumber').val().trim();
+    const visnVal    = $('#lf-visn').val();
+    const stateVal   = $('#lf-state').val();
+
+    if (!stationVal && !visnVal && !stateVal) {
+      $('#lf-noticeArea').show();
+      return;
+    }
+
+    $('#lf-noticeArea').hide();
+    currentQuery = buildQuerySummary();
+
+    let query = new LeafFormQuery();
+    if (stationVal) {
+      query.addDataTerm('data', 26,  '=', stationVal);
+      query.addDataTerm('data', 376, '=', stationVal, 'OR');
+    } else if (visnVal && stateVal) {
+      query.addDataTerm('data', 2,  '=', `VISN ${visnVal}`);
+      query.addDataTerm('data', 37, '=', stateVal, 'AND');
+    } else if (visnVal) {
+      query.addDataTerm('data', 2, '=', `VISN ${visnVal}`);
+    } else {
+      query.addDataTerm('data', 37, '=', stateVal);
+    }
+    query.addTerm('stepID',  '=', '64');
+    query.addTerm('deleted', '=', 0);
+    query.addDataTerm('data', 36, '=', 'No');
+    query.getData(22);
+    query.getData(21);
+    query.execute().then(v => loadSites(v));
+  }
+
+  // --- Facility dropdowns ---
+  function getVisnFacilities(facilityHelper, isState) {
+    const selectedVisn  = $('#lf-visn').val();
+    const selectedState = $('#lf-state').val();
+    let buf      = '<option value="">Select a facility</option>';
+    let bufState = '<option value="">Select a state or district</option>';
+    let facilities = (isState && selectedState)
+      ? facilityHelper.searchState(selectedState)
+      : facilityHelper.searchVisn(selectedVisn);
+    facilities = facilities.sort((a, b) => a.name.localeCompare(b.name));
+    let statesPopulated     = [];
+    let populatedFacilities = {};
+    facilities.forEach(f => {
+      if (f.class !== 'VA Medical Center (VAMC)') return;
+      if (!statesPopulated.includes(f.state)) {
+        statesPopulated.push(f.state);
+        bufState += `<option value="${f.state}">${f.state}</option>`;
+      }
+      populatedFacilities[f.code] = f.name;
+      buf += `<option value="${f.code}">${f.name} (${f.code})</option>`;
+    });
+    if (!isState || !selectedState) {
+      $('#lf-state').html(selectedVisn ? bufState : staticStates);
+    }
+    $('#lf-facility').html(buf);
+    if ($('#lf-showVisn').prop('checked')) {
+      getVisnData(selectedState, selectedVisn, isState).then(results => {
+        const longest = {};
+        Object.values(results).forEach(facility => {
+          let sid  = facility.s1.id26 === 'Other' ? facility.s1.id376 : facility.s1.id26;
+          let name = facility.s1.id3;
+          if (!facilityHelper.getFacilityCodes().includes(sid) && sid) {
+            if (!longest[sid] || name.length > longest[sid].length) longest[sid] = name;
+          }
+        });
+        Object.assign(longest, populatedFacilities);
+        buf = '<option value="">Select a facility</option>';
+        Object.entries(longest).sort(([, a], [, b]) => a.localeCompare(b))
+          .forEach(([id, name]) => { buf += `<option value="${id}">${name} (${id})</option>`; });
+        $('#lf-facility').html(buf);
+      }).catch(err => console.error('getVisnData error:', err));
+    }
+  }
+
+  function getVisnData(state, visn, isState) {
+    return new Promise(resolve => {
+      let query = new LeafFormQuery();
+      query.addTerm('stepID',  '=', 'resolved');
+      query.addTerm('deleted', '=', 0);
+      query.addDataTerm('data', 36, '=', 'No');
+      if (isState && state) {
+        query.addDataTerm('data', 37, '=', state);
+      } else {
+        query.addDataTerm('data', 2, '=', `VISN ${visn}`);
+      }
+      query.getData(3); query.getData(26); query.getData(376);
+      query.onSuccess(resolve);
+      query.execute();
+    });
+  }
+
+  // --- Init ---
+  $(function () {
+    document.querySelector('title').innerText = 'Find LEAF Site';
+
+    // Search toggle
+    $('#lf-searchToggle').on('click', function () {
+      const isExpanded = $(this).attr('aria-expanded') === 'true';
+      if (isExpanded) { collapseSearch(currentQuery); }
+      else            { expandSearch(); }
+    });
+
+    $('#lf-search').on('click', findSite);
+    $('#lf-stationNumber').on('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); findSite(); }
+    });
+
+    $('#lf-reset').on('click', function () {
+      resetState();
+      currentQuery = '';
+      $('#lf-visn').val('');
+      $('#lf-state').html(staticStates);
+      $('#lf-facility').html('<option value="">Select a facility</option>');
+      $('#lf-stationNumber').val('');
+      $('#lf-facilityRow').hide();
+      $('#lf-resultsArea').hide();
+      $('#lf-progressArea').hide();
+      $('#lf-noticeArea').hide();
+      expandSearch();
+    });
+
+    var facilityHelper = new VAFacilityHelper();
+    let visnBuf = '<option value="">Select a VISN</option>';
+    facilityHelper.getVisns().forEach(v => { visnBuf += `<option value="${v}">${v}</option>`; });
+    $('#lf-visn').html(visnBuf);
+
+    staticStates = '<option value="">Select a state or district</option>';
+    facilityHelper.getStates().forEach(s => { staticStates += `<option value="${s}">${s}</option>`; });
+    $('#lf-state').html(staticStates);
+
+    function revealFacilityRow() { $('#lf-facilityRow').show(); }
+
+    $('#lf-visn').on('change', function () {
+      revealFacilityRow();
+      getVisnFacilities(facilityHelper, false);
+      $('#lf-stationNumber').val($('#lf-facility').val());
+    });
+
+    $('#lf-state').on('change', function () {
+      revealFacilityRow();
+      let buf = '<option value="">Select a facility</option>';
+      facilityHelper.searchState($('#lf-state').val())
+        .filter(f => f.class === 'VA Medical Center (VAMC)')
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .forEach(f => { buf += `<option value="${f.code}">${f.name} (${f.code})</option>`; });
+      $('#lf-facility').html(buf);
+      if ($('#lf-visn').val() || $('#lf-showVisn').prop('checked')) {
+        getVisnFacilities(facilityHelper, true);
+      }
+      $('#lf-stationNumber').val($('#lf-facility').val());
+    });
+
+    $('#lf-facility').on('change', function () { $('#lf-stationNumber').val($(this).val()); });
+    $('#lf-showVisn').on('change', function () {
+      getVisnFacilities(facilityHelper, !!$('#lf-state').val());
+      $('#lf-stationNumber').val($('#lf-facility').val());
+    });
+  });
+
+})();
+</script>
+
+<div class="lp-scope leaf-find">
+  <div class="lf-container">
+
+    <!-- Header -->
+    <div class="lf-header">
+      <h1>Find LEAF Site</h1>
+      <p class="lead">Search for active LEAF sites by station number, VISN, or state.</p>
+      <p class="lf-disclaimer">Active sites are those with at least one new record in the past 30 days.</p>
+    </div>
+
+    <!-- Unified card -->
+    <div class="lf-card">
+
+      <!-- Search toggle bar -->
+      <button class="lf-search-toggle"
+              id="lf-searchToggle"
+              aria-expanded="true"
+              aria-controls="lf-searchPanel">
+        <span class="lf-toggle-left">
+          <span class="lf-toggle-icon">⌕</span>
+          <span>Search</span>
+          <span class="lf-toggle-summary"></span>
+        </span>
+        <span class="lf-toggle-right">
+          <em class="lf-toggle-chevron">▲</em> Collapse
+        </span>
+      </button>
+
+      <!-- Search form -->
+      <div class="lf-search-panel" id="lf-searchPanel">
+        <div class="lf-search-inner">
+          <div class="lp-field">
+            <label for="lf-visn">VISN</label>
+            <select id="lf-visn"></select>
+          </div>
+          <div class="lp-field">
+            <label for="lf-state">State</label>
+            <select id="lf-state"></select>
+          </div>
+          <div class="lp-field" id="lf-facilityRow" style="display: none;">
+            <label for="lf-facility">Facility</label>
+            <select id="lf-facility"></select>
+            <label style="margin-top:6px;font-size:0.85rem;font-weight:400;color:var(--lp-muted);display:flex;align-items:center;gap:6px;">
+              <input type="checkbox" id="lf-showVisn" /> Show VISN Offices
+            </label>
+          </div>
+          <div class="lp-field">
+            <label for="lf-stationNumber">Station Number</label>
+            <input type="text" id="lf-stationNumber" style="max-width:140px;" placeholder="e.g. 612" />
+          </div>
+          <div class="lp-btn-row">
+            <button class="btn btn-primary" type="button" id="lf-search">Search</button>
+            <button class="btn" type="button" id="lf-reset">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notice (no filters / no results) -->
+      <div id="lf-noticeArea" style="display:none;">
+        <div class="lf-notice">
+          <p>No active sites found.</p>
+          <ul>
+            <li>If you searched by station number, try selecting a <strong>VISN</strong> or <strong>state</strong>.</li>
+            <li>If you searched by state, try the parent <strong>VISN</strong> to broaden results.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Progress (inside card) -->
+      <div id="lf-progressArea" style="display:none;">
+        <div class="lf-progress-area">
+          <p class="lp-progress-label">
+            Searching <span id="lf-numLoaded">0</span> of <span id="lf-numTotal">0</span> sites…
+          </p>
+          <div class="lp-progressbar-track">
+            <div class="lp-progressbar-fill" id="lf-progressFill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div id="lf-resultsArea" style="display:none;">
+
+        <!-- Meta bar -->
+        <div class="lf-meta-bar">
+          <p id="lf-resultsMeta"></p>
+          <div id="lf-errorNotice"></div>
+        </div>
+
+        <!-- Split panel -->
+        <div class="lf-split" role="region" aria-label="Site results">
+
+          <!-- Left -->
+          <div class="lf-sitelist-wrap">
+            <div class="lf-col-header">LEAF Sites</div>
+            <div class="lf-sitelist"
+                 id="lf-sitelist"
+                 role="listbox"
+                 aria-label="Active sites"
+                 aria-orientation="vertical">
+            </div>
+          </div>
+
+          <!-- Right -->
+          <div class="lf-detail-wrap">
+            <div class="lf-col-header">Site Details &amp; Forms</div>
+            <div class="lf-detail"
+                 id="lf-detail"
+                 role="region"
+                 aria-label="Site detail"
+                 aria-live="polite">
+              <div class="lf-prompt">
+                <span class="lf-prompt__icon" aria-hidden="true">☰</span>
+                <p class="lf-prompt__text">Select a site to view its details</p>
+                <p class="lf-prompt__sub">Choose any site from the list on the left</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /.lf-card -->
+
+  </div><!-- /.lf-container -->
+</div>
