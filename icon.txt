@@ -1,0 +1,26 @@
+I need you to replace all Material Symbols (and/or classic Material Icons) icon font references in [FILE NAME(S)] — including any icon markup generated dynamically in JS, not just static HTML — with local SVG files.
+Step 0 — Inventory first, don't assume the list. Before downloading anything, search the file(s) thoroughly for every <span class="material-symbols-outlined"> / <span class="material-icons"> (and equivalents) in both static markup and any JS template strings that generate HTML at runtime, and produce a deduplicated list of every distinct icon name actually used. Flag any icon name found that is not a real, valid icon in that font family (this has happened before — e.g. expand_more/expand_less were mistakenly assumed valid) so a substitute name can be chosen before proceeding, rather than silently guessing or leaving a broken glyph in place.
+Once confirmed, I'll upload the SVGs to the file manager at the path pattern ./files/iconname.svg and give you the final name → path mapping table.
+Two things to check/handle regardless of site:
+
+Multiple icon-font systems may coexist in one file. Some LEAF pages load both .material-symbols-outlined (newer, most of the UI) and .material-icons (older, often just one or two leftover icons like lock or close in a secondary gate/modal, loaded via a separate <link> tag). Treat each as its own conversion, and remove each <link> tag independently once its icons are fully inlined.
+JS-generated icon markup. Search every .js file loaded by this page for template-string occurrences of the icon-font span classes — these are typically inside render/template functions (chip builders, row renderers, banner builders, modal content builders, etc.) and are easy to miss if you only check the static .html.
+
+Implementation consideration — check before bulk-converting: this file's CSS may recolor icons dynamically via color (hover states, status colors, !important overrides) and resize them via font-size at varying values per context, and may also apply CSS transform (e.g. rotation on an expand/collapse toggle) to specific icon instances. A plain <img src="..."> cannot be recolored via CSS color/currentColor — the color is baked into the file. Before doing a blanket find-and-replace:
+
+If the downloaded SVGs use fill="currentColor" (or no fill attribute), inline them directly as <svg> markup (not <img>) — this is the preferred approach and requires minimal CSS rework.
+If they have a hardcoded fill color, either edit each file's fill to currentColor before uploading, or flag it to me — converting every dynamic-color rule to filter-based recoloring or pre-colored variants is significantly more work and changes scope. Don't guess; confirm with me first.
+
+Also check for and remove, if present: any font-loading guard script tied to the icon font (e.g. document.fonts.load(...) paired with an opacity-fade class toggled once the font is confirmed loaded, to prevent icon ligature text flashing as literal words). Once icons are inlined as SVG there's no font to wait on, so this guard (both the JS and its companion CSS) becomes dead code.
+Task steps:
+
+Produce the full icon inventory (Step 0) and flag any invalid/non-existent icon names for resolution before finalizing the mapping table.
+Once the mapping is finalized and SVGs are uploaded, confirm the fill-color case (see above) before converting anything.
+Replace every static <span class="material-symbols-outlined">/<span class="material-icons"> in the HTML with the corresponding inline <svg>, preserving all existing classes, aria-hidden, and wrapper elements so layout doesn't shift.
+Replace every JS-generated equivalent, function by function.
+Remove the icon-font CSS rule block(s), any font-variation-settings, and the font-loading guard (script + CSS) if present — replace icon sizing with width/height on each inlined <svg> matching that instance's existing font-size. Re-verify any transform/rotation rules still target the new <svg> element correctly.
+Remove the icon-font Google Fonts <link> tag(s) (and preconnect tags if present) from <head> for each font family converted.
+Double-check every icon used in more than one place is correctly inlined at every occurrence, not just the first.
+After editing, search the file(s) for material-symbols-outlined and material-icons to confirm zero remaining references.
+
+Let me know the results of Step 0 (the full inventory, and any invalid icon names found) before I finalize and upload the SVGs.

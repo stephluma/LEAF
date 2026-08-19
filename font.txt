@@ -1,0 +1,33 @@
+I need you to remove the Google Fonts dependency for text typefaces in [FILE NAME(S)] and replace it with LEAF's local font families.
+1. Remove these tags from <head> (adjust the exact family= query string to match whatever this file currently loads):
+html<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=[...]&display=swap"
+  rel="stylesheet"
+/>
+(Keep any Material Symbols/Material Icons Google Fonts <link> for now — that's handled separately, see Prompt 2.)
+2. Find every place font-family is declared — check both inline <style> blocks and any linked .css file(s). Note two possible structures, confirm which applies before editing:
+
+Structure A — hardcoded per-rule: font-family and font-weight are declared directly on each individual selector, with no shared variable. In this case, replace every occurrence using this mapping:
+
+CurrentReplace withfont-family: "Public Sans", sans-serif; + font-weight: 800 or 700font-family: 'PublicSans-Bold', sans-serif; (remove the font-weight line)font-family: "Public Sans", sans-serif; + font-weight: 600font-family: 'PublicSans-Medium', sans-serif; (remove the font-weight line)font-family: "Public Sans", sans-serif; + font-weight: 400/nonefont-family: 'PublicSans-Regular', sans-serif; (remove the font-weight line if present)font-family: "Source Sans 3", sans-serif; + font-weight: 700 or 600font-family: 'Source Sans Pro Web-Bold', sans-serif; (remove the font-weight line)font-family: "Source Sans 3", sans-serif; + font-weight: 400/none (incl. italic)font-family: 'Source Sans Pro Web', sans-serif; (remove font-weight: 400 if present; leave font-style: italic as-is)font-family: "Source Sans 3", "Public Sans", sans-serif;font-family: 'Source Sans Pro Web', 'PublicSans-Regular', sans-serif;
+
+Structure B — centralized via CSS custom properties: the whole file routes typography through a small number of root-level variables (e.g. --[prefix]-font, --[prefix]-display) that most rules reference via var(...), with font-weight still set locally per rule. In this case:
+
+Update the root variables themselves to the base/regular local families, e.g.:
+
+
+
+css    --[prefix]-font: 'Source Sans Pro Web', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --[prefix]-display: 'PublicSans-Regular', var(--[prefix]-font);
+
+Then go through every rule that pairs var(--[prefix]-display) or var(--[prefix]-font) with font-weight: 600/700/800, and override font-family locally at that selector to the bold/medium variant instead ('PublicSans-Bold', 'PublicSans-Medium', or 'Source Sans Pro Web-Bold' as appropriate, matching which base variable that rule used), removing the now-redundant font-weight line. Leave weight-400/unspecified rules untouched, since they resolve correctly from the updated root variables alone.
+
+3. Go through the file section by section (header/nav, hero, cards, sidebar, tabs, tables, badges, buttons, forms, modals, toasts, detail views, footers — adjust to this file's actual sections) and confirm every font-family occurrence is updated, including any inside @media query overrides.
+4. After editing, search the file for:
+
+Any remaining instances of "Public Sans" or "Source Sans 3" (should be zero).
+Any rule that still pairs font-weight: 600/700/800 directly with one of the new local family names or with var(--[prefix]-display)/var(--[prefix]-font) (should be zero — weight should now be baked into the family name at each such site).
+
+Please confirm which structure (A or B) applies to this file before starting, since it changes how the replacement should be scoped.
