@@ -1,1 +1,9 @@
-https://leaf.va.gov/platform/service_requests_launchpad/report.php?a=LEAF_Start_Request&id=form_a3df9&title=Training+Registration
+Return with your game plan, recommendations, and questions using AskUserQuestions before returning any code. 
+
+Preference:
+*We want to use as little external dependencies as possible. Everything will be locally hosted
+*If you are introducing any new icon usage, return the Material Symbols (Filled) SVG icon name I need to download and upload
+*Code is WCAG and section 508 accessible
+*Code is responsive
+*Code is consistent with each other
+*Remove any irrelevant comments in the code that does not give context to a developer looking at the code for the first time. If comments are relevant, make them short and succinct
