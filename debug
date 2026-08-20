@@ -1,1 +1,99 @@
-https://leaf.va.gov/launchpad/report.php?a=Start_new_site
+<style type="text/css">
+    .badge {
+        position: relative;
+        border: none;
+        border-radius: 5px;
+        content: attr(data-badge);
+        top: -1px;
+        right: 14px;
+        font-size: 14px;
+        background: #7BC143;
+        color: white;
+        width: auto;
+        height: 26px;
+        text-align: center;
+        line-height: 24px;
+        border-radius: 3rem;
+        box-shadow: 0 0 1px #333;
+        padding: .05rem .8rem .1rem;
+    }
+    #result{
+        color:white;
+    }
+    .btn-survey {
+        margin-right: 50px;
+        background-color: #7BC143;
+        border-radius: 5px;
+        border-color: #7BC143;
+        border-style: solid;
+        padding: 2px;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+    .btn-survey:hover {
+        margin-right: 50px;
+        background-color: #69a538;
+        border-radius: 5px;
+        border-color: #69a538;
+        border-style: solid;
+        padding: 2px;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+</style>
+<div style="float: left">
+    <a href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=Ixtf6a-r7kWCHberJRqzv4zsEJ7Cgv5Mh7ekUHVrKM1UMk5BT09JUVg5R1UyNVhUOEpBTFRVVkVCNiQlQCN0PWcu" 
+       target="_blank" 
+       style="text-decoration: none;">
+        <button type="button" id="btn_survey" 
+                class="btn btn-survey text-white text-nowrap px-3 py-1 mt-auto ms-auto" 
+                style="display: block;margin-bottom: 5px;color: black !important;">
+            📢 Take the 2026 Annual LEAF Survey | 🗓️ Aug 17 - 28, 2026
+        </button>
+    </a>
+</div>
+{if $action == '' && $is_admin == true}
+<button class="badge">Users Online: <span id="result">0</span> </button>
+{/if}
+
+{if $action != ''}
+<a href="./" class="buttonNorm"><img src="dynicons/?img=go-home.svg&amp;w=16" alt="" />Main Page</a>
+{/if}
+
+{if $is_admin == true}
+<div id="headerMenu_container" style="display: inline-block">
+    <a id="button_showLinks" href="#" class="buttonNorm">Links</a>
+    <div id="headerMenu_links">
+        {include file="menu_links.tpl"}
+    </div>
+</div>
+{/if}
+
+{if $empMembership['groupID'][17] == 1}
+<a href="./report.php?a=Coaches" class="buttonNorm"><img src="dynicons/?img=preferences-system.svg&amp;w=16" />Coaches</a>
+{/if}
+
+<a href="https://leaf.va.gov/platform/service_requests_launchpad/" class="buttonNorm"><img src="dynicons/?img=help-browser.svg&amp;w=16" />Help</a>
+
+{if $is_admin == true}
+<a href="./admin/" class="buttonNorm"><img src="dynicons/?img=applications-system.svg&amp;w=16" />Admin Panel</a>
+{/if}
+{if $hide_main_control == 1}
+{/if}
+
+<br />
+{if $action == '' && $is_admin == true}
+<script>
+    if(typeof(EventSource) !== "undefined") {
+        var source = new EventSource("/online-users/getonlineusers.php");
+        source.onmessage = function(event) {
+            document.getElementById("result").innerHTML = event.data + "<br>";
+        };
+
+
+    } else {
+        $(".badge").remove();
+    }
+</script>
+{/if}
+<noscript><div class="alert"><span>Javascript must be enabled for this version of software to work!</span></div></noscript>
