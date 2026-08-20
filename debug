@@ -1,34 +1,61 @@
-Instruction: Restrict button visibility by orgchart group membership
-Goal: Only show a specific button to employees who belong to LEAF orgchart group 52. Everyone else should not see it at all (not just disabled — omitted from the rendered page).
-Steps:
+Short answer: I did not find an existing “current user session/me” API endpoint in the searched results that returns admin + group membership for client-side gating. What I did find shows $empMembership is primarily populated server-side and injected into Smarty templates.
 
-Locate the button's markup in the relevant Smarty template file for the page.
-Wrap the button in a Smarty conditional using $empMembership['groupID'][52]:
+What I found
+1) How $empMembership is populated server-side
+In software/LEAF, multiple PHP entrypoints assign membership directly from login/session objects into Smarty:
 
-smarty<!--{if $empMembership['groupID'][52]}-->
-  <button type="button" id="yourButtonId">
-    Your Button Label
-  </button>
-<!--{/if}-->
+LEAF_Request_Portal/report.php assigns:
+empUID via $login->getEmpUID()
+empMembership via $login->getMembership()
+orgchartPath via $site_paths['orgchart_path']
+LEAF_Nexus/report.php similarly assigns empMembership via $oc_login->getMembership()
+LEAF_Nexus/index.php checks admin using membership group 1:
+isset($memberships['groupID'][1]) or $oc_login->getMembership()['groupID'][1]
+So the Smarty pattern ($empMembership['groupID'][X]) is coming from getMembership() on the login object, then template injection.
 
-If nesting inside an existing group check (e.g. the page is already gated by a broader access group), nest the new check inside it so the button only shows for users who pass both conditions:
+2) Admin check pattern
+I found repeated server-side logic:
 
-smarty<!--{if $empMembership['groupID'][SOME_EXISTING_GROUP_ID]}-->
-  <!-- existing gated content -->
+admin = group 1 membership (groupID[1]), e.g. in LEAF_Nexus/index.php and LEAF_Nexus/report.php.
+That strongly suggests admin status is currently computed/checked in PHP during render, not via a dedicated “whoami” JSON endpoint in these hits.
 
-  <!--{if $empMembership['groupID'][52]}-->
-    <button type="button" id="yourButtonId">Your Button Label</button>
-  <!--{/if}-->
+3) Existing API wrappers / client convention
+I found app/libs/js/portal/LEAFPortalAPI.js and libs/jsapi/nexus/LEAFNexusAPI.js using $.ajax for API calls (GET/POST).
+So existing convention is jQuery AJAX, not fetch in these references.
 
-<!--{/if}-->
+4) orgchartPath usage
+orgchartPath is passed from PHP into Smarty (report.php etc.) as a path variable for client/template use.
+In the returned hits, I did not see a clear endpoint definition showing a direct “permissions/status” JSON response tied to orgchartPath; it appears to be a base path handoff rather than itself a user-permissions endpoint.
 
-Confirm $empMembership is assigned in that page's controller. If the page doesn't already use $empMembership elsewhere, check with whoever owns the backend/template that it's being passed into the Smarty context — otherwise the {if} will silently evaluate false for everyone.
-Verify group 52 membership in Orgchart admin — confirm which employees/teams are currently members, and add or remove people as needed.
-Test as both a member and non-member of group 52 to confirm:
+Endpoints found relevant to your question
+From searched hits, I did not find a definitive endpoint like:
 
-Member sees the button and it functions normally.
-Non-member does not see the button in the rendered HTML at all (check page source, not just visual hiding).
+/api/me
+/api/session
+/api/currentUser
+endpoint returning { isAdmin, empUID, memberships }
+I did find many functional APIs (form/group/indicator etc.), but none in these results clearly expose current logged-in user membership/admin as a standalone JSON route.
 
+Auth / CSRF pattern observed
+Session-based auth is in use (PHP session setup; PHPSESSID cookie).
+CSRF token is assigned to templates ($_SESSION['CSRFToken']) and used on POSTs in JS wrappers.
+GETs are typically plain AJAX GETs with session cookie; POSTs include CSRF token in payload.
+Important limitation (must-read)
+Code search tool responses here are capped and may be incomplete.
+Please review broader results in GitHub UI:
 
+software/LEAF code search:
+https://va.ghe.com/software/LEAF/search?q=session+OR+whoami+OR+currentUser+OR+me+OR+empMembership+OR+groupID+OR+permissions+OR+userGroups+OR+orgchartPath&type=code
+software/LEAF API-wrapper search:
+https://va.ghe.com/software/LEAF/search?q=LEAFPortalAPI.js+OR+formGrid.js+OR+fetch%28+OR+%24.ajax%28&type=code
+software/LEAF-Scripts membership search:
+https://va.ghe.com/software/LEAF-Scripts/search?q=empMembership&type=code
+software/LEAF-Apps membership search:
+https://va.ghe.com/software/LEAF-Apps/search?q=empMembership&type=code
+Practical conclusion
+Based on the current hits: assume no existing dedicated current-user membership endpoint until a full repo-wide search confirms otherwise.
+If you want, I can do a tighter second pass specifically for:
 
-Note: This is server-side template gating (safest — the button never reaches non-members' HTML). Avoid relying solely on client-side hiding (e.g. CSS display:none via JS), since that can be bypassed by anyone inspecting the page.
+route declarations under api/ in PHP (including switch/action handlers),
+any getMembership() callsites that echo json_encode(...),
+and JS callsites requesting user/session/admin payloads.
