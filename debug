@@ -1,9 +1,99 @@
-Return with your game plan, recommendations, and questions using AskUserQuestions before returning any code. 
+I need you to remove all Google Fonts dependencies (text typefaces AND Material 
+Symbols/Material Icons) from [FILENAME].html and replace them with locally 
+hosted equivalents, then split the file into separate HTML/CSS/JS files.
 
-Preference:
-*We want to use as little external dependencies as possible. Everything will be locally hosted
-*If you are introducing any new icon usage, return the Material Symbols (Filled) SVG icon name I need to download and upload
-*Code is WCAG and section 508 accessible
-*Code is responsive
-*Code is consistent with each other
-*Remove any irrelevant comments in the code that does not give context to a developer looking at the code for the first time. If comments are relevant, make them short and succinct
+=== PART 1: FONTS ===
+
+1. Remove Google Fonts <link>/<preconnect> tags for text typefaces from <head>.
+   (Leave the Material Symbols <link> for now — handled in Part 2.)
+
+2. Find every font-family declaration (inline <style> and any linked .css).
+   First confirm which structure applies:
+
+   Structure A — hardcoded per-rule: font-family + font-weight declared 
+   directly on each selector, no shared variable.
+
+   Structure B — centralized via CSS custom properties: typography routed 
+   through root-level variables (e.g. --[prefix]-font, --[prefix]-display).
+
+   Once confirmed, apply this mapping (adjust family names to match our 
+   actual local font files):
+   
+   "Public Sans" + weight 800/700 → 'PublicSans-Bold'
+   "Public Sans" + weight 600     → 'PublicSans-Medium'
+   "Public Sans" + weight 400/none → 'PublicSans-Regular'
+   "Source Sans 3" + weight 700/600 → 'Source Sans Pro Web-Bold'
+   "Source Sans 3" + weight 400/none → 'Source Sans Pro Web'
+   
+   Remove font-weight lines once baked into the family name. For Structure B, 
+   update root variables to the regular/base local family, then override 
+   font-family locally (not the variable) at any rule pairing a bold/medium 
+   weight with that variable.
+
+3. Check every section (hero, nav, cards, sidebar, tabs, badges, buttons, 
+   modals, detail views, @media overrides) for font-family occurrences.
+
+4. Verify: zero remaining "Public Sans"/"Source Sans 3" references, and zero 
+   rules still pairing font-weight 600/700/800 with a family name or 
+   var(--font-related-variable).
+
+=== PART 2: ICONS ===
+
+Step 0 — Inventory first, don't assume the list. Search the file(s) 
+thoroughly — static markup AND JS template strings that generate HTML at 
+runtime — for every <span class="material-symbols-outlined">/
+<span class="material-icons"> usage. Produce a deduplicated list of every 
+distinct icon name used. Flag any icon name that isn't a real, valid name in 
+that font family, so I can pick a substitute before we proceed.
+
+Check for:
+- Multiple icon-font systems coexisting (e.g. both material-symbols-outlined 
+  and the older material-icons loaded via separate <link> tags) — treat each 
+  as its own conversion.
+- JS-generated icon markup inside render/template functions — easy to miss 
+  if only the static HTML is checked.
+- A font-loading guard script (document.fonts.load(...) + opacity-fade class 
+  to prevent ligature-text flash) — this becomes dead code once icons are 
+  SVGs and should be removed if present.
+
+Report the inventory and any invalid names back to me before I upload SVGs.
+
+Once I upload SVGs to ./files/iconname.svg and give you the mapping table:
+
+1. Confirm fill color before converting anything:
+   - fill="currentColor" (or no fill) → inline as <svg> directly (preferred).
+   - Hardcoded fill → flag it, don't guess; this is bigger scope (dynamic 
+     color rules would need rework).
+
+2. Replace every static icon-font <span> with the inline <svg>, preserving 
+   existing classes/aria-hidden/wrapper elements so layout doesn't shift.
+
+3. Replace every JS-generated equivalent, function by function.
+
+4. Remove icon-font CSS rules, font-variation-settings, and the loading 
+   guard (script + CSS) if present. Convert icon sizing from font-size to 
+   width/height on each <svg>. Re-verify any transform/rotation rules still 
+   target the new element correctly.
+
+5. Remove the icon-font Google Fonts <link>/<preconnect> tags from <head>.
+
+6. Double-check icons used in multiple places are inlined at every occurrence.
+
+7. After editing, search for material-symbols-outlined and material-icons 
+   to confirm zero remaining references.
+
+=== PART 3: SPLIT INTO FILES ===
+
+Split the single file into three: [FILENAME].html, [FILENAME].css, 
+[FILENAME].js. HTML should reference the other two via <link> and 
+<script src>. Return each as a separate artifact in sequence (one artifact 
+per response), starting with HTML.
+
+=== GENERAL PREFERENCES ===
+- Minimal external dependencies — everything locally hosted
+- Any new icon usage: give me the Material Symbols (Filled) SVG icon name 
+  to download, not the file itself
+- WCAG / Section 508 accessible
+- Responsive
+- Consistent code style across files
+- Remove irrelevant comments; keep only short, relevant ones for a first-time reader
