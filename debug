@@ -1,12 +1,1 @@
-report.php?a=lp_home:677 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
-leaf_header.js:1340 [LP] Lazy-loading LEAF UI deps for fetched page: Array(2)
-ensureLeafUIDeps @ leaf_header.js:1340
-jquery.min.js:2 jQuery.Deferred exception: VAFacilityHelper is not defined ReferenceError: VAFacilityHelper is not defined
-    at HTMLDocument.eval (eval at <anonymous> (https://leaf.va.gov/launchpad/files/leaf_header.js:1503:20), <anonymous>:453:28)
-    at e (https://leaf.va.gov/libs/js/jquery/jquery.min.js:2:30038)
-    at t (https://leaf.va.gov/libs/js/jquery/jquery.min.js:2:30340) undefined
-S.Deferred.exceptionHook @ jquery.min.js:2
-jquery.min.js:2 Uncaught ReferenceError: VAFacilityHelper is not defined
-    at HTMLDocument.eval (eval at <anonymous> (leaf_header.js:1503:20), <anonymous>:453:28)
-    at e (jquery.min.js:2:30038)
-    at t (jquery.min.js:2:30340)
+https://leaf.va.gov/launchpad/report.php?a=Coaches
