@@ -1,1 +1,34 @@
-convention, so an unprocessed/un-rendered page degrades to inert comments rather than broken markup. STATIC PLACEHOLDER — this page isn't Smarty-rendered yet. Both flags default to false below the {if} blocks; since the {if}/{/if} wrapper itself is an inert HTML comment when raw, the override line beneath still runs unconditionally, so both currently evaluate to true here — useful for visually testing the gated Internal-section items without a real server. Once this page is wired up to Smarty, this already renders correctly as-is — no changes needed beyond filling in the real group ID. REPLACE_ME_LEADERSHIP_GROUP_ID needs that real Smarty group ID. -->
+Instruction: Restrict button visibility by orgchart group membership
+Goal: Only show a specific button to employees who belong to LEAF orgchart group 52. Everyone else should not see it at all (not just disabled — omitted from the rendered page).
+Steps:
+
+Locate the button's markup in the relevant Smarty template file for the page.
+Wrap the button in a Smarty conditional using $empMembership['groupID'][52]:
+
+smarty<!--{if $empMembership['groupID'][52]}-->
+  <button type="button" id="yourButtonId">
+    Your Button Label
+  </button>
+<!--{/if}-->
+
+If nesting inside an existing group check (e.g. the page is already gated by a broader access group), nest the new check inside it so the button only shows for users who pass both conditions:
+
+smarty<!--{if $empMembership['groupID'][SOME_EXISTING_GROUP_ID]}-->
+  <!-- existing gated content -->
+
+  <!--{if $empMembership['groupID'][52]}-->
+    <button type="button" id="yourButtonId">Your Button Label</button>
+  <!--{/if}-->
+
+<!--{/if}-->
+
+Confirm $empMembership is assigned in that page's controller. If the page doesn't already use $empMembership elsewhere, check with whoever owns the backend/template that it's being passed into the Smarty context — otherwise the {if} will silently evaluate false for everyone.
+Verify group 52 membership in Orgchart admin — confirm which employees/teams are currently members, and add or remove people as needed.
+Test as both a member and non-member of group 52 to confirm:
+
+Member sees the button and it functions normally.
+Non-member does not see the button in the rendered HTML at all (check page source, not just visual hiding).
+
+
+
+Note: This is server-side template gating (safest — the button never reaches non-members' HTML). Avoid relying solely on client-side hiding (e.g. CSS display:none via JS), since that can be bypassed by anyone inspecting the page.
