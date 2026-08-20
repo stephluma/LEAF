@@ -1,12 +1,1 @@
-report.php?a=lp_home:730 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
-leaf_header.js:1271 [LP] Lazy-loading LEAF UI deps for fetched page: Array(2)
-ensureLeafUIDeps @ leaf_header.js:1271
-indicator.gif:1  Failed to load resource: the server responded with a status of 404 (Not Found)
-/platform/?img=search.svg&w=16:1  Failed to load resource: the server responded with a status of 403 (Forbidden)
-dynicons/?img=edit-find.svg&w=32:1  Failed to load resource: net::ERR_INVALID_REDIRECT
-VM53:19 Uncaught TypeError: Cannot read properties of null (reading 'style')
-    at showProgress (eval at <anonymous> (leaf_header.js:1434:20), <anonymous>:19:32)
-    at eval (eval at <anonymous> (leaf_header.js:1434:20), <anonymous>:306:11)
-    at search (formSearch.js:356:16)
-    at inputLoop (formSearch.js:382:31)
-    at formSearch.js:158:13
+convention, so an unprocessed/un-rendered page degrades to inert comments rather than broken markup. STATIC PLACEHOLDER — this page isn't Smarty-rendered yet. Both flags default to false below the {if} blocks; since the {if}/{/if} wrapper itself is an inert HTML comment when raw, the override line beneath still runs unconditionally, so both currently evaluate to true here — useful for visually testing the gated Internal-section items without a real server. Once this page is wired up to Smarty, this already renders correctly as-is — no changes needed beyond filling in the real group ID. REPLACE_ME_LEADERSHIP_GROUP_ID needs that real Smarty group ID. -->
