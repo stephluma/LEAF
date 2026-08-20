@@ -1,99 +1,23 @@
-<style type="text/css">
-    .badge {
-        position: relative;
-        border: none;
-        border-radius: 5px;
-        content: attr(data-badge);
-        top: -1px;
-        right: 14px;
-        font-size: 14px;
-        background: #7BC143;
-        color: white;
-        width: auto;
-        height: 26px;
-        text-align: center;
-        line-height: 24px;
-        border-radius: 3rem;
-        box-shadow: 0 0 1px #333;
-        padding: .05rem .8rem .1rem;
-    }
-    #result{
-        color:white;
-    }
-    .btn-survey {
-        margin-right: 50px;
-        background-color: #7BC143;
-        border-radius: 5px;
-        border-color: #7BC143;
-        border-style: solid;
-        padding: 2px;
-        padding-right: 10px;
-        padding-left: 10px;
-    }
-    .btn-survey:hover {
-        margin-right: 50px;
-        background-color: #69a538;
-        border-radius: 5px;
-        border-color: #69a538;
-        border-style: solid;
-        padding: 2px;
-        padding-right: 10px;
-        padding-left: 10px;
-    }
-</style>
-<div style="float: left">
-    <a href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=Ixtf6a-r7kWCHberJRqzv4zsEJ7Cgv5Mh7ekUHVrKM1UMk5BT09JUVg5R1UyNVhUOEpBTFRVVkVCNiQlQCN0PWcu" 
-       target="_blank" 
-       style="text-decoration: none;">
-        <button type="button" id="btn_survey" 
-                class="btn btn-survey text-white text-nowrap px-3 py-1 mt-auto ms-auto" 
-                style="display: block;margin-bottom: 5px;color: black !important;">
-            📢 Take the 2026 Annual LEAF Survey | 🗓️ Aug 17 - 28, 2026
-        </button>
-    </a>
-</div>
-{if $action == '' && $is_admin == true}
-<button class="badge">Users Online: <span id="result">0</span> </button>
-{/if}
-
-{if $action != ''}
-<a href="./" class="buttonNorm"><img src="dynicons/?img=go-home.svg&amp;w=16" alt="" />Main Page</a>
-{/if}
-
-{if $is_admin == true}
-<div id="headerMenu_container" style="display: inline-block">
-    <a id="button_showLinks" href="#" class="buttonNorm">Links</a>
-    <div id="headerMenu_links">
-        {include file="menu_links.tpl"}
-    </div>
-</div>
-{/if}
-
-{if $empMembership['groupID'][17] == 1}
-<a href="./report.php?a=Coaches" class="buttonNorm"><img src="dynicons/?img=preferences-system.svg&amp;w=16" />Coaches</a>
-{/if}
-
-<a href="https://leaf.va.gov/platform/service_requests_launchpad/" class="buttonNorm"><img src="dynicons/?img=help-browser.svg&amp;w=16" />Help</a>
-
-{if $is_admin == true}
-<a href="./admin/" class="buttonNorm"><img src="dynicons/?img=applications-system.svg&amp;w=16" />Admin Panel</a>
-{/if}
-{if $hide_main_control == 1}
-{/if}
-
-<br />
-{if $action == '' && $is_admin == true}
-<script>
-    if(typeof(EventSource) !== "undefined") {
-        var source = new EventSource("/online-users/getonlineusers.php");
-        source.onmessage = function(event) {
-            document.getElementById("result").innerHTML = event.data + "<br>";
-        };
-
-
-    } else {
-        $(".badge").remove();
-    }
-</script>
-{/if}
-<noscript><div class="alert"><span>Javascript must be enabled for this version of software to work!</span></div></noscript>
+report.php?a=dashboard_test&debug=1:3766 LEAF dashboard debug mode active.
+report.php?a=dashboard_test&debug=1:3770 Run window.__LEAF_DEBUG.lookup('1234') with a recordID to see raw vs mapped data.
+report.php?a=dashboard_test&debug=1:3773 Run window.__LEAF_DEBUG.missingFrom(['1234','5678']) to check a batch of expected IDs against what actually came back.
+report.php?a=dashboard_test&debug=1:3776 Run window.__LEAF_DEBUG.listUnmapped() to see all 85 records that were fetched but not displayed, and why.
+report.php?a=dashboard_test&debug=1:3781 Run window.__LEAF_DEBUG.probeRecord('1234') on one of those unmapped record IDs to try to discover the submission-status field.
+window.__LEAF_DEBUG.listUnmapped()[3].rid
+report.php?a=dashboard_test&debug=1:3744 (index)ridid23id24id9id4otherFieldsPopulated(index)ridid23id24id9id4otherFieldsPopulated0'3''null''null''null''null'11'10''null''null''null''null'12'17''null''null''null''null'13'28''null''null''null''null'14'58''null''null''null''null'15'61''null''null''null''null'16'62''null''null''null''null'17'63''null''null''null''null'18'64''null''null''null''null'19'65''null''null''null''null'110'66''null''null''null''null'111'67''null''null''null''null'112'68''null''null''null''null'113'69''null''null''null''null'114'70''null''null''null''null'115'71''null''null''null''null'116'72''null''null''null''null'117'73''null''null''null''null'118'74''null''null''null''null'119'75''null''null''null''null'120'76''null''null''null''null'121'77''null''null''null''null'122'78''null''null''null''null'123'79''null''null''null''null'124'80''null''null''null''null'125'81''null''null''null''null'126'82''null''null''null''null'127'83''null''null''null''null'128'84''null''null''null''null'129'85''null''null''null''null'130'86''null''null''null''null'131'87''null''null''null''null'132'88''null''null''null''null'133'89''null''null''null''null'134'90''null''null''null''null'135'91''null''null''null''null'136'92''null''null''null''null'137'93''null''null''null''null'138'94''null''null''null''null'139'95''null''null''null''null'140'190''null''null''null''null'141'447''null''null''null''null'142'472''null''null''null''null'143'474''null''null''null''null'144'475''null''null''null''null'145'477''null''null''null''null'146'485''null''null''null''null'147'486''null''null''null''null'148'488''null''null''null''null'149'489''null''null''null''null'150'490''null''null''null''null'151'491''null''null''null''null'152'492''null''null''null''null'153'500''null''null''null''null'154'507''null''null''null''null'155'532''null''null''null''null'156'535''null''null''null''null'157'569''null''null''null''null'158'629''null''null''null''null'159'631''null''null''null''null'160'634''null''null''null''null'161'653''null''null''null''null'162'656''null''null''null''null'163'661''null''null''null''null'164'676''null''null''null''null'165'680''null''null''null''null'166'851''null''null''null''null'167'852''null''null''null''null'168'854''null''null''null''null'169'855''null''null''null''null'170'856''null''null''null''null'171'857''null''null''null''null'172'904''null''null''null''null'173'924''null''null''null''null'174'951''null''null''null''null'175'962''null''null''null''null'176'966''null''null''null''null'177'971''null''null''null''null'178'983''null''null''null''null'179'997''null''null''null''null'180'1002''null''null''null''null'181'1003''null''null''null''null'182'1004''null''null''null''null'183'1022''null''null''null''null'184'1068''null''null''null''null'1Array(85)
+report.php?a=dashboard_test&debug=1:3756 85 unmapped record(s) total. Full detail (incl. which other fields have data) returned below — inspect return value.
+report.php?a=dashboard_test&debug=1:3760 Rows with otherFieldsPopulated > 0 are records that clearly have data but whose type-detection fields (id4/id9/id23/id24) came back empty — likely field-level permission scrubbing, not blank records.
+'28'
+window.__LEAF_DEBUG.probeRecord('28') 
+report.php?a=dashboard_test&debug=1:3823 Probing record 28 with several request shapes to try to surface fields outside the current GET list (which only requests: 2,3,4,5,6,8,9,10,11,13,23,24,25,26,29,30,32,33,37,38,39,45,47,70,71). Looking for anything resembling a submission/status/workflow field.
+Promise {<pending>}
+report.php?a=dashboard_test&debug=1:3855 --- no getData restriction (undefined) ---
+report.php?a=dashboard_test&debug=1:3860 HTTP 200: {28: {…}}
+report.php?a=dashboard_test&debug=1:3855 --- getData:'*' ---
+report.php?a=dashboard_test&debug=1:3860 HTTP 200: {28: {…}}
+report.php?a=dashboard_test&debug=1:3855 --- getData:[] empty array ---
+report.php?a=dashboard_test&debug=1:3860 HTTP 200: {28: {…}}
+report.php?a=dashboard_test&debug=1:3855 --- joins:['status'] with existing GET fields ---
+report.php?a=dashboard_test&debug=1:3860 HTTP 200: {28: {…}}
+report.php?a=dashboard_test&debug=1:3863 s1 field IDs returned: (25) ['id2', 'id3', 'id4', 'id5', 'id6', 'id8', 'id9', 'id10', 'id11', 'id13', 'id23', 'id24', 'id25', 'id26', 'id29', 'id30', 'id32', 'id33', 'id37', 'id38', 'id39', 'id45', 'id47', 'id70', 'id71']
+report.php?a=dashboard_test&debug=1:3865 Look through the objects above for a field whose value looks like a status/workflow name (e.g. 'Not Submitted', 'Draft', a stepTitle, or a boolean-ish submitted flag). Its key (e.g. 'id41', 'id60'...) is the field ID you want. Paste the console output back and I can wire it into the query.
