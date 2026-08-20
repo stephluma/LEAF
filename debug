@@ -1,5 +1,5 @@
-window.__LEAF_DEBUG.lookup('28')
+window.__LEAF_DEBUG.lookup('28').raw.s1.id10
 report.php?a=dashboard_test&debug=1:3674 Record 28 — raw s1 fields present/non-empty: ['id10']
 report.php?a=dashboard_test&debug=1:3678 Record 28 — anchor field values (used by mapRecord to detect type): {id23: 'null', id24: 'null', id9: 'null', id4: 'null'}
 report.php?a=dashboard_test&debug=1:3685 Record 28 was fetched but mapRecord() returned null — all three anchor checks failed, so it was dropped from DATA. If otherFieldsPresent is non-empty above, this points to field-level permission scrubbing on id4/id9/id23/id24 rather than the record being genuinely empty.
-{present: true, raw: {…}, anchorState: {…}, mapped: null, step: ''}
+'( Not Started )'
