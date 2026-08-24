@@ -1,3 +1,9 @@
-Uncaught ReferenceError: INLINE_EDIT_BLOCKLIST is not defined
-    at openInlineEditor (project_v20.js:4363:21)
-    at HTMLDocument.<anonymous> (project_v20.js:4682:9)
+project_v20.js:8117 [pm-dashboard] initial load record counts — projects: 713 raw / 54 kept, tasks: 581 raw / 581 kept, keyResults: 713 raw / 33 kept, objectives: 9 raw / 8 kept
+project_v20.js:4366 Uncaught ReferenceError: INLINE_INDICATOR_STATIC_MAP is not defined
+    at fetchIndicatorMeta (project_v20.js:4366:28)
+    at openInlineEditor (project_v20.js:4409:5)
+    at HTMLDocument.<anonymous> (project_v20.js:4710:9)
+project_v20.js:4366 Uncaught ReferenceError: INLINE_INDICATOR_STATIC_MAP is not defined
+    at fetchIndicatorMeta (project_v20.js:4366:28)
+    at openInlineEditor (project_v20.js:4409:5)
+    at HTMLDocument.<anonymous> (project_v20.js:4710:9)
