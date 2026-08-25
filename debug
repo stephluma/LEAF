@@ -1,4 +1,79 @@
-https://leaf.va.gov/#goto=teams
+To fully replace LEAF’s native header/menu/footer in Template Editor, make main.tpl and main_iframe.tpl minimal wrappers that:
 
+include your universal header script (/launchpad/files/leaf_header.js)
+keep LEAF-required content containers (#content / #bodyarea)
+remove/omit native header/menu includes
+optionally leave menu.tpl unused (or reduce it to empty/minimal)
+Recommended implementation pattern
+1) Put your files in a stable shared location
+You already did this:
 
-<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm160-320h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80Z"/></svg>
+/launchpad/files/leaf_header.js
+/launchpad/files/leaf_header.css (self-loaded by JS)
+Good—single source of truth.
+
+2) Replace main.tpl shell
+In main.tpl, remove legacy header/nav rendering and include only:
+
+<script src="/launchpad/files/leaf_header.js"></script> (ideally near </head> or before </body>)
+LEAF content region expected by app pages (important: keep id contracts your JS extractor uses)
+Your JS currently extracts in this priority:
+
+[data-lp-content]
+#content
+#bodyarea
+<main>
+So keep #content and/or #bodyarea in template output for compatibility.
+
+3) Replace main_iframe.tpl similarly
+Use the same lightweight shell + script include for iframe-based views, unless you intentionally want the iframe template to be headerless.
+
+Given your router/modal behavior, keeping consistent structure across both templates prevents edge-case regressions.
+
+4) menu.tpl options
+Since your header renders nav itself, you have 2 safe choices:
+
+Best: stop including menu.tpl from main.tpl/main_iframe.tpl.
+Fallback: keep include but make menu.tpl empty/minimal no-op.
+Do not keep legacy menu HTML active, or you’ll get double-nav and conflicting behavior.
+
+5) Keep LEAF-required internals intact
+Even with a full visual replacement, don’t remove template placeholders that server-side pages depend on (title vars, content injection vars, scripts/styles hooks, etc.).
+Your header hides #header/#footer already, but for a complete replacement you should remove their rendering from tpl, not just hide with CSS.
+
+Practical “minimal shell” shape (conceptual)
+Use this structure in both template files:
+
+Head:
+existing LEAF-required meta/title/css/js hooks
+your one line:
+<script src="/launchpad/files/leaf_header.js"></script>
+Body:
+keep skip/content landmarks expected by LEAF pages
+keep #content and/or #bodyarea wrapper where LEAF injects page body
+no legacy top nav/header/footer markup
+Important gotchas (for LEAF specifically)
+Don’t delete required Smarty vars/placeholders
+Strip chrome markup, not framework placeholders.
+
+Launchpad detection
+Your JS enables router only on lp_home/#lpSwapHost. Ensure launchpad template/page still renders the marker you rely on.
+
+Cross-app routes (iframe: true)
+These are correct in your config. Don’t force those into fetch/splice.
+
+menu.tpl references in old pages
+Some old templates may include menu.tpl directly. Grep for includes and neutralize those paths too.
+
+Cache/static asset invalidation
+After replacing templates, clear LEAF/template cache and hard refresh browsers; otherwise you’ll think tpl edits “didn’t take.”
+
+Rollout strategy (safest)
+Clone current main.tpl, main_iframe.tpl, menu.tpl backups.
+Apply replacement in lower env.
+Validate:
+standard report pages
+launchpad hash routes
+iframe routes (CoP, Ideas, Help Library, Privacy)
+modals, skip link, keyboard nav, breadcrumb behavior
+Promote to prod with rollback-ready backups.
