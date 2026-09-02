@@ -1,0 +1,1128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voice of the Customer — LEAF Launchpad</title>
+
+    <link rel="stylesheet" href="./files/launchpad.css" />
+
+    <style>
+      /* Icon sizing for .lp-jump, defined in launchpad.css (out of
+         scope for this edit) — that file still sizes
+         .material-symbols-outlined via font-size, which no longer
+         affects the inlined <svg>. */
+      .lp-jump .material-symbols-outlined svg {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+
+      /* ── Stat grid ── */
+      .voc-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+      }
+      @media (max-width: 900px) {
+        .voc-stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 500px) {
+        .voc-stats {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .voc-stat-card {
+        background: var(--surface, #fff);
+        border-radius: var(--radius, 8px);
+        box-shadow: var(--shadow-card, 0 2px 12px rgba(0, 0, 0, 0.08));
+        padding: 2rem 1.5rem;
+        text-align: center;
+      }
+      .voc-stat-num {
+        font-family: 'PublicSans-Bold', sans-serif;
+        font-size: clamp(2.5rem, 5vw, 3.5rem);
+        line-height: 1;
+        color: var(--color-primary, #005ea2);
+        margin-bottom: 0.5rem;
+      }
+      .voc-stat-label {
+        font-family: 'Source Sans Pro Web', sans-serif;
+        font-size: 1.05rem;
+        color: var(--color-text-muted, #5c6670);
+        margin: 0;
+      }
+
+      /* ── Channel cards (How We Listen) ── */
+      .voc-channels {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+      }
+      @media (max-width: 900px) {
+        .voc-channels {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 500px) {
+        .voc-channels {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .voc-channel-card {
+        background: var(--surface, #fff);
+        border-radius: var(--radius, 8px);
+        box-shadow: var(--shadow-card, 0 2px 12px rgba(0, 0, 0, 0.08));
+        padding: 1.75rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        border-top: 4px solid var(--color-primary, #005ea2);
+      }
+
+      .voc-channel-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: var(--color-primary-lightest, #e8f0fb);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+.voc-channel-icon .material-symbols-outlined {
+        color: var(--color-primary, #005ea2);
+}
+.voc-channel-icon .material-symbols-outlined svg {
+        width: 1.5rem;
+        height: 1.5rem;
+}
+
+      .voc-channel-title {
+        font-family: 'PublicSans-Bold', sans-serif;
+        font-size: 1rem;
+        color: var(--color-text, #1b1b1b);
+        margin: 0;
+      }
+      .voc-channel-desc {
+        font-family: 'Source Sans Pro Web', sans-serif;
+        font-size: 0.95rem;
+        color: var(--color-text-muted, #5c6670);
+        margin: 0;
+        line-height: 1.55;
+        flex: 1;
+      }
+
+      /* ── Process cards (How It Works) ── */
+      .voc-process {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+      }
+      @media (max-width: 700px) {
+        .voc-process {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .voc-step {
+        background: var(--color-primary, #005ea2);
+        border-radius: var(--radius, 8px);
+        padding: 2rem 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Large faint step number watermark */
+      .voc-step::before {
+        content: attr(data-step);
+        position: absolute;
+        bottom: -0.5rem;
+        right: 0.75rem;
+        font-family: 'PublicSans-Bold', sans-serif;
+        font-size: 6rem;
+        color: rgba(255, 255, 255, 0.08);
+        line-height: 1;
+        pointer-events: none;
+        user-select: none;
+        aria-hidden: true;
+      }
+
+      .voc-step-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+.voc-step-icon .material-symbols-outlined {
+        color: #fff;
+}
+.voc-step-icon .material-symbols-outlined svg {
+        width: 1.4rem;
+        height: 1.4rem;
+}
+
+      .voc-step-title {
+        font-family: 'PublicSans-Bold', sans-serif;
+        font-size: 1.05rem;
+        color: #fff;
+        margin: 0;
+      }
+      .voc-step-desc {
+        font-family: 'Source Sans Pro Web', sans-serif;
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin: 0;
+        line-height: 1.6;
+      }
+      .voc-step-label {
+        font-family: 'PublicSans-Bold', sans-serif;
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.5);
+        margin: 0;
+      }
+
+      /* ── Lifecycle section (What Happens With Your Feedback) ── */
+      .voc-lifecycle {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0;
+        position: relative;
+        counter-reset: lifecycle;
+      }
+      @media (max-width: 900px) {
+        .voc-lifecycle {
+          grid-template-columns: 1fr;
+        }
+        .voc-lifecycle::before {
+          display: none;
+        }
+      }
+
+      /* Connecting line (desktop only) */
+      .voc-lifecycle::before {
+        content: "";
+        position: absolute;
+        top: 35px;
+        left: calc(10% + 1rem);
+        right: calc(10% + 1rem);
+        height: 2px;
+        background: var(--color-primary-light, #c6d9f1);
+        z-index: 0;
+      }
+
+      .voc-lifecycle-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 0 1rem 1rem;
+        position: relative;
+        z-index: 1;
+      }
+      @media (max-width: 900px) {
+        .voc-lifecycle-item {
+          flex-direction: row;
+          text-align: left;
+          padding: 1rem 0;
+          border-bottom: 1px solid var(--c-blue10, #d9e8f6);
+          gap: 1.25rem;
+        }
+        .voc-lifecycle-item:last-child {
+          border-bottom: none;
+        }
+      }
+
+      .voc-lifecycle-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: var(--color-primary, #005ea2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-bottom: 1.25rem;
+        box-shadow: 0 4px 16px rgba(0, 94, 162, 0.2);
+      }
+      @media (max-width: 900px) {
+        .voc-lifecycle-icon {
+          margin-bottom: 0;
+          width: 52px;
+          height: 52px;
+        }
+      }
+.voc-lifecycle-icon .material-symbols-outlined {
+        color: #fff;
+}
+.voc-lifecycle-icon .material-symbols-outlined svg {
+        width: 1.6rem;
+        height: 1.6rem;
+}
+      @media (max-width: 900px) {
+.voc-lifecycle-icon .material-symbols-outlined svg {
+          width: 1.25rem;
+          height: 1.25rem;
+}
+      }
+
+      .voc-lifecycle-body {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .voc-lifecycle-title {
+        font-family: 'PublicSans-Bold', sans-serif;
+        font-size: 0.9rem;
+        color: var(--color-text, #1b1b1b);
+        margin: 0 0 0.4rem;
+      }
+      .voc-lifecycle-desc {
+        font-family: 'Source Sans Pro Web', sans-serif;
+        font-size: 0.875rem;
+        color: var(--color-text-muted, #5c6670);
+        margin: 0;
+        line-height: 1.55;
+      }
+
+      /* ── Intro two-column layout ── */
+      .voc-intro-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: center;
+      }
+      @media (max-width: 700px) {
+        .voc-intro-grid {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+      }
+
+      .voc-intro-visual {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+      }
+
+      .voc-intro-tile {
+        background: var(--color-primary, #005ea2);
+        border-radius: var(--radius, 8px);
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 0.5rem;
+        min-height: 110px;
+      }
+      .voc-intro-tile {
+        background: var(--color-primary, #005ea2);
+      }
+.voc-intro-tile .material-symbols-outlined {
+        color: rgba(255, 255, 255, 0.9);
+}
+.voc-intro-tile .material-symbols-outlined svg {
+        width: 1.75rem;
+        height: 1.75rem;
+}
+      .voc-intro-tile-label {
+        font-family: 'PublicSans-Bold', sans-serif;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.35;
+      }
+
+      /* ── CTA band ── */
+      .voc-cta-band {
+        background: var(--color-primary, #005ea2);
+        color: #fff;
+      }
+      .voc-cta-inner {
+        padding: 3rem 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+      }
+      .voc-cta-eyebrow {
+        font-family: 'PublicSans-Bold', sans-serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.75);
+        margin: 0;
+      }
+      .voc-cta-heading {
+        font-family: 'PublicSans-Bold', sans-serif;
+        font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+        margin: 0;
+        color: #fff;
+      }
+      .voc-cta-sub {
+        font-family: 'Source Sans Pro Web', sans-serif;
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin: 0;
+        max-width: 520px;
+        line-height: 1.6;
+      }
+      .voc-cta-badges {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 0.5rem;
+      }
+      .voc-cta-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: 'PublicSans-Medium', sans-serif;
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.85);
+      }
+.voc-cta-badge .material-symbols-outlined {
+        color: rgba(255, 255, 255, 0.7);
+}
+.voc-cta-badge .material-symbols-outlined svg {
+        width: 1rem;
+        height: 1rem;
+}
+      .voc-cta-badge-dot {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.4);
+        flex-shrink: 0;
+      }
+
+      /* ── UX Program CTA ── */
+      .voc-ux-band {
+        background: var(--surface, #fff);
+        border-top: 1px solid var(--c-blue10, #d9e8f6);
+      }
+      .voc-ux-inner {
+        padding: 2.5rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+      .voc-ux-text {
+        flex: 1;
+        min-width: 0;
+      }
+      .voc-ux-eyebrow {
+        font-family: 'PublicSans-Bold', sans-serif;
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--color-primary, #005ea2);
+        margin: 0 0 0.4rem;
+      }
+      .voc-ux-heading {
+        font-family: 'PublicSans-Bold', sans-serif;
+        font-size: clamp(1.1rem, 2vw, 1.4rem);
+        color: var(--color-text, #1b1b1b);
+        margin: 0 0 0.4rem;
+      }
+      .voc-ux-desc {
+        font-family: 'Source Sans Pro Web', sans-serif;
+        font-size: 1rem;
+        color: var(--color-text-muted, #5c6670);
+        margin: 0;
+        line-height: 1.6;
+      }
+      .voc-ux-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--color-primary, #005ea2);
+        color: #fff;
+        font-family: 'PublicSans-Bold', sans-serif;
+        font-size: 1rem;
+        border: none;
+        border-radius: var(--radius, 6px);
+        padding: 0.75rem 1.75rem;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: filter 0.2s;
+        flex-shrink: 0;
+      }
+      .voc-ux-btn:hover {
+        filter: brightness(1.1);
+      }
+      .voc-ux-btn:focus-visible {
+        outline: 3px solid var(--color-primary, #005ea2);
+        outline-offset: 3px;
+      }
+      .voc-ux-btn,
+      .voc-ux-btn:link,
+      .voc-ux-btn:visited {
+        color: #fff !important;
+      }
+.voc-ux-btn .material-symbols-outlined {
+        color: #fff !important;
+}
+.voc-ux-btn .material-symbols-outlined svg {
+        width: 1.1rem;
+        height: 1.1rem;
+}
+
+      /* ── Quote/testimonial pull-quote ── */
+      .voc-quote-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+      }
+      @media (max-width: 700px) {
+        .voc-quote-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .voc-quote {
+        background: var(--surface, #fff);
+        border-radius: var(--radius, 8px);
+        box-shadow: var(--shadow-card, 0 2px 12px rgba(0, 0, 0, 0.08));
+        padding: 1.75rem 1.5rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        border-left: 4px solid var(--color-primary, #005ea2);
+      }
+      .voc-quote-text {
+        font-family: 'Source Sans Pro Web', sans-serif;
+        font-size: 1rem;
+        font-style: italic;
+        color: var(--color-text, #1b1b1b);
+        line-height: 1.7;
+        margin: 0;
+      }
+      .voc-quote-text::before {
+        content: "\201C";
+      }
+      .voc-quote-text::after {
+        content: "\201D";
+      }
+      .voc-quote-attribution {
+        font-family: 'PublicSans-Bold', sans-serif;
+        font-size: 0.85rem;
+        color: var(--color-text-muted, #5c6670);
+        margin: 0;
+      }
+
+      /* ── nl-link icon color fix (matches other pages) ── */
+      .nl-link .material-symbols-outlined {
+        color: #fff !important;
+      }
+    </style>
+
+  </head>
+  <body>
+    <div class="lp" id="lp-root">
+      <a class="lp-skip" href="#lp-main">Skip to main content</a>
+      <div id="lp-nav-host"></div>
+
+      <main id="lp-main" tabindex="-1">
+        <!-- ══════════════════════════════════════════
+             PAGE TITLE
+        ══════════════════════════════════════════ -->
+        <section class="section" aria-labelledby="voc-page-h1">
+          <div class="wrap">
+            <div class="sec-hd ctr">
+              <span class="eyebrow">Listening. Learning. Improving.</span>
+              <h1 class="sec-h2" id="voc-page-h1">Voice of the Customer</h1>
+              <p class="sec-sub">
+                Our Voice of the Customer program is a structured, ongoing
+                effort to capture what the VA workforce needs, act on what we
+                hear, and close the loop so every participant knows their input
+                mattered.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+             WHAT IS VoC?
+        ══════════════════════════════════════════ -->
+        <section class="section section-alt" aria-labelledby="voc-intro-h2">
+          <div class="wrap">
+            <div class="voc-intro-grid">
+              <div>
+                <span class="eyebrow">About the program</span>
+                <h2
+                  class="sec-h2"
+                  id="voc-intro-h2"
+                  style="text-align: left; margin-bottom: 1rem"
+                >
+                  Built on your feedback
+                </h2>
+                <p
+                  style="
+                    font-family: 'Source Sans Pro Web', sans-serif;
+                    font-size: 1.05rem;
+                    color: var(--color-text-muted, #5c6670);
+                    line-height: 1.7;
+                    margin: 0 0 1rem;
+                  "
+                >
+                  A Voice of the Customer program is a structured approach to
+                  capturing, analyzing, and acting on customer feedback to
+                  improve experiences and outcomes. For LEAF, that means
+                  continuously listening to the VA employees and teams who
+                  depend on our platform every day.
+                </p>
+                <p
+                  style="
+                    font-family: 'Source Sans Pro Web', sans-serif;
+                    font-size: 1.05rem;
+                    color: var(--color-text-muted, #5c6670);
+                    line-height: 1.7;
+                    margin: 0;
+                  "
+                >
+                  Every survey response, support interaction, interview, and
+                  submitted idea flows into a single system — one that helps us
+                  prioritize what to fix, what to build, and how to support you
+                  better.
+                </p>
+              </div>
+
+              <div
+                class="voc-intro-visual"
+                role="img"
+                aria-label="Visual summary of the four VoC pillars: Capture, Analyze, Act, and Close the Loop"
+              >
+                <div class="voc-intro-tile">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M680-80q-62 0-101.5-31T518-202q-17-50-32.5-70T414-336q-62-50-98-113t-36-151q0-119 80.5-199.5T560-880q119 0 199.5 80.5T840-600h-80q0-85-57.5-142.5T560-800q-85 0-142.5 57.5T360-600q0 68 27 116t77 86q52 38 81 74t43 78q14 44 33.5 65t58.5 21q33 0 56.5-23.5T760-240h80q0 66-47 113T680-80ZM248-290q-59-60-93.5-139.5T120-600q0-92 34.5-172T248-912l58 56q-50 50-78 115.5T200-600q0 74 28 139t78 115l-58 56Zm312-210q-42 0-71-29.5T460-600q0-42 29-71t71-29q42 0 71 29t29 71q0 41-29 70.5T560-500Z"/></svg></span>
+                  <span class="voc-intro-tile-label"
+                    >Capture<br />Feedback</span
+                  >
+                </div>
+                <div class="voc-intro-tile">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M280-280h80v-200h-80v200Zm320 0h80v-400h-80v400Zm-160 0h80v-120h-80v120Zm0-200h80v-80h-80v80ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Z"/></svg></span>
+                  <span class="voc-intro-tile-label">Analyze<br />Themes</span>
+                </div>
+                <div class="voc-intro-tile">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M686-132 444-376q-20 8-40.5 12t-43.5 4q-100 0-170-70t-70-170q0-36 10-68.5t28-61.5l146 146 72-72-146-146q29-18 61.5-28t68.5-10q100 0 170 70t70 170q0 23-4 43.5T584-516l244 242q12 12 12 29t-12 29l-84 84q-12 12-29 12t-29-12Z"/></svg></span>
+                  <span class="voc-intro-tile-label">Act on<br />Insights</span>
+                </div>
+                <div class="voc-intro-tile">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M204-318q-22-38-33-78t-11-82q0-134 93-228t227-94h7l-64-64 56-56 160 160-160 160-56-56 64-64h-7q-100 0-170 70.5T240-478q0 26 6 51t18 49l-60 60ZM481-40 321-200l160-160 56 56-64 64h7q100 0 170-70.5T720-482q0-26-6-51t-18-49l60-60q22 38 33 78t11 82q0 134-93 228t-227 94h-7l64 64-56 56Z"/></svg></span>
+                  <span class="voc-intro-tile-label">Close<br />the Loop</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+             BY THE NUMBERS
+        ══════════════════════════════════════════ -->
+        <section class="section" aria-labelledby="voc-stats-h2">
+          <div class="wrap">
+            <div class="sec-hd ctr">
+              <span class="eyebrow">By the numbers</span>
+              <h2 class="sec-h2" id="voc-stats-h2">VoC at a Glance</h2>
+              <p class="sec-sub">
+                Our program reaches thousands of VA employees across every
+                network and level of the organization.
+              </p>
+            </div>
+
+            <div class="voc-stats" role="list">
+              <div class="voc-stat-card" role="listitem">
+                <div
+                  class="voc-stat-num"
+                  aria-label="4,200 survey responses collected"
+                >
+                  4,200
+                </div>
+                <p class="voc-stat-label">Survey Responses Collected</p>
+              </div>
+              <div class="voc-stat-card" role="listitem">
+                <div
+                  class="voc-stat-num"
+                  aria-label="92 percent satisfaction rate"
+                >
+                  92%
+                </div>
+                <p class="voc-stat-label">Overall Satisfaction Rate</p>
+              </div>
+              <div class="voc-stat-card" role="listitem">
+                <div class="voc-stat-num" aria-label="310 ideas submitted">
+                  310
+                </div>
+                <p class="voc-stat-label">Ideas Submitted</p>
+              </div>
+              <div class="voc-stat-card" role="listitem">
+                <div
+                  class="voc-stat-num"
+                  aria-label="48 improvements shipped from feedback"
+                >
+                  48
+                </div>
+                <p class="voc-stat-label">Improvements Shipped</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+             HOW WE LISTEN
+        ══════════════════════════════════════════ -->
+        <section class="section section-alt" aria-labelledby="voc-channels-h2">
+          <div class="wrap">
+            <div class="sec-hd ctr">
+              <span class="eyebrow">Our listening channels</span>
+              <h2 class="sec-h2" id="voc-channels-h2">How We Listen</h2>
+              <p class="sec-sub">
+                We collect feedback through five complementary channels so no
+                voice goes unheard — whether you have 30 seconds or 30 minutes.
+              </p>
+            </div>
+
+            <div class="voc-channels" role="list">
+              <article class="voc-channel-card" role="listitem">
+                <div class="voc-channel-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined"><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M480-560h200v-80H480v80Zm0 240h200v-80H480v80ZM360-520q33 0 56.5-23.5T440-600q0-33-23.5-56.5T360-680q-33 0-56.5 23.5T280-600q0 33 23.5 56.5T360-520Zm0 240q33 0 56.5-23.5T440-360q0-33-23.5-56.5T360-440q-33 0-56.5 23.5T280-360q0 33 23.5 56.5T360-280ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Z"/></svg></span>
+                </div>
+                <h3 class="voc-channel-title">
+                  Surveys &amp; Satisfaction Scores
+                </h3>
+                <p class="voc-channel-desc">
+                  Periodic CSAT and pulse surveys measure how satisfied users
+                  are with the platform, support, and training — giving us
+                  quantifiable benchmarks to track over time.
+                </p>
+              </article>
+
+              <article class="voc-channel-card" role="listitem">
+                <div class="voc-channel-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined"><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M160-400v-80h280v80H160Zm0-160v-80h440v80H160Zm0-160v-80h440v80H160Zm360 560v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T863-380L643-160H520Zm263-224 37-39-37-37-38 38 38 38Z"/></svg></span>
+                </div>
+                <h3 class="voc-channel-title">Open-Ended Written Feedback</h3>
+                <p class="voc-channel-desc">
+                  Free-text comment fields attached to every survey and support
+                  interaction surface the nuance that numbers alone can't
+                  capture — the specific pain points and praise that drive real
+                  change.
+                </p>
+              </article>
+
+              <article class="voc-channel-card" role="listitem">
+                <div class="voc-channel-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined"><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M440-120v-80h320v-284q0-117-81.5-198.5T480-764q-117 0-198.5 81.5T200-484v244h-40q-33 0-56.5-23.5T80-320v-80q0-21 10.5-39.5T120-469l3-53q8-68 39.5-126t79-101q47.5-43 109-67T480-840q68 0 129 24t109 66.5Q766-707 797-649t40 126l3 52q19 9 29.5 27t10.5 38v92q0 20-10.5 38T840-249v49q0 33-23.5 56.5T760-120H440Zm-80-280q-17 0-28.5-11.5T320-440q0-17 11.5-28.5T360-480q17 0 28.5 11.5T400-440q0 17-11.5 28.5T360-400Zm240 0q-17 0-28.5-11.5T560-440q0-17 11.5-28.5T600-480q17 0 28.5 11.5T640-440q0 17-11.5 28.5T600-400Zm-359-62q-7-106 64-182t177-76q89 0 156.5 56.5T720-519q-91-1-167.5-49T435-698q-16 80-67.5 142.5T241-462Z"/></svg></span>
+                </div>
+                <h3 class="voc-channel-title">Support Ticket Themes</h3>
+                <p class="voc-channel-desc">
+                  Our support team tags and categorizes every ticket so we can
+                  identify recurring problems, prioritize fixes, and proactively
+                  address systemic issues before they reach scale.
+                </p>
+              </article>
+
+              <article class="voc-channel-card" role="listitem">
+                <div class="voc-channel-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined"><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M0-240v-63q0-43 44-70t116-27q13 0 25 .5t23 2.5q-14 21-21 44t-7 48v65H0Zm240 0v-65q0-32 17.5-58.5T307-410q32-20 76.5-30t96.5-10q53 0 97.5 10t76.5 30q32 20 49 46.5t17 58.5v65H240Zm540 0v-65q0-26-6.5-49T754-397q11-2 22.5-2.5t23.5-.5q72 0 116 26.5t44 70.5v63H780ZM160-440q-33 0-56.5-23.5T80-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T160-440Zm640 0q-33 0-56.5-23.5T720-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T800-440Zm-320-40q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T600-600q0 50-34.5 85T480-480Z"/></svg></span>
+                </div>
+                <h3 class="voc-channel-title">
+                  User Interviews &amp; Focus Groups
+                </h3>
+                <p class="voc-channel-desc">
+                  One-on-one interviews and small-group sessions give us deep,
+                  contextual understanding of how specific teams use LEAF — and
+                  where the experience breaks down for them.
+                </p>
+              </article>
+
+              <article class="voc-channel-card" role="listitem">
+                <div class="voc-channel-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined"><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M480-80q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-200v-80h320v80H320Zm10-120q-69-41-109.5-110T180-580q0-125 87.5-212.5T480-880q125 0 212.5 87.5T780-580q0 81-40.5 150T630-320H330Z"/></svg></span>
+                </div>
+                <h3 class="voc-channel-title">Feature Requests &amp; Ideas</h3>
+                <p class="voc-channel-desc">
+                  Through the LEAF Idea Portal, any VA employee can submit, vote
+                  on, and track feature requests — giving the community a direct
+                  line into the product roadmap.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+             HOW IT WORKS (3-step process)
+        ══════════════════════════════════════════ -->
+        <section class="section" aria-labelledby="voc-process-h2">
+          <div class="wrap">
+            <div class="sec-hd ctr">
+              <span class="eyebrow">Our process</span>
+              <h2 class="sec-h2" id="voc-process-h2">How It Works</h2>
+              <p class="sec-sub">
+                From the moment you share feedback to the moment a change ships,
+                every step is intentional.
+              </p>
+            </div>
+
+            <div
+              class="voc-process"
+              role="list"
+              aria-label="Three-step VoC process"
+            >
+              <article class="voc-step" data-step="1" role="listitem">
+                <div class="voc-step-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined"><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm280-200q38 0 69-22t43-58h168v-360H200v360h168q12 36 43 58t69 22Z"/></svg></span>
+                </div>
+                <p class="voc-step-label">Step 01</p>
+                <h3 class="voc-step-title">Collect</h3>
+                <p class="voc-step-desc">
+                  Feedback flows in continuously through surveys, support
+                  tickets, interviews, and the Idea Portal — all routed into a
+                  unified system.
+                </p>
+              </article>
+              <article class="voc-step" data-step="2" role="listitem">
+                <div class="voc-step-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined"><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M280-280h80v-200h-80v200Zm320 0h80v-400h-80v400Zm-160 0h80v-120h-80v120Zm0-200h80v-80h-80v80ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Z"/></svg></span>
+                </div>
+                <p class="voc-step-label">Step 02</p>
+                <h3 class="voc-step-title">Analyze</h3>
+                <p class="voc-step-desc">
+                  Our team reviews themes, tracks trends over time, and scores
+                  feedback by frequency and impact to identify what matters
+                  most.
+                </p>
+              </article>
+              <article class="voc-step" data-step="3" role="listitem">
+                <div class="voc-step-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined"><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M720-440v-80h160v80H720Zm48 280-128-96 48-64 128 96-48 64Zm-80-480-48-64 128-96 48 64-128 96ZM200-200v-160h-40q-33 0-56.5-23.5T80-440v-80q0-33 23.5-56.5T160-600h160l200-120v480L320-360h-40v160h-80Zm360-146v-268q27 24 43.5 58.5T620-480q0 41-16.5 75.5T560-346Z"/></svg></span>
+                </div>
+                <p class="voc-step-label">Step 03</p>
+                <h3 class="voc-step-title">Act &amp; Report</h3>
+                <p class="voc-step-desc">
+                  Prioritized insights go directly into the product roadmap and
+                  support improvements — and we report back to the community on
+                  what changed and why.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+             WHAT HAPPENS WITH YOUR FEEDBACK
+        ══════════════════════════════════════════ -->
+        <section class="section section-alt" aria-labelledby="voc-lifecycle-h2">
+          <div class="wrap">
+            <div class="sec-hd ctr">
+              <span class="eyebrow">Closing the loop</span>
+              <h2 class="sec-h2" id="voc-lifecycle-h2">
+                What Happens With Your Feedback
+              </h2>
+              <p class="sec-sub">
+                Submitting feedback shouldn't feel like sending a message into a
+                void. Here's exactly what happens after you share input with us.
+              </p>
+            </div>
+
+            <div
+              class="voc-lifecycle"
+              role="list"
+              aria-label="Feedback lifecycle steps"
+            >
+              <div class="voc-lifecycle-item" role="listitem">
+                <div class="voc-lifecycle-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined"><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm280-200q38 0 69-22t43-58h168v-360H200v360h168q12 36 43 58t69 22Z"/></svg></span>
+                </div>
+                <div class="voc-lifecycle-body">
+                  <h3 class="voc-lifecycle-title">Received &amp; Logged</h3>
+                  <p class="voc-lifecycle-desc">
+                    Every piece of feedback — regardless of channel — is
+                    captured and tagged in our tracking system within one
+                    business day.
+                  </p>
+                </div>
+              </div>
+
+              <div class="voc-lifecycle-item" role="listitem">
+                <div class="voc-lifecycle-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined"><svg viewBox="0 -960 960 960" fill="currentColor"><path d="m260-520 220-360 220 360H260ZM700-80q-75 0-127.5-52.5T520-260q0-75 52.5-127.5T700-440q75 0 127.5 52.5T880-260q0 75-52.5 127.5T700-80Zm-580-20v-320h320v320H120Z"/></svg></span>
+                </div>
+                <div class="voc-lifecycle-body">
+                  <h3 class="voc-lifecycle-title">Categorized &amp; Themed</h3>
+                  <p class="voc-lifecycle-desc">
+                    Our team groups feedback by topic, urgency, and affected
+                    workflow — surfacing patterns individual responses alone
+                    would never reveal.
+                  </p>
+                </div>
+              </div>
+
+              <div class="voc-lifecycle-item" role="listitem">
+                <div class="voc-lifecycle-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined"><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M480-120q-33 0-56.5-23.5T400-200q0-33 23.5-56.5T480-280q33 0 56.5 23.5T560-200q0 33-23.5 56.5T480-120Zm-80-240v-480h160v480H400Z"/></svg></span>
+                </div>
+                <div class="voc-lifecycle-body">
+                  <h3 class="voc-lifecycle-title">Prioritized by Impact</h3>
+                  <p class="voc-lifecycle-desc">
+                    Themes are scored by frequency, severity, and strategic
+                    alignment. High-impact items go directly to the product and
+                    support teams.
+                  </p>
+                </div>
+              </div>
+
+              <div class="voc-lifecycle-item" role="listitem">
+                <div class="voc-lifecycle-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined"><svg viewBox="0 -960 960 960" fill="currentColor"><path d="m98-537 168-168q14-14 33-20t39-2l52 11q-54 64-85 116t-60 126L98-537Zm205 91q23-72 62.5-136T461-702q88-88 201-131.5T873-860q17 98-26 211T716-448q-55 55-120 95.5T459-289L303-446Zm276-120q23 23 56.5 23t56.5-23q23-23 23-56.5T692-679q-23-23-56.5-23T579-679q-23 23-23 56.5t23 56.5ZM551-85l-64-147q74-29 126.5-60T730-377l10 52q4 20-2 39.5T718-252L551-85ZM162-318q35-35 85-35.5t85 34.5q35 35 35 85t-35 85q-25 25-83.5 43T87-74q14-103 32-161t43-83Z"/></svg></span>
+                </div>
+                <div class="voc-lifecycle-body">
+                  <h3 class="voc-lifecycle-title">Acted On</h3>
+                  <p class="voc-lifecycle-desc">
+                    Feedback-driven changes are tracked through development and
+                    release. Every shipped improvement tied to your input is
+                    recorded.
+                  </p>
+                </div>
+              </div>
+
+              <div class="voc-lifecycle-item" role="listitem">
+                <div class="voc-lifecycle-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined"><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M720-440v-80h160v80H720Zm48 280-128-96 48-64 128 96-48 64Zm-80-480-48-64 128-96 48 64-128 96ZM200-200v-160h-40q-33 0-56.5-23.5T80-440v-80q0-33 23.5-56.5T160-600h160l200-120v480L320-360h-40v160h-80Zm360-146v-268q27 24 43.5 58.5T620-480q0 41-16.5 75.5T560-346Z"/></svg></span>
+                </div>
+                <div class="voc-lifecycle-body">
+                  <h3 class="voc-lifecycle-title">Communicated Back</h3>
+                  <p class="voc-lifecycle-desc">
+                    We publish regular VoC reports and release notes that
+                    explicitly connect changes to the feedback that drove them —
+                    so you know your voice made a difference.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+             TESTIMONIALS / PULL QUOTES
+        ══════════════════════════════════════════ -->
+        <section class="section" aria-labelledby="voc-quotes-h2">
+          <div class="wrap">
+            <div class="sec-hd ctr">
+              <span class="eyebrow">From the community</span>
+              <h2 class="sec-h2" id="voc-quotes-h2">
+                What Participants Are Saying
+              </h2>
+              <p class="sec-sub">
+                Real feedback from VA employees who have participated in the VoC
+                program.
+              </p>
+            </div>
+
+            <div class="voc-quote-grid" role="list">
+              <figure class="voc-quote" role="listitem">
+                <blockquote>
+                  <p class="voc-quote-text">
+                    The team actually followed up after my survey response to
+                    ask clarifying questions. I've never had that happen with
+                    any other feedback program.
+                  </p>
+                </blockquote>
+                <figcaption class="voc-quote-attribution">
+                  LEAF Site Administrator — VISN 8
+                </figcaption>
+              </figure>
+
+              <figure class="voc-quote" role="listitem">
+                <blockquote>
+                  <p class="voc-quote-text">
+                    I submitted an idea in November and it was in production by
+                    February. Seeing your own suggestion in the release notes is
+                    a great feeling.
+                  </p>
+                </blockquote>
+                <figcaption class="voc-quote-attribution">
+                  Workflow Developer — VA Central Office
+                </figcaption>
+              </figure>
+
+              <figure class="voc-quote" role="listitem">
+                <blockquote>
+                  <p class="voc-quote-text">
+                    The focus group format let us walk through our actual use
+                    case. The LEAF team left with a list of action items and
+                    came back two weeks later with answers.
+                  </p>
+                </blockquote>
+                <figcaption class="voc-quote-attribution">
+                  Clinic Profile Manager — VISN 19
+                </figcaption>
+              </figure>
+
+              <figure class="voc-quote" role="listitem">
+                <blockquote>
+                  <p class="voc-quote-text">
+                    I appreciate that the VoC reports show the before and after.
+                    It's not just "we heard you" — it's "here's specifically
+                    what we changed."
+                  </p>
+                </blockquote>
+                <figcaption class="voc-quote-attribution">
+                  HR Specialist — VBA Regional Office
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+             USER EXPERIENCE PROGRAM CTA
+        ══════════════════════════════════════════ -->
+        <section class="voc-ux-band" aria-labelledby="voc-ux-h2">
+          <div class="wrap">
+            <div class="voc-ux-inner">
+              <div class="voc-ux-text">
+                <p class="voc-ux-eyebrow">User Experience Program</p>
+                <h2 class="voc-ux-heading" id="voc-ux-h2">
+                  Help shape LEAF by joining our user research community
+                </h2>
+                <p class="voc-ux-desc">
+                  Register to be part of our User Experience Program and receive
+                  notifications when we have usability tests, design reviews, or
+                  research sessions that need your perspective. Your
+                  participation directly influences how LEAF looks, feels, and
+                  works.
+                </p>
+              </div>
+              <a
+                href="https://leaf.va.gov/platform/service_requests_launchpad/report.php?a=LEAF_Start_Request&amp;id=form_68543"
+                class="voc-ux-btn"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Join the LEAF User Experience Program — opens in a new tab"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  ><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M720-400v-120H600v-80h120v-120h80v120h120v80H800v120h-80Zm-360-80q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Z"/></svg></span>
+                Join the UX Program
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+             CTA BAND (awareness only)
+        ══════════════════════════════════════════ -->
+        <section class="voc-cta-band" aria-labelledby="voc-cta-h2">
+          <div class="wrap">
+            <div class="voc-cta-inner">
+              <p class="voc-cta-eyebrow">Your voice matters</p>
+              <h2 class="voc-cta-heading" id="voc-cta-h2">
+                Every piece of feedback shapes what we build next.
+              </h2>
+              <p class="voc-cta-sub">
+                The VoC program runs continuously. Every survey you complete,
+                every idea you submit, and every support interaction you have
+                directly informs the LEAF platform roadmap.
+              </p>
+              <div
+                class="voc-cta-badges"
+                role="list"
+                aria-label="Ways to participate"
+              >
+                <span class="voc-cta-badge" role="listitem">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M480-560h200v-80H480v80Zm0 240h200v-80H480v80ZM360-520q33 0 56.5-23.5T440-600q0-33-23.5-56.5T360-680q-33 0-56.5 23.5T280-600q0 33 23.5 56.5T360-520Zm0 240q33 0 56.5-23.5T440-360q0-33-23.5-56.5T360-440q-33 0-56.5 23.5T280-360q0 33 23.5 56.5T360-280ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Z"/></svg></span>
+                  Respond to surveys
+                </span>
+                <span class="voc-cta-badge-dot" aria-hidden="true"></span>
+                <span class="voc-cta-badge" role="listitem">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M480-80q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-200v-80h320v80H320Zm10-120q-69-41-109.5-110T180-580q0-125 87.5-212.5T480-880q125 0 212.5 87.5T780-580q0 81-40.5 150T630-320H330Z"/></svg></span>
+                  Submit ideas
+                </span>
+                <span class="voc-cta-badge-dot" aria-hidden="true"></span>
+                <span class="voc-cta-badge" role="listitem">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M0-240v-63q0-43 44-70t116-27q13 0 25 .5t23 2.5q-14 21-21 44t-7 48v65H0Zm240 0v-65q0-32 17.5-58.5T307-410q32-20 76.5-30t96.5-10q53 0 97.5 10t76.5 30q32 20 49 46.5t17 58.5v65H240Zm540 0v-65q0-26-6.5-49T754-397q11-2 22.5-2.5t23.5-.5q72 0 116 26.5t44 70.5v63H780ZM160-440q-33 0-56.5-23.5T80-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T160-440Zm640 0q-33 0-56.5-23.5T720-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T800-440Zm-320-40q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T600-600q0 50-34.5 85T480-480Z"/></svg></span>
+                  Join a focus group
+                </span>
+                <span class="voc-cta-badge-dot" aria-hidden="true"></span>
+                <span class="voc-cta-badge" role="listitem">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M440-120v-80h320v-284q0-117-81.5-198.5T480-764q-117 0-198.5 81.5T200-484v244h-40q-33 0-56.5-23.5T80-320v-80q0-21 10.5-39.5T120-469l3-53q8-68 39.5-126t79-101q47.5-43 109-67T480-840q68 0 129 24t109 66.5Q766-707 797-649t40 126l3 52q19 9 29.5 27t10.5 38v92q0 20-10.5 38T840-249v49q0 33-23.5 56.5T760-120H440Zm-80-280q-17 0-28.5-11.5T320-440q0-17 11.5-28.5T360-480q17 0 28.5 11.5T400-440q0 17-11.5 28.5T360-400Zm240 0q-17 0-28.5-11.5T560-440q0-17 11.5-28.5T600-480q17 0 28.5 11.5T640-440q0 17-11.5 28.5T600-400Zm-359-62q-7-106 64-182t177-76q89 0 156.5 56.5T720-519q-91-1-167.5-49T435-698q-16 80-67.5 142.5T241-462Z"/></svg></span>
+                  Share via support
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <button
+        class="lp-jump"
+        id="lpJump"
+        type="button"
+        aria-label="Back to top"
+        aria-hidden="true"
+        tabindex="-1"
+      >
+        <span class="material-symbols-outlined" aria-hidden="true"
+          ><svg viewBox="0 -960 960 960" fill="currentColor"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/></svg></span>
+      </button>
+    </div>
+    <!-- /.lp -->
+
+
+    <script>
+      (() => {
+        "use strict";
+
+        /* ── Jump to top ── */
+        const initJumpBtn = () => {
+          const btn = document.getElementById("lpJump");
+          if (!btn) return;
+
+          const update = () => {
+            const vis =
+              (window.pageYOffset || document.documentElement.scrollTop) > 120;
+            btn.classList.toggle("vis", vis);
+            btn.setAttribute("aria-hidden", String(!vis));
+            btn.tabIndex = vis ? 0 : -1;
+          };
+
+          btn.addEventListener("click", () =>
+            window.scrollTo({ top: 0, behavior: "smooth" }),
+          );
+          window.addEventListener("scroll", update, { passive: true });
+          window.addEventListener("resize", update);
+          update();
+        };
+
+        /* ── Init ── */
+        initJumpBtn();
+      })();
+    </script>
+  </body>
+</html>

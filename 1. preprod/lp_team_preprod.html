@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Hub — LEAF Launchpad</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" />
+
+  <link rel="stylesheet" href="/launchpad/files/launchpad.css" />
+
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'opsz' 24, 'GRAD' 0 !important;
+    }
+
+    /* ── Page shell ── */
+    .thb-page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    /* ── Header ── */
+    .thb-header { margin-bottom: 1.5rem; }
+    .thb-kicker {
+      font-family: 'Public Sans', sans-serif;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--lp-accent); margin: 0 0 0.5rem;
+    }
+    .thb-title {
+      font-family: 'Public Sans', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.15rem);
+      font-weight: 800; color: var(--lp-hl);
+      margin: 0 0 0.4rem; line-height: 1.15;
+    }
+    .thb-sub {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 1.05rem; color: var(--c-muted); margin: 0;
+    }
+
+    /* ── Search / filter ── */
+    .thb-toolbar {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin: 1.75rem 0 2rem; flex-wrap: wrap;
+    }
+    .thb-search {
+      position: relative; flex: 1 1 340px; max-width: 460px;
+    }
+    .thb-search .material-symbols-outlined {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--c-muted); font-size: 1.25rem !important; pointer-events: none;
+    }
+    .thb-search input {
+      width: 100%; height: 44px;
+      padding: 0 2.5rem 0 2.4rem;
+      border: 1px solid var(--c-blue20); border-radius: 999px;
+      font-family: 'Source Sans 3', sans-serif; font-size: 0.95rem;
+      background: #fff; color: var(--c-text); outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .thb-search input:focus {
+      border-color: var(--lp-accent);
+      box-shadow: 0 0 0 3px rgba(0,94,162,.15);
+    }
+    .thb-search .thb-clear {
+      position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+      border: 0; background: transparent; cursor: pointer;
+      color: var(--c-muted); width: 30px; height: 30px; border-radius: 999px;
+      display: none; align-items: center; justify-content: center;
+    }
+    .thb-search .thb-clear:hover { background: var(--c-blue10); }
+    .thb-search .thb-clear.vis { display: inline-flex; }
+    .thb-search .thb-clear .material-symbols-outlined {
+      position: static; transform: none; font-size: 1.15rem !important;
+    }
+    .thb-filters { display: inline-flex; gap: 6px; }
+    .thb-filter {
+      font-family: 'Public Sans', sans-serif; font-weight: 700; font-size: 0.82rem;
+      border: 1px solid var(--c-blue20); background: #fff; color: var(--c-muted);
+      padding: 8px 14px; border-radius: 999px; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 5px;
+      transition: background 0.12s, color 0.12s, border-color 0.12s;
+    }
+    .thb-filter .material-symbols-outlined { font-size: 1rem !important; }
+    .thb-filter:hover { background: var(--c-blue5); }
+    .thb-filter.active { background: var(--lp-accent); color: #fff; border-color: var(--lp-accent); }
+    .thb-result-count {
+      font-family: 'Source Sans 3', sans-serif; font-size: 0.85rem;
+      color: var(--c-muted); margin-left: auto; white-space: nowrap;
+    }
+    .thb-result-count:empty { display: none; }
+
+    /* ── Admin banner ── */
+    .thb-admin {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      padding: 1.1rem 1.35rem; margin-bottom: 1.75rem;
+      background: linear-gradient(135deg, var(--lp-accent-strong, #004a82), #0071bc);
+      color: #fff; border-radius: var(--r-lg);
+    }
+    .thb-admin-left { display: flex; align-items: center; gap: 0.8rem; }
+    .thb-admin-icon {
+      width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
+      background: rgba(255,255,255,.18);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .thb-admin-icon .material-symbols-outlined { font-size: 1.5rem !important; color: #fff; }
+    .thb-admin h2 { font-family: 'Public Sans', sans-serif; margin: 0; font-size: 1.1rem; }
+    .thb-admin p { margin: 0.1rem 0 0; font-size: 0.85rem; opacity: 0.85; }
+    .thb-admin a, .thb-admin-btn {
+      background: #fff; color: var(--lp-accent-strong, #004a82); text-decoration: none;
+      font-family: 'Public Sans', sans-serif; font-weight: 700; font-size: 0.88rem;
+      padding: 9px 18px; border-radius: 8px; white-space: nowrap;
+      border: 0; cursor: pointer;
+      transition: background 0.12s;
+    }
+    .thb-admin a:hover, .thb-admin-btn:hover { background: var(--c-blue10); }
+    .thb-admin a:focus-visible, .thb-admin-btn:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+
+    /* ── Sections ── */
+    .thb-sec {
+      margin-bottom: 1.5rem; background: #fff;
+      border: 1px solid var(--c-blue10); border-radius: var(--r-lg); overflow: hidden;
+    }
+    .thb-sec-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      width: 100%; padding: 1rem 1.25rem; background: var(--c-blue5);
+      border: 0; border-bottom: 1px solid var(--c-blue10);
+      cursor: pointer; font: inherit; text-align: left;
+    }
+    .thb-sec-head:focus-visible { outline: 3px solid var(--lp-accent); outline-offset: -3px; }
+    .thb-sec-head-left { display: flex; align-items: center; gap: 0.65rem; }
+    .thb-sec-icon {
+      width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0;
+      background: #fff; border: 1px solid var(--c-blue10);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .thb-sec-icon .material-symbols-outlined { font-size: 1.35rem !important; }
+    .thb-sec-title { font-family: 'Public Sans', sans-serif; font-weight: 700; font-size: 1.1rem; margin: 0; color: var(--lp-hl); }
+    .thb-sec-count {
+      font-family: 'Public Sans', sans-serif; font-size: 0.78rem; font-weight: 700; color: var(--c-muted);
+      background: #fff; border: 1px solid var(--c-blue10); padding: 2px 10px; border-radius: 999px;
+    }
+    .thb-chev { color: var(--c-muted); transition: transform 0.2s; }
+    .thb-sec.collapsed .thb-sec-body { display: none; }
+    .thb-sec.collapsed .thb-chev { transform: rotate(-90deg); }
+    .thb-sec-body { padding: 1.15rem 1.25rem; }
+
+    /* accent variants */
+    .thb-sec--submit .thb-sec-icon { border-color: #b6e0c2; background: #eafaf0; }
+    .thb-sec--submit .thb-sec-icon .material-symbols-outlined { color: #1f8a4c; }
+    .thb-sec--view   .thb-sec-icon { border-color: var(--c-blue20); background: var(--c-blue5); }
+    .thb-sec--view   .thb-sec-icon .material-symbols-outlined { color: var(--lp-accent); }
+
+    /* ── Link grid ── */
+    .thb-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 0.7rem; align-items: stretch; }
+    @media (max-width: 900px) { .thb-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 560px) { .thb-grid { grid-template-columns: 1fr; } }
+
+    .thb-tile {
+      display: flex; align-items: center; gap: 0.6rem;
+      min-height: 58px;
+      padding: 0.6rem 0.85rem; background: #fff;
+      border: 1px solid var(--c-blue10); border-left-width: 3px; border-radius: var(--r);
+      text-decoration: none; color: var(--lp-hl);
+      font-family: 'Source Sans 3', sans-serif; font-size: 0.92rem; font-weight: 600;
+      line-height: 1.25;
+      transition: border-color 0.12s, box-shadow 0.12s, transform 0.12s;
+    }
+    .thb-tile:hover { box-shadow: 0 4px 12px rgba(0,0,0,.08); transform: translateY(-1px); }
+    .thb-tile:focus-visible { outline: 3px solid var(--lp-accent); outline-offset: 2px; }
+    .thb-tile .material-symbols-outlined { font-size: 1.15rem !important; flex-shrink: 0; }
+    .thb-tile .thb-tile-label {
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* submit tiles = green accent, view tiles = blue accent */
+    .thb-tile--submit { border-left-color: #1f8a4c; }
+    .thb-tile--submit .material-symbols-outlined { color: #1f8a4c; }
+    .thb-tile--submit:hover { border-color: #b6e0c2; border-left-color: #1f8a4c; }
+    .thb-tile--view { border-left-color: var(--lp-accent); }
+    .thb-tile--view .material-symbols-outlined { color: var(--lp-accent); }
+    .thb-tile--view:hover { border-color: var(--c-blue20); border-left-color: var(--lp-accent); }
+
+    .thb-tile[hidden] { display: none; }
+
+    /* ── View sub-groups ── */
+    .thb-subgroup { margin-bottom: 1.25rem; }
+    .thb-subgroup:last-child { margin-bottom: 0; }
+    .thb-subgroup-label {
+      font-family: 'Public Sans', sans-serif; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-muted);
+      margin: 0 0 0.6rem; display: flex; align-items: center; gap: 0.4rem;
+    }
+    .thb-subgroup-label .thb-subgroup-count { color: var(--c-blue20); font-weight: 700; }
+    .thb-subgroup[hidden] { display: none; }
+
+    /* empty state */
+    .thb-empty {
+      font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; color: var(--c-muted);
+      padding: 0.4rem 0; display: none;
+    }
+    .thb-sec.no-matches .thb-sec-body .thb-grid { display: none; }
+    .thb-sec.no-matches .thb-empty { display: block; }
+
+    /* whole section hidden by filter */
+    .thb-sec[hidden], .thb-admin[hidden] { display: none; }
+
+    /* ── Footer ── */
+    .thb-footer {
+      margin-top: 2.5rem; padding-top: 1.25rem;
+      border-top: 1px solid var(--c-blue10);
+      font-family: 'Source Sans 3', sans-serif; font-size: 0.85rem; color: var(--c-muted);
+    }
+
+    /* ── Admin modal ── */
+    /* Global header (launchpad.css) is fixed with a high z-index and paints
+       over centered overlays. We push the dialog down below the header via
+       --thb-header-offset instead of relying on z-index alone. */
+    .thb-modal {
+      --thb-header-offset: 120px;
+      position: fixed; inset: 0; display: none;
+      align-items: flex-start; justify-content: center;
+      padding: var(--thb-header-offset) 20px 24px; z-index: 2147483000;
+    }
+    .thb-modal.is-open { display: flex; }
+    .thb-modal__backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.78); }
+    .thb-modal__dialog {
+      position: relative; width: min(1100px, 92vw);
+      height: calc(100vh - var(--thb-header-offset) - 24px);
+      background: #fff; border-radius: var(--r-lg); overflow: hidden;
+      display: flex; flex-direction: column; box-shadow: 0 24px 64px rgba(0,0,0,.4);
+    }
+    .thb-modal__header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 1rem; background: var(--c-blue5);
+      border-bottom: 1px solid var(--c-blue20); flex-shrink: 0;
+      position: relative; z-index: 2;
+    }
+    .thb-modal__title {
+      font-family: 'Public Sans', sans-serif; font-size: 1rem; font-weight: 700;
+      color: var(--lp-hl); margin: 0;
+    }
+    .thb-modal__close {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px; border: 1px solid var(--c-blue20);
+      background: #fff; color: var(--c-text); border-radius: var(--r);
+      cursor: pointer; font-size: 1.1rem; transition: background 0.15s; flex-shrink: 0;
+    }
+    .thb-modal__close:hover { background: var(--lp-accent); color: #fff; border-color: var(--lp-accent); }
+    .thb-modal__close:focus-visible { outline: 3px solid var(--lp-accent); outline-offset: 2px; }
+    .thb-modal__body { flex: 1; min-height: 0; position: relative; z-index: 1; }
+    .thb-modal__frame { width: 100%; height: 100%; border: 0; }
+
+    @media (max-width: 600px) { .thb-page { padding: 2rem 1rem 4rem; } }
+    @media (prefers-reduced-motion: reduce) {
+      .thb-tile, .thb-chev { transition: none; }
+      .thb-tile:hover { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="lp" id="lp-root">
+
+    <main id="lp-main" tabindex="-1">
+      <div class="thb-page">
+
+        <header class="thb-header">
+          <p class="thb-kicker">LEAF Team</p>
+          <h1 class="thb-title">Team Hub</h1>
+          <p class="thb-sub">Your hub for internal team links and inbox.</p>
+        </header>
+
+        <!-- Search / filter -->
+        <div class="thb-toolbar">
+          <div class="thb-search">
+            <span class="material-symbols-outlined">search</span>
+            <input
+              type="text" id="thbSearch"
+              placeholder="Search reports…"
+              aria-label="Search reports"
+              autocomplete="off"
+            />
+            <button class="thb-clear" id="thbClear" type="button" aria-label="Clear search">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </div>
+          <div class="thb-filters" role="group" aria-label="Filter by type">
+            <button class="thb-filter active" data-filter="all" type="button">All</button>
+            <button class="thb-filter" data-filter="submit" type="button">
+              <span class="material-symbols-outlined">edit_document</span>Submit Reports
+            </button>
+            <button class="thb-filter" data-filter="view" type="button">
+              <span class="material-symbols-outlined">insights</span>View Reports
+            </button>
+          </div>
+          <span class="thb-result-count" id="thbResultCount" aria-live="polite"></span>
+        </div>
+
+        <!-- Admin inbox -->
+        <div class="thb-admin" id="thbAdmin" data-type="admin">
+          <div class="thb-admin-left">
+            <span class="thb-admin-icon"><span class="material-symbols-outlined">inbox</span></span>
+            <div>
+              <h2>Admin Inbox</h2>
+              <p>Requests, approvals, and queue management</p>
+            </div>
+          </div>
+          <button
+            class="thb-admin-btn"
+            type="button"
+            id="thbAdminOpen"
+            data-report-title="Admin Inbox"
+            data-report-src="https://leaf.va.gov/platform/service_requests_launchpad/report.php?a=LEAF_Inbox&organizeByRole&iframe=1"
+          >Open Inbox</button>
+        </div>
+
+        <!-- Submit Reports -->
+        <section class="thb-sec thb-sec--submit" id="secSubmit" data-type="submit">
+          <button class="thb-sec-head" type="button" aria-expanded="true" aria-controls="bodySubmit"
+                  onclick="thbToggle('secSubmit', this)">
+            <span class="thb-sec-head-left">
+              <span class="thb-sec-icon"><span class="material-symbols-outlined">upload_file</span></span>
+              <span class="thb-sec-title">Submit Reports</span>
+              <span class="thb-sec-count" data-count>8 forms</span>
+            </span>
+            <span class="material-symbols-outlined thb-chev">expand_more</span>
+          </button>
+          <div class="thb-sec-body" id="bodySubmit">
+            <div class="thb-grid" id="gridSubmit"></div>
+            <p class="thb-empty">No submit forms match your search.</p>
+          </div>
+        </section>
+
+        <!-- View Reports -->
+        <section class="thb-sec thb-sec--view" id="secView" data-type="view">
+          <button class="thb-sec-head" type="button" aria-expanded="true" aria-controls="bodyView"
+                  onclick="thbToggle('secView', this)">
+            <span class="thb-sec-head-left">
+              <span class="thb-sec-icon"><span class="material-symbols-outlined">bar_chart</span></span>
+              <span class="thb-sec-title">View Reports</span>
+              <span class="thb-sec-count" data-count>15 reports</span>
+            </span>
+            <span class="material-symbols-outlined thb-chev">expand_more</span>
+          </button>
+          <div class="thb-sec-body" id="bodyView">
+            <div id="viewGroups"></div>
+            <p class="thb-empty">No reports match your search.</p>
+          </div>
+        </section>
+
+        <footer class="thb-footer" role="contentinfo">
+          Internal use only
+        </footer>
+
+      </div>
+    </main>
+
+    <!-- Admin Inbox Modal -->
+
+    <button class="lp-jump" id="lpJump" type="button" aria-label="Back to top" aria-hidden="true" tabindex="-1">
+      <span class="material-symbols-outlined" aria-hidden="true">arrow_upward</span>
+    </button>
+  </div>
+
+  <script>
+    (() => {
+      'use strict';
+      const init = () => {
+      const $id = (id) => document.getElementById(id);
+
+      /* ── Link data — replace href with real URLs ──
+         Add/remove items here; counts update automatically. */
+      const submitLinks = [
+        { label: 'Report an Issue with LEAF',            icon: 'bug_report',        href: 'https://leaf.va.gov/platform/issues/' },
+        { label: 'LEAF Training Attendance Report',      icon: 'school',            href: '/platform/service_requests_launchpad/report.php?a=Attendance_Report' },
+        { label: 'Open Office Hours Report',             icon: 'schedule',          href: '/platform/service_requests_launchpad/report.php?a=Open_Hours_Attendance' },
+        { label: 'New National Project',                 icon: 'flag',              href: '/platform/service_requests_launchpad/report.php?a=National_Projects_direct' },
+        { label: 'LEAF Maintenance Event',              icon: 'build',             href: 'https://leaf.va.gov/platform/service_requests_launchpad/report.php?a=Maintenance_direct' },
+        { label: 'End of Year Data Trend',               icon: 'trending_up',       href: 'https://leaf.va.gov/platform/service_requests_launchpad/report.php?a=Data_Trend_direct' },
+        { label: 'Awards',                               icon: 'emoji_events',      href: 'https://leaf.va.gov/platform/service_requests_launchpad/report.php?a=Awards' },
+        { label: 'Use Case',                             icon: 'lightbulb',         href: 'https://leaf.va.gov/platform/service_requests_launchpad/report.php?a=LEAF_Start_Request&id=form_efec3' }
+      ];
+      const viewGroups = [
+        {
+          label: 'Dashboards',
+          items: [
+            { label: 'Billing Dashboard',            icon: 'payments',       href: 'https://leaf.va.gov/launchpad/report.php?a=billing_dashboard' },
+            { label: 'PBI Dashboards',               icon: 'analytics',      href: 'https://app.powerbigov.us/Redirect?action=OpenReport&appId=bc14ee51-602f-4786-842e-f6162f360b9b&reportObjectId=ce960232-c527-4260-82d5-8d32ebe8edbe&ctid=e95f1b23-abaf-45ee-821d-b7ab251ab3bf&reportPage=6da026e5b757fdf526ab&pbi_source=appShareLink&portalSessionId=5aec0ee2-9d87-4b57-a721-ccaf63eb016e' },
+            { label: 'SNOW Dashboard',               icon: 'ac_unit',        href: 'https://yourit.va.gov/now/platform-analytics-workspace/dashboards/params/edit/false/tab-sys-id/77632d6497916a5050f9fb56f053af34/sys-id/fd06b9c51b5a69105d46cb78624bcb54' },
+            { label: 'Support Dashboard',            icon: 'support_agent',  href: 'https://dvagov.sharepoint.com/sites/LEAFTO/SitePages/LEAF-Operations-Dashboard.aspx' },
+            { label: 'Telemetry Dashboard',          icon: 'sensors',        href: '/platform/service_requests_launchpad/report.php?a=telemetry_dashboard' },
+            { label: 'Help Library Feedback',        icon: 'rate_review',     href: 'https://leaf.va.gov/platform/votes/report.php?a=dashboard' }
+          ]
+        },
+        {
+          label: 'Reports',
+          items: [
+            { label: 'Awards',                                  icon: 'emoji_events',     href: 'https://leaf.va.gov/platform/service_requests_launchpad/open.php?report=32wnZ' },
+            { label: 'National Projects Report',                icon: 'flag',             href: 'https://leaf.va.gov/platform/service_requests_launchpad/open.php?report=32wnc' },
+            { label: 'Open Office Hours Report',                icon: 'schedule',         href: 'https://leaf.va.gov/platform/service_requests_launchpad/open.php?report=32wn7' },
+            { label: 'System Status Report',                    icon: 'monitor_heart',    href: 'https://leaf.va.gov/platform/service_requests_launchpad/open.php?report=32wnJ' },
+            { label: 'Training Attendance Report',              icon: 'school',           href: 'https://leaf.va.gov/platform/service_requests_launchpad/open.php?report=32wnS' },
+            { label: 'Uptime Stats',                            icon: 'timer',            href: 'https://leaf.va.gov/platform/service_requests_launchpad/report.php?a=Uptime_Stats' },
+            { label: 'Use Case – Access to Care',               icon: 'medical_services', href: 'https://leaf.va.gov/platform/service_requests_launchpad/open.php?report=32wna' },
+            { label: 'Use Case – Efficiency and Cost Savings',  icon: 'savings',          href: 'https://leaf.va.gov/platform/service_requests_launchpad/open.php?report=32wnb' }
+          ]
+        },
+        {
+          label: 'Resources',
+          items: [
+            { label: 'Help & SOP Library',   icon: 'menu_book',       href: 'https://leaf.va.gov/platform/help_library/' },
+            { label: 'UX – Documentation',   icon: 'design_services', href: 'https://leaf.va.gov/platform/ux/' }
+          ]
+        }
+      ];
+      const viewCount = viewGroups.reduce((n, g) => n + g.items.length, 0);
+
+      const tileHTML = (item, variant) =>
+        `<a class="thb-tile thb-tile--${variant}" href="${item.href}" target="_blank" rel="noopener noreferrer" data-label="${item.label.toLowerCase()}">
+           <span class="material-symbols-outlined">${item.icon}</span>
+           <span class="thb-tile-label">${item.label}</span>
+         </a>`;
+
+      $id('gridSubmit').innerHTML = submitLinks.map(i => tileHTML(i, 'submit')).join('');
+      $id('viewGroups').innerHTML = viewGroups.map(g => `
+        <div class="thb-subgroup" data-subgroup>
+          <p class="thb-subgroup-label">${g.label}<span class="thb-subgroup-count" data-sub-count>${g.items.length}</span></p>
+          <div class="thb-grid">${g.items.map(i => tileHTML(i, 'view')).join('')}</div>
+        </div>
+      `).join('');
+      $id('secSubmit').querySelector('[data-count]').textContent = `${submitLinks.length} forms`;
+      $id('secView').querySelector('[data-count]').textContent   = `${viewCount} reports`;
+
+      /* ── Collapse / expand ── */
+      window.thbToggle = (secId, btn) => {
+        const sec = $id(secId);
+        const collapsed = sec.classList.toggle('collapsed');
+        btn.setAttribute('aria-expanded', String(!collapsed));
+      };
+
+      /* ── Search + type filter ── */
+      const search = $id('thbSearch');
+      const clearBtn = $id('thbClear');
+      const admin = $id('thbAdmin');
+      const resultCount = $id('thbResultCount');
+      const totalTiles = document.querySelectorAll('.thb-tile').length;
+      let typeFilter = 'all';
+
+      const sections = [
+        { el: $id('secSubmit'), type: 'submit' },
+        { el: $id('secView'),   type: 'view' }
+      ];
+
+      const apply = () => {
+        const q = search.value.trim().toLowerCase();
+        clearBtn.classList.toggle('vis', q.length > 0);
+
+        admin.hidden = (typeFilter !== 'all');
+
+        let shown = 0;
+        let considered = 0;
+
+        sections.forEach(({ el, type }) => {
+          const typeOK = (typeFilter === 'all' || typeFilter === type);
+          el.hidden = !typeOK;
+          if (!typeOK) return;
+
+          const tiles = el.querySelectorAll('.thb-tile');
+          considered += tiles.length;
+          let matches = 0;
+          tiles.forEach(t => {
+            const hit = !q || t.getAttribute('data-label').includes(q);
+            t.hidden = !hit;
+            if (hit) matches++;
+          });
+          shown += matches;
+
+          // Hide sub-groups that have no visible tiles; update sub-counts
+          el.querySelectorAll('[data-subgroup]').forEach(g => {
+            const gTiles = g.querySelectorAll('.thb-tile');
+            const gShown = Array.from(gTiles).filter(t => !t.hidden).length;
+            g.hidden = (gShown === 0);
+            const c = g.querySelector('[data-sub-count]');
+            if (c) c.textContent = q ? gShown : gTiles.length;
+          });
+
+          el.classList.toggle('no-matches', matches === 0);
+          if (q) {
+            el.classList.remove('collapsed');
+            el.querySelector('.thb-sec-head').setAttribute('aria-expanded', 'true');
+          }
+        });
+
+        // "showing X of Y" badge — only while searching or filtering
+        if (q || typeFilter !== 'all') {
+          resultCount.textContent = `Showing ${shown} of ${considered}`;
+        } else {
+          resultCount.textContent = '';
+        }
+      };
+
+      search.addEventListener('input', apply);
+      clearBtn.addEventListener('click', () => { search.value = ''; apply(); search.focus(); });
+
+      document.querySelectorAll('.thb-filter').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.thb-filter').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          typeFilter = btn.getAttribute('data-filter');
+          apply();
+        });
+      });
+
+      /* ── Admin inbox modal ── */
+      (() => {
+        const modal    = $id('thbModal');
+        const frame    = $id('thbModalFrame');
+        const titleEl  = $id('thbModalTitle');
+        const closeBtn = $id('thbModalClose');
+        const backdrop = $id('thbModalBackdrop');
+        const openBtn  = $id('thbAdminOpen');
+        if (!modal || !frame || !openBtn) return;
+
+        let lastFocused = null;
+
+        /* Measure the fixed/sticky global header so the dialog always clears it.
+           Falls back to the CSS default (120px) if nothing is found. */
+        const measureHeaderOffset = () => {
+          let bottom = 0;
+          document.querySelectorAll('header, nav, [class*="breadcrumb"], [class*="nav"]').forEach(el => {
+            const cs = getComputedStyle(el);
+            if (cs.position === 'fixed' || cs.position === 'sticky') {
+              const rect = el.getBoundingClientRect();
+              // Only count bars anchored near the top of the viewport
+              if (rect.top <= 4 && rect.bottom > bottom) bottom = rect.bottom;
+            }
+          });
+          if (bottom > 0) {
+            modal.style.setProperty('--thb-header-offset', `${Math.ceil(bottom) + 16}px`);
+          }
+        };
+
+        const openModal = () => {
+          lastFocused = document.activeElement;
+          measureHeaderOffset();
+          titleEl.textContent = openBtn.getAttribute('data-report-title') || 'Admin Inbox';
+          frame.src = openBtn.getAttribute('data-report-src');
+          modal.classList.add('is-open');
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+          closeBtn.focus();
+        };
+        const closeModal = () => {
+          modal.classList.remove('is-open');
+          modal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+          frame.src = '';
+          lastFocused?.focus();
+        };
+
+        openBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+        backdrop.addEventListener('click', closeModal);
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+        });
+        modal.addEventListener('keydown', (e) => {
+          if (e.key !== 'Tab' || !modal.classList.contains('is-open')) return;
+          const f = Array.from(modal.querySelectorAll('button:not([disabled]), [tabindex]:not([tabindex="-1"])'));
+          if (!f.length) return;
+          const first = f[0], last = f[f.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        });
+      })();
+
+      /* ── Jump to top ── */
+      (() => {
+        const btn = $id('lpJump'); if (!btn) return;
+        const update = () => {
+          const vis = (window.pageYOffset || document.documentElement.scrollTop) > 120;
+          btn.classList.toggle('vis', vis);
+          btn.setAttribute('aria-hidden', String(!vis));
+          btn.tabIndex = vis ? 0 : -1;
+        };
+        btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        window.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update);
+        update();
+      })();
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+
+  <!-- Admin Inbox Modal — at body level so no ancestor stacking context can trap it under the global header -->
+  <div class="thb-modal" id="thbModal" role="dialog" aria-modal="true" aria-labelledby="thbModalTitle" aria-hidden="true">
+    <div class="thb-modal__backdrop" id="thbModalBackdrop"></div>
+    <div class="thb-modal__dialog">
+      <div class="thb-modal__header">
+        <h2 class="thb-modal__title" id="thbModalTitle">Admin Inbox</h2>
+        <button class="thb-modal__close" id="thbModalClose" type="button" aria-label="Close">
+          <span class="material-symbols-outlined" aria-hidden="true">close</span>
+        </button>
+      </div>
+      <div class="thb-modal__body">
+        <iframe class="thb-modal__frame" id="thbModalFrame" title="Admin Inbox"></iframe>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

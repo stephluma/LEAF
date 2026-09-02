@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Impact — LEAF Launchpad</title>
+
+    <!-- TODO: verify path before production -->
+    <link rel="stylesheet" href="./files/launchpad.css" />
+
+    <style>
+      /* Icon sizing for classes defined in launchpad.css (out of scope
+         for this edit) — that file still sizes .material-symbols-outlined
+         via font-size, which no longer affects the inlined <svg>. These
+         restore each icon's pre-conversion size without touching
+         launchpad.css; everything else (color, layout) still cascades
+         correctly from the original rules there. */
+      .scale-hd .material-symbols-outlined svg {
+        width: 2rem;
+        height: 2rem;
+      }
+      .btn .material-symbols-outlined svg {
+        width: 1.15rem;
+        height: 1.15rem;
+      }
+      .lp-jump .material-symbols-outlined svg {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+      /* .btn-cta has no dedicated icon rule anywhere (not in launchpad.css
+         either) — its icon always just inherited the button's own 1rem
+         text size ambiently, which SVG doesn't do automatically. */
+      .btn-cta .material-symbols-outlined svg {
+        width: 1rem;
+        height: 1rem;
+      }
+
+      /* ── Stat card entrance ── */
+      @media (prefers-reduced-motion: no-preference) {
+        .stat-card {
+          opacity: 0;
+          transform: scale(0.96) translateY(10px);
+          transition:
+            opacity 0.45s ease,
+            transform 0.45s ease;
+        }
+        .stat-card.stat-visible {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+
+      /* Ensure cards are always visible when motion is reduced */
+      @media (prefers-reduced-motion: reduce) {
+        .stat-card {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      /* ── Stat grid ── */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+      }
+      @media (max-width: 900px) {
+        .stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 500px) {
+        .stats {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .stat-card {
+        background: var(--surface, #fff);
+        border-radius: var(--radius, 8px);
+        box-shadow: var(--shadow-card, 0 2px 12px rgba(0, 0, 0, 0.08));
+        padding: 2rem 1.5rem;
+        text-align: center;
+      }
+
+      .stat-num {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: clamp(2.5rem, 5vw, 3.5rem);
+        line-height: 1;
+        color: var(--color-primary, #005ea2);
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-label {
+        font-family: "Source Sans Pro Web", sans-serif;
+        font-size: 1.05rem;
+        color: var(--color-text-muted, #5c6670);
+        margin: 0;
+      }
+
+      /* ── Step images ── */
+      .step-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        border-radius: var(--radius, 8px);
+      }
+      .step-img.contain img {
+        object-fit: contain;
+        background: #fff;
+      }
+
+      /* ── User types definition list ── */
+      .user-types {
+        margin: 1rem 0 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .user-types dt {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: 1rem;
+        color: var(--color-text, #1b1b1b);
+        margin: 0 0 0.2rem;
+      }
+      .user-types dd {
+        margin: 0;
+        font-family: "Source Sans Pro Web", sans-serif;
+        font-size: 1rem;
+        color: var(--color-text-muted, #5c6670);
+        line-height: 1.55;
+      }
+
+      /* ── CTA band ── */
+      .cta-band {
+        background: var(--color-primary, #005ea2);
+        color: #fff;
+      }
+      .cta-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+        flex-wrap: wrap;
+        padding: 3rem 0;
+      }
+      .cta-text {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+        margin: 0;
+      }
+      .btn-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #fff;
+        color: var(--color-primary, #005ea2);
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: 1rem;
+        border: none;
+        border-radius: var(--radius, 6px);
+        padding: 0.75rem 1.75rem;
+        cursor: pointer;
+        text-decoration: none;
+        transition:
+          background 0.2s,
+          color 0.2s;
+        white-space: nowrap;
+      }
+      .btn-cta:hover {
+        background: #d9e8f6;
+      }
+
+      img {
+        pointer-events: none;
+        -webkit-user-drag: none;
+      }
+      .nl-link .material-symbols-outlined {
+        color: #fff !important;
+      }
+    </style>
+
+    <!-- TODO: verify path before production -->
+  </head>
+  <body>
+    <div class="lp" id="lp-root">
+      <a class="lp-skip" href="#lp-main">Skip to main content</a>
+      <div id="lp-nav-host"></div>
+
+      <main id="lp-main" tabindex="-1">
+        <!-- ── PAGE TITLE ── -->
+        <section class="section" aria-labelledby="page-h1">
+          <div class="wrap">
+            <div class="sec-hd ctr">
+              <span class="eyebrow">Built by VA. For VA.</span>
+              <h1 class="sec-h2" id="page-h1">Our Impact</h1>
+              <p class="sec-sub">
+                Our mission is to empower the VA workforce by making digital
+                business implementation accessible, efficient, and
+                cost-effective.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── STATS ── -->
+        <section class="section section-alt" aria-labelledby="stats-h2">
+          <div class="wrap">
+            <div class="sec-hd ctr">
+              <span class="eyebrow">By the numbers</span>
+              <h2 class="sec-h2" id="stats-h2">Platform at a Glance</h2>
+              <p class="sec-sub">
+                From individual clinics to national offices, LEAF is driving
+                digital transformation across the entire VA enterprise.
+              </p>
+            </div>
+            <div class="stats" role="list">
+              <div class="stat-card" role="listitem">
+                <div class="stat-num" aria-label="250 Facilities Adopted">
+                  250
+                </div>
+                <p class="stat-label">Facilities Adopted</p>
+              </div>
+              <div class="stat-card" role="listitem">
+                <div class="stat-num" aria-label="3,700 Active Sites">
+                  3,700
+                </div>
+                <p class="stat-label">Active Sites</p>
+              </div>
+              <div class="stat-card" role="listitem">
+                <div class="stat-num" aria-label="6 Million Requests Per Year">
+                  6M
+                </div>
+                <p class="stat-label">Requests Per Year</p>
+              </div>
+              <div class="stat-card" role="listitem">
+                <div class="stat-num" aria-label="20 Percent Annual Growth">
+                  20%
+                </div>
+                <p class="stat-label">Annual Growth</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── EMPOWERING ALL USERS ── -->
+        <section class="section section-alt" aria-labelledby="empower-h2">
+          <div class="wrap">
+            <div class="step" aria-labelledby="empower-h2">
+              <div>
+                <span class="step-tag">No-code &amp; low-code</span>
+                <h2 class="step-h3" id="empower-h2">Empowering All Users</h2>
+                <p class="step-body">
+                  Our platform bridges the gap between technical and
+                  non-technical users:
+                </p>
+                <dl class="user-types">
+                  <div>
+                    <dt>Low-Code for Programmers</dt>
+                    <dd>
+                      Streamline development with reusable components and rapid
+                      deployment tools.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>No-Code for Citizen Developers</dt>
+                    <dd>
+                      Intuitive drag-and-drop interfaces let anyone manage
+                      digital processes without writing a line of code.
+                    </dd>
+                  </div>
+                </dl>
+                <p class="step-body">
+                  This dual approach ensures both technical and non-technical
+                  users can efficiently build digital processes, fostering
+                  innovation across your organization.
+                </p>
+              </div>
+              <div
+                class="step-img contain"
+                role="img"
+                aria-label="No-code and low-code balance diagram"
+              >
+                <img
+                  src="./files/see-saw.png"
+                  alt="Diagram showing the balance between low-code and no-code approaches"
+                  width="500"
+                  height="281"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+             ENTERPRISE SCALE
+        ══════════════════════════════════════════ -->
+        <section class="section" aria-labelledby="scale-h2">
+          <div class="wrap">
+            <div class="sec-hd ctr">
+              <span class="eyebrow">Enterprise scale</span>
+              <h2 class="sec-h2" id="scale-h2">
+                Trusted across every level of VA.
+              </h2>
+              <p class="sec-sub">
+                From individual facilities to national offices, LEAF scales to
+                any organization's size and complexity.
+              </p>
+            </div>
+
+            <div class="scale">
+              <div class="scale-card">
+                <div class="scale-hd">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor">
+                      <path
+                        d="M420-280h120v-140h140v-120H540v-140H420v140H280v120h140v140ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Z"
+                      /></svg
+                  ></span>
+                  <p class="scale-title">Facility Level</p>
+                </div>
+                <ul class="scale-list">
+                  <li>Clinic Profile Management</li>
+                  <li>Eligibility &amp; Enrollment</li>
+                  <li>Onboarding &amp; Offboarding</li>
+                  <li>Conference &amp; Travel</li>
+                  <li>Work Order Submissions</li>
+                  <li><em>… and many more</em></li>
+                </ul>
+              </div>
+
+              <div class="scale-card">
+                <div class="scale-hd">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor">
+                      <path
+                        d="M600-120v-120H440v-400h-80v120H80v-320h280v120h240v-120h280v320H600v-120h-80v320h80v-120h280v320H600Z"
+                      /></svg
+                  ></span>
+                  <p class="scale-title">Regional Level</p>
+                </div>
+                <ul class="scale-list">
+                  <li>VISN Network Office</li>
+                  <li>Human Resources Management</li>
+                  <li>VBA Regional Offices</li>
+                  <li>VA Supportive Housing (VASH)</li>
+                  <li>Memorial Service Networks (MSNs)</li>
+                  <li><em>… and many more</em></li>
+                </ul>
+              </div>
+
+              <div class="scale-card">
+                <div class="scale-hd">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor">
+                      <path
+                        d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-40-82v-78q-33 0-56.5-23.5T360-320v-40L168-552q-3 18-5.5 36t-2.5 36q0 121 79.5 212T440-162Zm276-102q20-22 36-47.5t26.5-53q10.5-27.5 16-56.5t5.5-59q0-98-54.5-179T600-776v16q0 33-23.5 56.5T520-680h-80v80q0 17-11.5 28.5T400-560h-80v80h240q17 0 28.5 11.5T600-440v120h40q26 0 47 15.5t29 40.5Z"
+                      /></svg
+                  ></span>
+                  <p class="scale-title">National Level</p>
+                </div>
+                <ul class="scale-list">
+                  <li>VA Central Office (Headquarters)</li>
+                  <li>Office of the Secretary of Veterans Affairs</li>
+                  <li>Office of Inspector General</li>
+                  <li>Office of General Counsel</li>
+                  <li>VHA Shark Tank</li>
+                  <li><em>… and many more</em></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── CTA ── -->
+        <section class="cta-band" aria-labelledby="cta-heading">
+          <div class="wrap">
+            <div class="cta-inner">
+              <p class="cta-text" id="cta-heading">
+                See the platform in action for yourself!
+              </p>
+              <button class="btn-cta" id="lpCtaDemoBtn" type="button">
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  ><svg viewBox="0 -960 960 960" fill="currentColor">
+                    <path
+                      d="m380-300 280-180-280-180v360ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"
+                    /></svg
+                ></span>
+                Watch a demo
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <button
+        class="lp-jump"
+        id="lpJump"
+        type="button"
+        aria-label="Back to top"
+        aria-hidden="true"
+        tabindex="-1"
+      >
+        <span class="material-symbols-outlined" aria-hidden="true"
+          ><svg viewBox="0 -960 960 960" fill="currentColor">
+            <path
+              d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"
+            /></svg
+        ></span>
+      </button>
+    </div>
+
+    <!-- ── DEMO MODAL ── -->
+    <div
+      id="lpDemoModal"
+      class="lp-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="lpDemoTitle"
+      hidden
+    >
+      <div class="modal-box">
+        <p id="lpDemoTitle" class="sr-only">LEAF Platform Demo Video</p>
+        <button
+          class="modal-close"
+          id="lpDemoClose"
+          aria-label="Close demo video"
+        >
+          &times;
+        </button>
+        <div class="modal-vid">
+          <iframe
+            id="lpDemoFrame"
+            src=""
+            data-src="https://dvagov.sharepoint.com/sites/vhaleaf/_layouts/15/embed.aspx?UniqueId=4326d1e5-57b3-4138-92e5-f16bdce8fdb2&embed=%7B%22ust%22%3Afalse%2C%22hv%22%3A%22CopyEmbedCode%22%7D&referrer=StreamWebApp&referrerScenario=EmbedDialog.Create"
+            title="LEAF Platform Demo"
+            allowfullscreen
+            frameborder="0"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (() => {
+        "use strict";
+
+        // ── Image protection ──
+        document.addEventListener("contextmenu", (e) => {
+          if (e.target.tagName === "IMG") e.preventDefault();
+        });
+
+        document.addEventListener("dragstart", (e) => {
+          if (e.target.tagName === "IMG") e.preventDefault();
+        });
+
+        // ── Jump to top ──
+        const initJumpBtn = () => {
+          const btn = document.getElementById("lpJump");
+          if (!btn) return;
+
+          const update = () => {
+            const visible =
+              (window.pageYOffset || document.documentElement.scrollTop) > 120;
+            btn.classList.toggle("vis", visible);
+            btn.setAttribute("aria-hidden", String(!visible));
+            btn.tabIndex = visible ? 0 : -1;
+          };
+
+          btn.addEventListener("click", () =>
+            window.scrollTo({ top: 0, behavior: "smooth" }),
+          );
+          window.addEventListener("scroll", update, { passive: true });
+          window.addEventListener("resize", update);
+          update();
+        };
+
+        // ── Demo modal ──
+        const initDemoModal = () => {
+          const modal = document.getElementById("lpDemoModal");
+          const frame = document.getElementById("lpDemoFrame");
+          const closeBtn = document.getElementById("lpDemoClose");
+          const ctaBtn = document.getElementById("lpCtaDemoBtn");
+          if (!modal || !frame || !closeBtn) return;
+
+          const src = frame.getAttribute("data-src");
+
+          const openModal = () => {
+            frame.src = src;
+            modal.removeAttribute("hidden");
+            document.body.style.overflow = "hidden";
+            closeBtn.focus();
+          };
+
+          const closeModal = () => {
+            frame.src = "";
+            modal.setAttribute("hidden", "");
+            document.body.style.overflow = "";
+            ctaBtn?.focus();
+          };
+
+          ctaBtn?.addEventListener("click", openModal);
+          closeBtn.addEventListener("click", closeModal);
+          modal.addEventListener("click", (e) => {
+            if (e.target === modal) closeModal();
+          });
+
+          document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && !modal.hasAttribute("hidden"))
+              closeModal();
+          });
+
+          // Focus trap — only the close button is focusable inside the modal
+          modal.addEventListener("keydown", (e) => {
+            if (e.key === "Tab" && !modal.hasAttribute("hidden")) {
+              e.preventDefault();
+              closeBtn.focus();
+            }
+          });
+        };
+
+        // ── Stat count-up animation ──
+        const initStatCountUp = () => {
+          const prefersReducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+          ).matches;
+          const cards = document.querySelectorAll(".stat-card");
+
+          const parseTarget = (el) => {
+            const raw = el.textContent.trim();
+            return { num: parseFloat(raw.replace(/[^0-9.]/g, "")), raw };
+          };
+
+          const formatNum = (n, raw) => {
+            if (raw.includes("M")) return `${Math.round(n)}M`;
+            if (raw.includes("%")) return `${Math.round(n)}%`;
+            return Math.round(n).toLocaleString();
+          };
+
+          const animateCard = (card, delay) => {
+            const numEl = card.querySelector(".stat-num");
+            if (!numEl) return;
+
+            const target = parseTarget(numEl);
+
+            setTimeout(() => {
+              card.classList.add("stat-visible");
+              if (prefersReducedMotion) return;
+
+              const duration = 1200;
+              let start = null;
+
+              const step = (timestamp) => {
+                if (!start) start = timestamp;
+                const progress = Math.min((timestamp - start) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                numEl.textContent = formatNum(target.num * eased, target.raw);
+                if (progress < 1) {
+                  requestAnimationFrame(step);
+                } else {
+                  numEl.textContent = target.raw;
+                }
+              };
+
+              requestAnimationFrame(step);
+            }, delay);
+          };
+
+          if (prefersReducedMotion) {
+            cards.forEach((c) => c.classList.add("stat-visible"));
+            return;
+          }
+
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                const card = entry.target;
+                const idx = [...cards].indexOf(card);
+                animateCard(card, idx * 120);
+                observer.unobserve(card);
+              });
+            },
+            { threshold: 0.25 },
+          );
+
+          cards.forEach((c) => observer.observe(c));
+        };
+
+        // ── Boot ──
+        initJumpBtn();
+        initDemoModal();
+        initStatCountUp();
+      })();
+    </script>
+  </body>
+</html>

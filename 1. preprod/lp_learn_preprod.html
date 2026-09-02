@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learning Center — LEAF Launchpad</title>
+
+    <link rel="stylesheet" href="./files/launchpad.css" />
+
+    <style>
+      /* ── Hero visual ── */
+      .training-hero-icon {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        background: var(--color-primary, #005ea2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.75rem;
+        box-shadow: 0 4px 20px rgba(0, 94, 162, 0.25);
+      }
+      .training-hero-icon svg {
+        width: 3rem;
+        height: 3rem;
+        color: #fff;
+      }
+
+      .training-hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: var(--color-primary-lightest, #e8f0fb);
+        color: var(--color-primary, #005ea2);
+        font-family: 'PublicSans-Bold', sans-serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.04em;
+        padding: 0.4rem 0.9rem;
+        border-radius: 999px;
+        margin-top: 1.5rem;
+      }
+      .training-hero-badge svg {
+        width: 1rem;
+        height: 1rem;
+        color: var(--color-primary, #005ea2);
+      }
+
+      /* ── CTA band ── */
+      .training-cta-band {
+        background: var(--color-primary, #005ea2);
+        color: #fff;
+      }
+      .training-cta-inner {
+        padding: 3.5rem 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+      }
+      .training-cta-eyebrow {
+        font-family: 'PublicSans-Bold', sans-serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.75);
+        margin: 0;
+      }
+      .training-cta-heading {
+        font-family: 'PublicSans-Bold', sans-serif;
+        font-size: clamp(1.5rem, 3vw, 2.1rem);
+        margin: 0;
+        color: #fff;
+      }
+      .training-cta-sub {
+        font-family: 'Source Sans Pro Web', sans-serif;
+        font-size: 1.05rem;
+        color: rgba(255, 255, 255, 0.85);
+        margin: 0;
+        max-width: 540px;
+        line-height: 1.6;
+      }
+      .training-cta-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #fff;
+        color: var(--color-primary, #005ea2) !important;
+        font-family: 'PublicSans-Bold', sans-serif;
+        font-size: 1rem;
+        border: none;
+        border-radius: var(--radius, 6px);
+        padding: 0.85rem 2rem;
+        margin-top: 0.5rem;
+        cursor: pointer;
+        transition: filter 0.2s;
+      }
+      .training-cta-btn:hover {
+        filter: brightness(0.96);
+      }
+      .training-cta-btn:focus-visible {
+        outline: 3px solid #fff;
+        outline-offset: 3px;
+      }
+      .training-cta-btn svg {
+        width: 1.1rem;
+        height: 1.1rem;
+        color: var(--color-primary, #005ea2) !important;
+      }
+
+      /* ── Registration modal ── */
+      .training-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(27, 27, 27, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        z-index: 1000;
+      }
+      .training-modal-overlay[hidden] {
+        display: none;
+      }
+
+      .training-modal {
+        background: #fff;
+        border-radius: var(--radius, 8px);
+        width: min(1000px, 95vw);
+        height: min(800px, 90vh);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+
+      .training-modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.1rem 1.5rem;
+        border-bottom: 1px solid var(--c-blue10, #d9e8f6);
+        flex-shrink: 0;
+      }
+      .training-modal-header h2 {
+        font-family: 'PublicSans-Bold', sans-serif;
+        font-size: 1.1rem;
+        color: var(--color-text, #1b1b1b);
+        margin: 0;
+      }
+      .training-modal-close {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border: none;
+        border-radius: 50%;
+        background: transparent;
+        color: var(--color-text-muted, #5c6670);
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .training-modal-close:hover {
+        background: var(--color-primary-lightest, #e8f0fb);
+      }
+      .training-modal-close:focus-visible {
+        outline: 3px solid var(--color-primary, #005ea2);
+        outline-offset: 2px;
+      }
+      .training-modal-close svg {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+
+      .training-modal-body {
+        flex: 1;
+        min-height: 0;
+      }
+      .training-modal-body iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+      }
+    </style>
+
+  </head>
+  <body>
+    <div class="lp" id="lp-root">
+      <a class="lp-skip" href="#lp-main">Skip to main content</a>
+      <div id="lp-nav-host"></div>
+
+      <main id="lp-main" tabindex="-1">
+        <!-- ══════════════════════════════════════════
+             HERO
+        ══════════════════════════════════════════ -->
+        <section class="section" aria-labelledby="training-h1">
+          <div class="wrap">
+            <div class="sec-hd ctr">
+              <div class="training-hero-icon" aria-hidden="true">
+                <svg
+                  viewBox="0 -960 960 960"
+                  fill="currentColor"
+                  width="1em"
+                  height="1em"
+                >
+                  <path
+                    d="M860-283v-282L479-360 40-600l439-240 441 240v317h-60ZM479-120 189-279v-210l290 159 290-159v210L479-120Z"
+                  />
+                </svg>
+              </div>
+              <span class="eyebrow">Coming Soon</span>
+              <h1 class="sec-h2" id="training-h1">LEAF Learning Center</h1>
+              <p class="sec-sub">
+                Your central home for all things LEAF training and learning —
+                courses, guides, and resources to help you get the most out of
+                the platform, all in one place. We're building it now.
+              </p>
+              <span class="training-hero-badge">
+                <svg
+                  viewBox="0 -960 960 960"
+                  fill="currentColor"
+                  width="1em"
+                  height="1em"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M768-120 517-371l57-57 251 251-57 57Zm-581 0-57-57 290-290-107-107-23 23-44-44v85l-24 24-122-122 24-24h86l-48-48 131-131q17-17 37-23t44-6q24 0 44 8.5t37 25.5L348-699l48 48-24 24 104 104 122-122q-8-13-12.5-30t-4.5-36q0-53 38.5-91.5T711-841q15 0 25.5 3t17.5 8l-85 85 75 75 85-85q5 8 8.5 19.5T841-709q0 53-38.5 91.5T711-579q-18 0-31-2.5t-24-7.5L187-120Z"
+                  />
+                </svg>
+                In development
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+             CTA — LIVE TRAINING REGISTRATION
+        ══════════════════════════════════════════ -->
+        <section class="training-cta-band" aria-labelledby="training-cta-h2">
+          <div class="wrap">
+            <div class="training-cta-inner">
+              <p class="training-cta-eyebrow">In the meantime</p>
+              <h2 class="training-cta-heading" id="training-cta-h2">
+                Join a Live Training Session
+              </h2>
+              <p class="training-cta-sub">
+                While the Learning Center is being built, register for a live
+                training session with the LEAF team to get hands-on help and
+                answers to your questions.
+              </p>
+              <button
+                class="training-cta-btn"
+                type="button"
+                id="trainingRegisterBtn"
+              >
+                <svg
+                  viewBox="0 -960 960 960"
+                  fill="currentColor"
+                  width="1em"
+                  height="1em"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M433-228 295-365l42-42 96 94 184-184 42 43-226 226ZM180-80q-24 0-42-18t-18-42v-620q0-24 18-42t42-18h65v-60h65v60h340v-60h65v60h65q24 0 42 18t18 42v620q0 24-18 42t-42 18H180Zm0-60h600v-430H180v430Z"
+                  />
+                </svg>
+                Register for Live Training
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- ══════════════════════════════════════════
+           TRAINING REGISTRATION MODAL
+      ══════════════════════════════════════════ -->
+      <div
+        class="training-modal-overlay"
+        id="trainingModalOverlay"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="trainingModalTitle"
+        hidden
+      >
+        <div class="training-modal">
+          <div class="training-modal-header">
+            <h2 id="trainingModalTitle">Training Registration</h2>
+            <button
+              class="training-modal-close"
+              id="trainingModalClose"
+              type="button"
+              aria-label="Close training registration dialog"
+            >
+              <svg
+                viewBox="0 -960 960 960"
+                fill="currentColor"
+                width="1em"
+                height="1em"
+                aria-hidden="true"
+              >
+                <path
+                  d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"
+                />
+              </svg>
+            </button>
+          </div>
+          <div class="training-modal-body">
+            <iframe
+              id="trainingModalIframe"
+              title="Training Registration Form"
+              src=""
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <button
+        class="lp-jump"
+        id="lpJump"
+        type="button"
+        aria-label="Back to top"
+        aria-hidden="true"
+        tabindex="-1"
+      >
+        <svg
+          viewBox="0 -960 960 960"
+          fill="currentColor"
+          width="1em"
+          height="1em"
+          aria-hidden="true"
+        >
+          <path
+            d="M450-160v-526L202-438l-42-42 320-320 320 320-42 42-248-248v526h-60Z"
+          />
+        </svg>
+      </button>
+    </div>
+    <!-- /.lp -->
+
+    <script>
+      (() => {
+        "use strict";
+
+        const TRAINING_FORM_URL =
+          "https://leaf.va.gov/platform/service_requests_launchpad/report.php?a=LEAF_Start_Request&id=form_a3df9&title=Training+Registration&iframe=1";
+
+        /* ── Jump to top ── */
+        const initJumpBtn = () => {
+          const btn = document.getElementById("lpJump");
+          if (!btn) return;
+
+          const update = () => {
+            const vis =
+              (window.pageYOffset || document.documentElement.scrollTop) > 120;
+            btn.classList.toggle("vis", vis);
+            btn.setAttribute("aria-hidden", String(!vis));
+            btn.tabIndex = vis ? 0 : -1;
+          };
+
+          btn.addEventListener("click", () =>
+            window.scrollTo({ top: 0, behavior: "smooth" }),
+          );
+          window.addEventListener("scroll", update, { passive: true });
+          window.addEventListener("resize", update);
+          update();
+        };
+
+        /* ── Training registration modal ── */
+        const initTrainingModal = () => {
+          const openBtn = document.getElementById("trainingRegisterBtn");
+          const overlay = document.getElementById("trainingModalOverlay");
+          const closeBtn = document.getElementById("trainingModalClose");
+          const iframe = document.getElementById("trainingModalIframe");
+          const modal = overlay?.querySelector(".training-modal");
+          if (!openBtn || !overlay || !closeBtn || !iframe || !modal) return;
+
+          let lastFocused = null;
+
+          const getFocusable = () =>
+            Array.from(
+              modal.querySelectorAll(
+                'button, [href], iframe, [tabindex]:not([tabindex="-1"])',
+              ),
+            ).filter((el) => !el.hasAttribute("disabled"));
+
+          const trapFocus = (e) => {
+            if (e.key !== "Tab") return;
+            const focusable = getFocusable();
+            if (!focusable.length) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+
+            if (e.shiftKey && document.activeElement === first) {
+              e.preventDefault();
+              last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+              e.preventDefault();
+              first.focus();
+            }
+          };
+
+          const onKeydown = (e) => {
+            if (e.key === "Escape") {
+              closeModal();
+            } else {
+              trapFocus(e);
+            }
+          };
+
+          const openModal = () => {
+            lastFocused = document.activeElement;
+            if (!iframe.getAttribute("src")) iframe.src = TRAINING_FORM_URL;
+            overlay.hidden = false;
+            document.body.style.overflow = "hidden";
+            closeBtn.focus();
+            document.addEventListener("keydown", onKeydown);
+          };
+
+          const closeModal = () => {
+            overlay.hidden = true;
+            document.body.style.overflow = "";
+            document.removeEventListener("keydown", onKeydown);
+            if (lastFocused) lastFocused.focus();
+          };
+
+          openBtn.addEventListener("click", openModal);
+          closeBtn.addEventListener("click", closeModal);
+          overlay.addEventListener("click", (e) => {
+            if (e.target === overlay) closeModal();
+          });
+        };
+
+        /* ── Init ── */
+        initJumpBtn();
+        initTrainingModal();
+      })();
+    </script>
+  </body>
+</html>

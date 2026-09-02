@@ -1,0 +1,272 @@
+<!--
+  Icons: Google Material Symbols, licensed under the Apache License, Version 2.0.
+  https://www.apache.org/licenses/LICENSE-2.0
+  Source: https://fonts.google.com/icons
+-->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LEAF Help Library</title>
+    <link rel="stylesheet" href="/platform/help_library/files/help_library.css" />
+  </head>
+  <body class="smarty lp-scope">
+    <div class="hl-root">
+      <a class="hl-skip" href="#hl-main-content">Skip to main content</a>
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        class="hl-sr-only"
+        id="srAnnounce"
+      ></div>
+
+      <!-- Video Modal -->
+      <div
+        class="hl-modal hl-modal-vid"
+        id="vidModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="vidModalTitle"
+      >
+        <span class="hl-sr-only" id="vidModalTitle">Video</span>
+        <div class="hl-modal-overlay" id="vidOverlay"></div>
+        <div class="hl-modal-dialog">
+          <button
+            class="hl-modal-close"
+            id="vidModalClose"
+            type="button"
+            aria-label="Close video"
+          >
+            <span class="hl-icon" aria-hidden="true" id="vidCloseIcon"></span>
+          </button>
+          <div class="hl-vid-ratio">
+            <iframe
+              id="vidModalFrame"
+              src=""
+              data-src=""
+              title="Video"
+              allowfullscreen
+              frameborder="0"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- PDF Modal -->
+      <div
+        class="hl-modal hl-modal-pdf"
+        id="pdfModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="pdfModalTitle"
+        aria-describedby="pdfModalDesc"
+      >
+        <div class="hl-modal-overlay" id="pdfOverlay"></div>
+        <div class="hl-modal-dialog">
+          <div class="hl-modal-header">
+            <p class="hl-modal-title" id="pdfModalTitle">Document</p>
+            <button
+              class="hl-modal-close"
+              id="pdfClose"
+              type="button"
+              aria-label="Close document viewer"
+            >
+              <span class="hl-icon" aria-hidden="true" id="pdfCloseIcon"></span>
+            </button>
+          </div>
+          <p id="pdfModalDesc" class="hl-sr-only">
+            PDF document viewer. Press Escape to close.
+          </p>
+          <div class="hl-pdf-body">
+            <object
+              id="pdfFrame"
+              type="application/pdf"
+              title="Document preview"
+              data="about:blank"
+              style="
+                width: 100%;
+                height: 100%;
+                border: none;
+                display: block;
+                flex: 1;
+              "
+            ></object>
+          </div>
+        </div>
+      </div>
+
+      <!-- Consultation Modal -->
+      <div
+        class="hl-modal hl-modal-consult"
+        id="consultModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="consultModalTitle"
+        aria-describedby="consultModalDesc"
+      >
+        <div class="hl-modal-overlay" id="consultOverlay"></div>
+        <div class="hl-modal-dialog">
+          <div class="hl-modal-header">
+            <p class="hl-modal-title" id="consultModalTitle">Request a consultation</p>
+            <button
+              class="hl-modal-close"
+              id="consultClose"
+              type="button"
+              aria-label="Close consultation request form"
+            >
+              <span class="hl-icon" aria-hidden="true" id="consultCloseIcon"></span>
+            </button>
+          </div>
+          <p id="consultModalDesc" class="hl-sr-only">
+            Consultation request form. Press Escape to close.
+          </p>
+          <div class="hl-consult-body">
+            <iframe
+              id="consultFrame"
+              src="about:blank"
+              title="Request a consultation"
+            ></iframe>
+            <div class="hl-consult-fallback" id="consultFallback" role="status">
+              <span>Trouble viewing the form?</span>
+              <a href="#" id="consultFallbackLink" target="_blank" rel="noopener">
+                Open in a new tab <span class="hl-icon" aria-hidden="true" id="consultFallbackIcon"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIBRARY PAGE -->
+      <div class="hl-lpage" id="lpage">
+        <div class="hl-hero">
+          <span class="hl-hero-deco hl-hero-deco--book" aria-hidden="true" id="heroDecoBook"></span>
+          <span class="hl-hero-deco hl-hero-deco--video" aria-hidden="true" id="heroDecoVideo"></span>
+          <span class="hl-hero-deco hl-hero-deco--help" aria-hidden="true" id="heroDecoHelp"></span>
+          <span class="hl-hero-deco hl-hero-deco--bulb" aria-hidden="true" id="heroDecoBulb"></span>
+
+          <div class="hl-hero-inner">
+            <p class="hl-hero-greeting" id="heroGreeting" data-first-name="{$firstName|sanitize}"></p>
+            <h1>What are we solving today?</h1>
+            <p class="hl-hero-sub">Search tutorials, videos, and guides, all in one place.</p>
+            <div class="hl-sbox" role="search">
+              <label for="sq" class="hl-sr-only">Search help library</label>
+              <input
+                id="sq"
+                type="search"
+                placeholder='Try "report", "user access"…'
+                autocomplete="off"
+              />
+              <button
+                class="hl-sbox-btn"
+                id="sqBtn"
+                type="button"
+                tabindex="0"
+                aria-label="Submit search"
+              >
+                <span class="hl-icon" aria-hidden="true" id="searchIcon"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="hl-cat-wrap">
+          <p class="hl-cat-caption" id="catCaption">Browse by category</p>
+          <nav
+            class="hl-cat-strip"
+            id="catStrip"
+            role="tablist"
+            aria-labelledby="catCaption"
+          ></nav>
+        </div>
+
+        <div class="hl-page-layout">
+          <aside
+            class="hl-sidebar"
+            id="sidebar"
+            aria-label="Filter resources"
+          ></aside>
+          <main id="hl-main-content" tabindex="-1">
+            <div class="hl-main">
+              <div class="hl-main-hdr">
+                <div
+                  class="hl-count"
+                  id="rcount"
+                  role="status"
+                  aria-live="polite"
+                ></div>
+                <div class="hl-sort-pills" role="group" aria-labelledby="sortLbl">
+                  <span class="hl-sort-lbl" id="sortLbl">Sort by:</span>
+                  <button
+                    class="hl-spill on"
+                    type="button"
+                    data-s="recent"
+                    aria-pressed="true"
+                  >
+                    <span class="hl-icon" aria-hidden="true" id="scheduleIcon"></span>
+                    Recent
+                  </button>
+                  <button
+                    class="hl-spill"
+                    type="button"
+                    data-s="alpha"
+                    aria-pressed="false"
+                  >
+                    <span class="hl-icon" aria-hidden="true" id="alphaIcon"></span>
+                    Alphabetical
+                  </button>
+                </div>
+              </div>
+              <div id="featSection"></div>
+              <div id="results" role="tabpanel" aria-live="off"></div>
+            </div>
+          </main>
+        </div>
+      </div>
+
+      <!-- DETAIL PAGE -->
+      <div class="hl-dpage" id="dpage">
+        <div class="hl-dbc" id="dbc"></div>
+        <div class="hl-dhero" id="dhero"></div>
+        <div class="hl-dlayout">
+          <div class="hl-dmain" id="dmain"></div>
+          <div class="hl-dsb" id="dsb"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Resolves LEAF's shared JS libs path at runtime, since this is a
+      // standalone page (not PHP-template-rendered) and can't rely on a
+      // server-injected constant. Falls back to the platform's documented
+      // default location if APP_JS_PATH hasn't been set elsewhere.
+      // Loaded via dynamic script injection (not document.write) to avoid
+      // blocking the HTML parser; help_library.js is deferred until this
+      // finishes loading so sanitization is always available first.
+      window.APP_JS_PATH = window.APP_JS_PATH || "/app/libs/js";
+
+      // Config needed by the "Was this resource helpful?" feedback widget
+      // (logs new records to the dedicated feedback form, form_35f88) —
+      // same Smarty-injection pattern as window.leafIdeaPortal in
+      // ideas_v4.html. TODO: confirm the correct Smarty variables for
+      // userID/CSRFToken on this template before production.
+      window.helpLibConfig = {
+        userID: '<!--{$userID|unescape|escape:"quotes"}-->',
+        csrfToken: '<!--{$CSRFToken|unescape|escape:"quotes"}-->',
+      };
+
+      function loadAppScript(src, onDone) {
+        const s = document.createElement("script");
+        s.src = src;
+        s.onload = onDone;
+        s.onerror = onDone;
+        document.head.appendChild(s);
+      }
+
+      loadAppScript(window.APP_JS_PATH + "/dompurify/dompurify.min.js", function () {
+        loadAppScript("/platform/help_library/files/help_library.js", function () {});
+      });
+    </script>
+  </body>
+</html>

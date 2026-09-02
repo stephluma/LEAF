@@ -1,0 +1,1193 @@
+/* ============================================================
+   LEAF Universal Header  |  leaf_header.css
+   ─────────────────────────────────────────────────────────────
+   Lives at /launchpad/files/leaf_header.css. Pair with
+   leaf_header.js, which injects the header HTML and self-injects
+   this stylesheet if a page forgets to link it.
+
+   Styles branding, nav, and breadcrumb as one sticky .lp-header
+   unit.
+   ============================================================ */
+
+/* ── Local fonts (self-hosted, LEAF's own server) ──
+   Source: app/libs/css/fonts/ — confirmed live at
+   https://leaf.va.gov/app/libs/css/fonts/public-sans/PublicSans-Bold.woff2
+   (manually verified). Regular/Medium and the Source Sans Pro
+   pair follow the same documented bundle and naming convention
+   but weren't individually spot-checked — flag if any 404s. */
+@font-face {
+  font-family: "PublicSans-Regular";
+  src:
+    url("/app/libs/css/fonts/public-sans/PublicSans-Regular.woff2") format("woff2"),
+    url("/app/libs/css/fonts/public-sans/PublicSans-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PublicSans-Medium";
+  src:
+    url("/app/libs/css/fonts/public-sans/PublicSans-Medium.woff2") format("woff2"),
+    url("/app/libs/css/fonts/public-sans/PublicSans-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PublicSans-Bold";
+  src:
+    url("/app/libs/css/fonts/public-sans/PublicSans-Bold.woff2") format("woff2"),
+    url("/app/libs/css/fonts/public-sans/PublicSans-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Source Sans Pro Web";
+  src:
+    url("/app/libs/css/fonts/source-sans-pro/sourcesanspro-regular-webfont.woff2") format("woff2"),
+    url("/app/libs/css/fonts/source-sans-pro/sourcesanspro-regular-webfont.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Source Sans Pro Web-Bold";
+  src:
+    url("/app/libs/css/fonts/source-sans-pro/sourcesanspro-bold-webfont.woff2") format("woff2"),
+    url("/app/libs/css/fonts/source-sans-pro/sourcesanspro-bold-webfont.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Hide legacy shell chrome ──
+   This header now owns branding, nav, and breadcrumb — LEAF's
+   default header/footer are redundant and hidden site-wide. */
+#header,
+#footer {
+  display: none !important;
+}
+
+/* ── Nav palette ── */
+:root {
+  --nav-accent: #005ea2;
+  --nav-hl: #1a4480;
+  --nav-hover-bg: #eff6fb;
+  --nav-border: #aacdec;
+  --nav-panel-bg: #fff;
+  --nav-panel-bd: #d9e8f6;
+  --nav-muted: #3d4551;
+  --nav-text: #1b1b1b;
+  --nav-ico-bg: #eff6fb;
+  --nav-r: 5px;
+  --nav-r-lg: 8px;
+}
+
+/* ── Defensive baseline ──
+   Fetch+spliced routes (Team, Leadership, and any other external page
+   mounted via mountContent()) can bring their own style or stylesheet
+   link elements inside the region leaf_header.js extracts —
+   suppressChrome() only strips known chrome selectors, not
+   stylesheets, so a spliced page's
+   global reset (e.g. line-height on *) can leak into this document and
+   apply to the persistent header too, since it isn't isolated in its
+   own stacking/style context. Confirmed via DevTools on the Leadership
+   page: .lp-internal-label was inheriting line-height: 1.65 from a
+   foreign stylesheet, which shifted the lock icon inside it. Pinning
+   line-height back to the browser default here — directly on every
+   header element, not just via inheritance from .lp-header, since a
+   leaked `* { line-height }` rule would otherwise still win — makes
+   the header's own layout immune to it regardless of what a spliced
+   route brings with it. */
+.lp-header,
+.lp-header * {
+  line-height: normal;
+}
+
+/* ── Skip navigation link (WCAG 2.4.1) ──
+   Visually hidden until focused; first Tab stop on every page. */
+.lp-skip-link {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  text-decoration: none;
+  font-family: 'PublicSans-Bold', sans-serif;
+  font-size: 0.9rem;
+  color: #fff;
+  background: var(--nav-hl);
+  border-radius: var(--nav-r);
+  z-index: 9999;
+}
+.lp-skip-link:focus {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  width: auto;
+  height: auto;
+  clip: auto;
+  white-space: normal;
+  padding: 10px 16px;
+  outline: 3px solid var(--nav-accent);
+  outline-offset: 2px;
+}
+
+/* ── Screen-reader-only utility (WCAG 1.3.1, 2.4.4) ──
+   Used for "(opens in new tab)" text on external links. */
+.lp-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Header shell ──
+   Owns the sticky position, background, blur, and scroll shadow —
+   branding, nav, and breadcrumb scroll and stick together as one unit.
+
+   top: var(--lp-announcement-h, 0px) — when the announcement banner
+   (see .lp-announcement below) is present, leaf_header.js sets this
+   custom property to the banner's live-measured height so the header
+   sticks directly below it instead of underneath it. Defaults to 0px
+   (header sticks to the very top, as before) when no banner exists. */
+.lp-header {
+  position: sticky;
+  top: var(--lp-announcement-h, 0px);
+  z-index: 300;
+  background: rgba(255, 255, 255, 0.97);
+  border-bottom: 1px solid transparent;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s;
+}
+.lp-header.scrolled {
+  border-color: var(--nav-border);
+  box-shadow: 0 2px 16px rgba(0, 10, 60, 0.1);
+}
+
+/* ── Header bar: branding + nav row ── */
+.lp-header-bar {
+  padding: 0 24px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* ── Brand / logo ──
+   No padded or bordered container — sits flush at the header's
+   left edge, sized to the bar height, with just enough margin to
+   separate it from the first nav item. */
+.lp-brand {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-right: 20px;
+  line-height: 0;
+}
+.lp-brand-logo {
+  height: 22px;
+  width: auto;
+  display: block;
+}
+.lp-brand-logo path {
+  fill: var(--nav-hl);
+}
+.lp-brand:focus-visible {
+  outline: 3px solid var(--nav-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Nav ──
+   Fills the remaining width of .lp-header-bar next to the brand. */
+.lp-nav {
+  flex: 1;
+  min-width: 0;
+}
+.lp-nav-in {
+  height: 52px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.lp-nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Dropdown trigger ── */
+.dd-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 13px;
+  font-family: 'PublicSans-Medium', sans-serif;
+  font-size: 0.9rem;
+  color: var(--nav-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--nav-r);
+  transition:
+    color 0.15s,
+    background 0.15s;
+  white-space: nowrap;
+}
+.dd-trigger:hover,
+.dd-item.open .dd-trigger {
+  color: var(--nav-accent);
+  background: var(--nav-hover-bg);
+}
+.dd-trigger:focus-visible {
+  outline: 3px solid var(--nav-accent);
+  outline-offset: 2px;
+}
+/* Active section indicator */
+.dd-trigger[aria-current="true"] {
+  color: var(--nav-accent);
+  font-family: 'PublicSans-Bold', sans-serif;
+}
+.dd-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 1px;
+  transition: transform 0.25s ease;
+  transform-origin: center;
+}
+.dd-chevron .material-symbols-outlined {
+  display: flex;
+}
+.dd-chevron .material-symbols-outlined svg {
+  width: 1.25rem; /* 20px — matches nav text scale */
+  height: 1.25rem;
+}
+.dd-item.open .dd-chevron {
+  transform: rotate(180deg);
+}
+
+/* ── Dropdown item + panel ── */
+.dd-item {
+  position: relative;
+}
+.dd-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  background: var(--nav-panel-bg);
+  border: 1px solid var(--nav-panel-bd);
+  border-radius: var(--nav-r-lg);
+  box-shadow: 0 8px 32px rgba(0, 10, 60, 0.14);
+  min-width: 260px;
+  padding: 8px;
+  z-index: 400;
+}
+.dd-panel[hidden] {
+  display: none;
+}
+.dd-list {
+  list-style: none;
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+}
+
+/* .dd-link is a button element, not an anchor — so the browser status
+   bar never shows the destination URL on hover. Reset it to look/behave like
+   the anchor it visually replaces. */
+button.dd-link {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+.dd-link {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--nav-r);
+  text-decoration: none;
+  color: var(--nav-text);
+  transition: background 0.15s;
+}
+.dd-link:hover {
+  background: #eff6fb;
+}
+.dd-link:focus-visible {
+  outline: 3px solid var(--nav-accent);
+  outline-offset: 2px;
+}
+
+.dd-link-ico {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--nav-r);
+  flex-shrink: 0;
+  background: var(--nav-ico-bg);
+  color: var(--nav-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+.dd-link-ico .material-symbols-outlined svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+/* Title row — holds the bold label and, when present, the
+   status badge, side by side on one line. Every dd-link uses this
+   wrapper (badge slot just renders empty when there's no badge)
+   so the DOM shape stays uniform across items. */
+.dd-link-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+/* Nowrap by default — desktop dropdown panels have no fixed width
+   and grow to fit their content, so title + badge always have room.
+   The mobile accordion panel is width:100% of the nav (see
+   .lp-mobile-panel), so on narrow phones "Learn" + "Coming Soon"
+   can genuinely run out of room — wrap only there, so the badge
+   drops to its own line under the label instead of overflowing
+   or getting squished. */
+@media (max-width: 640px) {
+  .dd-link-title-row {
+    flex-wrap: wrap;
+  }
+}
+
+.dd-link-text strong {
+  font-family: 'PublicSans-Bold', sans-serif;
+  font-size: 0.875rem;
+  color: var(--nav-hl);
+}
+.dd-link-desc {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--nav-muted);
+  line-height: 1.4;
+}
+
+/* Small status pill for not-yet-live destinations (e.g. "Coming
+   Soon" on Learn) — sits inline next to the item's title, same
+   visual weight as a status tag rather than overwhelming the link.
+   Neutral gray, deliberately not the accent/brand color, and both
+   smaller and lighter-weight than the label so it reads as
+   secondary. Text/background contrast: 8.48:1 (WCAG AA requires
+   4.5:1 for normal text — well clear even without invoking the
+   large-text 3:1 exception). */
+.dd-badge {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 1px 7px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #3d4551; /* --nav-muted */
+  background: #eef0f2;
+  border: 1px solid #dde1e4;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.dd-divider {
+  border: none;
+  border-top: 1px solid var(--nav-panel-bd);
+  margin: 6px 0;
+}
+
+/* ── Nested submenu (e.g. Community of Practice under Voice of the
+   Customer) ── Permanently visible, indented under its parent item —
+   no expand/collapse. Same shape in the desktop dd-panel and the
+   mobile acc-panel — both render from linkHTML()'s shared
+   nestedLinkHTML() output, so one set of rules covers both. */
+.dd-sub-list {
+  list-style: none;
+  display: grid;
+  gap: 2px;
+  margin: 2px 0 6px 20px;
+  padding: 0 0 0 14px;
+  border-left: 2px solid var(--nav-panel-bd);
+}
+.dd-link--sub {
+  padding: 8px 10px;
+}
+
+/* ── Request Support nav button ──
+   Outlined treatment, unlike .dd-trigger's plain borderless text — the
+   colored border + label reads as a distinct call-to-action without
+   the visual weight of a solid fill. <button>, not <a>, same
+   no-status-bar-preview rationale as .dd-link. Padding is 1px less
+   than .dd-trigger's 7px/13px on each side to offset the added
+   border, so the total box size and nav row height still match.
+   #7bc143 (the brand green asked for) fails contrast outright at
+   2.2:1 for both text and border, so this uses a deeper shade of the
+   same green instead: #3d6e1c text/border on the tint background =
+   5.96:1 (WCAG AA needs 4.5:1 text / 3:1 non-text UI) — comfortable
+   margin on both, and 6.67:1 on hover against white. */
+.lp-nav-support-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-family: 'PublicSans-Medium', sans-serif;
+  font-size: 0.9rem;
+  color: #3d6e1c;
+  background: #eaf6e1;
+  border: 1px solid #3d6e1c;
+  border-radius: var(--nav-r);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.lp-nav-support-btn .material-symbols-outlined svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: #3d6e1c !important;
+}
+/* Fades to white on hover — text stays #3d6e1c, now 6.67:1. */
+.lp-nav-support-btn:hover {
+  background: #fff;
+}
+/* outline-offset pushes the ring clear of the button's own border,
+   onto the header's near-white background instead — var(--nav-accent)
+   there still measures 6.72:1, clearing the 3:1 non-text UI minimum.
+   Kept as --nav-accent (not green) for consistency with every other
+   focus-visible ring in this file — the ring sits on the page
+   background, not the button itself, so it doesn't need to match the
+   button's own color. */
+.lp-nav-support-btn:focus-visible {
+  outline: 3px solid var(--nav-accent);
+  outline-offset: 2px;
+}
+
+/* Mobile: pinned above the accordion sections, not inside one — full-
+   width row matching .acc-trigger's touch target, same outlined
+   treatment as the desktop button above. */
+.lp-mobile-support-item {
+  padding: 8px 8px 4px;
+}
+.lp-mobile-panel .lp-nav-support-btn {
+  width: 100%;
+  justify-content: center;
+  padding: 11px; /* 1px less than the visual 12px target — offsets the border, same total box size */
+  min-height: 44px; /* Section 508 / WCAG 2.5.5 minimum touch target */
+  font-family: 'PublicSans-Bold', sans-serif;
+  font-size: 0.95rem;
+}
+
+/* ── Mobile menu toggle (hamburger ↔ X) ── */
+.lp-nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  border-radius: var(--nav-r);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.lp-nav-toggle:hover {
+  background: var(--nav-hover-bg);
+}
+.lp-nav-toggle:focus-visible {
+  outline: 3px solid var(--nav-accent);
+  outline-offset: 2px;
+}
+.lp-nav-toggle-icon {
+  position: relative;
+  width: 20px;
+  height: 14px;
+  display: inline-block;
+}
+.lp-nav-toggle-icon span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--nav-hl);
+  border-radius: 1px;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    top 0.2s ease;
+}
+.lp-nav-toggle-icon span:nth-child(1) {
+  top: 0;
+}
+.lp-nav-toggle-icon span:nth-child(2) {
+  top: 6px;
+}
+.lp-nav-toggle-icon span:nth-child(3) {
+  top: 12px;
+}
+.lp-nav-toggle.open .lp-nav-toggle-icon span:nth-child(1) {
+  top: 6px;
+  transform: rotate(45deg);
+}
+.lp-nav-toggle.open .lp-nav-toggle-icon span:nth-child(2) {
+  opacity: 0;
+}
+.lp-nav-toggle.open .lp-nav-toggle-icon span:nth-child(3) {
+  top: 6px;
+  transform: rotate(-45deg);
+}
+
+/* ── Mobile panel (accordion) ── */
+.lp-mobile-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--nav-panel-bg);
+  border-bottom: 1px solid var(--nav-panel-bd);
+  box-shadow: 0 8px 24px rgba(0, 10, 60, 0.12);
+  max-height: calc(100vh - 52px);
+  overflow-y: auto;
+  padding: 4px 8px;
+}
+.lp-mobile-panel[hidden] {
+  display: none;
+}
+.lp-accordion {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.acc-item + .acc-item {
+  border-top: 1px solid var(--nav-panel-bd);
+}
+.acc-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px;
+  min-height: 44px;
+  font-family: 'PublicSans-Bold', sans-serif;
+  font-size: 0.95rem;
+  color: var(--nav-text);
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+.acc-trigger:focus-visible {
+  outline: 3px solid var(--nav-accent);
+  outline-offset: 2px;
+}
+.acc-item.open .acc-trigger .dd-chevron {
+  transform: rotate(180deg);
+}
+.acc-panel[hidden] {
+  display: none;
+}
+.acc-panel .dd-list {
+  padding: 0 0 8px;
+}
+.acc-panel .dd-link {
+  padding: 10px 12px 10px 16px;
+}
+
+/* ── Internal section (Coaches / Team / Leadership) ──
+   Right-aligned group built in leaf_header.js's buildInternalNavHTML()
+   — renders unconditionally for now (see that function's gating note). */
+.lp-nav-internal {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  flex-shrink: 0;
+  padding: 4px 10px 4px 8px;
+  background: #eff6fb; /* --nav-hover-bg tint */
+  border: 1px solid #d9e8f6; /* --nav-panel-bd */
+  border-radius: 8px; /* --nav-r-lg */
+  box-shadow: inset 0 1px 2px rgba(0, 10, 60, 0.04); /* very subtle depth */
+}
+
+/* Lock icon only — no visible "Internal" text. role="img" + aria-label
+   on the markup gives it a real accessible name since there's no text
+   left to provide one. */
+.lp-internal-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #3d4551; /* --nav-muted — meets 4.5:1 on #eff6fb */
+  user-select: none;
+  white-space: nowrap;
+  padding: 0 2px;
+}
+.lp-internal-label-icon {
+  line-height: 1;
+}
+.lp-internal-label-icon svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* Vertical rule between label and buttons */
+.lp-internal-rule {
+  display: inline-block;
+  width: 1px;
+  height: 18px;
+  background: #aacdec; /* --nav-border */
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+/* Shared button style (Coaches, Team, Leadership). Matches .dd-trigger
+   shape exactly: border-radius 5px (--nav-r), no border, transparent
+   background — the container background provides the visual
+   distinction. Font values copied verbatim from .dd-trigger.
+
+   text-decoration: underline — these are real links/nav actions sitting
+   in a flat toolbar row next to the non-interactive Users Online status
+   pill, with no icon and no distinct color until hover, so nothing
+   previously signaled "clickable" at rest. Matches the underline already
+   used for breadcrumb links (.lp-breadcrumb a) elsewhere in this file —
+   this file's existing link-underline convention — rather than
+   introducing a new visual language. Underlining doesn't touch color, so
+   it has no effect on the existing 4.5:1+ contrast ratios below. */
+.lp-internal-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 13px; /* matches .dd-trigger padding */
+  border-radius: 5px; /* --nav-r */
+  border: none;
+  background: transparent;
+  color: #3d4551; /* --nav-muted */
+  font-family: 'PublicSans-Medium', sans-serif;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    background 0.15s;
+  line-height: 1.4;
+}
+.lp-internal-btn:hover {
+  background: #ffffff;
+  color: #005ea2;
+  text-decoration: underline;
+}
+.lp-internal-btn:focus-visible {
+  outline: 3px solid #005ea2;
+  outline-offset: 2px;
+}
+
+/* Users Online — muted pill/status treatment (not the toolbar-button
+   look Coaches/Team/Leadership use) so it reads as a live stat, not a
+   link. Non-interactive: underline, pointer cursor, and hover "this is
+   clickable" cue are all suppressed. Background/border match the
+   Coming Soon badge's neutral gray (.dd-badge) rather than inventing a
+   new color for the same "informational, not actionable" meaning. */
+.lp-internal-online {
+  text-decoration: none;
+  cursor: default;
+  gap: 6px;
+  padding: 5px 12px 5px 10px;
+  background: #eef0f2;
+  border: 1px solid #dde1e4;
+  border-radius: 999px;
+}
+.lp-internal-online:hover {
+  background: #eef0f2;
+  border-color: #dde1e4;
+  color: #3d4551; /* --nav-muted — no hover state, nothing to activate */
+  text-decoration: none; /* .lp-internal-btn:hover sets underline — override it */
+}
+.lp-internal-online-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #2e8b57; /* muted green — live/active indicator */
+  flex-shrink: 0;
+}
+.lp-internal-online-count {
+  font-family: 'PublicSans-Bold', sans-serif;
+}
+
+@keyframes lp-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mobile: Internal section separator */
+.lp-mobile-internal-sep {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 16px 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #3d4551; /* --nav-muted — visible on white mobile panel */
+  border-top: 1px solid #d9e8f6; /* --nav-panel-bd */
+  margin-top: 4px;
+}
+.lp-mobile-internal-sep .material-symbols-outlined svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Mobile Users Online row — reuses .dd-link's layout/icon/text
+   treatment for visual consistency with Coaches/Leadership/Team, but
+   on a non-interactive span element (no data-href, nothing to
+   activate), so the affordance hover is toned down to a status-row
+   highlight. */
+.lp-internal-mobile-item.lp-internal-online .dd-link {
+  cursor: default;
+}
+
+/* ── Announcement banner ──
+   Sourced from a LEAF indicator record (see leaf_header.js
+   ANNOUNCEMENT_* constants + renderAnnouncementBanner()). Only ever
+   inserted into the DOM when there's real, non-empty content — never
+   left as an empty/hidden placeholder.
+
+   Amber "notice" treatment: same bg/border/text values as the Help
+   Library's --hl-start-bg / --hl-start-border / --hl-start-icon
+   "Start Here" band (help_library.html) — an attention-getting-but-
+   not-alarming pattern already validated elsewhere in LEAF, reused
+   here rather than introducing a new color language for one banner. */
+.lp-announcement {
+  position: sticky;
+  top: 0;
+  z-index: 305; /* above .lp-header (300), below dropdown panels (400) */
+  background: #fffbeb; /* --hl-start-bg */
+  border-bottom: 1px solid #f59e0b; /* --hl-start-border */
+}
+.lp-announcement-in {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 10px 24px;
+}
+.lp-announcement-body {
+  flex: 1;
+  min-width: 0;
+  font-family: 'PublicSans-Regular', sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #78350f; /* matches .hl-sh-desc body tone */
+}
+.lp-announcement-body p {
+  margin: 0 0 6px;
+}
+.lp-announcement-body p:last-child {
+  margin-bottom: 0;
+}
+.lp-announcement-body a {
+  color: #92400e; /* --hl-start-icon */
+  text-decoration: underline;
+}
+.lp-announcement-body a:focus-visible {
+  outline: 3px solid #92400e;
+  outline-offset: 2px;
+}
+.lp-announcement-close {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: var(--nav-r);
+  background: transparent;
+  color: #92400e; /* --hl-start-icon */
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.lp-announcement-close:hover {
+  background: rgba(146, 64, 14, 0.1);
+}
+.lp-announcement-close:focus-visible {
+  outline: 3px solid #92400e;
+  outline-offset: 2px;
+}
+.lp-announcement-close .material-symbols-outlined svg {
+  width: 1rem;
+  height: 1rem;
+}
+@media (max-width: 640px) {
+  .lp-announcement-in {
+    padding: 10px 16px;
+  }
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .lp-header-bar {
+    padding-left: 16px; /* tighter on mobile — hamburger layout */
+  }
+  .lp-nav-links {
+    display: none;
+  }
+  .lp-nav-toggle {
+    display: inline-flex;
+  }
+  .lp-nav-internal {
+    display: none !important;
+  }
+}
+@media (min-width: 641px) {
+  .lp-nav-toggle,
+  .lp-mobile-panel {
+    display: none !important;
+  }
+  .lp-internal-mobile-item {
+    display: none !important;
+  }
+}
+
+/* ── Breadcrumb ──
+   Sits directly below the header bar, inside the same sticky
+   .lp-header. Always present in the DOM (see leaf_header.js
+   buildHeaderHTML) and toggled via the native hidden attribute;
+   [hidden] here beats the plain-class display:flex below it. */
+.lp-breadcrumb[hidden] {
+  display: none;
+}
+.lp-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px 24px;
+  background: rgba(239, 246, 251, 0.97); /* --nav-hover-bg tint */
+  border-top: 1px solid var(--nav-panel-bd);
+  font-family: 'PublicSans-Regular', sans-serif;
+  font-size: 0.8125rem;
+  color: var(--nav-muted);
+}
+
+.lp-breadcrumb a {
+  font-size: 0.8125rem;
+  font-family: 'PublicSans-Medium', sans-serif;
+  font-style: normal;
+  color: var(--nav-accent);
+  text-decoration: underline;
+}
+.lp-breadcrumb a:hover {
+  color: var(--nav-hl);
+}
+.lp-breadcrumb a:focus-visible {
+  outline: 3px solid var(--nav-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.lp-bc-sep {
+  color: var(--nav-muted);
+  font-style: italic;
+  user-select: none;
+}
+
+.lp-bc-current {
+  color: var(--nav-muted);
+  font-style: italic;
+}
+
+/* Intermediate section label with no href (e.g. "About LEAF") —
+   muted non-italic text so it reads as a structural label, not an
+   active link or the current page. */
+.lp-bc-section {
+  color: var(--nav-muted);
+}
+
+@media (max-width: 640px) {
+  .lp-breadcrumb {
+    padding-left: 16px; /* matches .lp-header-bar mobile padding */
+  }
+}
+
+/* ── SPA swap loading state ──
+   Shown by showSwapLoading() (fetch+splice routes) and mountIframe()
+   (iframe routes, see loadView()/mountIframe() in leaf_header.js) while
+   a route's content is still loading. #lpSwapHost needs position:relative
+   so .lp-iframe-loading can center over the still-hidden iframe below it.
+
+   position:relative + a real z-index also gives #lpSwapHost its own
+   stacking context — every fetch+splice route's content lands here, and
+   some of those routes (e.g. Leadership) are real external LEAF pages
+   we don't own or edit. If one of them ships its own positioned element
+   (its own skip link, a sticky bar, anything with an aggressive z-index)
+   that suppressChrome() didn't know to strip, containing it in this
+   stacking context means it can never paint above .lp-header (z-index
+   300) or the dropdown panels (400) no matter what z-index it claims —
+   that comparison only happens within a shared stacking context, and
+   this one tops out at 1. */
+#lpSwapHost {
+  position: relative;
+  z-index: 1;
+}
+.lp-swap-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40vh;
+  padding: 60px 24px;
+}
+.lp-iframe-loading {
+  position: absolute;
+  inset: 0;
+}
+.lp-swap-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--nav-border);
+  border-top-color: var(--nav-accent);
+  border-radius: 50%;
+  animation: lp-spin 0.8s linear infinite;
+}
+
+/* ── Jump to top ──
+   Injected by leaf_header.js into every page that loads it.
+   z-index: 200 sits below the header (300) and dropdown panels
+   (400) but above normal page content. */
+#leaf-jump-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--nav-border);
+  color: var(--nav-accent);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+#leaf-jump-top.lp-jump-vis {
+  opacity: 1;
+  pointer-events: auto;
+}
+#leaf-jump-top:hover {
+  background: var(--nav-hover-bg);
+}
+#leaf-jump-top:focus-visible {
+  outline: 3px solid var(--nav-accent);
+  outline-offset: 3px;
+}
+#leaf-jump-top .material-symbols-outlined svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* ── Demo modal ──
+   Injected by leaf_header.js into every page that loads it, so the
+   "Watch a Demo" item in the About LEAF dropdown works from any page. */
+.lp-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.lp-modal[hidden] {
+  display: none;
+}
+.modal-box {
+  position: relative;
+  width: min(900px, 90vw);
+  background: #000;
+  border-radius: var(--nav-r-lg);
+  overflow: hidden;
+}
+.modal-vid {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+}
+.modal-vid iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+.modal-close:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+.modal-close:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ── Form modal ──
+   Generic iframe modal (Request Support, Nominate a Spotlight) — a
+   visible white header bar + title, unlike the demo modal's cinematic
+   video-on-black style above. Reuses .lp-modal/.modal-box/.modal-close
+   as its base and overrides what needs to differ. */
+.modal-box--form {
+  background: #fff;
+  width: min(1200px, 95vw);
+  max-height: 96vh;
+  display: flex;
+  flex-direction: column;
+}
+.modal-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--nav-panel-bd);
+  flex-shrink: 0;
+}
+.modal-hd-title {
+  font-family: "PublicSans-Bold", sans-serif;
+  font-size: 1rem;
+  color: var(--nav-text);
+  margin: 0;
+}
+.modal-close--inline {
+  position: static;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  color: var(--nav-muted);
+  flex-shrink: 0;
+}
+.modal-close--inline:hover {
+  background: var(--nav-hover-bg);
+  color: var(--nav-accent);
+}
+.modal-close--inline:focus-visible {
+  outline: 3px solid var(--nav-accent);
+  outline-offset: 2px;
+}
+.modal-close--inline .material-symbols-outlined svg {
+  width: 20px;
+  height: 20px;
+}
+.modal-frame-wrap {
+  flex: 1;
+  min-height: 80vh;
+}
+.modal-frame-wrap iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 80vh;
+  border: 0;
+  display: block;
+}
+@media (max-width: 640px) {
+  .modal-box--form {
+    max-height: 100vh;
+    height: 100vh;
+    width: 100vw;
+    border-radius: 0;
+  }
+}
+
+/* ── SPA swap-error icon ──
+   Used by loadView()'s error states (leaf_header.js). Inline font-size
+   on these spans doesn't size the SVG icons inside them, so explicit
+   width/height rules here handle sizing instead. */
+.lp-swap-error-ico svg {
+  width: 32px;
+  height: 32px;
+}
+/* Same loadView() error states also reuse launchpad.css's .btn class
+   for their action buttons (Back to Launchpad / Try again / Open in a
+   new tab) — launchpad.css sizes .btn .material-symbols-outlined via
+   font-size, which doesn't reach these inlined SVG icons either. */
+.btn .material-symbols-outlined svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.lp-error-suggest-ico svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ── Reduced motion (Section 508 502.2.2 / WCAG 2.3.3) ──
+   Disable all transitions and animations for users who prefer
+   reduced motion at the OS level. */
+@media (prefers-reduced-motion: reduce) {
+  .lp-header,
+  .dd-trigger,
+  .dd-chevron,
+  .dd-link,
+  .lp-nav-support-btn,
+  .lp-nav-toggle-icon span,
+  .lp-nav-toggle.open .lp-nav-toggle-icon span:nth-child(1),
+  .lp-nav-toggle.open .lp-nav-toggle-icon span:nth-child(3),
+  #leaf-jump-top {
+    transition: none !important;
+    animation: none !important;
+  }
+}

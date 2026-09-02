@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Use Case Library — LEAF Launchpad</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/launchpad/files/launchpad.css" />
+
+    <style>
+      /* ── Hero visual ── */
+      .uc-hero-icon {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        background: var(--color-primary, #005ea2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.75rem;
+        box-shadow: 0 4px 20px rgba(0, 94, 162, 0.25);
+      }
+      .uc-hero-icon svg {
+        width: 3rem;
+        height: 3rem;
+        color: #fff;
+      }
+
+      .uc-hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: var(--color-primary-lightest, #e8f0fb);
+        color: var(--color-primary, #005ea2);
+        font-family: "Public Sans", sans-serif;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        padding: 0.4rem 0.9rem;
+        border-radius: 999px;
+        margin-top: 1.5rem;
+      }
+      .uc-hero-badge svg {
+        width: 1rem;
+        height: 1rem;
+        color: var(--color-primary, #005ea2);
+      }
+
+      /* ── What to expect ── */
+      .uc-expect-list {
+        max-width: 620px;
+        margin: 0 auto;
+        padding: 0 0 0 1.25rem;
+        text-align: left;
+        color: var(--c-text, #1b1b1b);
+        font-family: "Source Sans 3", sans-serif;
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+      .uc-expect-list li {
+        margin-bottom: 0.6rem;
+      }
+      .uc-expect-list li:last-child {
+        margin-bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="lp" id="lp-root">
+      <a class="lp-skip" href="#lp-main">Skip to main content</a>
+      <div id="lp-nav-host"></div>
+
+      <main id="lp-main" tabindex="-1">
+        <!-- ══════════════════════════════════════════
+             HERO
+        ══════════════════════════════════════════ -->
+        <section class="section" aria-labelledby="uc-h1">
+          <div class="wrap">
+            <div class="sec-hd ctr">
+              <div class="uc-hero-icon" aria-hidden="true">
+                <svg viewBox="0 -960 960 960" fill="currentColor">
+                  <path
+                    d="M343-420h225v-60H343v60Zm0-90h395v-60H343v60Zm0-90h395v-60H343v60Zm-83 400q-24 0-42-18t-18-42v-560q0-24 18-42t42-18h560q24 0 42 18t18 42v560q0 24-18 42t-42 18H260ZM140-80q-24 0-42-18t-18-42v-620h60v620h620v60H140Z"
+                  />
+                </svg>
+              </div>
+              <span class="eyebrow">Coming Soon</span>
+              <h1 class="sec-h2" id="uc-h1">LEAF Use Case Library</h1>
+              <p class="sec-sub">
+                A growing library showcasing what LEAF is doing across the VA —
+                browse real workflow improvements from teams nationwide, and see
+                how sites like yours put LEAF to work.
+              </p>
+              <span class="uc-hero-badge">
+                <svg
+                  viewBox="0 -960 960 960"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M768-120 517-371l57-57 251 251-57 57Zm-581 0-57-57 290-290-107-107-23 23-44-44v85l-24 24-122-122 24-24h86l-48-48 131-131q17-17 37-23t44-6q24 0 44 8.5t37 25.5L348-699l48 48-24 24 104 104 122-122q-8-13-12.5-30t-4.5-36q0-53 38.5-91.5T711-841q15 0 25.5 3t17.5 8l-85 85 75 75 85-85q5 8 8.5 19.5T841-709q0 53-38.5 91.5T711-579q-18 0-31-2.5t-24-7.5L187-120Z"
+                  />
+                </svg>
+                In development
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+             WHAT TO EXPECT
+             Placeholder copy below — pending point-of-contact
+             review/approval before this page goes live.
+        ══════════════════════════════════════════ -->
+        <section class="section section-alt" aria-labelledby="uc-expect-h2">
+          <div class="wrap">
+            <div class="sec-hd ctr">
+              <h2 class="sec-h2" id="uc-expect-h2">What to Expect</h2>
+              <p class="sec-sub">
+                Once launched, the Use Case Library will include:
+              </p>
+            </div>
+            <ul class="uc-expect-list">
+              <li>Real-world examples of LEAF implementations from sites across the VA</li>
+              <li>Filtering by industry, facility type, or use case category</li>
+              <li>Downloadable case studies you can share with your team</li>
+            </ul>
+          </div>
+        </section>
+      </main>
+    </div>
+    <!-- /.lp -->
+
+    <!-- Breadcrumb data — must be set before leaf_breadcrumb.js loads -->
+    <script>
+      window.LEAF_BREADCRUMB = [{ label: "Use Case Library" }];
+    </script>
+  </body>
+</html>

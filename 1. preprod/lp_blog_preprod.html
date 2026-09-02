@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog — LEAF Launchpad</title>
+
+    <!-- Confirmed against main.tpl's own header/nav include. -->
+    <link rel="stylesheet" href="/launchpad/files/leaf_header_preprod.css" />
+
+    <style>
+      /* Icon sizing for classes defined in launchpad.css (out of scope
+         for this edit) — that file still sizes .material-symbols-outlined
+         via font-size, which no longer affects the inlined <svg>. This
+         restores the "Load more" button's icon to its pre-conversion
+         size without touching launchpad.css; everything else (color,
+         layout) still cascades correctly from the original rule there. */
+      .btn .material-symbols-outlined svg {
+        width: 1.15rem;
+        height: 1.15rem;
+      }
+      .blog-spinner-icon {
+        width: 32px;
+        height: 32px;
+      }
+
+      /* ── Post grid ── */
+      .blog-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+      }
+      @media (max-width: 900px) {
+        .blog-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 500px) {
+        .blog-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .blog-card {
+        background: var(--surface, #fff);
+        border-radius: var(--radius, 8px);
+        box-shadow: var(--shadow-card, 0 2px 12px rgba(0, 0, 0, 0.08));
+        padding: 1.75rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        /* Brand accent rule, top edge only — same treatment established
+           for the reader page's article card (BlogPost.html), not
+           voc-channel-card's solid var(--color-primary) top border. */
+        border-top: 4px solid transparent;
+        border-image: linear-gradient(90deg, #7bc143, #0071bd) 1;
+      }
+
+      .blog-card-category {
+        display: inline-flex;
+        align-self: flex-start;
+        align-items: center;
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.02rem;
+        color: var(--color-primary, #005ea2);
+        background: var(--color-primary-lightest, #e8f0fb);
+        border-radius: 999px;
+        padding: 0.2rem 0.7rem;
+      }
+
+      .blog-card-title {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: 1.1rem;
+        line-height: 1.35;
+        margin: 0;
+      }
+      .blog-card-title a {
+        color: var(--color-text, #1b1b1b);
+        text-decoration: none;
+      }
+      .blog-card-title a:hover {
+        color: var(--color-primary, #005ea2);
+        text-decoration: underline;
+      }
+      .blog-card-title a:focus-visible {
+        outline: 3px solid var(--color-primary, #005ea2);
+        outline-offset: 3px;
+      }
+
+      .blog-card-date {
+        font-family: "Source Sans Pro Web", sans-serif;
+        font-size: 0.85rem;
+        color: var(--color-text-muted, #5c6670);
+        margin: 0;
+      }
+
+      .blog-card-excerpt {
+        font-family: "Source Sans Pro Web", sans-serif;
+        font-size: 0.95rem;
+        color: var(--color-text-muted, #5c6670);
+        line-height: 1.55;
+        margin: 0;
+        flex: 1;
+      }
+
+      /* ── Grid states (loading / error / empty) ── */
+      .blog-status {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        padding: 3rem 1.5rem;
+        color: var(--color-text-muted, #5c6670);
+        font-family: "Source Sans Pro Web", sans-serif;
+      }
+      .blog-spinner {
+        width: 32px;
+        height: 32px;
+        border: 4px solid var(--c-blue10, #d9e8f6);
+        border-top-color: var(--color-primary, #005ea2);
+        border-radius: 50%;
+        animation: blog-spin 0.75s linear infinite;
+      }
+      @keyframes blog-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .blog-spinner {
+          animation-duration: 1.6s;
+        }
+      }
+
+      .blog-error {
+        max-width: 640px;
+        margin: 0 auto;
+        background: #f4e3db;
+        border-left: 4px solid #d54309;
+        border-radius: var(--radius, 8px);
+        padding: 1rem 1.5rem;
+        color: #8b0a03;
+        font-family: "Source Sans Pro Web", sans-serif;
+      }
+
+      .blog-empty {
+        text-align: center;
+        padding: 3rem 1.5rem;
+        color: var(--color-text-muted, #5c6670);
+        font-family: "Source Sans Pro Web", sans-serif;
+        font-size: 1.05rem;
+      }
+
+      .blog-load-more-wrap {
+        display: flex;
+        justify-content: center;
+        margin-top: 2.5rem;
+      }
+
+      .lp-jump .material-symbols-outlined svg {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="lp" id="lp-root">
+      <a class="lp-skip" href="#lp-main">Skip to main content</a>
+      <div id="lp-header-host"></div>
+
+      <main id="lp-main" tabindex="-1">
+        <!-- ── PAGE TITLE ── -->
+        <section class="section" aria-labelledby="blog-page-h1">
+          <div class="wrap">
+            <div class="sec-hd ctr">
+              <span class="eyebrow">From the LEAF team</span>
+              <h1 class="sec-h2" id="blog-page-h1">Blog</h1>
+              <p class="sec-sub">
+                Updates, stories, and news from the LEAF team.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── POST GRID ── -->
+        <section class="section section-alt" aria-labelledby="blog-grid-h2">
+          <div class="wrap">
+            <div class="sec-hd ctr">
+              <span class="eyebrow">Latest posts</span>
+              <h2 class="sec-h2" id="blog-grid-h2">All Posts</h2>
+              <p class="sec-sub">Browse recent posts from the LEAF team.</p>
+            </div>
+
+            <div
+              id="blog-live-polite"
+              class="sr-only"
+              aria-live="polite"
+              aria-atomic="true"
+            ></div>
+            <div
+              id="blog-live-assertive"
+              class="sr-only"
+              aria-live="assertive"
+              aria-atomic="true"
+            ></div>
+
+            <div id="blog-status" class="blog-status" role="status">
+              <div class="blog-spinner" aria-hidden="true"></div>
+              <p>Loading posts&hellip;</p>
+            </div>
+
+            <div id="blog-error" class="blog-error" role="alert" hidden></div>
+
+            <div id="blog-empty" class="blog-empty" hidden>
+              There are no blog posts yet.
+            </div>
+
+            <div class="blog-grid" role="list" id="blog-grid"></div>
+
+            <div class="blog-load-more-wrap" id="blog-load-more-wrap" hidden>
+              <button class="btn btn-sec" id="blog-load-more" type="button">
+                Load more
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  ><svg viewBox="0 -960 960 960" fill="currentColor">
+                    <path
+                      d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z"
+                    /></svg
+                ></span>
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <button
+        class="lp-jump"
+        id="lpJump"
+        type="button"
+        aria-label="Back to top"
+        aria-hidden="true"
+        tabindex="-1"
+      >
+        <span class="material-symbols-outlined" aria-hidden="true"
+          ><svg viewBox="0 -960 960 960" fill="currentColor">
+            <path
+              d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"
+            /></svg
+        ></span>
+      </button>
+    </div>
+    <!-- /.lp -->
+
+    <!-- Confirmed against main.tpl's own header/nav include. -->
+    <script src="/launchpad/files/leaf_header_preprod.js"></script>
+
+    <script>
+      (() => {
+        "use strict";
+
+        // Mirrors BlogPost.js's CONFIG.indicators pattern: name every
+        // indicatorID by purpose instead of scattering raw numbers through
+        // the code. Verify these against the "Blog Post" form in LEAF Form
+        // Editor before changing them — kept in sync with blog/files/blog.js.
+        //
+        // This page is served from /launchpad/, a different directory than
+        // the Blog Post form's own site — LeafFormQuery.execute() hits
+        // ./api/form/query relative to wherever the query is constructed,
+        // same failure mode blog.js's own getAPIBase() derivation hit.
+        // formQuery.md documents setRootURL(url) ("Sets the root URL for
+        // the API endpoint") for exactly this case, so that's called below
+        // instead of relying on the constructor or a derived base.
+        const CONFIG = {
+          apiBase: "/platform/blog", // Relative, no host — see setRootURL() below
+          categoryID: "form_3db88",
+          stepID: 3, // Published
+          indicators: {
+            title: 2,
+            category: 3,
+            publishDate: 4,
+            excerpt: 5, // Lead paragraph, truncated as the card summary
+          },
+          batchSize: 12,
+        };
+
+        const byId = (id) => document.getElementById(id);
+
+        let currentOffset = 0;
+
+        // ── Duplicated from blog/files/blog.js rather than shared, since
+        // this page and the reader page live in separate deployed
+        // directories with no common relative path between them. Keep
+        // these two copies in sync if the form's fields ever change. ──
+        function decodeEntities(str) {
+          if (!str || typeof str !== "string") return str;
+          return str
+            .replace(/&amp;/g, "&")
+            .replace(/&lt;/g, "<")
+            .replace(/&gt;/g, ">")
+            .replace(/&quot;/g, '"')
+            .replace(/&#039;/g, "'")
+            .replace(/&#39;/g, "'")
+            .replace(/&#x27;/g, "'")
+            .replace(/&apos;/g, "'");
+        }
+
+        function getField(s1, indicatorID) {
+          if (!s1) return "";
+          const v = s1[`id${indicatorID}`];
+          if (v == null) return "";
+          return decodeEntities(String(v).trim());
+        }
+
+        function formatDate(raw) {
+          if (!raw) return "";
+          const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(raw);
+          const d = m
+            ? new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]))
+            : new Date(raw);
+          if (isNaN(d.getTime())) return raw;
+          return d.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+        }
+
+        function parsePublishDate(raw) {
+          if (!raw) return 0;
+          const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(raw);
+          const d = m
+            ? new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]))
+            : new Date(raw);
+          return isNaN(d.getTime()) ? 0 : d.getTime();
+        }
+
+        function truncateExcerpt(text, maxLen = 160) {
+          if (!text) return "";
+          if (text.length <= maxLen) return text;
+          const slice = text.slice(0, maxLen + 1);
+          const lastSpace = slice.lastIndexOf(" ");
+          const cut = lastSpace > 0 ? slice.slice(0, lastSpace) : slice.slice(0, maxLen);
+          return cut.trim() + "…";
+        }
+
+        function announce(message, assertive) {
+          const node = byId(assertive ? "blog-live-assertive" : "blog-live-polite");
+          if (!node) return;
+          node.textContent = "";
+          setTimeout(() => {
+            node.textContent = message;
+          }, 60);
+        }
+
+        // Returns { card, heading } so the caller can move focus to the
+        // heading of the first newly-appended card after "Load more",
+        // same accessible-focus pattern as BlogPost.js's byId("bp-title").
+        function createCard(recordID, s1) {
+          const title = getField(s1, CONFIG.indicators.title) || "Untitled post";
+          const category = getField(s1, CONFIG.indicators.category);
+          const publishDateRaw = getField(s1, CONFIG.indicators.publishDate);
+          const excerpt = truncateExcerpt(getField(s1, CONFIG.indicators.excerpt));
+
+          const card = document.createElement("article");
+          card.className = "blog-card";
+          card.setAttribute("role", "listitem");
+
+          if (category) {
+            const chip = document.createElement("span");
+            chip.className = "blog-card-category";
+            chip.textContent = category;
+            card.appendChild(chip);
+          }
+
+          const heading = document.createElement("h3");
+          heading.className = "blog-card-title";
+          heading.tabIndex = -1;
+          const link = document.createElement("a");
+          link.href = `BlogPost.html#${encodeURIComponent(recordID)}`;
+          link.textContent = title;
+          heading.appendChild(link);
+          card.appendChild(heading);
+
+          if (publishDateRaw) {
+            const date = document.createElement("p");
+            date.className = "blog-card-date";
+            date.textContent = formatDate(publishDateRaw);
+            card.appendChild(date);
+          }
+
+          if (excerpt) {
+            const p = document.createElement("p");
+            p.className = "blog-card-excerpt";
+            p.textContent = excerpt;
+            card.appendChild(p);
+          }
+
+          return { card, heading };
+        }
+
+        async function loadBatch(offset, isLoadMore) {
+          const grid = byId("blog-grid");
+          const status = byId("blog-status");
+          const error = byId("blog-error");
+          const empty = byId("blog-empty");
+          const loadMoreWrap = byId("blog-load-more-wrap");
+          const loadMoreBtn = byId("blog-load-more");
+
+          if (loadMoreBtn) loadMoreBtn.disabled = true;
+          error.hidden = true;
+          if (!isLoadMore) {
+            empty.hidden = true;
+            status.hidden = false;
+          }
+
+          try {
+            const query = new LeafFormQuery();
+            query.setRootURL(CONFIG.apiBase);
+            query.addTerm("categoryID", "=", CONFIG.categoryID);
+            query.addTerm("stepID", "=", CONFIG.stepID);
+            query.getData(Object.values(CONFIG.indicators));
+            // LeafFormQuery forwards its sort column straight through to the
+            // query API, same as getData's indicatorID addressing — passing
+            // the publishDate indicatorID sorts by when a post was
+            // published rather than LEAF's built-in "date" (submitted)
+            // column. The client-side re-sort below is a defensive backstop
+            // in case that isn't actually supported server-side.
+            query.sort(CONFIG.indicators.publishDate, "DESC");
+            query.setLimit(offset, CONFIG.batchSize);
+
+            const results = await query.execute();
+            const entries = Object.entries(results || {});
+
+            entries.sort((a, b) => {
+              const s1a = a[1].s1 || a[1];
+              const s1b = b[1].s1 || b[1];
+              return (
+                parsePublishDate(getField(s1b, CONFIG.indicators.publishDate)) -
+                parsePublishDate(getField(s1a, CONFIG.indicators.publishDate))
+              );
+            });
+
+            if (!isLoadMore) grid.innerHTML = "";
+
+            let firstNewHeading = null;
+            entries.forEach(([recordID, rec]) => {
+              const s1 = rec.s1 || rec;
+              const { card, heading } = createCard(recordID, s1);
+              grid.appendChild(card);
+              if (!firstNewHeading) firstNewHeading = heading;
+            });
+
+            status.hidden = true;
+
+            const gotFullBatch = entries.length === CONFIG.batchSize;
+            loadMoreWrap.hidden = !gotFullBatch;
+            if (loadMoreBtn) loadMoreBtn.disabled = false;
+
+            empty.hidden = grid.children.length !== 0;
+
+            currentOffset = offset + entries.length;
+
+            if (isLoadMore) {
+              if (firstNewHeading) firstNewHeading.focus();
+              announce(`${entries.length} more post${entries.length === 1 ? "" : "s"} loaded.`, false);
+            }
+          } catch (err) {
+            console.error("[BlogIndex]", err);
+            status.hidden = true;
+            error.textContent =
+              "Something went wrong loading blog posts. Try refreshing the page.";
+            error.hidden = false;
+            announce(error.textContent, true);
+            if (loadMoreBtn) loadMoreBtn.disabled = false;
+          }
+        }
+
+        function initGrid() {
+          const loadMoreBtn = byId("blog-load-more");
+          loadMoreBtn?.addEventListener("click", () => loadBatch(currentOffset, true));
+          loadBatch(0, false);
+        }
+
+        // ── Jump to top — copied verbatim from the other Launchpad pages ──
+        const initJumpBtn = () => {
+          const btn = document.getElementById("lpJump");
+          if (!btn) return;
+
+          const update = () => {
+            const vis =
+              (window.pageYOffset || document.documentElement.scrollTop) > 120;
+            btn.classList.toggle("vis", vis);
+            btn.setAttribute("aria-hidden", String(!vis));
+            btn.tabIndex = vis ? 0 : -1;
+          };
+
+          btn.addEventListener("click", () =>
+            window.scrollTo({ top: 0, behavior: "smooth" }),
+          );
+          window.addEventListener("scroll", update, { passive: true });
+          window.addEventListener("resize", update);
+          update();
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+          initGrid();
+          initJumpBtn();
+        });
+      })();
+    </script>
+  </body>
+</html>

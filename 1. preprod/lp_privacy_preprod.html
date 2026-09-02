@@ -1,0 +1,896 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Platform Enhancements to Strengthen Privacy | LEAF</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/platform/designs/files/smarty_styles.css" />
+  </head>
+
+  <body class="smarty page-privacy">
+    <!-- Skip to content -->
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <div class="wrap">
+      <!-- Top information bar -->
+      <section class="info-bar" aria-label="Page information">
+        <div class="info-row">
+          <div class="info-item">
+            <span class="tag" aria-label="Important">Important</span>
+          </div>
+          <div class="info-item right">
+            Estimated Reading Time: <span id="reading-time">~2 mins</span>
+          </div>
+        </div>
+      </section>
+
+      <main id="main-content" class="main smarty-root" tabindex="-1">
+        <!-- ===== Privacy Section ===== -->
+        <section class="section">
+          <h1 class="title">Platform Enhancements to Strengthen Privacy</h1>
+
+          <p class="lead">
+            The LEAF platform provides tools, references, and platform-level
+            enhancements that enable local LEAF Process Owners to support the VA
+            Privacy Program. The resources below are intended to help teams
+            understand available guidance and incorporate privacy considerations
+            directly into their workflows.
+          </p>
+
+          <section
+            class="section recent-changes"
+            aria-labelledby="recent-changes-title"
+          >
+            <h2 id="recent-changes-title" class="subtitle">
+              Recent Enhancements
+            </h2>
+            <div class="card section">
+              <div>
+                <p
+                  id="recentChangesMessage"
+                  class="muted recent-changes-message"
+                  role="status"
+                  aria-live="polite"
+                >
+                  Loading recent changes…
+                </p>
+                <div class="recent-changes-scroll" tabindex="0">
+                  <ul id="recentChangesList" class="recent-changes-list"></ul>
+                </div>
+                <button
+                  id="recentChangesToggle"
+                  type="button"
+                  class="btn-ghost"
+                  aria-controls="recentChangesList"
+                  aria-expanded="false"
+                  hidden
+                >
+                  Show all changes
+                </button>
+                <div class="info-callout">
+                  <strong>Update:</strong> The Enterprise Social Security Number
+                  Reduction (ESSNR) office has determined that the LEAF platform
+                  is compliant with the Consolidated Appropriations Act of 2024,
+                  as the platform serves a vehicle of records and does not use
+                  SSNs for identification purposes. If there are any questions
+                  regarding ESSNR, please visit the
+                  <!-- TODO: Update shortlink -->
+                  <a
+                    href="https://leaf.va.gov/platform/privacy/#goto=essnr"
+                    tabindex="0"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    ESSNR Webpage
+                    <span class="visually-hidden">(opens in a new tab)</span></a
+                  >.
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" aria-labelledby="leaf-s-title">
+            <h2 id="leaf-s-title" class="subtitle">LEAF Secure (LEAF-S)</h2>
+            <div class="grid section">
+              <article class="card">
+                <div class="card-header">
+                  <h3 class="card-title">What is LEAF-S?</h3>
+                </div>
+                <div class="card-text">
+                  <p>
+                    LEAF-S is a secure variant of the LEAF platform designed for
+                    workflows that contain protected health information (PHI) or
+                    personally identifiable information (PII). It exists to
+                    protect sensitive data with tighter controls and visibility.
+                  </p>
+                  <p>
+                    Once certified, your site receives LEAF-S controls and will
+                    be monitored for continued compliance with sensitive data
+                    handling standards.
+                  </p>
+                  <!--<h4 class="card-title subhead">
+                    What to expect on a LEAF-S site
+                  </h4>
+                  <p>
+                    LEAF-S sites automatically log out after 15 minutes of
+                    inactivity.
+                  </p>
+                  <p>
+                    <strong>Pro tip:</strong> Keep forms in short sections. LEAF
+                    autosaves after each section, so progress is less likely to
+                    be lost if a session times out.
+                  </p>-->
+                </div>
+              </article>
+
+              <article class="card">
+                <div class="card-header">
+                  <h3 class="card-title">What sites need LEAF-S?</h3>
+                </div>
+                <div class="card-text">
+                  <p>
+                    LEAF-S is required for sites that collect, display, or route
+                    PHI or PII.
+                  </p>
+                  <h4 class="card-title subhead">Some examples may include:</h4>
+                  <ul class="checklist">
+                    <li>Full name combined with date of birth</li>
+                    <li>
+                      Social Security Number (full or partial, depending on the
+                      process)
+                    </li>
+                    <li>Medical or health information</li>
+                    <li>Case details tied to an identifiable Veteran</li>
+                    <li>Attachments containing identifiable information</li>
+                    <li>Employee records</li>
+                  </ul>
+                  <p>
+                    This is not an exhaustive list — if you're unsure whether
+                    your process involves PII or PHI, contact your local Privacy
+                    Officer.
+                  </p>
+                </div>
+              </article>
+
+              <article class="card">
+                <div class="card-header">
+                  <h3 class="card-title">How to get started</h3>
+                </div>
+                <div class="card-text">
+                  <p>
+                    Once you have identified a sensitive field in your form:
+                  </p>
+                  <ol class="checklist">
+                    <li>
+                      <strong>Path 1:</strong> Use the link in the banner that
+                      appears in the Form Editor to begin the LEAF-S
+                      certification form <b> or </b>
+                    </li>
+                    <li>
+                      <strong>Path 2:</strong> Admin Panel &gt; Site Settings
+                      &gt; Start Certification Process.
+                    </li>
+                  </ol>
+                  <p>
+                    The LEAF-S certification process will automatically route
+                    the request to your local Privacy Officer. They will need to
+                    review and approve before a site is LEAF-S certified.
+                  </p>
+                  <hr class="divider" />
+                  <p>
+                    Need more detail or support? Visit the LEAF-S Help Library
+                    for step-by-step guidance.
+                  </p>
+                  <p>
+                    <a
+                      class="btn"
+                      href="https://leaf.va.gov/platform/help_library/report.php?a=View_Help_Resource#28"
+                      tabindex="0"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      LEAF-S Help Library Tutorial
+                      <span class="visually-hidden">(opens in a new tab)</span>
+                    </a>
+                  </p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="section section-lg" aria-labelledby="resources-title">
+            <h2 id="resources-title" class="subtitle">VA Privacy Resources</h2>
+            <div class="grid section">
+              <!-- VA Privacy Program -->
+              <article class="card">
+                <div>
+                  <div class="card-header">
+                    <h3 class="card-title">VA Privacy Program</h3>
+                  </div>
+
+                  <div class="card-row">
+                    <div class="card-text">
+                      <p>
+                        Stay informed with VA's current Privacy Impact
+                        Assessments, System of Records Notices, and additional
+                        up-to-date privacy materials.
+                      </p>
+                    </div>
+                    <div class="card-action">
+                      <a
+                        class="btn"
+                        href="https://leaf.va.gov/platform/privacy/#goto=va-privacy"
+                        tabindex="0"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span
+                          class="material-symbols-outlined"
+                          aria-hidden="true"
+                          >open_in_new</span
+                        >
+                        VA Privacy Program
+                        <span class="visually-hidden"
+                          >(opens in a new tab)</span
+                        >
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- VA Privacy Officer Directory -->
+              <article class="card">
+                <div>
+                  <div class="card-header">
+                    <h3 class="card-title">VA Privacy Officer Directory</h3>
+                  </div>
+
+                  <div class="card-row">
+                    <div class="card-text">
+                      <p>
+                        Use the VA Privacy Officer Locator Tool to identify and
+                        contact your local facility's Privacy Officer.
+                      </p>
+                      <p>
+                        If you have questions about how privacy requirements
+                        apply to your specific process or form, reach out
+                        directly to your local Privacy Officer using this tool.
+                        They are the designated subject matter experts and can
+                        provide guidance aligned with your facility and program
+                        context.
+                      </p>
+                    </div>
+                    <div class="card-action">
+                      <a
+                        class="btn"
+                        href="https://leaf.va.gov/platform/privacy/#goto=locator"
+                        tabindex="0"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span
+                          class="material-symbols-outlined"
+                          aria-hidden="true"
+                          >open_in_new</span
+                        >
+                        Privacy Officer Locator
+                        <span class="visually-hidden"
+                          >(opens in a new tab)</span
+                        >
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- VA Privacy SharePoint -->
+              <article class="card">
+                <div>
+                  <div class="card-header">
+                    <h3 class="card-title">VA Privacy SharePoint</h3>
+                  </div>
+
+                  <div class="card-row">
+                    <div class="card-text">
+                      <p>
+                        Access additional resources, guides, and tools designed
+                        for VA employees on the internal VA Privacy Hub
+                        SharePoint site.
+                      </p>
+                    </div>
+                    <div class="card-action">
+                      <a
+                        class="btn"
+                        href="https://leaf.va.gov/platform/privacy/#goto=sharepoint"
+                        tabindex="0"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <span
+                          class="material-symbols-outlined"
+                          aria-hidden="true"
+                          >open_in_new</span
+                        >
+                        VA Privacy Hub SharePoint
+                        <span class="visually-hidden"
+                          >(opens in a new tab)</span
+                        >
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <div class="callout" role="note" aria-label="Update and note">
+            <p>
+              <strong>Note:</strong>
+              The LEAF Platform team does not serve as the subject matter expert
+              for privacy policy or approval decisions. Local LEAF Process
+              Owners are responsible for working directly with the appropriate
+              VA Privacy Officers using the resources provided.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <button
+      id="backToTop"
+      type="button"
+      class="jump-top"
+      aria-label="Back to top"
+      aria-hidden="true"
+      tabindex="-1"
+    >
+      ↑<span class="visually-hidden">Back to top</span>
+    </button>
+
+    <!-------------------------------------------Custom styles/scripts----------------------------------------->
+    <style>
+      body.smarty.page-privacy .card ul,
+      body.smarty.page-privacy .card ol {
+        margin: var(--space-2) 0;
+        padding-left: 1.5rem;
+      }
+
+      body.smarty.page-privacy .card li + li {
+        margin-top: 0.45rem;
+      }
+
+      body.smarty.page-privacy .btn,
+      body.smarty.page-privacy .btn-ghost {
+        transition:
+          background 0.12s ease,
+          border-color 0.12s ease,
+          box-shadow 0.12s ease,
+          transform 0.12s ease;
+      }
+
+      body.smarty.page-privacy .btn,
+      body.smarty.page-privacy .btn:link,
+      body.smarty.page-privacy .btn:visited,
+      body.smarty.page-privacy .btn:hover,
+      body.smarty.page-privacy .btn:focus-visible,
+      body.smarty.page-privacy .btn:active {
+        color: #ffffff;
+      }
+
+      body.smarty.page-privacy .btn .material-symbols-outlined {
+        color: currentColor;
+      }
+
+      body.smarty.page-privacy .btn:hover {
+        background: var(--accent-strong);
+        border-color: var(--accent-strong);
+        box-shadow: var(--shadow-md);
+        transform: translateY(-1px);
+      }
+
+      body.smarty.page-privacy .btn:active {
+        transform: translateY(0);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+      }
+
+      body.smarty.page-privacy .btn-ghost:hover {
+        background: var(--surface-alt);
+        border-color: var(--border);
+        box-shadow: var(--shadow-sm);
+        transform: translateY(-1px);
+      }
+
+      body.smarty.page-privacy .btn-ghost:active {
+        transform: translateY(0);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
+      }
+
+      body.smarty.page-privacy .recent-changes-scroll {
+        max-height: 360px;
+        overflow-y: auto;
+        padding-right: var(--space-1);
+      }
+
+      body.smarty.page-privacy .recent-changes-scroll:focus-visible {
+        outline: 3px solid var(--focus);
+        outline-offset: 3px;
+      }
+
+      body.smarty.page-privacy .recent-change-date {
+        display: block;
+        color: var(--muted);
+        font-size: 0.85rem;
+        font-style: italic;
+        margin: 0;
+      }
+
+      body.smarty.page-privacy .recent-change-title {
+        display: block;
+        font-weight: 700;
+        color: var(--text);
+        margin: 0.2rem 0 0;
+      }
+
+      body.smarty.page-privacy .recent-change-summary {
+        margin-top: 0.35rem;
+      }
+
+      body.smarty.page-privacy .btn:focus-visible,
+      body.smarty.page-privacy .btn-ghost:focus-visible {
+        outline: 3px solid var(--focus);
+        outline-offset: 3px;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25);
+      }
+
+      /* 1 & 2: h2 subtitle — larger than h3 card-title (1.05rem), with increased top padding */
+      body.smarty.page-privacy .subtitle {
+        font-size: 1.5rem !important;
+        padding-top: var(--space-4, 1.75rem) !important;
+        margin-top: 0 !important;
+      }
+
+      /* 3: Increase wrap padding for more breathing room from browser edges */
+      body.smarty.page-privacy .wrap {
+        padding-left: clamp(2rem, 8vw, 5rem) !important;
+        padding-right: clamp(2rem, 8vw, 5rem) !important;
+      }
+
+      /* VA Privacy Resources — stretch cards so buttons align at the same bottom line */
+      body.smarty.page-privacy #resources-title ~ .grid .card {
+        display: flex;
+        flex-direction: column;
+      }
+
+      body.smarty.page-privacy #resources-title ~ .grid .card > div {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      body.smarty.page-privacy #resources-title ~ .grid .card-row {
+        flex: 1;
+        align-items: flex-end;
+      }
+
+      /* VA Privacy Resources — body text top-aligned */
+      body.smarty.page-privacy #resources-title ~ .grid .card-text {
+        align-self: flex-start;
+      }
+
+      /* 6: Recent changes — no fixed height, expands naturally to fit content */
+      body.smarty.page-privacy .recent-changes-scroll {
+        max-height: none !important;
+        overflow-y: visible !important;
+        padding-right: 0 !important;
+      }
+
+      body.smarty.page-privacy .smarty-root hr.divider {
+        border: none;
+        border-top: 1px solid var(--border, #e2e8f0) !important;
+        margin: var(--space-3, 1.25rem) 0 !important;
+      }
+    </style>
+
+    <script>
+      const backToTopButton = document.getElementById("backToTop");
+      const mainContent = document.getElementById("main-content");
+
+      const recentChangesList = document.getElementById("recentChangesList");
+      const recentChangesMessage = document.getElementById(
+        "recentChangesMessage",
+      );
+      const recentChangesToggle = document.getElementById(
+        "recentChangesToggle",
+      );
+
+      const RECENT_CHANGES_ENDPOINT = "api/form/query";
+      const RECENT_CHANGES_LIMIT = 5;
+      const PUBLISHED_RECORDS_ENDPOINT =
+        "https://leaf.va.gov/platform/privacy/api/form/query/?q=" +
+        encodeURIComponent(
+          JSON.stringify({
+            terms: [
+              {
+                id: "categoryID",
+                operator: "=",
+                match: "form_8f7e8",
+                gate: "AND",
+              },
+              { id: "stepID", operator: "=", match: "20", gate: "AND" },
+              { id: "deleted", operator: "=", match: 0, gate: "AND" },
+            ],
+            joins: [],
+            sort: {},
+          }),
+        ) +
+        "&x-filterData=recordID,title";
+
+      /*
+        CURRENT INDICATOR IDS (update if the LEAF form changes):
+        Release Date → indicatorID: 39
+        Title        → indicatorID: 40
+        Summary      → indicatorID: 41
+      */
+      const RECENT_CHANGE_INDICATORS = {
+        changeDate: 39,
+        title: 40,
+        summary: 41,
+      };
+
+      let recentChanges = [];
+      let showAllChanges = false;
+
+      function buildRecentChangesQueryUrl() {
+        const q = {
+          terms: [{ id: "deleted", operator: "=", match: 0, gate: "AND" }],
+          joins: [],
+          sort: {},
+          getData: [
+            String(RECENT_CHANGE_INDICATORS.changeDate),
+            String(RECENT_CHANGE_INDICATORS.title),
+            String(RECENT_CHANGE_INDICATORS.summary),
+          ],
+        };
+        return (
+          RECENT_CHANGES_ENDPOINT +
+          "?q=" +
+          encodeURIComponent(JSON.stringify(q)) +
+          "&x-filterData=recordID,date"
+        );
+      }
+
+      function getS1Value(record, indicatorId) {
+        if (!record || !record.s1) {
+          return "";
+        }
+        const key = "id" + String(indicatorId);
+        const value = record.s1[key];
+        if (value === null || value === undefined) {
+          return "";
+        }
+        return typeof value === "string" ? value.trim() : value;
+      }
+
+      // Decodes HTML entities (e.g. "&#039;" -> "'", "&amp;" -> "&") using the
+      // browser's own parser. Using a <textarea> (not a <div>/innerHTML on a
+      // rendering element) means the string is only ever parsed for entity
+      // decoding — it is never interpreted as live markup — so this stays
+      // safe to use on untrusted LEAF field values.
+      function decodeHtmlEntities(text) {
+        if (!text) {
+          return "";
+        }
+        const textarea = document.createElement("textarea");
+        textarea.innerHTML = String(text);
+        return textarea.value;
+      }
+
+      function parseDateValue(value) {
+        if (!value) {
+          return null;
+        }
+        if (value instanceof Date && !Number.isNaN(value.getTime())) {
+          return value;
+        }
+        if (typeof value === "number") {
+          const asDate = new Date(value);
+          if (!Number.isNaN(asDate.getTime())) {
+            return asDate;
+          }
+          const asSeconds = new Date(value * 1000);
+          if (!Number.isNaN(asSeconds.getTime())) {
+            return asSeconds;
+          }
+        }
+        if (typeof value === "string") {
+          const trimmed = value.trim();
+          if (!trimmed) {
+            return null;
+          }
+          const numeric = Number(trimmed);
+          if (!Number.isNaN(numeric)) {
+            const asNumber = parseDateValue(numeric);
+            if (asNumber) {
+              return asNumber;
+            }
+          }
+          const parsed = new Date(trimmed);
+          if (!Number.isNaN(parsed.getTime())) {
+            return parsed;
+          }
+        }
+        return null;
+      }
+
+      function formatDisplayDate(date) {
+        return date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+      }
+
+      function renderMultilineText(container, text) {
+        if (!container) {
+          return;
+        }
+        const normalized = decodeHtmlEntities(String(text || ""))
+          .replace(/<br\s*\/?>/gi, "\n")
+          .replace(/\r\n/g, "\n");
+        const rawLines = normalized.split("\n");
+        const lines = rawLines.map((line) => line.trim()).filter(Boolean);
+        if (!lines.length) {
+          return;
+        }
+
+        const isBullet = lines.every((line) => /^[-*]\s+/.test(line));
+        const isNumbered = lines.every((line) => /^\d+\.\s+/.test(line));
+
+        if (isBullet || isNumbered) {
+          const list = document.createElement(isNumbered ? "ol" : "ul");
+          lines.forEach((line) => {
+            const item = document.createElement("li");
+            item.textContent = line
+              .replace(/^[-*]\s+/, "")
+              .replace(/^\d+\.\s+/, "");
+            list.appendChild(item);
+          });
+          container.appendChild(list);
+          return;
+        }
+
+        lines.forEach((line) => {
+          const paragraph = document.createElement("p");
+          paragraph.textContent = line;
+          container.appendChild(paragraph);
+        });
+      }
+
+      function buildListItem(entry) {
+        const li = document.createElement("li");
+        li.className = "recent-changes-item";
+
+        const timeElement = document.createElement("time");
+        timeElement.className = "recent-change-date";
+        if (entry.dateObject) {
+          timeElement.setAttribute(
+            "datetime",
+            entry.dateObject.toISOString().split("T")[0],
+          );
+        }
+        timeElement.textContent = entry.displayDate;
+
+        const title = document.createElement("p");
+        title.className = "recent-change-title";
+        title.textContent = decodeHtmlEntities(entry.title);
+
+        const summary = document.createElement("div");
+        summary.className = "recent-change-summary";
+        renderMultilineText(summary, entry.summary);
+
+        li.appendChild(timeElement);
+        li.appendChild(title);
+        li.appendChild(summary);
+
+        return li;
+      }
+
+      function renderRecentChanges() {
+        if (
+          !recentChangesList ||
+          !recentChangesMessage ||
+          !recentChangesToggle
+        ) {
+          return;
+        }
+
+        if (!recentChanges.length) {
+          recentChangesList.innerHTML = "";
+          recentChangesMessage.textContent =
+            "No platform changes have been published yet.";
+          recentChangesMessage.hidden = false;
+          recentChangesToggle.hidden = true;
+          return;
+        }
+
+        const hasMore = recentChanges.length > RECENT_CHANGES_LIMIT;
+        const itemsToShow = showAllChanges
+          ? recentChanges
+          : recentChanges.slice(0, RECENT_CHANGES_LIMIT);
+
+        recentChangesList.innerHTML = "";
+        itemsToShow.forEach((entry) => {
+          recentChangesList.appendChild(buildListItem(entry));
+        });
+
+        recentChangesMessage.hidden = true;
+        recentChangesToggle.hidden = !hasMore;
+        recentChangesToggle.textContent = showAllChanges
+          ? "Show fewer changes"
+          : "Show all changes";
+        recentChangesToggle.setAttribute(
+          "aria-expanded",
+          showAllChanges ? "true" : "false",
+        );
+      }
+
+      async function fetchPublishedRecordIDs() {
+        try {
+          const response = await fetch(PUBLISHED_RECORDS_ENDPOINT, {
+            headers: { Accept: "application/json" },
+          });
+          if (!response.ok) {
+            throw new Error("Published records request failed");
+          }
+          const payload = await response.json();
+          return new Set(Object.keys(payload || {}));
+        } catch (error) {
+          console.warn(
+            "Could not fetch published records; falling back to showing all records.",
+            error,
+          );
+          return null;
+        }
+      }
+
+      async function loadRecentChanges() {
+        if (
+          !recentChangesList ||
+          !recentChangesMessage ||
+          !recentChangesToggle
+        ) {
+          return;
+        }
+
+        try {
+          const [publishedIDs, response] = await Promise.all([
+            fetchPublishedRecordIDs(),
+            fetch(buildRecentChangesQueryUrl(), {
+              headers: { Accept: "application/json" },
+            }),
+          ]);
+          if (!response.ok) {
+            throw new Error("Request failed");
+          }
+          const payload = await response.json();
+          const allRecords = Array.isArray(payload)
+            ? payload
+            : Object.values(payload || {}).filter(
+                (row) =>
+                  row &&
+                  typeof row === "object" &&
+                  ("s1" in row ||
+                    "recordID" in row ||
+                    "recordId" in row ||
+                    "id" in row),
+              );
+          const records =
+            publishedIDs === null
+              ? allRecords
+              : allRecords.filter((row) => {
+                  const id = String(
+                    row.recordID ?? row.recordId ?? row.id ?? "",
+                  );
+                  return publishedIDs.has(id);
+                });
+
+          recentChanges = records
+            .map((record) => {
+              const rawDate = getS1Value(
+                record,
+                RECENT_CHANGE_INDICATORS.changeDate,
+              );
+              if (typeof rawDate !== "string" || !rawDate.trim()) {
+                return null;
+              }
+              const dateObject = parseDateValue(rawDate);
+              if (!dateObject) {
+                return null;
+              }
+
+              const rawTitle = getS1Value(
+                record,
+                RECENT_CHANGE_INDICATORS.title,
+              );
+              const rawSummary = getS1Value(
+                record,
+                RECENT_CHANGE_INDICATORS.summary,
+              );
+              if (typeof rawTitle !== "string" || !rawTitle.trim()) {
+                return null;
+              }
+              if (typeof rawSummary !== "string" || !rawSummary.trim()) {
+                return null;
+              }
+
+              return {
+                dateObject,
+                displayDate: formatDisplayDate(dateObject),
+                title: rawTitle.trim(),
+                summary: rawSummary.trim(),
+                sortValue: dateObject.getTime(),
+              };
+            })
+            .filter(Boolean)
+            .sort((a, b) => b.sortValue - a.sortValue);
+
+          renderRecentChanges();
+          updateReadingTime();
+        } catch (error) {
+          recentChanges = [];
+          recentChangesList.innerHTML = "";
+          recentChangesMessage.textContent =
+            "Unable to load recent changes at this time.";
+          recentChangesMessage.hidden = false;
+          recentChangesToggle.hidden = true;
+        }
+      }
+
+      window.addEventListener("scroll", () => {
+        const isVisible = window.scrollY > 300;
+        backToTopButton.classList.toggle("is-visible", isVisible);
+        backToTopButton.setAttribute(
+          "aria-hidden",
+          isVisible ? "false" : "true",
+        );
+        if (isVisible) {
+          backToTopButton.removeAttribute("tabindex");
+        } else {
+          backToTopButton.setAttribute("tabindex", "-1");
+        }
+      });
+
+      backToTopButton.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "instant" });
+        mainContent.focus();
+      });
+
+      if (recentChangesToggle) {
+        recentChangesToggle.addEventListener("click", () => {
+          showAllChanges = !showAllChanges;
+          renderRecentChanges();
+        });
+      }
+
+      loadRecentChanges();
+
+      // ── Auto: Estimated Reading Time from visible page text ───────────────
+      function updateReadingTime() {
+        const main = document.getElementById("main-content");
+        const el = document.getElementById("reading-time");
+        if (!main || !el) return;
+        const wordCount = (main.innerText || "").trim().split(/\s+/).length;
+        const minutes = Math.max(1, Math.round(wordCount / 200));
+        el.textContent = "~" + minutes + " min" + (minutes !== 1 ? "s" : "");
+      }
+    </script>
+  </body>
+</html>
