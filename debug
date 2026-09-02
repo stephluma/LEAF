@@ -1,1 +1,50 @@
-<div id="bp-body-content"><p><strong>Starting with an Export, Not a Rebuild<br></strong><span style="color: rgb(51, 51, 51); font-family: monospace;">Rather than manually re-entering hundreds of historical ideas, we exported the full Power Apps dataset to Excel. This preserved everything - titles, summaries, benefits, votes, statuses, internal notes, and more - as a starting point for transformation rather than a blank slate.</span></p><p><strong><br>Reconciling Two ID Systems</strong><br>Since LEAF assigns its own unique ID to every record on import, we needed a way to preserve each idea's original Power Apps ID without creating confusion. Our solution: prepend the legacy ID directly into the title (e.g., "(Legacy ID: 21) Original title"), so long-time users can still recognize and reference older ideas by their familiar number.<br><br></p><p><strong>Cleaning Up Formatting Along the Way</strong><br>A few formatting quirks came out of the Power Apps export that needed attention before the data would look right in LEAF:<br></p><ul><li>Timestamps were trimmed down to a simple date format, since the exact time an idea was created wasn't meaningful to preserve.</li><li><span style="font-family: monospace; color: rgb(51, 51, 51);">Rich text artifacts - leftover HTML tags like&nbsp;</span><span style="font-family: monospace; color: rgb(51, 51, 51);">and embedded in summary and benefit fields - were stripped out so descriptions read as clean, plain text.</span></li><li>Multi-select fields, which Power Apps stored in a SharePoint-style format (Forms;#Workflows;#Support), were converted into simple, readable comma-separated lists (Forms, Workflows, Support).</li></ul><p><strong>Using the Data Itself to Catch Inconsistencies</strong><br>One of the more valuable steps was letting the data flag its own inconsistencies. We highlighted any idea marked "Completed" that wasn't also marked "Implemented," as well as ideas marked "not implemented" that still had an associated development ticket. These are the kinds of small mismatches that accumulate naturally over years of manual tracking, and surfacing them automatically gave us a clear, prioritized list to review rather than requiring a line-by-line audit.</p><p>We also used the descriptive fields already in the data - the summary and stated benefit of each idea - to fill in gaps where a categorization field (New Feature vs. Enhancement) had been left blank, marking those suggestions distinctly so they could be reviewed before being treated as final.</p><p><strong>Where the Import Side Taught Us Something New</strong><br>Exporting and cleaning the data was only half the story. When we brought everything into LEAF, we ran into a gap in our own tooling that pushed us to improve it: our Import Spreadsheet tool needed to do more than drop rows into a single form.</p><p>This migration required populating a main form and feeding data into internal-only forms tied to the same record, all from one import pass. It also meant we needed the ability to update a record's title from a spreadsheet column after the fact, and - just as important - reassign the record's initiator to match the original idea's requestor, whom we only had on hand as an email address from the Power Apps export.<br>Solving for that meant every legacy idea came into LEAF attributed to its real, original requestor - not to whoever ran the import. The practical effect: when requestors log into the LEAF Idea Portal for the first time, their old ideas are simply sitting in their My Ideas tab, right where they left off. Nothing to re-submit, nothing to re-explain. As a side effect, we also ended up with better visibility into idea ownership than we had before.</p><p><strong>The Takeaway</strong><br>The export and cleanup side of this didn't require anything special - just a structured pass through an exported spreadsheet, applying consistent rules to normalize formatting, preserve historical context, and surface data quality issues along the way. Any team comfortable with spreadsheets can do that part.</p><p>The import side is where we did invest in custom development. Handling a main form alongside internal-only forms in a single pass, updating titles from a spreadsheet column, and reassigning initiators to the original requestors all pushed us to build real improvements into our Import Spreadsheet tool. That work paid off directly: every legacy idea came into LEAF attributed to its real, original requestor, so when people log into the LEAF Idea Portal for the first time, their old ideas are simply sitting in their My Ideas tab, right where they left off. Nothing to re-submit, nothing to re-explain, and better visibility into idea ownership as a bonus.</p><p>If you're weighing a similar move away from Power Apps, know that your existing data doesn't have to be a barrier. Some of the work is straightforward cleanup; some of it may require us to extend our tooling like we did here. Either way, the path to LEAF is achievable.<br>Curious what this could look like for your own Power Apps solution? Give it a try, or request a consult with us to talk through your specific project. And if you run into a gap along the way that doesn't quite fit your use case, submit it through the Idea Portal - that's exactly the kind of feedback that helps us keep improving LEAF for everyone. We can't wait to see what all you LEAF innovators build next.</p></div>
+launchpad/#home:1071 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
+leaf_header_preprod.js:1248 [LP] Lazy-loading LEAF UI deps for fetched page: (2) ['https://leaf-preprod.va.gov/app/libs/js/jquery/jquery-ui.custom.min.js', 'https://leaf-preprod.va.gov/launchpad/js/dialogController.js']
+ensureLeafUIDeps @ leaf_header_preprod.js:1248
+mountContent @ leaf_header_preprod.js:1826
+(anonymous) @ leaf_header_preprod.js:1983
+Promise.then
+loadView @ leaf_header_preprod.js:1959
+router @ leaf_header_preprod.js:2020
+(anonymous) @ leaf_header_preprod.js:2246
+hashchange
+(anonymous) @ leaf_header_preprod.js:2231
+formQuery.js:332  GET https://leaf-preprod.va.gov/platform/?q={%22terms%22:[{%22id%22:%22categoryID%22,%22operator%22:%22=%22,%22match%22:%22form_3db88%22,%22gate%22:%22AND%22},{%22id%22:%22stepID%22,%22operator%22:%22=%22,%22match%22:3,%22gate%22:%22AND%22}],%22joins%22:[],%22sort%22:{%22column%22:4,%22direction%22:%22DESC%22},%22getData%22:[2,3,4,5],%22limit%22:12,%22limitOffset%22:0} 403 (Forbidden)
+execute @ formQuery.js:332
+loadBatch @ VM8862:177
+initGrid @ VM8862:227
+eval @ VM8862:252
+(anonymous) @ leaf_header_preprod.js:1850
+(anonymous) @ leaf_header_preprod.js:1848
+setTimeout
+(anonymous) @ leaf_header_preprod.js:1844
+Promise.then
+mountContent @ leaf_header_preprod.js:1826
+(anonymous) @ leaf_header_preprod.js:1983
+Promise.then
+loadView @ leaf_header_preprod.js:1959
+router @ leaf_header_preprod.js:2020
+(anonymous) @ leaf_header_preprod.js:2246
+hashchange
+(anonymous) @ leaf_header_preprod.js:2231
+formQuery.js:345 SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+(anonymous) @ formQuery.js:345
+Promise.catch
+execute @ formQuery.js:345
+loadBatch @ VM8862:177
+initGrid @ VM8862:227
+eval @ VM8862:252
+(anonymous) @ leaf_header_preprod.js:1850
+(anonymous) @ leaf_header_preprod.js:1848
+setTimeout
+(anonymous) @ leaf_header_preprod.js:1844
+Promise.then
+mountContent @ leaf_header_preprod.js:1826
+(anonymous) @ leaf_header_preprod.js:1983
+Promise.then
+loadView @ leaf_header_preprod.js:1959
+router @ leaf_header_preprod.js:2020
+(anonymous) @ leaf_header_preprod.js:2246
+hashchange
+(anonymous) @ leaf_header_preprod.js:2231
+
