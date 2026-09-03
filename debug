@@ -1,15 +1,6 @@
-/platform/?q={%22terms%22:[{%22id%22:%22categoryID%22,%22operator%22:%22=%22,%22match%22:%22form_605bd%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[],%22sort%22:{%22column%22:%22recordID%22,%22direction%22:%22DESC%22},%22getData%22:[%2216%22,%2217%22],%22limit%22:500,%22limitOffset%22:0}:1  Failed to load resource: the server responded with a status of 403 (Forbidden)
-/platform/?q={%22terms%22:[{%22id%22:%22categoryID%22,%22operator%22:%22=%22,%22match%22:%22form_8fc8b%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[],%22sort%22:{},%22getData%22:[%2225%22,%2227%22,%2226%22,%2235%22],%22limit%22:500,%22limitOffset%22:0}&x-filterData=recordID,title:1  Failed to load resource: the server responded with a status of 403 (Forbidden)
-formQuery.js:301 SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
-(anonymous) @ formQuery.js:301
-report.php?a=lp_cop:504 Uncaught (in promise) TypeError: Cannot read properties of undefined (reading '4')
-    at loadUpcomingSession (report.php?a=lp_cop:504:27)
-formQuery.js:301 SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
-(anonymous) @ formQuery.js:301
-report.php?a=lp_cop:629 Uncaught (in promise) TypeError: Cannot convert undefined or null to object
-    at Object.keys (<anonymous>)
-    at render (report.php?a=lp_cop:629:27)
-    at report.php?a=lp_cop:722:43
-    at Object.dtAWF [as aWF] (ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251:132)
-    at Object.Ib (ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278:102)
-    at $a.<computed> (ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273:95)
+fetch("/platform/blog/api/form/query?q=" + encodeURIComponent(JSON.stringify({
+  terms: [{id:"recordID", operator:">", match:0, gate:"AND"}],
+  joins: [], sort: {}, getData: [2,3,4,5], limit: 12, limitOffset: 0
+})), { credentials: "include" }).then(r => r.json()).then(console.log);
+Promise {<pending>, then: ƒ}then: ƒ (ra, xb)[[Prototype]]: Promise[[PromiseState]]: "fulfilled"[[PromiseResult]]: undefined
+ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251 {1: {…}}1: {recordID: 1, date: 1788290620, serviceID: 0, userID: 'oitauslumags', title: 'Test', …}[[Prototype]]: Object
