@@ -1,53 +1,15 @@
-<link rel="stylesheet" href="./files/blog.css">
-
-<div id="blogPost" lang="en">
-  <a class="bp-skip-link" href="#bp-article">Skip to article</a>
-
-  <div id="bp-live-polite" class="bp-sr-only" aria-live="polite" aria-atomic="true"></div>
-  <div id="bp-live-assertive" class="bp-sr-only" aria-live="assertive" aria-atomic="true"></div>
-
-  <div id="bp-loading" class="bp-loading" role="status" aria-label="Loading post">
-    <div class="bp-spinner" aria-hidden="true"></div>
-    <p>Loading post&hellip;</p>
-  </div>
-
-  <div id="bp-error" class="bp-error" role="alert" style="display:none"></div>
-
-  <div id="bp-content" style="display:none">
-    <a class="bp-back-link">&larr; Back to blog</a>
-
-    <main>
-      <header class="bp-header">
-        <span id="bp-category" class="bp-category" style="display:none"></span>
-        <div class="bp-header-row">
-          <div class="bp-header-icon" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="currentColor"><path d="M480-40 360-160H200q-33 0-56.5-23.5T120-240v-560q0-33 23.5-56.5T200-880h560q33 0 56.5 23.5T840-800v560q0 33-23.5 56.5T760-160H600L480-40Zm0-280q86 0 143-60t57-140v-200H480q-81 0-140.5 57T280-520q0 30 8.5 57t23.5 50l-16 16q-12 12-12 28t12 28q12 12 27.5 11.5T352-341l15-14q24 17 52.5 26t60.5 9Zm62-226.5q0 16.5-12 28.5l-75 75q-12 12-28.5 12T398-443q-11-12-11-28.5t11-27.5l76-76q12-12 28-12t28 12q12 12 12 28.5Z"/></svg>
-          </div>
-          <div class="bp-header-text">
-            <h1 id="bp-title" class="bp-title" tabindex="-1"></h1>
-            <div class="bp-byline">
-              <span id="bp-date"></span>
-              <span aria-hidden="true">&middot;</span>
-              <span id="bp-readtime"></span>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <article id="bp-article" class="bp-article">
-        <div id="bp-body" class="bp-body">
-          <figure id="bp-image-figure" class="bp-image" hidden>
-            <img id="bp-image" src="" alt="">
-          </figure>
-          <div id="bp-body-content"></div>
-        </div>
-      </article>
-
-      <footer class="bp-footer">
-        <a>&larr; Back to blog</a>
-      </footer>
-    </main>
-  </div>
-</div>
-
-<script src="./files/blog.js"></script>
+/platform/?q={%22terms%22:[{%22id%22:%22categoryID%22,%22operator%22:%22=%22,%22match%22:%22form_605bd%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[],%22sort%22:{%22column%22:%22recordID%22,%22direction%22:%22DESC%22},%22getData%22:[%2216%22,%2217%22],%22limit%22:500,%22limitOffset%22:0}:1  Failed to load resource: the server responded with a status of 403 (Forbidden)
+/platform/?q={%22terms%22:[{%22id%22:%22categoryID%22,%22operator%22:%22=%22,%22match%22:%22form_8fc8b%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[],%22sort%22:{},%22getData%22:[%2225%22,%2227%22,%2226%22,%2235%22],%22limit%22:500,%22limitOffset%22:0}&x-filterData=recordID,title:1  Failed to load resource: the server responded with a status of 403 (Forbidden)
+formQuery.js:301 SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+(anonymous) @ formQuery.js:301
+report.php?a=lp_cop:504 Uncaught (in promise) TypeError: Cannot read properties of undefined (reading '4')
+    at loadUpcomingSession (report.php?a=lp_cop:504:27)
+formQuery.js:301 SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+(anonymous) @ formQuery.js:301
+report.php?a=lp_cop:629 Uncaught (in promise) TypeError: Cannot convert undefined or null to object
+    at Object.keys (<anonymous>)
+    at render (report.php?a=lp_cop:629:27)
+    at report.php?a=lp_cop:722:43
+    at Object.dtAWF [as aWF] (ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251:132)
+    at Object.Ib (ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:278:102)
+    at $a.<computed> (ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:273:95)
