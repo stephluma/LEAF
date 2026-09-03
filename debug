@@ -1,4 +1,7 @@
 report.php?a=lp_blog:497 [BlogIndex debug] rootURL: /platform/blog/
 report.php?a=lp_blog:498 [BlogIndex debug] query: Object
-report.php?a=lp_blog:503 [BlogIndex debug] raw results: Array(0)
-report.php?a=lp_blog:504 [BlogIndex debug] result count: 0
+report.php?a=lp_blog:499 [BlogIndex debug] full query JSON (open this in a new tab): /platform/blog/api/form/query?q=%7B%22terms%22%3A%5B%7B%22id%22%3A%22categoryID%22%2C%22operator%22%3A%22%3D%22%2C%22match%22%3A%22form_3db88%22%2C%22gate%22%3A%22AND%22%7D%2C%7B%22id%22%3A%22stepID%22%2C%22operator%22%3A%22%3D%22%2C%22match%22%3A3%2C%22gate%22%3A%22AND%22%7D%5D%2C%22joins%22%3A%5B%5D%2C%22sort%22%3A%7B%22column%22%3A4%2C%22direction%22%3A%22DESC%22%7D%2C%22getData%22%3A%5B2%2C3%2C4%2C5%5D%2C%22limit%22%3A12%2C%22limitOffset%22%3A0%7D
+report.php?a=lp_blog:509 [BlogIndex debug] raw results: Array(0)
+report.php?a=lp_blog:510 [BlogIndex debug] result count: 0
+report.php?a=lp_blog:540 [BlogIndex debug] reached spinner-hide line. status.hidden now: true | actual DOM attribute: 
+report.php?a=lp_blog:553 [BlogIndex debug] empty.hidden: false | grid children: 0
