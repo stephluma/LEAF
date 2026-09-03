@@ -1,3 +1,2 @@
-/platform/?q={%22terms%22:[{%22id%22:%22categoryID%22,%22operator%22:%22=%22,%22match%22:%22form_3db88%22,%22gate%22:%22AND%22},{%22id%22:%22stepID%22,%22operator%22:%22=%22,%22match%22:3,%22gate%22:%22AND%22}],%22joins%22:[],%22sort%22:{%22column%22:4,%22direction%22:%22DESC%22},%22getData%22:[2,3,4,5],%22limit%22:12,%22limitOffset%22:0}:1  Failed to load resource: the server responded with a status of 403 (Forbidden)
 formQuery.js:345 SyntaxError: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
 (anonymous) @ formQuery.js:345
