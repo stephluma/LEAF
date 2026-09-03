@@ -1,8 +1,1 @@
-report.php?a=lp_blog:502 [BlogIndex debug] rootURL: /platform/blog/
-report.php?a=lp_blog:503 [BlogIndex debug] query: Object
-report.php?a=lp_blog:504 [BlogIndex debug] full query JSON (open this in a new tab): /platform/blog/api/form/query?q=%7B%22terms%22%3A%5B%7B%22id%22%3A%22lastStatus%22%2C%22operator%22%3A%22%3D%22%2C%22match%22%3A%22Published%22%2C%22gate%22%3A%22AND%22%7D%5D%2C%22joins%22%3A%5B%5D%2C%22sort%22%3A%7B%22column%22%3A4%2C%22direction%22%3A%22DESC%22%7D%2C%22getData%22%3A%5B2%2C3%2C4%2C5%5D%2C%22limit%22%3A12%2C%22limitOffset%22%3A0%7D
-report.php?a=lp_blog:514 [BlogIndex debug] raw results: 0
-report.php?a=lp_blog:515 [BlogIndex debug] result count: 1
-report.php?a=lp_blog:537 [BlogIndex debug] record 0 s1: 0
-report.php?a=lp_blog:545 [BlogIndex debug] reached spinner-hide line. status.hidden now: true | actual DOM attribute: 
-report.php?a=lp_blog:558 [BlogIndex debug] empty.hidden: true | grid children: 1
+{"1":{"recordID":1,"date":1788290620,"serviceID":0,"userID":"oitauslumags","title":"Test","priority":0,"lastStatus":"Published","submitted":1788290632,"deleted":0,"isWritableUser":0,"isWritableGroup":1,"userMetadata":{"email":"Stephanie.Lumagui@va.gov","lastName":"Lumagui","userName":"oitauslumags","firstName":"Stephanie","middleName":"L"},"userName":"oitauslumags","s1":{"id2":"Migrating from Power Apps to LEAF: Our Idea Portal Story","id3":"","id4":"10\/01\/2026","id5":"We recently retired our Power Apps-based Idea Portal in favor of a native LEAF Idea Portal - and the migration turned out to be far more approachable than we expected. Here&#039;s a look at how we approached it, in case your team is considering a similar move.","id2_timestamp":1788309401,"id3_timestamp":1788309401,"id4_timestamp":1788309401,"id5_timestamp":1788309401}}}
