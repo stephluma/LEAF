@@ -1,0 +1,82 @@
+<!--
+Reusable LEAF Programmer admin-gate helper
+Sysadmin group = groupID 1
+-->
+
+<script>
+/** Server-trusted admin flag (set at render time) */
+window.LEAF_IS_SYSADMIN = <!--{if $empMembership['groupID'][1]}-->true<!--{else}-->false<!--{/if}-->;
+
+/** Returns true if current user is sysadmin */
+function isSysAdmin() {
+  return window.LEAF_IS_SYSADMIN === true;
+}
+
+/** Show/hide blocks by selector based on admin status */
+function adminGate(options = {}) {
+  const {
+    show = [],      // selectors to show for admins
+    hide = [],      // selectors to hide for admins
+    invert = false  // if true, reverse behavior (non-admin view)
+  } = options;
+
+  const allowed = invert ? !isSysAdmin() : isSysAdmin();
+
+  show.forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => {
+      el.style.display = allowed ? '' : 'none';
+    });
+  });
+
+  hide.forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => {
+      el.style.display = allowed ? 'none' : '';
+    });
+  });
+
+  return allowed;
+}
+
+/** Execute callback only for admins; optional non-admin callback */
+function requireSysAdmin(onAllowed, onDenied) {
+  if (isSysAdmin()) {
+    return typeof onAllowed === 'function' ? onAllowed() : true;
+  }
+  if (typeof onDenied === 'function') onDenied();
+  return false;
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Example 1: gate content blocks
+  adminGate({
+    show: ['.admin-only'],
+    hide: ['.non-admin-only']
+  });
+
+  // Example 2: gate action buttons
+  document.querySelectorAll('[data-admin-action]').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      requireSysAdmin(
+        () => {
+          // allowed path
+          alert('Admin action allowed: ' + (btn.dataset.adminAction || 'unnamed'));
+        },
+        () => {
+          // denied path
+          e.preventDefault();
+          alert('You must be a Sysadmin (groupID 1) to do that.');
+        }
+      );
+    });
+  });
+});
+</script>
+
+<!-- Example markup -->
+<div class="admin-only" style="display:none; padding:.75rem; border:1px solid #2e7d32; background:#f1fff1;">
+  ✅ Admin-only content
+</div>
+
+<div class="non-admin-only" style="display:none; padding:.75rem; border:1px solid #b71c1c; background:#fff5f5;">
+  ⛔ Non-admin content
+</div>
