@@ -1,46 +1,5 @@
 report.php?a=lp_blog:317 [BlogIndex debug] script started executing
-report.php?a=lp_blog:612 [BlogIndex debug] document.readyState at script end: loading
-report.php?a=lp_blog:605 [BlogIndex debug] DOMContentLoaded fired, calling initGrid()
+report.php?a=lp_blog:619 [BlogIndex debug] document.readyState at script end: loading
+report.php?a=lp_blog:612 [BlogIndex debug] DOMContentLoaded fired, calling initGrid()
 report.php?a=lp_blog:477 [BlogIndex debug] loadBatch called, offset: 0 isLoadMore: false
-
-fetch("https://leaf.va.gov/platform/blog/api/form/query?q={%22terms%22:[],%22joins%22:[],%22sort%22:{%22column%22:4,%22direction%22:%22DESC%22},%22getData%22:[2,3,4,5],%22limit%22:12,%22limitOffset%22:0}", {
-  "headers": {
-    "accept": "*/*",
-    "accept-language": "en-US,en;q=0.9",
-    "cache-control": "no-cache",
-    "pragma": "no-cache",
-    "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Microsoft Edge\";v=\"150\"",
-    "sec-ch-ua-mobile": "?1",
-    "sec-ch-ua-platform": "\"Android\"",
-    "sec-fetch-dest": "empty",
-    "sec-fetch-mode": "cors",
-    "sec-fetch-site": "same-origin",
-    "x-dtpc": "58$462806841_818h2vUOMFPMCRIKALCIHWPLDEMNVUKBWSQFMT-0e0"
-  },
-  "referrer": "https://leaf.va.gov/launchpad/report.php?a=lp_blog",
-  "body": null,
-  "method": "GET",
-  "mode": "cors",
-  "credentials": "include"
-});
-
-fetch("https://leaf.va.gov/platform/blog/api/form/query?q={%22terms%22:[],%22joins%22:[],%22sort%22:{%22column%22:4,%22direction%22:%22DESC%22},%22getData%22:[2,3,4,5],%22limit%22:12,%22limitOffset%22:0}", {
-  "headers": {
-    "accept": "*/*",
-    "accept-language": "en-US,en;q=0.9",
-    "cache-control": "no-cache",
-    "pragma": "no-cache",
-    "sec-ch-ua": "\"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"150\", \"Microsoft Edge\";v=\"150\"",
-    "sec-ch-ua-mobile": "?1",
-    "sec-ch-ua-platform": "\"Android\"",
-    "sec-fetch-dest": "empty",
-    "sec-fetch-mode": "cors",
-    "sec-fetch-site": "same-origin",
-    "x-dtpc": "58$466217100_871h2vECKPHCBHEMEUHKMSFWTCJFRPPDIRENSS-0e0"
-  },
-  "referrer": "https://leaf.va.gov/launchpad/report.php?a=lp_blog",
-  "body": null,
-  "method": "GET",
-  "mode": "cors",
-  "credentials": "include"
-});
+report.php?a=lp_blog:520 [BlogIndex debug] query.execute() resolved. typeof results: object value: []length: 0[[Prototype]]: Array(0)
