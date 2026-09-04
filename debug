@@ -1,7 +1,68 @@
-fetch("/platform/blog/api/form/query?q=" + encodeURIComponent(JSON.stringify({
-  terms: [{id:"recordID", operator:">", match:0, gate:"AND"}],
-  joins: [], sort: {column: 4, direction: "DESC"}, getData: [2,3,4,5], limit: 12, limitOffset: 0
-})), { credentials: "include" }).then(r => r.json()).then(console.log);
-Promise {<pending>, then: ƒ}then: ƒ (ra, xb)[[Prototype]]: Promise[[PromiseState]]: "fulfilled"[[PromiseResult]]: undefined
-ruxitagentjs_ICA7NVfhqrux_10339260603164134.js:251 []length: 0[[Prototype]]: Array(0)
+<style type="text/css">
+    .badge {
+        position: relative;
+        border: none;
+        border-radius: 5px;
+        content: attr(data-badge);
+        top: -1px;
+        right: 14px;
+        font-size: 14px;
+        background: #7BC143;
+        color: white;
+        width: auto;
+        height: 26px;
+        text-align: center;
+        line-height: 24px;
+        border-radius: 3rem;
+        box-shadow: 0 0 1px #333;
+        padding: .05rem .8rem .1rem;
+    }
+    #result{
+        color:white;
+    }
+    </style>
+{if $action == '' && $is_admin == true}
+<button class="badge">Users Online: <span id="result">0</span> </button>
+{/if}
 
+{if $action != ''}
+    <a href="./" class="buttonNorm"><img src="dynicons/?img=go-home.svg&amp;w=16" />Main Page</a>
+{/if}
+
+{if $is_admin == true}
+<div id="headerMenu_container" style="display: inline-block">
+    <a id="button_showLinks" href="#" class="buttonNorm">Links</a>
+    <div id="headerMenu_links">
+    {include file="menu_links.tpl"}
+    </div>
+</div>
+{/if}
+
+{if $empMembership['groupID'][17] == 1}
+	<a href="./report.php?a=Coaches" class="buttonNorm"><img src="dynicons/?img=preferences-system.svg&amp;w=16" />Coaches</a>
+{/if}
+
+<a href="https://leaf.va.gov/platform/service_requests_launchpad/" class="buttonNorm"><img src="dynicons/?img=help-browser.svg&amp;w=16" />Help</a>
+
+{if $is_admin == true}
+     <a href="./admin/" class="buttonNorm"><img src="dynicons/?img=applications-system.svg&amp;w=16" />Admin Panel</a>
+{/if}
+{if $hide_main_control == 1}
+{/if}
+
+<br />
+{if $action == '' && $is_admin == true}
+  <script>
+if(typeof(EventSource) !== "undefined") {
+  var source = new EventSource("/online-users/getonlineusers.php");
+  source.onmessage = function(event) {
+    document.getElementById("result").innerHTML = event.data + "<br>";
+  };
+    
+    
+} else {
+  $(".badge").remove();
+}
+</script>
+{/if}
+<noscript><div class="alert"><span>Javascript must be enabled for this version of software to work!</span></div></noscript>
