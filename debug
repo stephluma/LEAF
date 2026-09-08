@@ -1,24 +1,16 @@
-I found the resolver pattern, but not in Launchpad yet from the data returned so far.
+I couldn’t complete your requested org-wide Launchpad discovery yet because this first org listing call only returned page 1 (100 repos) and there are more results.
 
-What I can confirm right now
-In this repo snapshot, both of the discovered report.php files (LEAF_Nexus/report.php and LEAF_Request_Portal/report.php) resolve ?a= like this:
+From what I can verify so far:
 
-read $_GET['a'] into $action (after XSS scrub)
-switch ($action) for a few explicit special cases
-otherwise fallback to: file_exists("templates/reports/{$action}.tpl")
-if that template exists, it renders that page
-So this is not a fixed lookup table of allowed strings in these files; it’s mostly a filename convention / dynamic template existence check.
+In software org page 1, I do not see a repo name explicitly containing launchpad.
+I have not yet confirmed any repo with:
+report.php using the switch + file_exists("templates/reports/{$action}.tpl") resolver pattern, and
+templates/reports/lp_*.tpl files (e.g., lp_impact.tpl, lp_help_library.tpl, etc.)
+So at this moment, I cannot claim Launchpad was found, and I’m not assuming it matches the other apps.
 
-That means an alias like ?a=impact alongside ?a=lp_impact is typically feasible by either:
+If you want, I’ll continue immediately by scanning:
 
-adding an explicit switch case mapping impact -> lp_impact, or
-adding a second template filename (impact.tpl) that reuses/includes the existing one (if your templating structure supports that cleanly).
-What I still need to finish your Launchpad-specific ask
-Your question is specifically about /launchpad/report.php and all recognized lp_* actions.
-The initial code search didn’t return Launchpad files or lp_* action references yet, so I can’t truthfully list the Launchpad action set from this result alone.
-
-If you want, I can continue immediately by scanning the repo for:
-
-any launchpad/report.php (or equivalent front controller),
-all templates/reports/lp_*.tpl,
-any backend checks/redirects keyed on lp_* action names (permissions, logging, analytics, menu builders, JS URL constructors), and then give you the exact complete list and concrete “alias patch” location for Launchpad.
+remaining org repo pages, and
+code search across candidate repos for lp_impact, lp_help_library, launchpad, and templates/reports/lp_*.tpl.
+For direct browsing, here’s the org repositories UI page:
+https://va.ghe.com/orgs/software/repositories
