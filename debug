@@ -1,16 +1,25 @@
-I couldn’t complete your requested org-wide Launchpad discovery yet because this first org listing call only returned page 1 (100 repos) and there are more results.
+Yes — based on this broader sample, the LEAF-family apps do appear to share the same resolver convention, but it is not universal across all report*.php files in the org.
 
-From what I can verify so far:
+What I verified
+I found and checked report.php-style files across org code search results, including:
 
-In software org page 1, I do not see a repo name explicitly containing launchpad.
-I have not yet confirmed any repo with:
-report.php using the switch + file_exists("templates/reports/{$action}.tpl") resolver pattern, and
-templates/reports/lp_*.tpl files (e.g., lp_impact.tpl, lp_help_library.tpl, etc.)
-So at this moment, I cannot claim Launchpad was found, and I’m not assuming it matches the other apps.
+software/LEAF/LEAF_Nexus/report.php
+software/LEAF/LEAF_Request_Portal/report.php
+software/LEAF-launchpad/src/launchpad/report.php
+All three follow the same core pattern:
 
-If you want, I’ll continue immediately by scanning:
+$_GET['a'] → $action (sanitized)
+switch ($action) for a small number of special actions
+fallback: if ($action != '' && file_exists("templates/reports/{$action}.tpl"))
+render reports/{$action}.tpl
+I also saw non-LEAF apps (e.g., HMIS view_vreport.php) that do not use this pattern at all. So this is clearly a LEAF app convention, not an org-wide PHP convention.
 
-remaining org repo pages, and
-code search across candidate repos for lp_impact, lp_help_library, launchpad, and templates/reports/lp_*.tpl.
-For direct browsing, here’s the org repositories UI page:
-https://va.ghe.com/orgs/software/repositories
+Practical conclusion for aliasing (lp_impact + impact)
+For apps using this LEAF resolver, aliasing is generally straightforward and low risk:
+
+either add a second template filename (impact.tpl) that reuses/includes lp_impact.tpl, or
+add a switch remap (impact → lp_impact) before template fetch.
+Because dispatch is filename-convention-based in these files, this usually works without central route config changes.
+
+Important caveat
+You still should validate per app for extra action-coupled logic outside report.php (permissions/menu/redirect/logging code). I did not find evidence in this sample that would block aliasing, but I also cannot claim every LEAF app is identical without app-specific scans.
