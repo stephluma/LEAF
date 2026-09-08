@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Multi-Site Grid</title>
+<style>
+/* ============================================================
+   LEAF Launchpad Design System  |  launchpad-styles.css
+   ─────────────────────────────────────────────────────────────
+   Shared stylesheet for all pages using the new LEAF design system.
+   ============================================================ */
+
+/* ─────────────────────────────────────────────
+   PALETTE TOKENS
+───────────────────────────────────────────── */
+:root {
+  --c-white: #fff;
+  --c-gray5: #f0f0f0;
+  --c-gray20: #c9c9c9;
+  --c-blue5: #eff6fb;
+  --c-blue10: #d9e8f6;
+  --c-blue20: #aacdec;
+  --c-blue60v: #005ea2;
+  --c-blue60: #1a4480;
+  --c-green: #2e8540;
+  --c-text: #1b1b1b;
+  --c-muted: #3d4551;
+
+  --lp-bg: var(--c-white);
+  --lp-bg-alt: var(--c-blue5);
+  --lp-hl: var(--c-blue60);
+  --lp-accent: var(--c-blue60v);
+  --lp-pri: var(--c-blue60v);
+  --lp-pri-txt: var(--c-white);
+  --lp-sec-bg: transparent;
+  --lp-sec-txt: var(--c-blue60v);
+  --lp-sec-bdr: var(--c-blue60v);
+  --lp-ico-bg: var(--c-blue5);
+  --lp-ico: var(--c-blue60v);
+  --lp-step-tag: var(--c-blue60v);
+  --lp-card-hd: var(--c-blue10);
+  --lp-card-ico: var(--c-blue60v);
+  --lp-nl-bg: var(--c-blue60);
+  --lp-nl-txt: var(--c-white);
+  --lp-hero-tag-bg: var(--c-blue5);
+  --lp-hero-tag-bdr: var(--c-blue20);
+  --r: 5px;
+  --r-lg: 8px;
+  --max: 1200px;
+}
+
+/* ─────────────────────────────────────────────
+   RESET + BASE
+───────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  scroll-behavior: smooth;
+}
+img {
+  max-width: 100%;
+  display: block;
+}
+
+body {
+  background: #eef2f6;
+  font-family: "Source Sans 3", "Source Sans Pro", sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--c-text);
+}
+
+.lp {
+  background: var(--lp-bg);
+}
+.lp h1,
+.lp h2,
+.lp h3,
+.lp h4 {
+  font-family: "Public Sans", sans-serif;
+  letter-spacing: -0.015em;
+}
+.lp a {
+  color: var(--lp-accent);
+}
+
+.material-symbols-outlined {
+  font-family: "Material Symbols Outlined";
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+  line-height: 1;
+  display: inline-block;
+  user-select: none;
+  font-style: normal;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─────────────────────────────────────────────
+   LAYOUT UTILITIES
+───────────────────────────────────────────── */
+.wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.section {
+  padding: 72px 0;
+}
+.section-alt {
+  background: var(--lp-bg-alt);
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--lp-accent);
+  margin-bottom: 10px;
+}
+.sec-h2 {
+  font-size: clamp(1.65rem, 3vw, 2.15rem);
+  font-weight: 800;
+  color: var(--lp-hl);
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+.sec-sub {
+  font-size: 1.1rem;
+  color: var(--c-muted);
+  max-width: 620px;
+  line-height: 1.65;
+}
+.sec-hd {
+  margin-bottom: 48px;
+}
+
+/* ─────────────────────────────────────────────
+   BUTTONS
+───────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 24px;
+  border-radius: var(--r);
+  border: 2px solid transparent;
+  font-family: "Public Sans", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1;
+  transition:
+    filter 0.15s,
+    box-shadow 0.15s,
+    background 0.15s,
+    border-color 0.15s;
+}
+.btn:focus-visible {
+  outline: 3px solid var(--lp-hl);
+  outline-offset: 3px;
+}
+
+.btn-pri {
+  background: var(--lp-pri);
+  color: var(--lp-pri-txt) !important;
+  border-color: var(--lp-pri);
+}
+.btn-pri:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+}
+
+.btn-sec {
+  background: var(--lp-sec-bg);
+  color: var(--lp-sec-txt) !important;
+  border-color: var(--lp-sec-bdr);
+}
+.btn-sec:hover {
+  background: var(--lp-bg-alt);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .btn {
+    transition: none;
+  }
+}
+
+/* ============================================================
+   MULTI-SITE GRID  |  built on Launchpad tokens above
+   ============================================================ */
+body.smarty {
+  color-scheme: light;
+}
+
+body.smarty * {
+  box-sizing: border-box;
+}
+
+body.smarty [hidden] {
+  display: none !important;
+}
+
+#header,
+#footer {
+  display: none !important;
+}
+
+body.smarty.page-ideaportal .ip-wrap {
+  max-width: var(--max);
+  margin: 32px auto 48px;
+  padding: 0 24px;
+  font-family: "Source Sans 3", "Source Sans Pro", sans-serif;
+  color: var(--c-text);
+}
+
+body.smarty.page-ideaportal .ip-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+body.smarty.page-ideaportal .ip-title {
+  margin: 0;
+  font-family: "Public Sans", sans-serif;
+  font-size: clamp(1.65rem, 3vw, 2.15rem);
+  font-weight: 800;
+  color: var(--lp-hl);
+  letter-spacing: -0.015em;
+}
+
+body.smarty.page-ideaportal .ip-panelDesc {
+  font-size: 0.875rem;
+  color: var(--c-muted);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.5;
+}
+
+body.smarty.page-ideaportal .ip-tab:focus-visible,
+body.smarty.page-ideaportal .ip-subtab:focus-visible,
+body.smarty.page-ideaportal .ip-table td a:focus-visible {
+  outline: 3px solid var(--lp-accent);
+  outline-offset: 2px;
+}
+
+body.smarty.page-ideaportal .ip-tabs {
+  display: inline-flex;
+  gap: 6px;
+  padding: 6px;
+  background: var(--lp-bg-alt);
+  border-radius: 999px;
+  border: 1px solid var(--c-blue10);
+}
+
+body.smarty.page-ideaportal .ip-tabsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+body.smarty.page-ideaportal .ip-tab {
+  border: 0;
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-family: "Public Sans", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  color: var(--c-muted);
+  border-bottom: 3px solid transparent;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+body.smarty.page-ideaportal .ip-tab.is-active {
+  background: var(--lp-bg);
+  color: var(--lp-accent);
+  box-shadow: 0 2px 8px rgba(0, 10, 40, 0.06);
+  border-bottom: 3px solid var(--lp-accent);
+}
+
+body.smarty.page-ideaportal .ip-tab:hover:not(.is-active) {
+  border-bottom: 3px solid var(--c-blue20);
+  color: var(--lp-hl);
+}
+
+body.smarty.page-ideaportal .ip-panel {
+  display: none;
+}
+
+body.smarty.page-ideaportal .ip-panel.is-active {
+  display: block;
+}
+
+/* ── Sub-tabs: My Records / Admin View toggle within a single site panel ── */
+body.smarty.page-ideaportal .ip-subtabsRow {
+  margin-bottom: 16px;
+}
+
+body.smarty.page-ideaportal .ip-subtabs {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--lp-bg-alt);
+  border-radius: 999px;
+  border: 1px solid var(--c-blue10);
+}
+
+body.smarty.page-ideaportal .ip-subtab {
+  border: 0;
+  background: transparent;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-family: "Public Sans", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--c-muted);
+}
+
+body.smarty.page-ideaportal .ip-subtab.is-mine.is-active {
+  background: var(--lp-bg);
+  color: var(--lp-accent);
+  box-shadow: 0 2px 8px rgba(0, 10, 40, 0.06);
+}
+
+body.smarty.page-ideaportal .ip-subtab.is-admin.is-active {
+  background: var(--lp-bg);
+  color: #8b4513;
+  box-shadow: 0 2px 8px rgba(0, 10, 40, 0.06);
+}
+
+body.smarty.page-ideaportal .ip-subtab:hover:not(.is-active) {
+  color: var(--lp-hl);
+}
+
+body.smarty.page-ideaportal .ip-subsection {
+  display: none;
+}
+
+body.smarty.page-ideaportal .ip-subsection.is-active {
+  display: block;
+}
+
+body.smarty.page-ideaportal .ip-tableWrap {
+  background: var(--lp-bg);
+  border-radius: var(--r-lg);
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 10, 40, 0.06);
+  border: 1px solid var(--c-blue10);
+  overflow-x: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+body.smarty.page-ideaportal .ip-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+  background: var(--c-white);
+  min-width: 840px;
+  font-size: 16px;
+}
+
+body.smarty.page-ideaportal .ip-table th,
+body.smarty.page-ideaportal .ip-table td {
+  border: 1px solid var(--c-gray20);
+  padding: 10px;
+  vertical-align: top;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
+body.smarty.page-ideaportal .ip-table th {
+  background: var(--c-blue10);
+  font-family: "Public Sans", sans-serif;
+  font-weight: 700;
+  color: var(--lp-hl);
+  user-select: none;
+}
+
+body.smarty.page-ideaportal .ip-table tbody tr:hover {
+  background: var(--lp-bg-alt);
+}
+
+body.smarty.page-ideaportal .ip-table th:nth-child(1),
+body.smarty.page-ideaportal .ip-table td:nth-child(1) {
+  width: 1%;
+  white-space: nowrap;
+}
+
+body.smarty.page-ideaportal .ip-table th:nth-child(3),
+body.smarty.page-ideaportal .ip-table td:nth-child(3) {
+  width: 30%;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+body.smarty.page-ideaportal .ip-table th:nth-child(4),
+body.smarty.page-ideaportal .ip-table td:nth-child(4) {
+  width: 175px;
+  min-width: 175px;
+  white-space: nowrap;
+}
+
+body.smarty.page-ideaportal .ip-table td:nth-child(1) a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  background: var(--c-text);
+  color: var(--c-white) !important;
+  border-radius: var(--r);
+  font-weight: 900;
+  font-size: 1em;
+  line-height: 1;
+  text-decoration: none;
+  text-align: center;
+}
+
+body.smarty.page-ideaportal .ip-table td:nth-child(1) a:hover,
+body.smarty.page-ideaportal .ip-table td:nth-child(1) a:focus {
+  background: var(--c-muted);
+  color: var(--c-white) !important;
+}
+
+body.smarty.page-ideaportal .ip-table td a {
+  color: var(--lp-accent);
+  text-decoration: none;
+}
+
+body.smarty.page-ideaportal .ip-table td a:hover {
+  text-decoration: underline;
+}
+
+body.smarty.page-ideaportal .ip-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--c-gray5);
+  color: var(--c-text);
+  margin-right: 0.5rem;
+}
+
+body.smarty.page-ideaportal .ip-badge--draft     { background: #f1f5f9; color: #475569; font-style: italic; }
+body.smarty.page-ideaportal .ip-badge--new       { background: var(--c-blue5); color: var(--lp-hl); }
+body.smarty.page-ideaportal .ip-badge--review    { background: #fef9c3; color: #854d0e; }
+body.smarty.page-ideaportal .ip-badge--progress  { background: #fef3c7; color: #92400e; }
+body.smarty.page-ideaportal .ip-badge--done      { background: #dcfce7; color: var(--c-green); }
+body.smarty.page-ideaportal .ip-badge--cancelled { background: #fee2e2; color: #991b1b; }
+body.smarty.page-ideaportal .ip-badge--discarded { background: #f1f5f9; color: #64748b; font-style: italic; }
+
+body.smarty.page-ideaportal .ip-error {
+  color: #b91c1c;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+body.smarty.page-ideaportal .ip-wrap {
+  flex: 1;
+}
+
+.smarty-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+@media (max-width: 780px) {
+  body.smarty.page-ideaportal .ip-header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  body.smarty.page-ideaportal .ip-tabs {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  body.smarty.page-ideaportal .ip-tabsRow {
+    justify-content: center;
+  }
+
+  body.smarty.page-ideaportal .ip-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+</style>
+</head>
+<body class="smarty page-ideaportal">
+
+<div class="smarty-root">
+  <div class="ip-wrap">
+
+    <div class="ip-header">
+      <h1 class="ip-title">Multi-Site LEAF Grid</h1>
+    </div>
+
+    <div class="ip-tabsRow">
+      <ul class="ip-tabs" id="mst-tablist" role="tablist" aria-label="LEAF Sites" style="list-style:none; margin:0;"></ul>
+    </div>
+
+    <div id="mst-panels"></div>
+
+  </div>
+</div>
+
+<script>
+/*
+ * ════════════════════════════════════════════════════════════
+ *  MULTI-SITE TABBED GRID  –  Configuration
+ * ════════════════════════════════════════════════════════════
+ *
+ *  Add one object per LEAF site you want to display.
+ *
+ *  Required:
+ *    url   – Full URL to the LEAF_Request_Portal, with trailing slash
+ *    name  – Label shown on the tab
+ */
+const SITES = [
+    { url: 'https://leaf.va.gov/launchpad/',                            name: 'Launchpad' },
+    { url: 'https://leaf.va.gov/platform/service_requests_launchpad/',  name: 'Service Requests' },
+    { url: 'https://leaf.va.gov/platform/support/',                     name: 'Support' },
+    { url: 'https://leaf.va.gov/platform/ideas/',                       name: 'Ideas' },
+    // ← Add more sites here
+];
+
+/*
+ *  Field on the record payload that identifies the requestor/initiator.
+ */
+const REQUESTOR_FIELD_ID = 'userID';
+
+/*
+ *  Current user's ID.
+ *  In a Smarty template context the PHP-assigned <!--{$userID}--> is rendered
+ *  server-side.  Falls back to a session object check for non-template contexts.
+ *
+ *  NOTE: LEAF_Request_Portal configures Smarty delimiters as '<!--{' / '}-->'
+ *  with NO space between the delimiter and the variable name. A space here
+ *  (e.g. '<!--{ $userID }-->') will NOT be recognized by Smarty and will be
+ *  rendered/left as a literal string, silently breaking every query that
+ *  filters on this value.
+ */
+const CURRENT_USER_ID = (typeof session !== 'undefined' && session && session.userID)
+    ? session.userID
+    : '<!--{$userID}-->';
+
+/*
+ *  Admin status.
+ *  <!--{$is_admin}--> is rendered by Smarty as "1" or "0".
+ *  probeAdminStatus() is used as a fallback when this file is served outside
+ *  a Smarty template context (still contains the literal placeholder string).
+ */
+var IS_ADMIN_RAW = '<!--{$is_admin}-->';
+var IS_ADMIN = (IS_ADMIN_RAW === '1' || IS_ADMIN_RAW === 1);
+
+async function probeAdminStatus(siteURL) {
+    try {
+        var resp = await fetch(siteURL + 'api/system/admin', { credentials: 'include' });
+        if (resp.ok) {
+            var text = (await resp.text()).trim();
+            return text === '1' || text === 'true';
+        }
+        if (resp.status === 403) { return false; }
+    } catch (_) {}
+    try {
+        var resp2 = await fetch(siteURL + 'admin/index.php', { method: 'HEAD', credentials: 'include' });
+        return resp2.ok;
+    } catch (_) { return false; }
+}
+
+/*
+ *  User display-name cache.
+ *  Replace the inner fetch stub with your actual directory/people endpoint.
+ */
+var userNameCache = {};
+async function resolveUserName(userID) {
+    if (!userID) return { name: '—', fallback: false };
+    if (userNameCache[userID] !== undefined) return userNameCache[userID];
+    try {
+        // PLACEHOLDER: replace with your actual lookup, e.g.:
+        // const resp = await fetch('/api/users/' + encodeURIComponent(userID), { credentials: 'include' });
+        // if (!resp.ok) throw new Error('lookup failed');
+        // const person = await resp.json();
+        // const result = { name: person.displayName || person.name || userID, fallback: false };
+        // userNameCache[userID] = result;
+        // return result;
+        throw new Error('no lookup endpoint configured');
+    } catch (e) {
+        var result = { name: String(userID), fallback: true };
+        userNameCache[userID] = result;
+        return result;
+    }
+}
+
+/*
+ *  ── "My Records" query ──────────────────────────────────────────────────────
+ *
+ *  Returns all records where userID = current user, EXCLUDING cancelled
+ *  (deleted > 0): drafts (submitted=0), pending, and resolved records only.
+ *
+ *  Key decisions:
+ *
+ *  1. `limit: 500` is REQUIRED.
+ *     Form.php::isLargeQuery() treats any query with no limit as a "large query".
+ *     On LEAF servers where LEAF_Large_Query=false is set in the environment, the
+ *     endpoint immediately exits with HTTP 306 and an empty body — no error, no
+ *     records returned.  LeafFormQuery's getBulkData() paginates automatically
+ *     when a limit is set; the raw fetch fallback loops the same way.
+ *
+ *  2. `joins: ['service', 'status']` — 'status' is REQUIRED.
+ *     The 'status' join in Form.php::query() triggers:
+ *       LEFT JOIN records_workflow_state lj_status USING (recordID)
+ *       LEFT JOIN workflow_steps lj_steps ON (lj_status.stepID = lj_steps.stepID)
+ *     Without this join, stepID / stepTitle / blockingStepID are never selected
+ *     into the result set, so they are always null regardless of x-filterData.
+ *
+ *  3. No `stepID` filter → includes drafts (submitted=0, no workflow state row).
+ *  4. `deleted = 0` → excludes cancelled records.
+ *  5. No `submitted` filter → includes unsubmitted drafts.
+ *
+ *  x-filterData requests the specific columns needed to drive the status renderer
+ *  and the Take Action logic.
+ */
+function myRecordsQuery() {
+    return {
+        terms: [
+            { id: 'userID',  operator: '=', match: CURRENT_USER_ID, gate: 'AND' },
+            { id: 'deleted', operator: '=', match: 0,               gate: 'AND' },
+        ],
+        joins: ['service', 'status'],
+        sort: { column: 'recordID', direction: 'DESC' },
+        limit: 500,
+        extraParams: '&x-filterData=recordID,userID,title,service,date,lastStatus,stepTitle,stepID,blockingStepID,submitted,deleted',
+    };
+}
+
+/*
+ *  ── "Admin View" query ──────────────────────────────────────────────────────
+ *
+ *  All active, non-resolved, non-deleted records across all users.
+ *  Backend enforces checkGroup(1); non-admins receive only records they can read.
+ */
+function adminViewQuery() {
+    return {
+        terms: [
+            { id: 'stepID',  operator: '!=', match: 'resolved', gate: 'AND' },
+            { id: 'deleted', operator: '=',  match: 0,           gate: 'AND' },
+        ],
+        joins: ['service', 'status'],
+        sort: { column: 'recordID', direction: 'DESC' },
+        limit: 500,
+        extraParams: '&x-filterData=recordID,userID,title,service,date,lastStatus,stepTitle,stepID,blockingStepID,submitted,deleted,isWritableUser,isWritableGroup',
+    };
+}
+
+/*
+ *  ── Status text + badge resolver ────────────────────────────────────────────
+ *
+ *  Mirrors view_search.tpl and CustomSearch.js status display logic.
+ *
+ *  State matrix:
+ *    deleted > 0                              → Cancelled
+ *    submitted = 0, lastStatus empty          → Draft (Not Submitted)
+ *    submitted = 0, lastStatus set            → Pending Re-submission
+ *    submitted > 0, stepID = null             → Resolved (uses lastStatus label)
+ *    submitted > 0, stepID set, blocking > 0  → Waiting for <stepTitle>
+ *    submitted > 0, stepID set, blocking = 0  → Pending <stepTitle>
+ */
+function resolveStatus(rec) {
+    if (!rec) return { text: '—', badgeClass: 'ip-badge' };
+
+    var deleted        = parseInt(rec.deleted)        || 0;
+    var submitted      = parseInt(rec.submitted)      || 0;
+    var blockingStepID = parseInt(rec.blockingStepID) || 0;
+    // stepID is null (string "null", actual null, or undefined) when no active workflow row
+    var stepIDNull = (rec.stepID === null || rec.stepID === 'null' || rec.stepID === undefined || rec.stepID === '');
+
+    if (deleted > 0) {
+        return { text: 'Cancelled', badgeClass: 'ip-badge ip-badge--cancelled' };
+    }
+    if (submitted === 0) {
+        if (!rec.lastStatus) {
+            return { text: 'Draft (Not Submitted)', badgeClass: 'ip-badge ip-badge--draft' };
+        }
+        return { text: 'Pending Re-submission', badgeClass: 'ip-badge ip-badge--review' };
+    }
+    if (stepIDNull) {
+        var resolvedLabel = rec.lastStatus || 'Resolved';
+        return { text: resolvedLabel, badgeClass: 'ip-badge ip-badge--done' };
+    }
+    var stepLabel = rec.stepTitle || rec.lastStatus || '';
+    if (blockingStepID > 0) {
+        return { text: 'Waiting for ' + stepLabel, badgeClass: 'ip-badge ip-badge--review' };
+    }
+    return { text: 'Pending ' + stepLabel, badgeClass: 'ip-badge ip-badge--progress' };
+}
+
+/*
+ *  ── "Take Action" resolution ────────────────────────────────────────────────
+ *
+ *  Confirmed backend fields from pkg/form/query/response.go:
+ *    blockingStepID, isWritableUser, isWritableGroup, submitted, deleted
+ *
+ *  A record is actionable when:
+ *    submitted > 0  AND  blockingStepID = 0  AND  deleted = 0
+ *    AND  (isWritableUser = 1  OR  isWritableGroup = 1)
+ *
+ *  Action URL: index.php?a=printview — confirmed frontend route that renders
+ *  the workflow action panel (approve / send back buttons).
+ */
+const ENABLE_TAKE_ACTION = true;
+
+function getActionInfo(site, recordID, rec) {
+    var submitted     = rec && parseInt(rec.submitted)      > 0;
+    var notBlocked    = rec && parseInt(rec.blockingStepID) === 0;
+    var notDeleted    = rec && parseInt(rec.deleted)        === 0;
+    var hasWriteUser  = rec && parseInt(rec.isWritableUser)  === 1;
+    var hasWriteGroup = rec && parseInt(rec.isWritableGroup) === 1;
+
+    var canTakeAction = submitted && notBlocked && notDeleted && (hasWriteUser || hasWriteGroup);
+    var actionURL     = site.url + 'index.php?a=printview&recordID=' + encodeURIComponent(recordID);
+
+    return { canTakeAction: canTakeAction, actionURL: actionURL };
+}
+
+/*
+ *  ── Column header builder ────────────────────────────────────────────────────
+ */
+function buildHeaders(site, sectionKey) {
+    var headers = [
+        {
+            name: 'UID',
+            indicatorID: 'uid',
+            editable: false,
+            callback: function (data, blob) {
+                document.getElementById(data.cellContainerID).innerHTML =
+                    '<a target="_blank" href="' + site.url + 'index.php?a=printview&recordID=' + data.recordID + '">' + data.recordID + '</a>';
+            }
+        },
+        {
+            name: 'Requestor',
+            indicatorID: 'requestor',
+            editable: false,
+            callback: function (data, blob) {
+                var el = document.getElementById(data.cellContainerID);
+                var rec = blob[data.recordID];
+                var userID = rec ? rec[REQUESTOR_FIELD_ID] : null;
+                el.textContent = userID || '—';
+                resolveUserName(userID).then(function (result) {
+                    el.textContent = result.name;
+                    if (result.fallback) {
+                        el.title = 'Directory lookup unavailable';
+                        el.style.fontStyle = 'italic';
+                    }
+                });
+            }
+        },
+    ];
+
+    if (sectionKey === 'mine') {
+        headers.push({
+            name: 'Service',
+            indicatorID: 'service',
+            editable: false,
+            callback: function (data, blob) {
+                document.getElementById(data.cellContainerID).textContent =
+                    (blob[data.recordID] && blob[data.recordID].service) ? blob[data.recordID].service : '';
+            }
+        });
+    }
+
+    headers.push(
+        {
+            name: 'Title',
+            indicatorID: 'title',
+            editable: false,
+            callback: function (data, blob) {
+                var title = (blob[data.recordID] && blob[data.recordID].title) ? blob[data.recordID].title : '';
+                document.getElementById(data.cellContainerID).innerHTML =
+                    '<a href="' + site.url + 'index.php?a=printview&recordID=' + data.recordID + '" target="_blank">' + title + '</a>';
+            }
+        },
+        {
+            name: 'Status',
+            indicatorID: 'currentStatus',
+            editable: false,
+            callback: function (data, blob) {
+                var rec = blob[data.recordID];
+                var s = resolveStatus(rec);
+                document.getElementById(data.cellContainerID).innerHTML =
+                    '<span class="' + s.badgeClass + '">' + s.text + '</span>';
+            }
+        },
+        {
+            name: 'Date Initiated',
+            indicatorID: 'dateInitiated',
+            editable: false,
+            callback: function (data, blob) {
+                var rec = blob[data.recordID];
+                var text = '';
+                if (rec && rec.date) {
+                    text = new Date(rec.date * 1000).toLocaleDateString();
+                }
+                document.getElementById(data.cellContainerID).textContent = text;
+            }
+        }
+    );
+
+    if (sectionKey === 'admin' && ENABLE_TAKE_ACTION) {
+        headers.push({
+            name: 'Take Action',
+            indicatorID: 'takeAction',
+            editable: false,
+            callback: function (data, blob) {
+                var el = document.getElementById(data.cellContainerID);
+                var rec = blob[data.recordID];
+                var info = getActionInfo(site, data.recordID, rec);
+                if (info.canTakeAction) {
+                    el.innerHTML = '<a class="ip-tab is-active" style="display:inline-block; padding:6px 14px; font-size:14px;" href="' +
+                        info.actionURL + '" target="_blank">Take Action</a>';
+                } else {
+                    el.textContent = '—';
+                }
+            }
+        });
+    }
+
+    return headers;
+}
+
+// ════════════════════════════════════════════════════════════
+//  Runtime
+// ════════════════════════════════════════════════════════════
+
+var SECTIONS = [];
+var siteState = {};
+var siteActiveSection = {};
+
+function stateKey(site, sectionKey) {
+    return site.url + '|' + sectionKey;
+}
+
+/*
+ *  fetchSectionData — fetch records for one site + section.
+ *
+ *  When LeafFormQuery is available (real LEAF environment) it is used directly;
+ *  its getBulkData() method handles limit/limitOffset pagination and the
+ *  LEAF-Query: continue header automatically.
+ *
+ *  NOTE: LeafFormQuery.importQuery() only destructures { terms, joins, getData }
+ *  from the object passed to it — `sort` and `limit` are silently dropped.
+ *  `limit` being dropped is harmless: execute() falls through to getBulkData(),
+ *  which manages its own internal batchSize (500) and pagination. `sort` is NOT
+ *  harmless — it must be applied explicitly via q.sort(), or results come back
+ *  in the backend's default order instead of recordID DESC.
+ *
+ *  The raw fetch fallback replicates the same pagination loop:
+ *    - Sends requests in batches of `limit` (default 500).
+ *    - Stops when the batch is smaller than the limit AND the LEAF-Query header
+ *      is not "continue".
+ *    - Handles the PHP json_encode empty-array quirk ([] instead of {}) by
+ *      checking Array.isArray before merging.
+ */
+async function fetchSectionData(site, section) {
+    var rawQuery = section.queryFn();
+    var extraParams = rawQuery.extraParams || '';
+    var query = Object.assign({}, rawQuery);
+    delete query.extraParams;
+
+    if (typeof LeafFormQuery !== 'undefined') {
+        var q = new LeafFormQuery();
+        q.setRootURL(site.url);
+        q.importQuery(query);
+        // importQuery() drops `sort` — apply it explicitly or results come back unordered.
+        if (query.sort && query.sort.column) {
+            q.sort(query.sort.column, query.sort.direction || 'DESC');
+        }
+        // `limit` is also dropped by importQuery(), but that's fine: execute()
+        // treats limit as undefined and falls through to getBulkData(), which
+        // paginates internally using its own batchSize (500).
+        if (extraParams) { q.setExtraParams(extraParams); }
+        return q.execute();
+    }
+
+    // Raw fetch fallback with pagination.
+    // LEAF's api/form/query requires a limit or isLargeQuery() returns true,
+    // which on some server configs causes an immediate HTTP 306 empty response.
+    var results = {};
+    var batchSize = query.limit || 500;
+    var offset = 0;
+
+    while (true) {
+        var pagedQuery = Object.assign({}, query, { limit: batchSize, limitOffset: offset });
+        var resp = await fetch(
+            site.url + 'api/form/query?q=' + encodeURIComponent(JSON.stringify(pagedQuery)) + extraParams,
+            { credentials: 'include' }
+        );
+        if (!resp.ok) {
+            throw new Error('HTTP ' + resp.status + ' from ' + site.url);
+        }
+
+        var batch = await resp.json();
+
+        // PHP json_encode returns [] for empty associative arrays — guard against merging an array
+        if (batch && typeof batch === 'object' && !Array.isArray(batch)) {
+            Object.assign(results, batch);
+        }
+
+        var leafHeader = resp.headers.get('LEAF-Query') || resp.headers.get('leaf-query') || '';
+        var batchCount = (batch && typeof batch === 'object' && !Array.isArray(batch))
+            ? Object.keys(batch).length
+            : 0;
+
+        if (batchCount < batchSize && leafHeader !== 'continue') {
+            break;
+        }
+        offset += batchSize;
+    }
+
+    return results;
+}
+
+/*
+ *  renderTable — builds a plain HTML table for one site+section.
+ *  Used when LeafFormGrid is not available (standalone / dev context).
+ */
+function renderTable(site, sectionKey, bodyEl, data) {
+    var records = Object.keys(data).map(function (id) {
+        var rec = data[id] || {};
+        var s = resolveStatus(rec);
+        return {
+            recordID: id,
+            rec: rec,
+            userID: rec[REQUESTOR_FIELD_ID] || null,
+            service: rec.service || '',
+            title: rec.title || '',
+            statusText: s.text,
+            statusClass: s.badgeClass,
+            date: rec.date ? new Date(rec.date * 1000).toLocaleDateString() : ''
+        };
+    });
+
+    records.sort(function (a, b) { return b.recordID - a.recordID; });
+
+    var showService = (sectionKey === 'mine');
+    var showAction  = (sectionKey === 'admin') && ENABLE_TAKE_ACTION;
+
+    var headCells = '<th>UID</th><th>Requestor</th>' +
+        (showService ? '<th>Service</th>' : '') +
+        '<th>Title</th><th>Status</th><th>Date Initiated</th>' +
+        (showAction ? '<th>Take Action</th>' : '');
+
+    var colCount = 4 + (showService ? 1 : 0) + (showAction ? 1 : 0);
+
+    var html = '<div class="ip-tableWrap"><table class="ip-table"><thead><tr>' +
+        headCells + '</tr></thead><tbody>';
+
+    if (records.length === 0) {
+        html += '<tr><td colspan="' + colCount + '" style="text-align:center; color:var(--c-muted);">No records found.</td></tr>';
+    }
+
+    records.forEach(function (r) {
+        var link = site.url + 'index.php?a=printview&recordID=' + r.recordID;
+        var actionCell = '';
+        if (showAction) {
+            var info = getActionInfo(site, r.recordID, r.rec);
+            actionCell = '<td>' + (info.canTakeAction
+                ? '<a class="ip-tab is-active" style="display:inline-block; padding:6px 14px; font-size:14px;" href="' + info.actionURL + '" target="_blank">Take Action</a>'
+                : '—') + '</td>';
+        }
+        html += '<tr data-recordid="' + r.recordID + '">' +
+            '<td><a href="' + link + '" target="_blank">' + r.recordID + '</a></td>' +
+            '<td class="mst-requestor-cell">' + (r.userID || '—') + '</td>' +
+            (showService ? '<td>' + r.service + '</td>' : '') +
+            '<td><a href="' + link + '" target="_blank">' + r.title + '</a></td>' +
+            '<td><span class="' + r.statusClass + '">' + r.statusText + '</span></td>' +
+            '<td>' + r.date + '</td>' +
+            actionCell +
+            '</tr>';
+    });
+
+    html += '</tbody></table></div>';
+    bodyEl.innerHTML = html;
+
+    // Resolve requestor names asynchronously without blocking table render
+    records.forEach(function (r) {
+        if (!r.userID) return;
+        var row = bodyEl.querySelector('tr[data-recordid="' + r.recordID + '"] .mst-requestor-cell');
+        if (!row) return;
+        resolveUserName(r.userID).then(function (result) {
+            row.textContent = result.name;
+            if (result.fallback) {
+                row.title = 'Directory lookup unavailable';
+                row.style.fontStyle = 'italic';
+            }
+        });
+    });
+}
+
+/*
+ *  renderGrid — lazy-renders one site+section into its panel body element.
+ *  Uses LeafFormGrid when available, falls back to renderTable.
+ */
+function renderGrid(site, section, idx) {
+    var key = stateKey(site, section.key);
+    var state = siteState[key];
+    if (!state || !state.data || state.rendered) { return; }
+
+    var bodyEl = document.getElementById('mst-body-' + idx + '-' + section.key);
+
+    if (typeof LeafFormGrid !== 'undefined') {
+        var gridID = 'mst-grid-' + idx + '-' + section.key;
+        if (!document.getElementById(gridID)) {
+            var div = document.createElement('div');
+            div.id = gridID;
+            bodyEl.appendChild(div);
+        }
+        var grid = new LeafFormGrid(gridID);
+        grid.setRootURL(site.url);
+        grid.enableToolbar();
+        grid.hideIndex();
+        grid.setDataBlob(state.data);
+        grid.setData(Object.values(state.data));
+        grid.setHeaders(buildHeaders(site, section.key));
+        grid.sort('recordID', 'desc');
+        grid.renderBody();
+    } else {
+        renderTable(site, section.key, bodyEl, state.data);
+    }
+
+    state.rendered = true;
+}
+
+/*
+ *  activateTab — switches the visible site tab and lazily renders any pending grids
+ *  for whichever sub-tab (My Records / Admin View) is currently active on that site.
+ */
+function activateTab(idx) {
+    document.querySelectorAll('.ip-tab').forEach(function (btn, i) {
+        var active = (i === idx);
+        btn.classList.toggle('is-active', active);
+        btn.setAttribute('aria-selected', String(active));
+        btn.setAttribute('tabindex', active ? '0' : '-1');
+    });
+    document.querySelectorAll('.ip-panel').forEach(function (panel, i) {
+        panel.classList.toggle('is-active', i === idx);
+    });
+    var activeSectionKey = siteActiveSection[idx] || SECTIONS[0].key;
+    renderActiveSection(idx, activeSectionKey);
+}
+
+/*
+ *  activateSubTab — switches which section (My Records / Admin View) is shown
+ *  within a single site's panel, and renders it if not already rendered.
+ */
+function activateSubTab(siteIdx, sectionKey) {
+    siteActiveSection[siteIdx] = sectionKey;
+
+    var panel = document.getElementById('mst-panel-' + siteIdx);
+    if (!panel) return;
+
+    panel.querySelectorAll('.ip-subtab').forEach(function (btn) {
+        var active = (btn.dataset.sectionKey === sectionKey);
+        btn.classList.toggle('is-active', active);
+        btn.setAttribute('aria-selected', String(active));
+    });
+    panel.querySelectorAll('.ip-subsection').forEach(function (sub) {
+        sub.classList.toggle('is-active', sub.dataset.sectionKey === sectionKey);
+    });
+
+    renderActiveSection(siteIdx, sectionKey);
+}
+
+function renderActiveSection(siteIdx, sectionKey) {
+    var section = SECTIONS.filter(function (s) { return s.key === sectionKey; })[0];
+    if (!section) return;
+    renderGrid(SITES[siteIdx], section, siteIdx);
+}
+
+/*
+ *  buildShell — creates the tab buttons and empty panel containers.
+ *  Each panel gets a sub-tab row (My Records / Admin View) when the admin
+ *  section exists; otherwise it just shows My Records with no sub-tabs.
+ *  Called after SECTIONS is finalised (i.e. after admin status is resolved).
+ */
+function buildShell() {
+    var tabList    = document.getElementById('mst-tablist');
+    var panelsRoot = document.getElementById('mst-panels');
+
+    SITES.forEach(function (site, i) {
+        var li = document.createElement('li');
+        li.setAttribute('role', 'presentation');
+        li.style.margin = '0';
+
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'ip-tab' + (i === 0 ? ' is-active' : '');
+        btn.id = 'mst-tab-' + i;
+        btn.setAttribute('role', 'tab');
+        btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+        btn.setAttribute('aria-controls', 'mst-panel-' + i);
+        btn.setAttribute('tabindex', i === 0 ? '0' : '-1');
+        btn.textContent = site.name;
+
+        btn.addEventListener('click', (function (idx) {
+            return function () { activateTab(idx); };
+        })(i));
+
+        btn.addEventListener('keydown', (function (idx) {
+            return function (e) {
+                var next = idx;
+                if (e.key === 'ArrowRight') { next = (idx + 1) % SITES.length; }
+                else if (e.key === 'ArrowLeft') { next = (idx - 1 + SITES.length) % SITES.length; }
+                else { return; }
+                e.preventDefault();
+                activateTab(next);
+                document.getElementById('mst-tab-' + next).focus();
+            };
+        })(i));
+
+        li.appendChild(btn);
+        tabList.appendChild(li);
+    });
+
+    SITES.forEach(function (site, i) {
+        var panel = document.createElement('div');
+        panel.className = 'ip-panel' + (i === 0 ? ' is-active' : '');
+        panel.id = 'mst-panel-' + i;
+        panel.setAttribute('role', 'tabpanel');
+        panel.setAttribute('aria-labelledby', 'mst-tab-' + i);
+
+        siteActiveSection[i] = SECTIONS[0].key;
+
+        var subtabsHtml = '';
+        if (SECTIONS.length > 1) {
+            subtabsHtml = '<div class="ip-subtabsRow"><div class="ip-subtabs" role="tablist" aria-label="View">';
+            SECTIONS.forEach(function (section, sIdx) {
+                subtabsHtml +=
+                    '<button type="button" class="ip-subtab ' + section.className + (sIdx === 0 ? ' is-active' : '') + '" ' +
+                    'data-site-idx="' + i + '" data-section-key="' + section.key + '" ' +
+                    'role="tab" aria-selected="' + (sIdx === 0 ? 'true' : 'false') + '">' +
+                    section.label + '</button>';
+            });
+            subtabsHtml += '</div></div>';
+        }
+
+        var sectionsHtml = '';
+        SECTIONS.forEach(function (section, sIdx) {
+            sectionsHtml +=
+                '<div class="ip-subsection' + (sIdx === 0 ? ' is-active' : '') + '" data-section-key="' + section.key + '">' +
+                    '<p class="ip-panelDesc" id="mst-status-' + i + '-' + section.key + '">Loading…</p>' +
+                    '<div id="mst-body-' + i + '-' + section.key + '"></div>' +
+                '</div>';
+        });
+
+        panel.innerHTML = subtabsHtml + sectionsHtml;
+        panelsRoot.appendChild(panel);
+
+        panel.querySelectorAll('.ip-subtab').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                activateSubTab(parseInt(btn.dataset.siteIdx, 10), btn.dataset.sectionKey);
+            });
+        });
+    });
+}
+
+/*
+ *  main — entry point.
+ */
+async function main() {
+    // ── 1. Resolve admin status ───────────────────────────────────────────────
+    // If IS_ADMIN_RAW is still the literal Smarty placeholder (not rendered),
+    // probe the first site's API to determine admin status at runtime.
+    if (IS_ADMIN_RAW !== '1' && IS_ADMIN_RAW !== 1 &&
+        IS_ADMIN_RAW !== '0' && IS_ADMIN_RAW !== 0) {
+        try {
+            IS_ADMIN = await probeAdminStatus(SITES[0].url);
+        } catch (_) {
+            IS_ADMIN = false;
+        }
+    }
+
+    // ── 2. Build SECTIONS now that admin status is known ─────────────────────
+    SECTIONS = [
+        {
+            key:      'mine',
+            label:    'My Records',
+            className:'is-mine',
+            queryFn:  myRecordsQuery,
+        },
+    ];
+    if (IS_ADMIN) {
+        SECTIONS.push({
+            key:      'admin',
+            label:    'Admin View',
+            className:'is-admin',
+            queryFn:  adminViewQuery,
+        });
+    }
+
+    // ── 3. Build tab/panel shell ───────────────────────────────────────────────
+    buildShell();
+
+    // ── 4. Kick off all fetches in parallel ───────────────────────────────────
+    var fetches = [];
+
+    SITES.forEach(function (site, i) {
+        SECTIONS.forEach(function (section) {
+            var key = stateKey(site, section.key);
+            siteState[key] = { data: null, rendered: false, error: null };
+
+            var p = fetchSectionData(site, section).then(function (data) {
+                siteState[key].data = data;
+                var count = Object.keys(data).length;
+                document.getElementById('mst-status-' + i + '-' + section.key).textContent =
+                    count + ' record' + (count !== 1 ? 's' : '') + ' loaded.';
+
+                // Render immediately if this site's tab AND this section's sub-tab are active
+                var activeBtn = document.querySelector('.ip-tab.is-active');
+                var isActiveSite = activeBtn && activeBtn.id === 'mst-tab-' + i;
+                var isActiveSection = (siteActiveSection[i] || SECTIONS[0].key) === section.key;
+                if (isActiveSite && isActiveSection) {
+                    renderGrid(site, section, i);
+                }
+            }).catch(function (err) {
+                siteState[key].error = err;
+                document.getElementById('mst-status-' + i + '-' + section.key).innerHTML =
+                    '<span class="ip-error">Error loading data from ' + site.url +
+                    '. Check your network access and permissions.</span>';
+                console.error('[MultiSiteGrid]', section.key, 'failed:', site.url, err);
+            });
+
+            fetches.push(p);
+        });
+    });
+
+    await Promise.allSettled(fetches);
+}
+
+document.addEventListener('DOMContentLoaded', main);
+</script>
+
+</body>
+</html>
