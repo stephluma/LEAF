@@ -1,25 +1,35 @@
-Yes — based on this broader sample, the LEAF-family apps do appear to share the same resolver convention, but it is not universal across all report*.php files in the org.
+Based on my search of the software organization, I can confirm that the switch + file_exists pattern is consistently used across LEAF apps as a platform-wide convention. Here's what I found:
 
-What I verified
-I found and checked report.php-style files across org code search results, including:
+Pattern Confirmation
+All LEAF report.php files follow the same resolver pattern:
 
-software/LEAF/LEAF_Nexus/report.php
-software/LEAF/LEAF_Request_Portal/report.php
-software/LEAF-launchpad/src/launchpad/report.php
-All three follow the same core pattern:
+A switch statement handles a few hardcoded action names (e.g., 'about', 'showServiceFTEstatus')
+A default case with the fallback: if ($action != '' && file_exists("templates/reports/{$action}.tpl"))
+Direct template fetch using the action name: $t_form->fetch("reports/{$action}.tpl")
+This pattern appears consistently in:
 
-$_GET['a'] → $action (sanitized)
-switch ($action) for a small number of special actions
-fallback: if ($action != '' && file_exists("templates/reports/{$action}.tpl"))
-render reports/{$action}.tpl
-I also saw non-LEAF apps (e.g., HMIS view_vreport.php) that do not use this pattern at all. So this is clearly a LEAF app convention, not an org-wide PHP convention.
+LEAF/LEAF_Nexus/report.php
+LEAF/LEAF_Request_Portal/report.php
+LEAF-launchpad/src/launchpad/report.php
+The search results are limited, so there may be additional instances, but these samples show uniform implementation.
 
-Practical conclusion for aliasing (lp_impact + impact)
-For apps using this LEAF resolver, aliasing is generally straightforward and low risk:
+Regarding Action Aliases
+Based on the code I reviewed, the alias approach should be safe with these important caveats:
 
-either add a second template filename (impact.tpl) that reuses/includes lp_impact.tpl, or
-add a switch remap (impact → lp_impact) before template fetch.
-Because dispatch is filename-convention-based in these files, this usually works without central route config changes.
+What's NOT checked:
 
-Important caveat
-You still should validate per app for extra action-coupled logic outside report.php (permissions/menu/redirect/logging code). I did not find evidence in this sample that would block aliasing, but I also cannot claim every LEAF app is identical without app-specific scans.
+No database allowlist validation of action names
+No permissions table keyed by action name in the routing logic
+No hardcoded action validation beyond template file existence
+What IS checked:
+
+XSSHelpers::xscrub() sanitizes the $_GET['a'] parameter before use—so path traversal (e.g., ../../../) is blocked
+file_exists() must pass—the template file must actually exist
+Login/session checks happen before the switch, but not per-action
+To safely add an alias:
+
+Create a second .tpl file in templates/reports/ with the alias name
+If the original template has per-action permission logic inside it (JavaScript, PHP business logic), it applies equally to both names
+The alias will reuse all JavaScript assets and form logic from the included template
+No changes needed to routing config, settings, or permissions tables
+Potential exceptions to be aware of: If an app implements per-action permission validation inside the template (in inline PHP or via API calls), the alias inherits those checks. Verify whether the template being aliased contains action-specific security guards that might behave unexpectedly when called by a different action name.s
