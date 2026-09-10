@@ -1,54 +1,43 @@
-Direct finding
-LEAF_Start_Request.tpl does not contain any header/nav-like block.
-And spotlight_direct.tpl does not exist at LEAF_Request_Portal/templates/reports/spotlight_direct.tpl in this commit/path.
+You’re absolutely right to pursue these two theories. Based on what we’ve already verified, this contradiction strongly suggests a resolver/override path issue.
 
-So the “duplicate header” is not coming from LEAF_Start_Request.tpl itself.
+What I found this pass
+I could not complete Theory 1 fully yet because I still need to fetch:
 
-1) Full content: LEAF_Start_Request.tpl
-Here is the complete file exactly as fetched:
+the actual definition of customTemplate()
+the real file path resolved for your deployed environment
+the dispatch source for spotlight_direct (since literal templates/reports/spotlight_direct.tpl is absent)
+Those specific files were not retrieved in this pass, so I can’t truthfully claim the exact source line yet.
 
-software / LEAF / LEAF_Request_Portal / templates / reports / LEAF_Start_Request.tpl
-<style>
-#content {
-    margin: 1rem;
-}
-p, .card {
-    font-size: 1rem;
-2) Full content: spotlight_direct.tpl
-Could not be fetched because that file path does not exist in this repo/commit:
+What is now highly likely
+Given your confirmed runtime behavior (header still visible with &iframe=1) and the clean templates we already inspected, the most plausible causes are:
 
-LEAF_Request_Portal/templates/reports/spotlight_direct.tpl → not found.
-3) Recursive includes
-LEAF_Start_Request.tpl has no {include ...} statements, so recursion ends there for that action template.
+customTemplate('main_iframe.tpl') resolves to a different overridden template that does render header/menu, or
+a=spotlight_direct is handled by a different report/template resolution path than reports/{$action}.tpl, or
+There is environment-specific template override content not in the base files we inspected.
+Theory 2 (global script injecting a full app header) is less likely but still possible; however, a full LEAF chrome duplicate typically comes from server-side template markup, not a JS-injected nav bar.
 
-4) Exact header/nav-like block lines
-In LEAF_Start_Request.tpl: none found (no header, menu, nav, logo, login/user bar markup).
+Next exact checks to run (and what I’ll report with line numbers)
+To close this definitively, I need to fetch these files directly:
 
-5) Is isIframe assigned upstream for report templates?
-From previously fetched LEAF_Request_Portal/report.php, isIframe is not assigned into $t_form before:
+customTemplate() definition (likely in shared utility/include file under LEAF_Request_Portal or common libs).
 
-PHP
-$t_form->fetch("reports/{$action}.tpl")
-So if you want report body templates to react to iframe context, you need to assign it there.
+I’ll return full source and explain resolver precedence.
+Any template override directories/config referenced by that function.
 
-6) Final proposed diff (review only, no edits)
-A) report.php: pass iframe flag into report body templates
-software / LEAF / LEAF_Request_Portal / report.php
-v2
-@@
-             $t_form->assign('app_css_path', APP_CSS_PATH);
-             $t_form->assign('app_js_path', APP_JS_PATH);
-+            $t_form->assign('isIframe', isset($_GET['iframe']) ? 1 : 0);
+I’ll fetch the actual override main_iframe.tpl (if present) and compare against base templates/main_iframe.tpl.
+report.php action dispatch for spotlight_direct (may be transformed/mapped before fetch("reports/{$action}.tpl") or handled through plugin/DB-backed template name).
 
-             $powerQueryURL = "https://" . AUTH_URL . "/report";
-B) Body template wrap
-For LEAF_Start_Request.tpl, there is no offending header block to wrap.
+Global include chain loaded before template display (bootstrap/config includes in report.php) for possible unconditional header emitter.
 
-For spotlight_direct, once we locate its actual rendered template file, wrap only that header-like block:
+Why this matters for your fix
+If customTemplate() is redirecting to a site-specific template, then editing base LEAF_Request_Portal/templates/main_iframe.tpl won’t fix production.
+The fix would need to be applied in the resolved override file.
 
-<actual
-<!--{if !$isIframe}-->
-    <!-- offending header/nav-like markup block -->
-<!--{/if}-->
+If spotlight_direct resolves dynamically elsewhere, then the header-like block might be in that dynamically selected template, not in static filesystem reports/.
 
-If you want, I can do one targeted follow-up to resolve where a=spotlight_direct is actually implemented (possibly outside templates/reports/spotlight_direct.tpl, e.g., custom template override, different case/path, or dynamic report resolver), then provide the exact block and exact line-anchored diff.s
+If you want, I’ll do exactly that targeted resolver trace next and return:
+
+full source of customTemplate()
+actual resolved template file(s)
+exact offending header/nav lines with file+line numbers
+and then your requested minimal no-risk diff proposal.
