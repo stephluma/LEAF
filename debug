@@ -1,43 +1,96 @@
-You’re absolutely right to pursue these two theories. Based on what we’ve already verified, this contradiction strongly suggests a resolver/override path issue.
+You were right — Theory 1 is real in this codebase.
 
-What I found this pass
-I could not complete Theory 1 fully yet because I still need to fetch:
+Key conclusion
+customTemplate() can override templates via templates/custom_override/.... So the runtime template may differ from the base files we inspected.
 
-the actual definition of customTemplate()
-the real file path resolved for your deployed environment
-the dispatch source for spotlight_direct (since literal templates/reports/spotlight_direct.tpl is absent)
-Those specific files were not retrieved in this pass, so I can’t truthfully claim the exact source line yet.
+1) customTemplate() full definition (from LEAF_Request_Portal/report.php)
+software / LEAF / LEAF_Request_Portal / report.php
+v3
+function customTemplate($tpl)
+{
+    return file_exists("./templates/custom_override/{$tpl}") ? "custom_override/{$tpl}" : $tpl;
+}
 
-What is now highly likely
-Given your confirmed runtime behavior (header still visible with &iframe=1) and the clean templates we already inspected, the most plausible causes are:
+This is a filesystem override only:
 
-customTemplate('main_iframe.tpl') resolves to a different overridden template that does render header/menu, or
-a=spotlight_direct is handled by a different report/template resolution path than reports/{$action}.tpl, or
-There is environment-specific template override content not in the base files we inspected.
-Theory 2 (global script injecting a full app header) is less likely but still possible; however, a full LEAF chrome duplicate typically comes from server-side template markup, not a JS-injected nav bar.
+checks ./templates/custom_override/<tpl>
+if present, uses that
+else uses passed literal <tpl>
+No env/prod/preprod/vapo branching in this function itself.
 
-Next exact checks to run (and what I’ll report with line numbers)
-To close this definitively, I need to fetch these files directly:
+What this means for your contradiction
+Even though base templates/main_iframe.tpl is clean, runtime could still render header/nav if:
 
-customTemplate() definition (likely in shared utility/include file under LEAF_Request_Portal or common libs).
+templates/custom_override/main_iframe.tpl exists and includes chrome, or
+templates/custom_override/reports/LEAF_Start_Request.tpl exists and includes header-like markup.
+That exactly matches your observed behavior.
 
-I’ll return full source and explain resolver precedence.
-Any template override directories/config referenced by that function.
+What I could confirm from current trace
+report.php uses customTemplate('main.tpl') / customTemplate('main_iframe.tpl') for final display (already verified earlier).
+LEAF_Start_Request.tpl fetched from base path is clean.
+spotlight_direct.tpl at base templates/reports/spotlight_direct.tpl was not found.
+That strongly implies spotlight action may be satisfied by custom override path or a different action/template mapping outside the base file path assumption.
+What’s still needed to close definitively
+I still need to fetch actual files in templates/custom_override/ and resolve spotlight dispatch path with direct file reads (not capped search snippets). Without that, I can’t truthfully quote the exact offending header block lines yet.
 
-I’ll fetch the actual override main_iframe.tpl (if present) and compare against base templates/main_iframe.tpl.
-report.php action dispatch for spotlight_direct (may be transformed/mapped before fetch("reports/{$action}.tpl") or handled through plugin/DB-backed template name).
+Important search limitation
+Code search responses are capped and may be incomplete.
+Use GitHub UI to inspect complete matches:
 
-Global include chain loaded before template display (bootstrap/config includes in report.php) for possible unconditional header emitter.
+https://va.ghe.com/software/LEAF/search?q=repo%3Asoftware%2FLEAF+custom_override%2Fmain_iframe.tpl&type=code
+https://va.ghe.com/software/LEAF/search?q=repo%3Asoftware%2FLEAF+custom_override%2Freports%2FLEAF_Start_Request.tpl&type=code
+https://va.ghe.com/software/LEAF/search?q=repo%3Asoftware%2FLEAF+spotlight_direct&type=code
+https://va.ghe.com/software/LEAF/search?q=repo%3Asoftware%2FLEAF+function+customTemplate&type=code
+Proposed minimal fix pattern (once offending block is located)
+Use existing convention:
 
-Why this matters for your fix
-If customTemplate() is redirecting to a site-specific template, then editing base LEAF_Request_Portal/templates/main_iframe.tpl won’t fix production.
-The fix would need to be applied in the resolved override file.
+ensure report template context gets flag:
+PHP
+$t_form->assign('isIframe', isset($_GET['iframe']) ? 1 : 0);
+wrap offending block:
+Smarty
+<!--{if !$isIframe}-->
+  ...header/nav-like block...
+<!--{/if}-->
 
-If spotlight_direct resolves dynamically elsewhere, then the header-like block might be in that dynamically selected template, not in static filesystem reports/.
 
-If you want, I’ll do exactly that targeted resolver trace next and return:
+Confirmed resolver behavior (full code)
+software / LEAF / LEAF_Request_Portal / report.php
+v4
+function customTemplate($tpl)
+{
+    return file_exists("./templates/custom_override/{$tpl}") ? "custom_override/{$tpl}" : $tpl;
+}
 
-full source of customTemplate()
-actual resolved template file(s)
-exact offending header/nav lines with file+line numbers
-and then your requested minimal no-risk diff proposal.
+This means runtime can use:
+
+templates/custom_override/main_iframe.tpl
+templates/custom_override/reports/<action>.tpl instead of base templates.
+That directly explains your contradiction.
+
+Also confirmed in report flow
+software / LEAF / LEAF_Request_Portal / report.php
+v5
+$main->assign('body', $t_form->fetch("reports/{$action}.tpl"));
+...
+if (!isset($_GET['iframe']))
+{
+    $main->display(customTemplate('main.tpl'));
+}
+So only main.tpl/main_iframe.tpl are customTemplate-resolved here; report body fetch is literal reports/{$action}.tpl for this file (unless Smarty template dirs are altered elsewhere during bootstrap).
+
+What’s still unresolved
+Actual contents of templates/custom_override/main_iframe.tpl (if present)
+Where spotlight_direct resolves from in your running environment
+Exact header block lines causing duplicate UI
+I can’t fabricate those without the files.
+
+Minimal safe fix pattern (once offending file is found)
+Assign iframe flag into report body context:
+PHP
+$t_form->assign('isIframe', isset($_GET['iframe']) ? 1 : 0);
+Wrap offending header-like block:
+Smarty
+<!--{if !$isIframe}-->
+  ...header/nav block...
+<!--{/if}-->
