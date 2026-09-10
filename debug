@@ -1,35 +1,63 @@
-Based on my search of the software organization, I can confirm that the switch + file_exists pattern is consistently used across LEAF apps as a platform-wide convention. Here's what I found:
+<div id="lp-login-slot" class="noprint">    Welcome, <b>Stephanie Lumagui</b>! | <a href="?a=logout">Sign out</a>
+</div>
 
-Pattern Confirmation
-All LEAF report.php files follow the same resolver pattern:
+//
 
-A switch statement handles a few hardcoded action names (e.g., 'about', 'showServiceFTEstatus')
-A default case with the fallback: if ($action != '' && file_exists("templates/reports/{$action}.tpl"))
-Direct template fetch using the action name: $t_form->fetch("reports/{$action}.tpl")
-This pattern appears consistently in:
+The $login variable is built in the PHP files and passed to the Smarty template engine. Here's where it happens:
 
-LEAF/LEAF_Nexus/report.php
-LEAF/LEAF_Request_Portal/report.php
-LEAF-launchpad/src/launchpad/report.php
-The search results are limited, so there may be additional instances, but these samples show uniform implementation.
+In the template files, $login appears on these lines:
 
-Regarding Action Aliases
-Based on the code I reviewed, the alias approach should be safe with these important caveats:
+LEAF_Nexus/templates/main.tpl (line 87): {$login|sanitize}
+LEAF_Request_Portal/templates/main.tpl (line 107): {$login}
+LEAF_Nexus/admin/templates/main.tpl (line 77): {$login}
+In the PHP code that assigns it, look at these files:
 
-What's NOT checked:
+LEAF_Nexus/index.php (around line 643):
 
-No database allowlist validation of action names
-No permissions table keyed by action name in the routing logic
-No hardcoded action validation beyond template file existence
-What IS checked:
+PHP
+$main->assign('login', $t_login->fetch('login.tpl'));
+LEAF_Request_Portal/report.php (around line 146):
 
-XSSHelpers::xscrub() sanitizes the $_GET['a'] parameter before use—so path traversal (e.g., ../../../) is blocked
-file_exists() must pass—the template file must actually exist
-Login/session checks happen before the switch, but not per-action
-To safely add an alias:
+PHP
+$main->assign('login', $t_login->fetch('login.tpl'));
+LEAF_Request_Portal/ajaxIndex.php (around line 436):
 
-Create a second .tpl file in templates/reports/ with the alias name
-If the original template has per-action permission logic inside it (JavaScript, PHP business logic), it applies equally to both names
-The alias will reuse all JavaScript assets and form logic from the included template
-No changes needed to routing config, settings, or permissions tables
-Potential exceptions to be aware of: If an app implements per-action permission validation inside the template (in inline PHP or via API calls), the alias inherits those checks. Verify whether the template being aliased contains action-specific security guards that might behave unexpectedly when called by a different action name.s
+PHP
+$main->assign('login', $t_login->fetch('login.tpl'));
+So the $login variable is actually the output of rendering the login.tpl template (a separate Smarty template file), which is then assigned to the main template. The actual login information is formatted in that login.tpl file rather than in main.tpl directly.
+
+//
+
+Perfect! Here's how the login information is built. There are two main versions:
+
+LEAF_Nexus/templates/login.tpl
+Smarty
+{if $name == ''}
+    <form name="login" method="post" action="?a=login">
+    <font class="alert">STATUS: {$status}</font>
+    <input name="login" type="submit" title="Click to login" value="Login" class="submit" />
+    </form>
+{else}
+    Logged in as: <b>{$name}</b>
+{/if}
+LEAF_Request_Portal/admin/templates/login.tpl
+Smarty
+{if $name == ''}
+    <form name="login" method="post" action="?a=login">
+        <span class="alert">STATUS: {$status}</span>
+        <input name="login" type="submit" title="Click to login" value="Login" class="submit" />
+    </form>
+{else}
+    <ul class="leaf-user-menu" aria-haspopup="true">
+        <li>Welcome, <span class="leaf-bold">{$name}</span><a href="../?a=logout">SIGN OUT</a></li>
+    </ul>
+{/if}
+How it works:
+
+The PHP files assign the $name variable to the login.tpl template before rendering it
+The template checks if $name is empty:
+If empty: displays a login form
+If populated: displays the user's name (and in the admin version, a sign-out link)
+The rendered output is then assigned to $login in the main template
+Finally, $login is displayed in main.tpl with {$login|sanitize} (in LEAF_Nexus) or {$login} (in LEAF_Request_Portal)
+The $name variable typically comes from the login object and contains the user's display name that was authenticated by the system.
