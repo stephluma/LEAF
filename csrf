@@ -1,0 +1,101 @@
+Perfect! I have comprehensive findings. Let me compile the report:
+
+CSRF Token Location & Usage in LEAF
+Based on repository analysis, here's exactly where and how LEAF's CSRF token lives:
+
+1. Backend Generation (PHP)
+The token is generated in the PHP session:
+
+PHP
+public function generateCSRFToken()
+{
+    $_SESSION['CSRFToken'] = bin2hex(random_bytes(32));
+}
+Location: LEAF_Nexus/sources/Login.php
+Stored in: $_SESSION['CSRFToken'] (server-side session variable)
+
+2. Frontend Rendering
+LEAF uses two primary methods to expose the token on the rendered page:
+
+Method A: Hidden Form Input (most common)
+HTML
+<input name="CSRFToken" type="hidden" value="<!--{$CSRFToken}-->" />
+Selector: input[name="CSRFToken"]
+Examples in templates:
+
+LEAF_Nexus/templates/ajaxForm.tpl
+LEAF_Nexus/templates/file_form.tpl
+Method B: Global JavaScript Variable
+In Smarty templates, the token is also injected as a plain JS variable:
+
+JavaScript
+var CSRFToken = '<!--{$CSRFToken}-->';
+Variable name: window.CSRFToken (or just CSRFToken in scope)
+Examples:
+
+LEAF_Nexus/admin/templates/mod_system.tpl
+LEAF_Nexus/scripts/batchRefreshEmployees.php
+No cookie: The token is NOT stored as an HTTP cookie, only in the session and DOM.
+
+3. How Frontend Code Reads & Attaches the Token
+Pattern: Reading from hidden input
+JavaScript
+// From form submission or jQuery:
+var token = $('input[name="CSRFToken"]').val();
+Pattern: Reading from global variable
+JavaScript
+var token = CSRFToken;  // Direct reference
+Pattern: Attaching to AJAX requests
+JavaScript
+$.ajax({
+    type: 'POST',
+    url: './api/position/' + positionID,
+    data: {
+        empUID: empUID,
+        CSRFToken: CSRFToken  // Passed as POST data parameter
+    },
+    success: function(response) { ... }
+});
+Real example from view_position.tpl:
+
+JavaScript
+$.ajax({
+    type: 'POST',
+    url: './api/position/<!--{$positionID}-->/employee',
+    data: {
+        empUID: empUID,
+        isActing: $('#isActing').prop('checked') ? 1 : 0,
+        CSRFToken: '<!--{$CSRFToken}-->'  // Inline Smarty template output
+    },
+    success: function(response) { ... }
+});
+Backend Validation
+The backend validates POST requests:
+
+PHP
+if ($_POST['CSRFToken'] != $_SESSION['CSRFToken'])
+{
+    return;  // Silently reject if token doesn't match
+}
+Location: LEAF_Request_Portal/sources/Form.php (and multiple API endpoints)
+
+Summary for Your Bookmarklet/Console Script
+To read the CSRF token on leaf.va.gov:
+
+JavaScript
+// Primary method: hidden input
+const token = document.querySelector('input[name="CSRFToken"]').value;
+
+// Fallback method: global JS variable (if available)
+const token = window.CSRFToken;
+To use it in requests:
+
+JavaScript
+fetch('./api/endpoint', {
+    method: 'POST',
+    body: new URLSearchParams({
+        CSRFToken: token,
+        otherParam: 'value'
+    })
+});
+Note: The token varies per session and is regenerated on login. It's stored only in the PHP session and rendered into the DOM as needed—there's no global cookie to intercept.
