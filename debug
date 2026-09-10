@@ -1,39 +1,54 @@
-You’re on the right track, but I can’t yet prove the exact offending body block from the data returned so far.
+Direct finding
+LEAF_Start_Request.tpl does not contain any header/nav-like block.
+And spotlight_direct.tpl does not exist at LEAF_Request_Portal/templates/reports/spotlight_direct.tpl in this commit/path.
 
-What I could confirm
-In LEAF_Request_Portal/report.php, body rendering is generic:
+So the “duplicate header” is not coming from LEAF_Start_Request.tpl itself.
+
+1) Full content: LEAF_Start_Request.tpl
+Here is the complete file exactly as fetched:
+
+software / LEAF / LEAF_Request_Portal / templates / reports / LEAF_Start_Request.tpl
+<style>
+#content {
+    margin: 1rem;
+}
+p, .card {
+    font-size: 1rem;
+2) Full content: spotlight_direct.tpl
+Could not be fetched because that file path does not exist in this repo/commit:
+
+LEAF_Request_Portal/templates/reports/spotlight_direct.tpl → not found.
+3) Recursive includes
+LEAF_Start_Request.tpl has no {include ...} statements, so recursion ends there for that action template.
+
+4) Exact header/nav-like block lines
+In LEAF_Start_Request.tpl: none found (no header, menu, nav, logo, login/user bar markup).
+
+5) Is isIframe assigned upstream for report templates?
+From previously fetched LEAF_Request_Portal/report.php, isIframe is not assigned into $t_form before:
 
 PHP
-$main->assign('body', $t_form->fetch("reports/{$action}.tpl"));
-So:
+$t_form->fetch("reports/{$action}.tpl")
+So if you want report body templates to react to iframe context, you need to assign it there.
 
-a=LEAF_Start_Request → LEAF_Request_Portal/templates/reports/LEAF_Start_Request.tpl
-a=spotlight_direct → LEAF_Request_Portal/templates/reports/spotlight_direct.tpl
-And main_iframe.tpl renders {$body} directly, so anything header-like must be inside those report templates (or nested includes they call).
+6) Final proposed diff (review only, no edits)
+A) report.php: pass iframe flag into report body templates
+software / LEAF / LEAF_Request_Portal / report.php
+v2
+@@
+             $t_form->assign('app_css_path', APP_CSS_PATH);
+             $t_form->assign('app_js_path', APP_JS_PATH);
++            $t_form->assign('isIframe', isset($_GET['iframe']) ? 1 : 0);
 
-Why I can’t show the exact leak block yet
-The code-search responses are capped and were incomplete, and we haven’t retrieved:
+             $powerQueryURL = "https://" . AUTH_URL . "/report";
+B) Body template wrap
+For LEAF_Start_Request.tpl, there is no offending header block to wrap.
 
-templates/reports/LEAF_Start_Request.tpl
-templates/reports/spotlight_direct.tpl
-any nested includes they reference
-So I can’t honestly show a definitive “this exact header block is the bug” yet.
+For spotlight_direct, once we locate its actual rendered template file, wrap only that header-like block:
 
-Proposed minimal fix (once block is identified)
-Use existing convention name: isIframe (already seen elsewhere in this repo templates).
-
-In offending report template block:
-
-Smarty
+<actual
 <!--{if !$isIframe}-->
-  ...header/menu-like block...
+    <!-- offending header/nav-like markup block -->
 <!--{/if}-->
-And in report.php, pass flag into $t_form before fetch:
 
-PHP
-$t_form->assign('isIframe', isset($_GET['iframe']) ? 1 : 0);
-That is minimal/safe:
-
-default non-iframe keeps current behavior
-iframe explicitly suppresses only wrapped block
-If you want, I can do one more pass to fetch those two exact template files and their includes, then give you the precise offending markup and exact wrap location before any edits.
+If you want, I can do one targeted follow-up to resolve where a=spotlight_direct is actually implemented (possibly outside templates/reports/spotlight_direct.tpl, e.g., custom template override, different case/path, or dynamic report resolver), then provide the exact block and exact line-anchored diff.s
