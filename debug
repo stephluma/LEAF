@@ -1,62 +1,39 @@
-You’re right to focus on the template layer now — and based on the files, main_iframe.tpl itself does not render header/nav in either Request Portal or Nexus.
+You’re on the right track, but I can’t yet prove the exact offending body block from the data returned so far.
 
-1) Full template comparison (where header/nav/login/menu appear)
-I pulled all 4 files at commit 2993e0cc7cabbe3e6233f7a47aab2fe7393048aa:
+What I could confirm
+In LEAF_Request_Portal/report.php, body rendering is generic:
 
-LEAF_Request_Portal/templates/main_iframe.tpl
-LEAF_Request_Portal/templates/main.tpl
-LEAF_Nexus/templates/main_iframe.tpl
-LEAF_Nexus/templates/main.tpl
-LEAF_Request_Portal: what’s in main.tpl but not main_iframe.tpl
-main.tpl includes all chrome elements:
+PHP
+$main->assign('body', $t_form->fetch("reports/{$action}.tpl"));
+So:
 
-<header id="header"> ... </header> with:
-{$login} (line ~107)
-{$menu} (line ~111)
-header title/city/tab
-skip-link block
-preprod/vapo environment banners
-footer block
-session timeout/announce script logic
-favicon link
-main_iframe.tpl includes:
+a=LEAF_Start_Request → LEAF_Request_Portal/templates/reports/LEAF_Start_Request.tpl
+a=spotlight_direct → LEAF_Request_Portal/templates/reports/spotlight_direct.tpl
+And main_iframe.tpl renders {$body} directly, so anything header-like must be inside those report templates (or nested includes they call).
 
-<div id="body"><div id="content"><div id="bodyarea">{$body}</div></div></div>
-styles/scripts and status alert
-No <header>, no {$menu}, no {$login}, no footer
-So for Request Portal, the iframe template is already “no chrome”.
+Why I can’t show the exact leak block yet
+The code-search responses are capped and were incomplete, and we haven’t retrieved:
 
-2) Shared partial leakage check
-In LEAF_Request_Portal/templates/main_iframe.tpl, there are no {include ...} statements at all.
-So it does not include a shared header.tpl, nav.tpl, or menu.tpl partial that could leak chrome.
+templates/reports/LEAF_Start_Request.tpl
+templates/reports/spotlight_direct.tpl
+any nested includes they reference
+So I can’t honestly show a definitive “this exact header block is the bug” yet.
 
-Same for LEAF_Nexus/templates/main_iframe.tpl: no header/menu partial include.
+Proposed minimal fix (once block is identified)
+Use existing convention name: isIframe (already seen elsewhere in this repo templates).
 
-3) Are $menu / $login used in main_iframe.tpl?
-No. Even though report.php assigns them unconditionally, main_iframe.tpl does not reference those vars.
+In offending report template block:
 
-So the leak is not “variables assigned => template renders header/nav anyway”.
-It has to be coming from:
+Smarty
+<!--{if !$isIframe}-->
+  ...header/menu-like block...
+<!--{/if}-->
+And in report.php, pass flag into $t_form before fetch:
 
-$body content itself (the report template output) including menu/header-like markup, or
-CSS/JS making something inside $body look like a global header/nav, or
-request path not actually using this main_iframe.tpl at runtime (override/customTemplate path mismatch).
-4) Minimal fix location/proposal
-Given current template contents, the safest fix target is likely inside specific report body templates used by:
+PHP
+$t_form->assign('isIframe', isset($_GET['iframe']) ? 1 : 0);
+That is minimal/safe:
 
-a=LEAF_Start_Request
-a=spotlight_direct
-because {$body} is injected unchanged in iframe mode.
-
-Proposed minimal approach (no edits yet):
-
-trace which templates/reports/<action>.tpl those actions render;
-identify top-of-body blocks that mimic global header/nav (search for ids/classes like header, menu, nav, headerMenu, menu2, etc.);
-gate those blocks with an iframe flag (ideally existing var; if none, pass isIframe into report template context like elsewhere in app and wrap with {if !$isIframe}...{/if}).
-This is lower risk than touching global layout templates that already appear correct.
-
-5) Nexus comparison
-LEAF_Nexus uses the same pattern and its main_iframe.tpl also omits header/nav/login/menu/footer correctly.
-So this does not look like a platform-wide iframe-layout bug; it looks Request-Portal action/body-specific (or environment override specific).
-
-If you want, next step I can trace the exact templates for LEAF_Start_Request and spotlight_direct and pinpoint the precise block that is rendering the duplicate header/nav look inside $body.
+default non-iframe keeps current behavior
+iframe explicitly suppresses only wrapped block
+If you want, I can do one more pass to fetch those two exact template files and their includes, then give you the precise offending markup and exact wrap location before any edits.
