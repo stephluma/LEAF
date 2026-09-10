@@ -1,96 +1,29 @@
-You were right — Theory 1 is real in this codebase.
-
-Key conclusion
-customTemplate() can override templates via templates/custom_override/.... So the runtime template may differ from the base files we inspected.
-
-1) customTemplate() full definition (from LEAF_Request_Portal/report.php)
-software / LEAF / LEAF_Request_Portal / report.php
-v3
-function customTemplate($tpl)
-{
-    return file_exists("./templates/custom_override/{$tpl}") ? "custom_override/{$tpl}" : $tpl;
-}
-
-This is a filesystem override only:
-
-checks ./templates/custom_override/<tpl>
-if present, uses that
-else uses passed literal <tpl>
-No env/prod/preprod/vapo branching in this function itself.
-
-What this means for your contradiction
-Even though base templates/main_iframe.tpl is clean, runtime could still render header/nav if:
-
-templates/custom_override/main_iframe.tpl exists and includes chrome, or
-templates/custom_override/reports/LEAF_Start_Request.tpl exists and includes header-like markup.
-That exactly matches your observed behavior.
-
-What I could confirm from current trace
-report.php uses customTemplate('main.tpl') / customTemplate('main_iframe.tpl') for final display (already verified earlier).
-LEAF_Start_Request.tpl fetched from base path is clean.
-spotlight_direct.tpl at base templates/reports/spotlight_direct.tpl was not found.
-That strongly implies spotlight action may be satisfied by custom override path or a different action/template mapping outside the base file path assumption.
-What’s still needed to close definitively
-I still need to fetch actual files in templates/custom_override/ and resolve spotlight dispatch path with direct file reads (not capped search snippets). Without that, I can’t truthfully quote the exact offending header block lines yet.
-
-Important search limitation
-Code search responses are capped and may be incomplete.
-Use GitHub UI to inspect complete matches:
-
-https://va.ghe.com/software/LEAF/search?q=repo%3Asoftware%2FLEAF+custom_override%2Fmain_iframe.tpl&type=code
-https://va.ghe.com/software/LEAF/search?q=repo%3Asoftware%2FLEAF+custom_override%2Freports%2FLEAF_Start_Request.tpl&type=code
-https://va.ghe.com/software/LEAF/search?q=repo%3Asoftware%2FLEAF+spotlight_direct&type=code
-https://va.ghe.com/software/LEAF/search?q=repo%3Asoftware%2FLEAF+function+customTemplate&type=code
-Proposed minimal fix pattern (once offending block is located)
-Use existing convention:
-
-ensure report template context gets flag:
-PHP
-$t_form->assign('isIframe', isset($_GET['iframe']) ? 1 : 0);
-wrap offending block:
-Smarty
-<!--{if !$isIframe}-->
-  ...header/nav-like block...
-<!--{/if}-->
-
-
-Confirmed resolver behavior (full code)
-software / LEAF / LEAF_Request_Portal / report.php
-v4
-function customTemplate($tpl)
-{
-    return file_exists("./templates/custom_override/{$tpl}") ? "custom_override/{$tpl}" : $tpl;
-}
-
-This means runtime can use:
-
-templates/custom_override/main_iframe.tpl
-templates/custom_override/reports/<action>.tpl instead of base templates.
-That directly explains your contradiction.
-
-Also confirmed in report flow
-software / LEAF / LEAF_Request_Portal / report.php
-v5
-$main->assign('body', $t_form->fetch("reports/{$action}.tpl"));
-...
-if (!isset($_GET['iframe']))
-{
-    $main->display(customTemplate('main.tpl'));
-}
-So only main.tpl/main_iframe.tpl are customTemplate-resolved here; report body fetch is literal reports/{$action}.tpl for this file (unless Smarty template dirs are altered elsewhere during bootstrap).
-
-What’s still unresolved
-Actual contents of templates/custom_override/main_iframe.tpl (if present)
-Where spotlight_direct resolves from in your running environment
-Exact header block lines causing duplicate UI
-I can’t fabricate those without the files.
-
-Minimal safe fix pattern (once offending file is found)
-Assign iframe flag into report body context:
-PHP
-$t_form->assign('isIframe', isset($_GET['iframe']) ? 1 : 0);
-Wrap offending header-like block:
-Smarty
-<!--{if !$isIframe}-->
-  ...header/nav block...
-<!--{/if}-->
+/launchpad/report.php?a=lp_home#ideas:2112 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
+leaf_header.js:1215 [LP] Lazy-loading LEAF UI deps for fetched page: Array(1)
+ensureLeafUIDeps @ leaf_header.js:1215
+leaf_header.js:1215 [LP] Lazy-loading LEAF UI deps for fetched page: Array(1)
+ensureLeafUIDeps @ leaf_header.js:1215
+leaf_header.js:1825 [LP Router] No route found for hash: article-162
+loadView @ leaf_header.js:1825
+help_library.js:1506 Uncaught TypeError: Cannot read properties of null (reading 'classList')
+    at help_library.js:1506:41
+leaf_header.js:1825 [LP Router] No route found for hash: article-162
+loadView @ leaf_header.js:1825
+help_library.js:987 Uncaught TypeError: Cannot read properties of null (reading 'classList')
+    at trapModalFocus (help_library.js:987:16)
+    at HTMLDocument.<anonymous> (help_library.js:1498:49)
+help_library.js:987 Uncaught TypeError: Cannot read properties of null (reading 'classList')
+    at trapModalFocus (help_library.js:987:16)
+    at HTMLDocument.<anonymous> (help_library.js:1499:49)
+help_library.js:987 Uncaught TypeError: Cannot read properties of null (reading 'classList')
+    at trapModalFocus (help_library.js:987:16)
+    at HTMLDocument.<anonymous> (help_library.js:1500:49)
+help_library.js:987 Uncaught TypeError: Cannot read properties of null (reading 'classList')
+    at trapModalFocus (help_library.js:987:16)
+    at HTMLDocument.<anonymous> (help_library.js:1498:49)
+help_library.js:987 Uncaught TypeError: Cannot read properties of null (reading 'classList')
+    at trapModalFocus (help_library.js:987:16)
+    at HTMLDocument.<anonymous> (help_library.js:1499:49)
+help_library.js:987 Uncaught TypeError: Cannot read properties of null (reading 'classList')
+    at trapModalFocus (help_library.js:987:16)
+    at HTMLDocument.<anonymous> (help_library.js:1500:49)
