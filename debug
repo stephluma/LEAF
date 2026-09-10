@@ -1,1 +1,5 @@
-<script src="./files/leaf_header.js" data-is-sysadmin="<!---->1<!---->"></script>
+report.php?a=lp_home:2112 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
+leaf_header.js:1215 [LP] Lazy-loading LEAF UI deps for fetched page: Array(2)
+ensureLeafUIDeps @ leaf_header.js:1215
+leaf_header.js:1236 [LP] Skipped script containing document.write
+(anonymous) @ leaf_header.js:1236
