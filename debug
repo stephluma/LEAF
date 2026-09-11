@@ -1,29 +1,15 @@
-/launchpad/report.php?a=lp_home#ideas:2112 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
-leaf_header.js:1215 [LP] Lazy-loading LEAF UI deps for fetched page: Array(1)
-ensureLeafUIDeps @ leaf_header.js:1215
-leaf_header.js:1215 [LP] Lazy-loading LEAF UI deps for fetched page: Array(1)
-ensureLeafUIDeps @ leaf_header.js:1215
-leaf_header.js:1825 [LP Router] No route found for hash: article-162
-loadView @ leaf_header.js:1825
-help_library.js:1506 Uncaught TypeError: Cannot read properties of null (reading 'classList')
-    at help_library.js:1506:41
-leaf_header.js:1825 [LP Router] No route found for hash: article-162
-loadView @ leaf_header.js:1825
-help_library.js:987 Uncaught TypeError: Cannot read properties of null (reading 'classList')
-    at trapModalFocus (help_library.js:987:16)
-    at HTMLDocument.<anonymous> (help_library.js:1498:49)
-help_library.js:987 Uncaught TypeError: Cannot read properties of null (reading 'classList')
-    at trapModalFocus (help_library.js:987:16)
-    at HTMLDocument.<anonymous> (help_library.js:1499:49)
-help_library.js:987 Uncaught TypeError: Cannot read properties of null (reading 'classList')
-    at trapModalFocus (help_library.js:987:16)
-    at HTMLDocument.<anonymous> (help_library.js:1500:49)
-help_library.js:987 Uncaught TypeError: Cannot read properties of null (reading 'classList')
-    at trapModalFocus (help_library.js:987:16)
-    at HTMLDocument.<anonymous> (help_library.js:1498:49)
-help_library.js:987 Uncaught TypeError: Cannot read properties of null (reading 'classList')
-    at trapModalFocus (help_library.js:987:16)
-    at HTMLDocument.<anonymous> (help_library.js:1499:49)
-help_library.js:987 Uncaught TypeError: Cannot read properties of null (reading 'classList')
-    at trapModalFocus (help_library.js:987:16)
-    at HTMLDocument.<anonymous> (help_library.js:1500:49)
+/launchpad/report.php?a=lp_home#help_library:2112 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
+leaf_header.js:1225 [LP] Lazy-loading LEAF UI deps for fetched page: ['https://leaf.va.gov/launchpad/js/dialogController.js']
+ensureLeafUIDeps @ leaf_header.js:1225
+mountContent @ leaf_header.js:1800
+(anonymous) @ leaf_header.js:1941
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272
+Qb.<computed> @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:273
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:274
+loadView @ leaf_header.js:1921
+router @ leaf_header.js:2009
+(anonymous) @ leaf_header.js:2206
+hashchange
+(anonymous) @ leaf_header.js:2176
