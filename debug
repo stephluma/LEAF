@@ -1,10 +1,10 @@
-<script src="./files/multigrid.js" data-user-id="test-user" data-is-sysadmin="0" data-mount="mst-root" data-trigger="mst-open-btn"></script>
-
-report.php?a=lp_home:2094 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
-typeof LeafFormQuery
-'function'
-
-https://leaf.va.gov/launchpad/api/form/query?q={%22terms%22:[{%22id%22:%22userID%22,%22operator%22:%22=%22,%22match%22:%22test-user%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[%22service%22,%22status%22],%22sort%22:{%22column%22:%22recordID%22,%22direction%22:%22DESC%22},%22getData%22:[17,21,22],%22limit%22:500,%22limitOffset%22:0}&x-filterData=recordID,userID,title,service,date,lastStatus,stepTitle,stepID,blockingStepID,submitted,deleted
-https://leaf.va.gov/platform/service_requests_launchpad/api/form/query?q={%22terms%22:[{%22id%22:%22userID%22,%22operator%22:%22=%22,%22match%22:%22test-user%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[%22service%22,%22status%22],%22sort%22:{%22column%22:%22recordID%22,%22direction%22:%22DESC%22},%22limit%22:500,%22limitOffset%22:0}&x-filterData=recordID,userID,title,service,date,lastStatus,stepTitle,stepID,blockingStepID,submitted,deleted
-https://leaf.va.gov/platform/support/api/form/query?q={%22terms%22:[{%22id%22:%22userID%22,%22operator%22:%22=%22,%22match%22:%22test-user%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22}],%22joins%22:[%22service%22,%22status%22],%22sort%22:{%22column%22:%22recordID%22,%22direction%22:%22DESC%22},%22limit%22:500,%22limitOffset%22:0}&x-filterData=recordID,userID,title,service,date,lastStatus,stepTitle,stepID,blockingStepID,submitted,deleted
-https://leaf.va.gov/platform/ideas/api/form/query?q={%22terms%22:[{%22id%22:%22userID%22,%22operator%22:%22=%22,%22match%22:%22test-user%22,%22gate%22:%22AND%22},{%22id%22:%22deleted%22,%22operator%22:%22=%22,%22match%22:0,%22gate%22:%22AND%22},{%22id%22:%22categoryID%22,%22operator%22:%22!=%22,%22match%22:%22form_57e89%22,%22gate%22:%22AND%22}],%22joins%22:[%22service%22,%22status%22],%22sort%22:{%22column%22:%22recordID%22,%22direction%22:%22DESC%22},%22getData%22:[12],%22limit%22:500,%22limitOffset%22:0}&x-filterData=recordID,userID,title,service,date,lastStatus,stepTitle,stepID,blockingStepID,submitted,deleted
+/launchpad/report.php?a=lp_home#home:2094 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
+indicator.gif:1  Failed to load resource: the server responded with a status of 404 (Not Found)
+/platform/?img=search.svg&w=16:1  Failed to load resource: the server responded with a status of 403 (Forbidden)
+formQuery.js:301 TypeError: Cannot read properties of null (reading 'setAttribute')
+    at setData (formGrid.js:879:48)
+    at Object.importQueryResult (formGrid.js:926:5)
+    at buildGrid (eval at <anonymous> (leaf_header.js:1430:20), <anonymous>:169:14)
+    at eval (eval at <anonymous> (leaf_header.js:1430:20), <anonymous>:296:11)
+    at formQuery.js:296:13
+(anonymous) @ formQuery.js:301
