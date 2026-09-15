@@ -1,10 +1,3 @@
-/launchpad/report.php?a=lp_home#home:2094 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
-indicator.gif:1  Failed to load resource: the server responded with a status of 404 (Not Found)
-/platform/?img=search.svg&w=16:1  Failed to load resource: the server responded with a status of 403 (Forbidden)
-formQuery.js:301 TypeError: Cannot read properties of null (reading 'setAttribute')
-    at setData (formGrid.js:879:48)
-    at Object.importQueryResult (formGrid.js:926:5)
-    at buildGrid (eval at <anonymous> (leaf_header.js:1430:20), <anonymous>:169:14)
-    at eval (eval at <anonymous> (leaf_header.js:1430:20), <anonymous>:296:11)
-    at formQuery.js:296:13
-(anonymous) @ formQuery.js:301
+/launchpad/report.php?a=lp_home#home:1196 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
+indicator.gif:1  GET https://leaf.va.gov/platform/images/indicator.gif 404 (Not Found)
+platform/:1  GET https://leaf.va.gov/platform/?img=search.svg&w=16 403 (Forbidden)
