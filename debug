@@ -1,7 +1,4 @@
- <script
-          src="./files/multigrid.js"
-          data-user-id="oitauslumags"
-          data-is-sysadmin="1"
-          data-mount="mst-root"
-          data-trigger="mst-open-btn"
-        ></script>
+  <script
+      src="/launchpad/files/leaf_header.js"
+      data-is-sysadmin="0"
+    ></script>
