@@ -1,3 +1,50 @@
-/launchpad/report.php?a=lp_home#home:1196 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
-indicator.gif:1  GET https://leaf.va.gov/platform/images/indicator.gif 404 (Not Found)
-platform/:1  GET https://leaf.va.gov/platform/?img=search.svg&w=16 403 (Forbidden)
+formQuery.js:301 TypeError: Cannot read properties of null (reading 'setAttribute')
+    at setData (formGrid.js:879:48)
+    at Object.importQueryResult (formGrid.js:926:5)
+    at buildGrid (eval at <anonymous> (leaf_header.js:1430:20), <anonymous>:169:14)
+    at eval (eval at <anonymous> (leaf_header.js:1430:20), <anonymous>:296:11)
+    at formQuery.js:296:13
+(anonymous) @ formQuery.js:301
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272
+Qb.<computed> @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:273
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:274
+getBulkData @ formQuery.js:301
+execute @ formQuery.js:323
+eval @ VM4642:327
+search @ formSearch.js:356
+inputLoop @ formSearch.js:382
+(anonymous) @ formSearch.js:158
+setInterval
+init @ formSearch.js:157
+main @ VM4642:329
+await in main
+eval @ VM4642:368
+e @ jquery.min.js:2
+t @ jquery.min.js:2
+setTimeout
+(anonymous) @ jquery.min.js:2
+c @ jquery.min.js:2
+add @ jquery.min.js:2
+(anonymous) @ jquery.min.js:2
+Deferred @ jquery.min.js:2
+then @ jquery.min.js:2
+S.fn.ready @ jquery.min.js:2
+eval @ VM4642:367
+(anonymous) @ leaf_header.js:1436
+reExecuteScripts @ leaf_header.js:1295
+(anonymous) @ leaf_header.js:1863
+Promise.then
+mountContent @ leaf_header.js:1862
+(anonymous) @ leaf_header.js:2003
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272
+Qb.<computed> @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:273
+Promise.then
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272
+(anonymous) @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:274
+loadView @ leaf_header.js:1983
+router @ leaf_header.js:2071
+(anonymous) @ leaf_header.js:2277
+hashchange
+(anonymous) @ leaf_header.js:2247
