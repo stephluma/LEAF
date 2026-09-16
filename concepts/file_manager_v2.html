@@ -1,0 +1,2086 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>File Manager (LEAF Hybrid v10.3)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* Local tokens mirror import-tool so this file matches the same design system. */
+    .fm-tool {
+        --fm-font-body: 1rem;
+        --fm-font-hint: 0.9rem;
+        --fm-font-small: 0.9rem;
+
+        --fm-bg: #f4f6f9;
+        --fm-surface: #ffffff;
+        --fm-surface-alt: #f8fafc;
+        --fm-border: #dbe1e8;
+        --fm-text: #1f2933;
+        --fm-muted: #3f4a57;
+        --fm-accent: #2563eb;
+        --fm-accent-strong: #1d4ed8;
+        --fm-accent-weak: #dbeafe;
+        --fm-focus: #0b5cab;
+        --fm-danger: #b50909;
+        --fm-danger-bg: #fdecea;
+        --fm-danger-border: #b00000;
+        --fm-warn: #92610a;
+        --fm-warn-bg: #fefce8;
+        --fm-warn-border: #d97706;
+        --fm-success: #166534;
+        --fm-success-bg: #dcfce7;
+        --fm-success-border: #86efac;
+        --fm-teal: #0f766e;
+        --fm-teal-weak: #ccfbf1;
+        --fm-indigo: #4f46e5;
+        --fm-indigo-weak: #e0e7ff;
+        --fm-radius-sm: 10px;
+        --fm-radius-md: 12px;
+        --fm-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.08);
+        --fm-shadow-md: 0 6px 16px rgba(15, 23, 42, 0.12);
+        --fm-space-1: 4px;
+        --fm-space-2: 8px;
+        --fm-space-3: 12px;
+        --fm-space-4: 16px;
+        --fm-space-6: 32px;
+
+        font-family: 'Source Sans Pro Web', Arial, sans-serif;
+        font-size: var(--fm-font-body);
+        color: var(--fm-text);
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: var(--fm-space-4);
+        background: var(--fm-bg);
+        min-height: 100vh;
+    }
+
+    .fm-tool, .fm-tool input, .fm-tool select, .fm-tool button, .fm-tool label {
+        font-family: inherit;
+    }
+
+    .fm-tool *, .fm-tool *::before, .fm-tool *::after { box-sizing: border-box; }
+
+    .fm-tool .sr-only {
+        position: absolute;
+        width: 1px; height: 1px;
+        padding: 0; margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    .fm-tool h1 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin: 0 0 var(--fm-space-4);
+    }
+    .fm-tool h2 { font-size: 1.1rem; font-weight: 700; margin: 0; }
+    .fm-tool h3 { font-size: 1rem; font-weight: 700; margin: 0 0 var(--fm-space-2); }
+
+    .fm-tool a:focus,
+    .fm-tool button:focus,
+    .fm-tool input:focus,
+    .fm-tool select:focus,
+    .fm-tool [tabindex]:focus {
+        outline: 3px solid var(--fm-focus);
+        outline-offset: 2px;
+    }
+
+    #statusLine {
+        font-size: var(--fm-font-hint);
+        color: var(--fm-muted);
+        min-height: 18px;
+        margin-bottom: var(--fm-space-2);
+    }
+
+    #toastContainer {
+        position: fixed; top: 16px; right: 16px; z-index: 9999;
+        display: flex; flex-direction: column; gap: var(--fm-space-2);
+        pointer-events: none;
+    }
+    .toast {
+        background: #1e293b; color: #fff;
+        padding: 10px 16px;
+        border-radius: var(--fm-radius-sm);
+        font-size: 13px;
+        opacity: 0; transform: translateX(40px);
+        transition: opacity .25s, transform .25s;
+        pointer-events: auto;
+        max-width: 340px;
+        box-shadow: var(--fm-shadow-md);
+    }
+    .toast.show { opacity: 1; transform: translateX(0); }
+    .toast.ok   { border-left: 4px solid var(--fm-success-border); }
+    .toast.warn { border-left: 4px solid var(--fm-warn-border); }
+    .toast.err  { border-left: 4px solid var(--fm-danger-border); }
+    .toast.info { border-left: 4px solid var(--fm-accent); }
+
+    .fm-card {
+        background: var(--fm-surface);
+        border: 1px solid var(--fm-border);
+        border-radius: var(--fm-radius-md);
+        box-shadow: var(--fm-shadow-sm);
+        margin-bottom: var(--fm-space-6);
+        overflow: hidden;
+    }
+    .fm-card-header {
+        display: flex;
+        align-items: center;
+        gap: var(--fm-space-2);
+        padding: var(--fm-space-3) var(--fm-space-4);
+        background: var(--fm-accent-weak);
+        border-bottom: 1px solid var(--fm-border);
+    }
+    .fm-card-header h2 { color: #1e3a8a; }
+    .fm-card-header .fm-card-num {
+        width: 24px; height: 24px;
+        border-radius: 999px;
+        background: #1e3a8a;
+        color: #fff;
+        font-size: 0.8rem;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .fm-card-body { padding: var(--fm-space-4); }
+
+    #dropZone {
+        border: 2px dashed var(--fm-border);
+        border-radius: var(--fm-radius-md);
+        padding: var(--fm-space-6) var(--fm-space-4);
+        text-align: center;
+        color: var(--fm-muted);
+        cursor: pointer;
+        transition: background .15s, border-color .15s, color .15s;
+        position: relative;
+        background: var(--fm-surface-alt);
+    }
+    #dropZone.dragover {
+        background: var(--fm-accent-weak);
+        border-color: var(--fm-accent);
+        color: #1e3a8a;
+    }
+    #dropZone.fm-input-focused,
+    #dropZone:has(input[type="file"]:focus-visible) {
+        outline: 3px solid var(--fm-focus);
+        outline-offset: 2px;
+        border-color: var(--fm-accent);
+    }
+    #dropZone input[type="file"] {
+        position: absolute; inset: 0;
+        opacity: 0; cursor: pointer;
+        width: 100%; height: 100%;
+    }
+    #dropZone input[type="file"]:focus { outline: none; }
+    #dropZone .dz-icon { font-size: 28px; margin-bottom: var(--fm-space-2); }
+    #dropZone .dz-label { font-size: 1rem; font-weight: 700; color: var(--fm-text); }
+    #dropZone .dz-sub { font-size: var(--fm-font-hint); color: var(--fm-muted); margin-top: 2px; }
+
+    #uploadBtn.btn-primary {
+        background: var(--fm-accent) !important;
+        border-color: var(--fm-accent-strong) !important;
+        color: #ffffff !important;
+    }
+    #uploadBtn.btn-primary:hover:not(:disabled) {
+        background: var(--fm-accent-strong) !important;
+    }
+    #uploadQueue { margin-top: var(--fm-space-3); display: flex; flex-direction: column; gap: var(--fm-space-2); }
+    .queue-item {
+        display: flex; align-items: center; gap: var(--fm-space-3);
+        font-size: var(--fm-font-hint);
+        background: var(--fm-surface-alt);
+        border: 1px solid var(--fm-border);
+        border-radius: var(--fm-radius-sm);
+        padding: var(--fm-space-2) var(--fm-space-3);
+    }
+    .queue-item .qi-name {
+        flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        font-family: ui-monospace, Menlo, Consolas, monospace;
+    }
+    .queue-item .qi-size { color: var(--fm-muted); white-space: nowrap; font-size: 0.8rem; }
+    .queue-item .qi-badge {
+        font-size: 0.75rem; font-weight: 700;
+        padding: 2px 7px; border-radius: 999px; white-space: nowrap;
+    }
+    .qi-badge.pending   { background: #e2e8f0; color: var(--fm-muted); }
+    .qi-badge.uploading { background: var(--fm-accent-weak); color: var(--fm-accent-strong); }
+    .qi-badge.done      { background: var(--fm-success-bg); color: var(--fm-success); }
+    .qi-badge.error     { background: var(--fm-danger-bg); color: var(--fm-danger-border); }
+    .qi-badge.duplicate { background: var(--fm-warn-bg); color: var(--fm-warn); }
+    .queue-item.fm-duplicate { border-color: var(--fm-warn-border); background: var(--fm-warn-bg); }
+
+    .progress-wrap { width: 80px; height: 6px; background: #e2e8f0; border-radius: 999px; overflow: hidden; flex-shrink: 0; }
+    .progress-bar  { height: 100%; width: 0%; background: var(--fm-accent); border-radius: 999px; transition: width .3s; }
+    .progress-bar.done  { background: var(--fm-success); width: 100%; }
+    .progress-bar.error { background: var(--fm-danger-border); }
+
+    .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--fm-space-2);
+        align-items: center;
+        margin-bottom: var(--fm-space-3);
+    }
+    .toolbar-search {
+        flex: 1 1 240px;
+        min-width: 180px;
+        display: flex;
+        align-items: center;
+    }
+    .toolbar-search input[type="text"] {
+        width: 100% !important;
+        display: block;
+        padding: 8px 10px;
+        border: 1px solid var(--fm-border);
+        border-radius: var(--fm-radius-sm);
+        font-size: var(--fm-font-body);
+        background: #fff; color: var(--fm-text);
+    }
+    .toolbar-search input[type="text"]:focus { border-color: var(--fm-accent); }
+    .toolbar-actions {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: var(--fm-space-2);
+        align-items: center;
+        flex: 0 0 auto;
+    }
+    @media (max-width: 480px) {
+        .toolbar-search { flex-basis: 100%; }
+    }
+
+    .filter-row {
+        display: flex;
+        flex-direction: column;
+        gap: var(--fm-space-2);
+        padding: var(--fm-space-3);
+        margin-bottom: var(--fm-space-3);
+        background: var(--fm-surface-alt);
+        border: 1px solid var(--fm-border);
+        border-radius: var(--fm-radius-sm);
+    }
+    .filter-row[hidden] { display: none; }
+    .filter-row-heading {
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--fm-muted);
+        margin: 0;
+    }
+    .filter-row-line {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--fm-space-3);
+        min-height: 20px;
+    }
+    .filter-row-line[hidden] { display: none !important; }
+    .filter-row-line + .filter-row-line {
+        padding-top: var(--fm-space-2);
+        border-top: 1px solid var(--fm-border);
+    }
+    .filter-group {
+        display: flex;
+        align-items: center;
+        gap: var(--fm-space-2);
+        flex-wrap: wrap;
+    }
+    .filter-divider { display: none; }
+    .filter-label {
+        font-size: var(--fm-font-hint);
+        color: var(--fm-text);
+        font-weight: 700;
+        white-space: nowrap;
+        min-width: 44px;
+    }
+    .filter-label-link {
+        background: none;
+        border: none;
+        padding: 0;
+        font-family: inherit;
+        font-size: var(--fm-font-hint);
+        font-weight: 700;
+        color: var(--fm-accent);
+        text-decoration: underline;
+        cursor: pointer;
+        white-space: nowrap;
+        min-width: 44px;
+        text-align: left;
+    }
+    .filter-label-link:hover { color: var(--fm-accent-strong); text-decoration-thickness: 2px; }
+    .filter-chip {
+        display: inline-flex; align-items: center; gap: 4px;
+        padding: 3px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 700;
+        border: 2px solid transparent; cursor: pointer;
+        background: #fff; color: var(--fm-muted);
+        transition: all .15s;
+        font-family: inherit;
+    }
+    .filter-chip.active { background: var(--fm-indigo); color: #fff; border-color: var(--fm-indigo); }
+    .filter-chip:hover:not(.active) { background: var(--fm-indigo-weak); color: #3730a3; border-color: var(--fm-indigo); }
+    .filter-chip.type-active { background: var(--fm-teal); color: #fff; border-color: var(--fm-teal); }
+    .filter-chip:hover.type-chip:not(.type-active) { background: var(--fm-teal-weak); color: var(--fm-teal); border-color: var(--fm-teal); }
+    .filter-clear {
+        margin-left: auto;
+        background: none;
+        border: none;
+        color: var(--fm-accent);
+        text-decoration: underline;
+        cursor: pointer;
+        font-size: var(--fm-font-hint);
+        font-weight: 700;
+        padding: 0;
+        font-family: inherit;
+        white-space: nowrap;
+    }
+    .filter-clear:hover { color: var(--fm-accent-strong); text-decoration-thickness: 2px; }
+
+    #syncBar {
+        display: flex; align-items: center; gap: var(--fm-space-3);
+        padding: var(--fm-space-3) var(--fm-space-4);
+        border-radius: var(--fm-radius-sm);
+        margin-bottom: var(--fm-space-3);
+        background: var(--fm-warn-bg);
+        border: 1px solid var(--fm-warn-border);
+        border-left-width: 4px;
+        font-size: var(--fm-font-hint);
+        color: var(--fm-warn);
+    }
+    #syncBar.hidden { display: none; }
+    #syncBar .sync-msg { flex: 1; }
+    #syncBar .btn.btn-warning,
+    #syncBar button.btn-warning {
+        background: var(--fm-warn-border) !important;
+        border-color: #b45309 !important;
+        color: #ffffff !important;
+    }
+    #syncBar .btn.btn-warning:hover:not(:disabled),
+    #syncBar button.btn-warning:hover:not(:disabled) {
+        background: #b45309 !important;
+    }
+    #syncBar .btn.btn-ghost,
+    #syncBar button.btn-ghost {
+        background: #ffffff !important;
+        border: 1px solid var(--fm-warn-border) !important;
+        color: var(--fm-warn) !important;
+    }
+    #syncBar .btn.btn-ghost:hover:not(:disabled),
+    #syncBar button.btn-ghost:hover:not(:disabled) {
+        background: #fef3c7 !important;
+    }
+    #syncBar .sync-dot {
+        width: 8px; height: 8px; border-radius: 999px;
+        background: var(--fm-warn-border); flex-shrink: 0;
+        animation: fm-pulse 1.4s infinite;
+    }
+    @keyframes fm-pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .fm-tool .btn {
+        display: inline-flex; align-items: center; gap: 5px;
+        padding: 8px 14px;
+        font-size: var(--fm-font-hint);
+        border-radius: var(--fm-radius-sm);
+        border: 1px solid var(--fm-border);
+        cursor: pointer;
+        font-weight: 700;
+        white-space: nowrap;
+        background: var(--fm-surface);
+        color: var(--fm-text);
+        font-family: inherit;
+        transition: background .15s ease, box-shadow .15s ease, transform .1s ease, opacity .15s ease;
+    }
+    .fm-tool .btn:hover:not(:disabled) { box-shadow: var(--fm-shadow-md); }
+    .fm-tool .btn:active:not(:disabled) { transform: translateY(1px); }
+    .fm-tool .btn svg { vertical-align: -2px; flex-shrink: 0; }
+    .fm-tool .btn:disabled { opacity: .5; cursor: not-allowed; box-shadow: none; }
+
+    .btn-primary   { background: var(--fm-accent); border-color: var(--fm-accent-strong); color: #fff; }
+    .btn-primary:hover:not(:disabled)   { background: var(--fm-accent-strong); border-color: #1e40af; box-shadow: 0 0 0 3px var(--fm-accent-weak), var(--fm-shadow-md); }
+    .btn-secondary { background: var(--fm-surface); color: var(--fm-text); border-color: var(--fm-border); }
+    .btn-secondary:hover:not(:disabled) { background: var(--fm-accent-weak); border-color: var(--fm-accent); color: #1e3a8a; }
+    .btn-warning   { background: var(--fm-warn-border); color: #fff; border-color: #b45309; }
+    .btn-warning:hover:not(:disabled)   { background: #b45309; box-shadow: 0 0 0 3px #fde68a, var(--fm-shadow-md); }
+    .btn-danger    { background: var(--fm-danger-border); color: #fff; border-color: var(--fm-danger-border); }
+    .btn-danger:hover:not(:disabled)    { background: #8f0707; }
+    .btn-ghost     { background: transparent; color: var(--fm-text); border-color: transparent; font-size: 0.8rem; font-weight: 600; }
+    .btn-ghost:hover:not(:disabled)     { background: var(--fm-accent-weak); border-color: var(--fm-accent-weak); color: #1e3a8a; }
+    .fm-danger-ghost { color: var(--fm-danger-border); }
+    .fm-danger-ghost:hover:not(:disabled) { background: var(--fm-danger-bg); border-color: var(--fm-danger-bg); }
+    .fm-rename-inline {
+        margin-left: var(--fm-space-1);
+        padding: 2px 6px;
+        opacity: 0.7;
+    }
+    .fm-rename-inline:hover:not(:disabled) { opacity: 1; }
+    .fm-copy-inline {
+        padding: 2px 6px;
+        opacity: 0.7;
+    }
+    .fm-copy-inline:hover:not(:disabled) { opacity: 1; }
+    .fm-copy-inline.fm-copied { opacity: 1; color: var(--fm-success); }
+    .btn-sm { padding: 4px 8px; font-size: 0.8rem; }
+    .btn-icon { padding: 6px 10px; }
+
+    /* Qualified selectors + !important to survive host-page CSS overrides. */
+    .fm-tool #bulkBar {
+        display: none; align-items: center; gap: var(--fm-space-3);
+        padding: var(--fm-space-3) var(--fm-space-4);
+        background: #1e40af; color: #ffffff;
+        border-radius: var(--fm-radius-md);
+        margin-bottom: var(--fm-space-3);
+        font-size: var(--fm-font-hint);
+        font-weight: 700;
+        border: 1px solid #1e3a8a;
+        position: sticky;
+        top: 8px;
+        z-index: 400;
+    }
+    .fm-tool #bulkBar.visible { display: flex; }
+    .fm-tool #bulkBar .spacer { flex: 1; }
+    .fm-tool #bulkBar #bulkCount { color: #ffffff; }
+    .fm-tool #bulkBar .btn.btn-danger,
+    .fm-tool #bulkBar button.btn-danger {
+        background: #dc2626 !important;
+        border: 1px solid #b91c1c !important;
+        color: #ffffff !important;
+    }
+    .fm-tool #bulkBar .btn.btn-danger:hover:not(:disabled),
+    .fm-tool #bulkBar button.btn-danger:hover:not(:disabled) {
+        background: #b91c1c !important;
+    }
+    .fm-tool #bulkBar .btn.btn-ghost,
+    .fm-tool #bulkBar button.btn-ghost {
+        background: transparent !important;
+        border: 1px solid rgba(255,255,255,0.6) !important;
+        color: #ffffff !important;
+    }
+    .fm-tool #bulkBar .btn.btn-ghost:hover:not(:disabled),
+    .fm-tool #bulkBar button.btn-ghost:hover:not(:disabled) {
+        background: rgba(255,255,255,0.3) !important;
+        border-color: #ffffff !important;
+    }
+    .fm-tool #bulkBar .btn.btn-secondary,
+    .fm-tool #bulkBar button.btn-secondary {
+        background: #ffffff !important;
+        border: 1px solid #ffffff !important;
+        color: #1e3a8a !important;
+    }
+    .fm-tool #bulkBar .btn.btn-secondary:hover:not(:disabled),
+    .fm-tool #bulkBar button.btn-secondary:hover:not(:disabled) {
+        background: #c7d2fe !important;
+        border-color: #c7d2fe !important;
+    }
+    .fm-tool #bulkBar .btn:focus {
+        outline: 3px solid #ffffff;
+        outline-offset: 2px;
+    }
+
+    .table-wrap {
+        overflow-x: auto;
+        border-radius: var(--fm-radius-sm);
+        border: 1px solid var(--fm-border);
+    }
+    .fm-empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: var(--fm-space-2);
+        padding: var(--fm-space-6) var(--fm-space-4);
+        text-align: center;
+        color: var(--fm-muted);
+        background: var(--fm-surface);
+    }
+    .fm-empty-state .fm-empty-icon { font-size: 2rem; opacity: 0.5; }
+    .fm-empty-state .fm-empty-title { font-weight: 700; color: var(--fm-text); font-size: 1rem; }
+    .fm-empty-state .fm-empty-sub { font-size: 0.9rem; max-width: 360px; }
+    .fm-tool table { width: 100%; border-collapse: collapse; font-size: var(--fm-font-body); }
+    .fm-tool th, .fm-tool td {
+        border-bottom: 1px solid var(--fm-border);
+        padding: 10px 12px;
+        text-align: left;
+        vertical-align: middle;
+    }
+    .fm-tool th {
+        background: var(--fm-surface-alt);
+        font-weight: 700;
+        color: var(--fm-text);
+        white-space: nowrap;
+        user-select: none;
+    }
+    .fm-tool th.sortable { cursor: pointer; }
+    .fm-tool th.sortable:hover { background: #eef2f7; }
+    .fm-tool th.sortable:hover .sort-arrow,
+    .fm-tool th.sort-asc .sort-arrow,
+    .fm-tool th.sort-desc .sort-arrow { opacity: 1; }
+    .fm-tool th .sort-arrow { margin-left: 4px; opacity: .35; font-size: 0.7rem; transition: opacity .15s; }
+    .fm-tool th.sort-asc, .fm-tool th.sort-desc { background: var(--fm-accent-weak); color: #1e3a8a; }
+    .fm-tool tbody tr { transition: background .1s; }
+    .fm-tool tr:hover td { background: var(--fm-surface-alt); }
+    .fm-tool tr.selected td { background: var(--fm-accent-weak); }
+    .fm-tool td.right { text-align: right; }
+    .fm-tool td.mono { font-family: ui-monospace, Menlo, Consolas, monospace; word-break: break-all; }
+    .fm-tool td.actions { white-space: nowrap; }
+    .fm-tool td.actions .btn { margin-right: 2px; }
+    .fm-tool td.actions .btn:last-child { margin-right: 0; }
+    .fm-tool input[type="checkbox"] { cursor: pointer; width: 16px; height: 16px; }
+
+    .file-icon { font-size: 17px; margin-right: var(--fm-space-2); flex-shrink: 0; }
+    .file-cell { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; }
+    .file-cell > span[title] { overflow-wrap: anywhere; }
+
+    .tag-list { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+    .tag-chip {
+        display: inline-flex; align-items: center; gap: 3px;
+        background: var(--fm-indigo-weak); color: #3730a3;
+        border-radius: 999px; font-size: 0.75rem; font-weight: 700;
+        padding: 2px 8px;
+    }
+    .tag-chip .tag-remove { cursor: pointer; font-size: 13px; line-height: 1; opacity: .6; background: none; border: none; color: inherit; padding: 0; }
+    .tag-chip .tag-remove:hover { opacity: 1; }
+
+    .modal-backdrop {
+        position: fixed; inset: 0;
+        background: rgba(15, 23, 42, 0.5);
+        z-index: 1000;
+        display: flex; align-items: center; justify-content: center;
+        opacity: 0; pointer-events: none;
+        visibility: hidden;
+        transition: opacity .2s, visibility 0s linear .2s;
+    }
+    .modal-backdrop.open {
+        opacity: 1; pointer-events: auto;
+        visibility: visible;
+        transition: opacity .2s, visibility 0s linear 0s;
+    }
+    .modal {
+        background: var(--fm-surface);
+        border-radius: var(--fm-radius-md);
+        padding: var(--fm-space-4) var(--fm-space-4) var(--fm-space-4);
+        width: 100%; max-width: 480px;
+        box-shadow: 0 20px 60px rgba(0,0,0,.25);
+        transform: translateY(12px);
+        transition: transform .2s;
+        border: 1px solid var(--fm-border);
+    }
+    .modal-backdrop.open .modal { transform: translateY(0); }
+    .modal h3 { margin: 0 0 var(--fm-space-4); font-size: 1.1rem; color: #1e3a8a; }
+    .modal label { display: block; font-weight: 700; margin-bottom: var(--fm-space-1); font-size: var(--fm-font-body); }
+    .modal input[type="text"] {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid var(--fm-border);
+        border-radius: var(--fm-radius-sm);
+        font-size: var(--fm-font-body);
+        margin-bottom: var(--fm-space-3);
+        background: #fff; color: var(--fm-text);
+    }
+    .modal input[type="text"]:focus { border-color: var(--fm-accent); }
+    .modal-actions { display: flex; gap: var(--fm-space-2); justify-content: flex-end; margin-top: 4px; }
+    .modal-actions .btn.btn-primary,
+    .modal-actions button.btn-primary {
+        background: var(--fm-accent) !important;
+        border-color: var(--fm-accent-strong) !important;
+        color: #ffffff !important;
+    }
+    .modal-actions .btn.btn-primary:hover:not(:disabled),
+    .modal-actions button.btn-primary:hover:not(:disabled) {
+        background: var(--fm-accent-strong) !important;
+    }
+    .modal-actions .btn.btn-danger,
+    .modal-actions button.btn-danger {
+        background: var(--fm-danger-border) !important;
+        border-color: var(--fm-danger-border) !important;
+        color: #ffffff !important;
+    }
+    .modal-actions .btn.btn-danger:hover:not(:disabled),
+    .modal-actions button.btn-danger:hover:not(:disabled) {
+        background: #8f0707 !important;
+    }
+
+    #previewModal .modal { max-width: 700px; }
+    #previewModal img { max-width: 100%; max-height: 460px; border-radius: var(--fm-radius-sm); display: block; margin: 0 auto; }
+    #previewModal .preview-meta { font-size: var(--fm-font-hint); color: var(--fm-muted); margin-top: var(--fm-space-3); text-align: center; }
+    #previewModal .preview-placeholder { text-align: center; padding: 40px 0; font-size: 48px; }
+    #previewModal .preview-name { font-weight: 700; font-size: 1.05rem; margin-bottom: var(--fm-space-2); text-align: center; color: var(--fm-text); }
+
+    /* ---------- manage tags list ---------- */
+    .fm-tag-row {
+        display: flex;
+        align-items: center;
+        gap: var(--fm-space-2);
+        padding: 6px 8px;
+        border: 1px solid var(--fm-border);
+        border-radius: var(--fm-radius-sm);
+        background: var(--fm-surface-alt);
+    }
+    .fm-tag-row .fm-tag-name {
+        flex: 1;
+        font-weight: 700;
+        font-size: 0.9rem;
+        overflow-wrap: anywhere;
+    }
+    .fm-tag-row .fm-tag-count {
+        font-size: 0.8rem;
+        color: var(--fm-muted);
+        white-space: nowrap;
+    }
+    .fm-tag-row input[type="text"] {
+        flex: 1;
+        padding: 4px 8px;
+        border: 1px solid var(--fm-accent);
+        border-radius: var(--fm-radius-sm);
+        font-size: 0.9rem;
+    }
+    .fm-tag-row .btn {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+    }
+    .fm-tag-row .btn.btn-primary,
+    .fm-tag-row button.btn-primary {
+        background: var(--fm-accent) !important;
+        border-color: var(--fm-accent-strong) !important;
+        color: #ffffff !important;
+    }
+    .fm-tag-row .btn.btn-danger,
+    .fm-tag-row button.btn-danger {
+        background: var(--fm-danger-border) !important;
+        border-color: var(--fm-danger-border) !important;
+        color: #ffffff !important;
+    }
+
+    /* ---------- bulk untag checkbox list ---------- */
+    .fm-untag-row {
+        display: flex;
+        align-items: center;
+        gap: var(--fm-space-2);
+        padding: 4px 0;
+    }
+    .fm-untag-row label {
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    /* ---------- back-to-top ---------- */
+    #backToTopBtn {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        z-index: 500;
+        width: 48px;
+        height: 48px;
+        border-radius: 999px;
+        background: var(--fm-accent);
+        border: 1px solid var(--fm-accent-strong);
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: var(--fm-shadow-md);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(8px);
+        transition: opacity .2s, transform .2s, visibility 0s linear .2s, background .15s;
+    }
+    #backToTopBtn.is-visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        transition: opacity .2s, transform .2s, visibility 0s linear 0s, background .15s;
+    }
+    #backToTopBtn:hover { background: var(--fm-accent-strong); }
+    #backToTopBtn svg { stroke: #ffffff; fill: none; }
+    @media (max-width: 640px) {
+        #backToTopBtn { right: 16px; bottom: 16px; width: 44px; height: 44px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="fm-tool">
+
+  <div id="toastContainer"></div>
+
+  <div class="modal-backdrop" id="renameModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="renameModalHeading">
+      <h3 id="renameModalHeading">Rename File</h3>
+      <label for="renameInput">New filename</label>
+      <input type="text" id="renameInput" autocomplete="off" spellcheck="false" />
+      <div style="font-size:0.9rem;color:var(--fm-muted);margin-bottom:12px;" id="renameHint"></div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="renameCancelBtn">Cancel</button>
+        <button class="btn btn-primary"   id="renameConfirmBtn">Rename</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="tagModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="tagModalHeading">
+      <h3 id="tagModalHeading">Edit Tags — <span id="tagModalFileName" style="font-weight:400;font-size:14px;"></span></h3>
+      <label>Current tags</label>
+      <div id="tagModalCurrent" class="tag-list" style="min-height:28px;margin-bottom:12px;"></div>
+      <label for="tagModalInput">Add tag</label>
+      <div style="display:flex; gap:8px; margin-bottom:12px;">
+        <input type="text" id="tagModalInput" placeholder="Type a tag and press Enter…" autocomplete="off" style="flex:1; margin-bottom:0;" />
+        <button type="button" class="btn btn-primary" id="tagModalAddBtn">Add</button>
+      </div>
+      <div style="font-size:0.9rem;color:var(--fm-muted);margin-bottom:12px;">Suggestions: <span id="tagSuggestions"></span></div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="tagCancelBtn">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="previewModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="previewName">
+      <div id="previewName" class="preview-name"></div>
+      <div id="previewBody"></div>
+      <div id="previewMeta" class="preview-meta"></div>
+      <div class="modal-actions" style="margin-top:16px; justify-content:space-between;">
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn btn-secondary" id="previewPrevBtn" aria-label="Previous file">
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button type="button" class="btn btn-secondary" id="previewNextBtn" aria-label="Next file">
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <a id="previewDownloadBtn" class="btn btn-primary" download><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Download</a>
+          <button class="btn btn-secondary" id="previewCloseBtn">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="bulkTagModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="bulkTagModalHeading">
+      <h3 id="bulkTagModalHeading">Add Tags to <span id="bulkTagModalCount">0 files</span></h3>
+      <p style="font-size:0.9rem;color:var(--fm-muted);margin:-8px 0 12px;">
+        Tags entered here will be added to every selected file. Existing tags on those files are kept.
+      </p>
+      <label for="bulkTagModalInput">Add tag</label>
+      <div style="display:flex; gap:8px; margin-bottom:12px;">
+        <input type="text" id="bulkTagModalInput" placeholder="Type a tag and press Enter…" autocomplete="off" style="flex:1; margin-bottom:0;" />
+        <button type="button" class="btn btn-primary" id="bulkTagModalAddBtn">Add</button>
+      </div>
+      <div id="bulkTagModalPending" class="tag-list" style="min-height:28px;margin-bottom:12px;"></div>
+      <div style="font-size:0.9rem;color:var(--fm-muted);margin-bottom:12px;">Suggestions: <span id="bulkTagSuggestions"></span></div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="bulkTagCancelBtn">Cancel</button>
+        <button class="btn btn-primary" id="bulkTagApplyBtn">Apply to Selected</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="bulkUntagModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="bulkUntagModalHeading">
+      <h3 id="bulkUntagModalHeading">Remove Tags from <span id="bulkUntagModalCount">0 files</span></h3>
+      <p style="font-size:0.9rem;color:var(--fm-muted);margin:-8px 0 12px;">
+        Select which tags to remove. Only tags present on the selected files are shown.
+      </p>
+      <div id="bulkUntagModalList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;max-height:240px;overflow-y:auto;"></div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="bulkUntagCancelBtn">Cancel</button>
+        <button class="btn btn-danger" id="bulkUntagApplyBtn">Remove Selected Tags</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="manageTagsModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="manageTagsModalHeading" style="max-width:520px;">
+      <h3 id="manageTagsModalHeading">Manage Tags</h3>
+      <p style="font-size:0.9rem;color:var(--fm-muted);margin:-8px 0 12px;">
+        Rename a tag to update it everywhere, or delete it to remove it from every file that has it.
+      </p>
+      <div id="manageTagsList" style="display:flex;flex-direction:column;gap:6px;max-height:320px;overflow-y:auto;"></div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="manageTagsCloseBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <h1>File Manager</h1>
+
+  <section class="fm-card" aria-labelledby="upload_heading">
+    <div class="fm-card-header">
+      <span class="fm-card-num">1</span>
+      <h2 id="upload_heading">Upload Files</h2>
+    </div>
+    <div class="fm-card-body">
+      <div id="dropZone">
+        <label for="fileInput" class="sr-only">Choose files to upload</label>
+        <input type="file" id="fileInput" multiple />
+        <div class="dz-icon" aria-hidden="true">📂</div>
+        <div class="dz-label">Drag &amp; drop files here, or click to browse</div>
+        <div class="dz-sub">Multiple files supported</div>
+      </div>
+      <div id="uploadQueue" role="log" aria-live="polite" aria-relevant="additions text"></div>
+      <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <button type="button" class="btn btn-primary" id="uploadBtn" disabled><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg> Upload Selected</button>
+        <button type="button" class="btn btn-ghost"   id="clearQueueBtn" style="display:none"><span aria-hidden="true">✕</span> Clear queue</button>
+        <span id="queueCount" style="color:var(--fm-muted);font-size:0.9rem;"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="fm-card" aria-labelledby="files_heading">
+    <div class="fm-card-header">
+      <span class="fm-card-num">2</span>
+      <h2 id="files_heading">Manage Files</h2>
+    </div>
+    <div class="fm-card-body">
+
+      <div class="toolbar">
+        <div class="toolbar-search">
+          <label for="searchInput" class="sr-only">Search filename</label>
+          <input type="text" id="searchInput" placeholder="Search filename… (press / to focus)" title="Press / to focus search, Escape to clear" />
+        </div>
+        <div class="toolbar-actions">
+          <button type="button" class="btn btn-secondary" id="clearSearchSortBtn" title="Clear search, sort, and selection" aria-label="Clear search, sort order, and file selection">
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            Clear
+          </button>
+          <button type="button" class="btn btn-secondary" id="refreshBtn"><span aria-hidden="true">↻</span> Refresh</button>
+        </div>
+      </div>
+
+      <div id="syncBar" class="hidden" role="status" aria-live="polite">
+        <div class="sync-dot" aria-hidden="true"></div>
+        <span class="sync-msg">You have unsynced tag/metadata changes. Other users won't see them until you sync.</span>
+        <button type="button" class="btn btn-warning btn-sm" id="syncNowBtn">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"></path><polyline points="12 12 12 17"></polyline><polyline points="9.5 14.5 12 12 14.5 14.5"></polyline></svg>
+          Sync Now
+        </button>
+        <button type="button" class="btn btn-ghost   btn-sm" id="syncDismissBtn">Dismiss</button>
+      </div>
+
+      <div class="filter-row" id="filterRow" hidden>
+        <p class="filter-row-heading">Filter</p>
+        <div class="filter-row-line" id="typeFilterGroup" hidden>
+          <span class="filter-label">Type</span>
+          <span id="typeFilterBtns" class="filter-group"></span>
+        </div>
+        <div class="filter-row-line" id="tagFilterGroup" hidden>
+          <button type="button" class="filter-label-link" id="manageTagsBtn">Tags</button>
+          <span id="tagFilterBtns" class="filter-group"></span>
+        </div>
+        <div class="filter-row-line" id="filterClearLine" hidden>
+          <button type="button" class="filter-clear" id="filterClearBtn">Clear filters</button>
+        </div>
+      </div>
+
+      <div id="bulkBar" role="status" aria-live="polite">
+        <span id="bulkCount">0 selected</span>
+        <span class="spacer"></span>
+        <button type="button" class="btn btn-secondary btn-sm" id="bulkTagBtn">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41L11 3.83A2 2 0 0 0 9.59 3.24L4 3a1 1 0 0 0-1 1l.24 5.59a2 2 0 0 0 .59 1.41l9.58 9.59a2 2 0 0 0 2.83 0l4.35-4.35a2 2 0 0 0 0-2.83z"></path><circle cx="7.5" cy="7.5" r="1.5"></circle></svg>
+          Add tags
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" id="bulkUntagBtn">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41L11 3.83A2 2 0 0 0 9.59 3.24L4 3a1 1 0 0 0-1 1l.24 5.59a2 2 0 0 0 .59 1.41l9.58 9.59a2 2 0 0 0 2.83 0l4.35-4.35a2 2 0 0 0 0-2.83z"></path><circle cx="7.5" cy="7.5" r="1.5"></circle><line x1="3" y1="21" x2="21" y2="3"></line></svg>
+          Remove tags
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" id="bulkDownloadBtn">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Download selected
+        </button>
+        <button type="button" class="btn btn-danger btn-sm" id="bulkDeleteBtn">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg>
+          Delete selected
+        </button>
+      </div>
+
+      <div id="statusLine" role="status" aria-live="polite"></div>
+
+      <div class="table-wrap">
+        <table id="filesTable">
+          <caption class="sr-only">List of uploaded files with size, modified date, tags, and actions</caption>
+          <thead>
+            <tr>
+              <th scope="col" style="width:34px"><input type="checkbox" id="selectAll" title="Select all" /><span class="sr-only">Select all files</span></th>
+              <th scope="col" class="sortable" data-col="name">Name <span class="sort-arrow">↕</span></th>
+              <th scope="col" class="sortable right" data-col="size" style="width:80px">Size <span class="sort-arrow">↕</span></th>
+              <th scope="col" class="sortable" data-col="modified" style="width:160px">Modified <span class="sort-arrow">↕</span></th>
+              <th scope="col" class="sortable" data-col="tags" style="width:170px">Tags <span class="sort-arrow">↕</span></th>
+              <th scope="col" style="width:120px">Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <button type="button" id="backToTopBtn" aria-label="Back to top">
+    <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+  </button>
+
+</div>
+
+<script>
+(() => {
+  const CSRF_SOURCE_PAGES = [
+    '/platform/designs/admin/?a=mod_file_manager',
+    '/platform/designs/report.php?a=file_manager'
+  ];
+  const UPLOAD_ENDPOINT  = '/platform/designs/admin/ajaxIndex.php?a=uploadFile';
+  const LIST_URL         = '/platform/designs/api/system/files?getStats=1';
+  const DELETE_API_ABS   = '/platform/designs/api/system/files/delete';
+  const ADMIN_PROXY_PAGE = '/platform/designs/admin/?a=mod_file_manager';
+  const FILES_BASE_URL   = '/platform/designs/files/';
+  const FILE_FIELD_NAME  = 'file';
+  const META_FILENAME    = '_leaf_fm_meta.json';
+  const META_URL         = FILES_BASE_URL + META_FILENAME;
+  const LS_TAG_KEY       = 'leaf_fm_tags_v2';
+  const LS_DIRTY_KEY     = 'leaf_fm_dirty';
+
+  // Type groups for the type filter; unmatched extensions fall under "Other".
+  const TYPE_GROUPS = {
+    'Images':    new Set(['png','jpg','jpeg','gif','webp','svg','bmp','ico']),
+    'Documents': new Set(['pdf','doc','docx','xls','xlsx','csv','ppt','pptx','txt','md','rtf']),
+    'Code':      new Set(['js','ts','php','css','html','xml','json']),
+    'Archives':  new Set(['zip','tar','gz','rar']),
+    'Media':     new Set(['mp4','mov','avi','mp3','wav']),
+  };
+
+  function typeGroupOf(name) {
+    const e = extOf(name);
+    for (const [label, exts] of Object.entries(TYPE_GROUPS)) {
+      if (exts.has(e)) return label;
+    }
+    return 'Other';
+  }
+
+  let files            = [];
+  let csrfToken        = null;
+  let sortCol          = 'name';
+  let sortDir          = 'asc';
+  let selectedFiles    = new Set();
+  let uploadQueue      = [];
+  let activeTagFilters  = new Set();
+  let activeTypeFilters = new Set();
+  let _bulkTagPending   = new Set();
+  let _syncInProgress  = false;
+  let _proxyIframe         = null;
+  let _proxyIframeReady    = false;
+  let _proxyReadyCallbacks = [];
+
+  const $             = id => document.getElementById(id);
+  const dropZone      = $('dropZone');
+  const fileInput     = $('fileInput');
+  const uploadBtn     = $('uploadBtn');
+  const clearQueueBtn = $('clearQueueBtn');
+  const queueCountEl  = $('queueCount');
+  const uploadQueueEl = $('uploadQueue');
+  const searchInput   = $('searchInput');
+  const selectAllCb   = $('selectAll');
+  const bulkBar       = $('bulkBar');
+  const bulkCountEl   = $('bulkCount');
+  const bulkDeleteBtn = $('bulkDeleteBtn');
+  const statusLine    = $('statusLine');
+  const tbody         = document.querySelector('#filesTable tbody');
+  const syncBar       = $('syncBar');
+  const filterRow      = $('filterRow');
+  const typeFilterGroup= $('typeFilterGroup');
+  const tagFilterGroup = $('tagFilterGroup');
+  const filterClearBtn = $('filterClearBtn');
+
+  const esc   = s => String(s ?? '')
+    .replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
+    .replaceAll('"','&quot;').replaceAll("'","&#039;");
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+  function fmtBytes(n) {
+    n = Number(n || 0);
+    if (n < 1024) return n + ' B';
+    const u = ['KB','MB','GB','TB']; let i = -1;
+    do { n /= 1024; i++; } while (n >= 1024 && i < u.length - 1);
+    return n.toFixed(1) + ' ' + u[i];
+  }
+
+  // modifiedTime is a Unix timestamp in seconds.
+  function fmtDate(v) {
+    if (!v && v !== 0) return '—';
+    const n = Number(v);
+    if (!isNaN(n) && n > 0) {
+      const d = new Date(n < 2e10 ? n * 1000 : n);
+      if (!isNaN(d.getTime())) return d.toLocaleString();
+    }
+    return String(v) || '—';
+  }
+
+  const EXT_ICON = {
+    png:'🖼️',jpg:'🖼️',jpeg:'🖼️',gif:'🖼️',webp:'🖼️',svg:'🖼️',bmp:'🖼️',ico:'🖼️',
+    pdf:'📄',doc:'📝',docx:'📝',xls:'📊',xlsx:'📊',csv:'📊',ppt:'📋',pptx:'📋',
+    txt:'📄',md:'📄',rtf:'📄',js:'📜',ts:'📜',php:'📜',css:'🎨',html:'🌐',
+    xml:'🌐',json:'📦',zip:'🗜️',tar:'🗜️',gz:'🗜️',rar:'🗜️',
+    mp4:'🎬',mov:'🎬',avi:'🎬',mp3:'🎵',wav:'🎵',_:'📁'
+  };
+  const IMAGE_EXTS = new Set(['png','jpg','jpeg','gif','webp','svg','bmp']);
+  const extOf  = n => (n.split('.').pop() || '').toLowerCase();
+  const iconOf = n => EXT_ICON[extOf(n)] || EXT_ICON._;
+  const isImg  = n => IMAGE_EXTS.has(extOf(n));
+
+  function toast(msg, type='ok', duration=3500) {
+    const el = document.createElement('div');
+    el.className = `toast ${type}`; el.textContent = msg;
+    $('toastContainer').appendChild(el);
+    requestAnimationFrame(() => el.classList.add('show'));
+    setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 300); }, duration);
+  }
+
+  function setStatus(msg) { statusLine.textContent = msg; }
+
+  // Traps Tab/Shift+Tab in the open modal, closes on Escape, restores focus on close.
+  let _modalReturnFocus = null;
+  function openModal(modalEl, initialFocusEl) {
+    _modalReturnFocus = document.activeElement;
+    modalEl.classList.add('open');
+    modalEl.removeAttribute('aria-hidden');
+    requestAnimationFrame(() => {
+      (initialFocusEl || modalEl.querySelector('input,button,select,a[href]'))?.focus();
+    });
+    modalEl.addEventListener('keydown', trapFocus);
+  }
+  function closeModalEl(modalEl) {
+    modalEl.classList.remove('open');
+    modalEl.setAttribute('aria-hidden', 'true');
+    modalEl.removeEventListener('keydown', trapFocus);
+    if (_modalReturnFocus && typeof _modalReturnFocus.focus === 'function') {
+      _modalReturnFocus.focus();
+    }
+    _modalReturnFocus = null;
+  }
+  function trapFocus(e) {
+    if (e.key === 'Escape') {
+      e.currentTarget.classList.remove('open');
+      e.currentTarget.setAttribute('aria-hidden', 'true');
+      e.currentTarget.removeEventListener('keydown', trapFocus);
+      if (_modalReturnFocus && typeof _modalReturnFocus.focus === 'function') _modalReturnFocus.focus();
+      _modalReturnFocus = null;
+      return;
+    }
+    if (e.key !== 'Tab') return;
+    const modalEl = e.currentTarget;
+    const focusables = modalEl.querySelectorAll('input,button,select,a[href],[tabindex]:not([tabindex="-1"])');
+    if (!focusables.length) return;
+    const first = focusables[0], last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+
+  // Falls back to an in-memory store if localStorage is blocked (private
+  // browsing, sandboxed preview, disabled storage) so tagging still works
+  // for the current session; surfaces a one-time warning instead of
+  // failing silently.
+  let _memoryTagStore = null;
+  let _storageWarned = false;
+  function storageAvailable() {
+    try {
+      const k = '__fm_storage_test__';
+      localStorage.setItem(k, '1');
+      localStorage.removeItem(k);
+      return true;
+    } catch { return false; }
+  }
+  function loadLocal() {
+    if (!storageAvailable()) {
+      if (!_storageWarned) { _storageWarned = true; toast('Browser storage is unavailable — tags will only persist for this session.','warn',6000); }
+      return _memoryTagStore ?? (_memoryTagStore = {});
+    }
+    try { return JSON.parse(localStorage.getItem(LS_TAG_KEY)||'{}'); } catch (err) { console.error('[FM] loadLocal parse error:', err); return {}; }
+  }
+  function saveLocal(m) {
+    if (!storageAvailable()) { _memoryTagStore = m; console.log('[FM] saveLocal (memory):', JSON.parse(JSON.stringify(m))); return; }
+    try {
+      localStorage.setItem(LS_TAG_KEY, JSON.stringify(m));
+      console.log('[FM] saveLocal (localStorage) wrote', Object.keys(m).length, 'entries');
+    }
+    catch (err) { toast('Could not save tag changes: '+err.message,'err',6000); console.error('[FM] saveLocal error:', err); }
+  }
+  function isDirty()   { return storageAvailable() ? localStorage.getItem(LS_DIRTY_KEY) === 'true' : _memoryTagStore !== null; }
+  function markDirty() { if (storageAvailable()) localStorage.setItem(LS_DIRTY_KEY,'true'); updateSyncBar(); }
+  function markClean() { if (storageAvailable()) localStorage.removeItem(LS_DIRTY_KEY); updateSyncBar(); }
+
+  function updateSyncBar() {
+    syncBar.classList.toggle('hidden', !isDirty() || _syncInProgress);
+  }
+
+  function mergeRemoteIntoLocal(remote) {
+    const local = loadLocal(); let changed = false;
+    for (const [filename, entry] of Object.entries(remote)) {
+      const remoteTags = entry?.tags ?? [];
+      if (!remoteTags.length) continue;
+      const localTags = local[filename]?.tags ?? [];
+      const merged    = [...new Set([...localTags, ...remoteTags])];
+      if (merged.length !== localTags.length || !merged.every(t => localTags.includes(t))) {
+        local[filename] = { ...(local[filename]||{}), tags: merged }; changed = true;
+      }
+    }
+    if (changed) saveLocal(local);
+    return changed;
+  }
+
+  async function pullRemoteMeta() {
+    try {
+      const res  = await fetch(META_URL + '?_=' + Date.now(), { credentials:'include', headers:{ Accept:'*/*' } });
+      const text = await res.text();
+      const looksLikeError = !res.ok || text.trim().startsWith('Error:') || text.trim()===''
+        || text.includes('does not exist') || text.includes('access may be restricted');
+      if (looksLikeError) { console.log('[FM] No remote metadata sidecar found yet.'); return; }
+      let remote;
+      try { remote = JSON.parse(text); } catch {
+        console.log('[FM] Remote metadata could not be parsed.', text.slice(0,200)); return;
+      }
+      if (typeof remote !== 'object' || Array.isArray(remote)) { console.log('[FM] Remote metadata unexpected shape — ignored.'); return; }
+      mergeRemoteIntoLocal(remote);
+    } catch(err) { console.log('[FM] Remote metadata pull error:', err.message); }
+  }
+
+  async function pushRemoteMeta() {
+    if (_syncInProgress) return;
+    _syncInProgress = true; updateSyncBar();
+    try {
+      const local    = loadLocal();
+      const json     = JSON.stringify(local, null, 2);
+      const blob     = new Blob([json], { type:'application/json' });
+      const metaFile = new File([blob], META_FILENAME, { type:'application/json' });
+      const token    = await getCsrfToken(true);
+      const fd       = new FormData();
+      fd.append(FILE_FIELD_NAME, metaFile, META_FILENAME);
+      fd.append('CSRFToken', token);
+      const res = await fetch(UPLOAD_ENDPOINT, {
+        method:'POST', credentials:'include',
+        headers:{'X-Requested-With':'XMLHttpRequest'},
+        redirect:'manual', body: fd
+      });
+      if (res.type==='opaqueredirect'||res.status===302||res.redirected||res.ok) {
+        markClean();
+        toast('Tags synced — other users will see your changes on next load.','ok',4000);
+        await sleep(800);
+        await pullRemoteMeta();
+      } else {
+        const txt = await res.text().catch(()=>'');
+        throw new Error(`Upload failed (${res.status}): ${txt.slice(0,200)}`);
+      }
+    } catch(err) {
+      toast('Sync failed: '+err.message,'err',6000);
+    } finally { _syncInProgress=false; updateSyncBar(); }
+  }
+
+  function getFileTags(name) { return loadLocal()[name]?.tags ?? []; }
+  function setFileTags(name, tags) {
+    console.log('[FM] setFileTags called:', name, tags);
+    const m=loadLocal(); m[name]={...(m[name]||{}),tags:[...new Set(tags)]}; saveLocal(m); markDirty();
+    console.log('[FM] setFileTags result, getFileTags now returns:', getFileTags(name));
+  }
+  function removeFileFromMeta(name) { const m=loadLocal(); delete m[name]; saveLocal(m); }
+  function renameFileInMeta(oldName,newName) {
+    const m=loadLocal();
+    if(m[oldName]){m[newName]=m[oldName];delete m[oldName];saveLocal(m);markDirty();}
+  }
+  function allKnownTags() {
+    return [...new Set(Object.values(loadLocal()).flatMap(v=>v?.tags??[]))].sort();
+  }
+  function tagUsageCount(tag) {
+    return Object.values(loadLocal()).filter(v=>(v?.tags??[]).includes(tag)).length;
+  }
+  function renameTagGlobally(oldTag, newTag) {
+    const m = loadLocal();
+    let changed = 0;
+    for (const name of Object.keys(m)) {
+      const tags = m[name]?.tags ?? [];
+      if (!tags.includes(oldTag)) continue;
+      const next = [...new Set(tags.map(t => t === oldTag ? newTag : t))];
+      m[name] = { ...m[name], tags: next };
+      changed++;
+    }
+    if (changed) { saveLocal(m); markDirty(); }
+    return changed;
+  }
+  function deleteTagGlobally(tag) {
+    const m = loadLocal();
+    let changed = 0;
+    for (const name of Object.keys(m)) {
+      const tags = m[name]?.tags ?? [];
+      if (!tags.includes(tag)) continue;
+      m[name] = { ...m[name], tags: tags.filter(t => t !== tag) };
+      changed++;
+    }
+    if (changed) { saveLocal(m); markDirty(); }
+    return changed;
+  }
+  function removeTagsFromFiles(names, tagsToRemove) {
+    const m = loadLocal();
+    const removeSet = new Set(tagsToRemove);
+    names.forEach(name => {
+      const tags = m[name]?.tags ?? [];
+      m[name] = { ...(m[name]||{}), tags: tags.filter(t => !removeSet.has(t)) };
+    });
+    saveLocal(m); markDirty();
+  }
+
+  function normalize(payload) {
+    const map = arr => arr.map(one).filter(Boolean);
+    if (Array.isArray(payload))                           return map(payload);
+    if (payload?.files  && Array.isArray(payload.files))  return map(payload.files);
+    if (payload?.data   && Array.isArray(payload.data))   return map(payload.data);
+    if (payload?.items  && Array.isArray(payload.items))  return map(payload.items);
+    if (payload && typeof payload === 'object') {
+      const keys = Object.keys(payload);
+      if (keys.length && typeof payload[keys[0]] === 'object')
+        return map(keys.map(k => ({ name: k, ...(payload[k]||{}) })));
+    }
+    return [];
+  }
+
+  function one(r) {
+    const name = r?.name || r?.filename || r?.file || r?.path || r?.baseName;
+    if (!name || name === META_FILENAME) return null;
+    return {
+      name,
+      size:     r.size         ?? r.bytes    ?? r.fileSize ?? r.filesize ?? 0,
+      modified: r.modifiedTime ?? r.modified ?? r.mtime    ?? r.lastModified ?? r.date ?? 0,
+      raw: r
+    };
+  }
+
+  // ── Sort ──────────────────────────────────────────────────────────────────────
+  function sortedFiles(list) {
+    return [...list].sort((a,b) => {
+      let av=a[sortCol], bv=b[sortCol];
+      if (sortCol==='tags') {
+        const at = getFileTags(a.name).slice().sort().join(', ');
+        const bt = getFileTags(b.name).slice().sort().join(', ');
+        if (!at && !bt) return 0;
+        if (!at) return 1;
+        if (!bt) return -1;
+        av = at; bv = bt;
+        return sortDir==='asc'?(av>bv?1:av<bv?-1:0):(av<bv?1:av>bv?-1:0);
+      }
+      if      (sortCol==='size')     { av=Number(av); bv=Number(bv); }
+      else if (sortCol==='modified') { av=Number(av)||0; bv=Number(bv)||0; }
+      else { av=String(av).toLowerCase(); bv=String(bv).toLowerCase(); }
+      return sortDir==='asc'?(av>bv?1:av<bv?-1:0):(av<bv?1:av>bv?-1:0);
+    });
+  }
+
+  function updateSortHeaders() {
+    document.querySelectorAll('#filesTable th[data-col]').forEach(th => {
+      const col=th.dataset.col;
+      th.classList.toggle('sort-asc',  col===sortCol&&sortDir==='asc');
+      th.classList.toggle('sort-desc', col===sortCol&&sortDir==='desc');
+      th.querySelector('.sort-arrow').textContent = col!==sortCol?'↕':sortDir==='asc'?'↑':'↓';
+    });
+  }
+
+  // Single source of truth for "what's currently visible" — used by both
+  // render() and the select-all checkbox so selection never silently
+  // expands beyond what the user can actually see.
+  function visibleFiles() {
+    const q = searchInput.value.trim().toLowerCase();
+    return sortedFiles(files).filter(f => {
+      if (q && !f.name.toLowerCase().includes(q)) return false;
+      if (activeTypeFilters.size && !activeTypeFilters.has(typeGroupOf(f.name))) return false;
+      if (activeTagFilters.size) {
+        const ft = getFileTags(f.name);
+        if (![...activeTagFilters].every(t => ft.includes(t))) return false;
+      }
+      return true;
+    });
+  }
+
+  function renderFilterRow() {
+    const presentGroups = new Set(files.map(f => typeGroupOf(f.name)));
+    const tags = allKnownTags();
+
+    const showType = presentGroups.size > 1;
+    const showTags = tags.length > 0;
+
+    typeFilterGroup.hidden = !showType;
+    tagFilterGroup.hidden  = !showTags;
+    filterRow.hidden       = !(showType || showTags);
+
+    if (showType) {
+      const container = $('typeFilterBtns');
+      container.innerHTML = '';
+      [...presentGroups].sort().forEach(group => {
+        const count = files.filter(f => typeGroupOf(f.name) === group).length;
+        const btn   = document.createElement('button');
+        const active= activeTypeFilters.has(group);
+        btn.type = 'button';
+        btn.className = 'filter-chip type-chip' + (active ? ' type-active' : '');
+        btn.textContent = `${group} (${count})`;
+        btn.addEventListener('click', () => {
+          active ? activeTypeFilters.delete(group) : activeTypeFilters.add(group);
+          renderFilterRow(); render();
+        });
+        container.appendChild(btn);
+      });
+    }
+
+    if (showTags) {
+      const container = $('tagFilterBtns');
+      container.innerHTML = '';
+      tags.forEach(tag => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'filter-chip' + (activeTagFilters.has(tag) ? ' active' : '');
+        btn.textContent = tag;
+        btn.addEventListener('click', () => {
+          activeTagFilters.has(tag) ? activeTagFilters.delete(tag) : activeTagFilters.add(tag);
+          renderFilterRow(); render();
+        });
+        container.appendChild(btn);
+      });
+    }
+
+    filterClearBtn.hidden = !(activeTypeFilters.size || activeTagFilters.size);
+    $('filterClearLine').hidden = filterClearBtn.hidden;
+  }
+
+  function render() {
+    const list = visibleFiles();
+
+    tbody.innerHTML = '';
+
+    if (!list.length) {
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.colSpan = 6;
+      const hasActiveNarrowing = searchInput.value.trim() || activeTypeFilters.size || activeTagFilters.size;
+      if (!files.length) {
+        td.innerHTML = `
+          <div class="fm-empty-state">
+            <div class="fm-empty-icon" aria-hidden="true">📂</div>
+            <div class="fm-empty-title">No files uploaded yet</div>
+            <div class="fm-empty-sub">Use the Upload Files section above to add your first file.</div>
+          </div>`;
+      } else if (hasActiveNarrowing) {
+        td.innerHTML = `
+          <div class="fm-empty-state">
+            <div class="fm-empty-icon" aria-hidden="true">🔍</div>
+            <div class="fm-empty-title">No files match your search or filters</div>
+            <div class="fm-empty-sub">Try a different search term, or <button type="button" class="filter-clear" id="fmEmptyClearBtn" style="font-size:inherit;">clear search and filters</button>.</div>
+          </div>`;
+      } else {
+        td.innerHTML = `
+          <div class="fm-empty-state">
+            <div class="fm-empty-icon" aria-hidden="true">📂</div>
+            <div class="fm-empty-title">No files to show</div>
+          </div>`;
+      }
+      tr.appendChild(td);
+      tbody.appendChild(tr);
+      const clearBtn = document.getElementById('fmEmptyClearBtn');
+      if (clearBtn) clearBtn.addEventListener('click', ()=>{
+        searchInput.value='';
+        activeTypeFilters.clear(); activeTagFilters.clear();
+        sortCol='name'; sortDir='asc';
+        updateSortHeaders(); renderFilterRow(); render();
+        searchInput.focus();
+      });
+      updateBulkBar();
+      setStatus(`Showing 0 of ${files.length} file${files.length!==1?'s':''}`);
+      return;
+    }
+    list.forEach(f => {
+      const checked  = selectedFiles.has(f.name);
+      const tags     = getFileTags(f.name);
+      const tr       = document.createElement('tr');
+      if (checked) tr.classList.add('selected');
+      const tagChips = tags.map(t => `<span class="tag-chip">${esc(t)}</span>`).join('');
+      tr.innerHTML = `
+        <td><input type="checkbox" class="row-cb" data-file="${encodeURIComponent(f.name)}" ${checked?'checked':''} /><span class="sr-only">Select ${esc(f.name)}</span></td>
+        <td class="mono">
+          <div class="file-cell">
+            <span class="file-icon" aria-hidden="true">${iconOf(f.name)}</span>
+            <span title="${esc(f.name)}">${esc(f.name)}</span>
+            <button type="button" class="btn btn-ghost btn-sm fm-rename-inline" data-act="rename" data-file="${encodeURIComponent(f.name)}" title="Rename" aria-label="Rename ${esc(f.name)}">✏️</button>
+            <button type="button" class="btn btn-ghost btn-sm fm-copy-inline" data-act="copyname" data-file="${encodeURIComponent(f.name)}" title="Copy filename" aria-label="Copy filename ${esc(f.name)} to clipboard">
+              <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </button>
+          </div>
+        </td>
+        <td class="right">${esc(fmtBytes(f.size))}</td>
+        <td>${esc(fmtDate(f.modified))}</td>
+        <td><div class="tag-list">${tagChips}
+          <button type="button" class="btn btn-ghost btn-sm" data-act="edittags" data-file="${encodeURIComponent(f.name)}" title="Edit tags" aria-label="Edit tags for ${esc(f.name)}" style="padding:1px 6px">＋</button>
+        </div></td>
+        <td class="actions">
+          <button type="button" class="btn btn-ghost btn-sm" data-act="preview"  data-file="${encodeURIComponent(f.name)}" title="Preview" aria-label="Preview ${esc(f.name)}">👁</button>
+          <button type="button" class="btn btn-ghost btn-sm" data-act="download" data-file="${encodeURIComponent(f.name)}" title="Download" aria-label="Download ${esc(f.name)}">⬇</button>
+          <button type="button" class="btn btn-ghost btn-sm fm-danger-ghost" data-act="delete"   data-file="${encodeURIComponent(f.name)}" title="Delete" aria-label="Delete ${esc(f.name)}">🗑</button>
+        </td>`;
+      tbody.appendChild(tr);
+    });
+
+    const vis  = list.map(f => f.name);
+    const allC = vis.length>0 && vis.every(n => selectedFiles.has(n));
+    selectAllCb.checked = allC;
+    selectAllCb.indeterminate = !allC && vis.some(n => selectedFiles.has(n));
+    updateBulkBar();
+
+    const filterNote = [];
+    if (activeTypeFilters.size) filterNote.push([...activeTypeFilters].join(', '));
+    if (activeTagFilters.size)  filterNote.push('tags: ' + [...activeTagFilters].join(', '));
+    const filterStr = filterNote.length ? ` · filtered by ${filterNote.join(' · ')}` : '';
+    setStatus(`Showing ${list.length} of ${files.length} file${files.length!==1?'s':''}${filterStr}${isDirty()?' · ⚠ unsynced':''}`);
+  }
+
+  function updateBulkBar() {
+    const count = selectedFiles.size;
+    bulkBar.classList.toggle('visible', count>0);
+    if (count>0) bulkCountEl.textContent=`${count} file${count>1?'s':''} selected`;
+  }
+
+  async function loadFiles() {
+    setStatus('Loading…');
+    const res = await fetch(LIST_URL, { method:'GET', credentials:'include', headers:{'X-Requested-With':'XMLHttpRequest',Accept:'*/*'} });
+    if (!res.ok) throw new Error(`List failed (${res.status})`);
+    const ct=res.headers.get('content-type')||'';
+    let payload;
+    if (ct.includes('json')) payload=await res.json();
+    else { const txt=await res.text(); try{payload=JSON.parse(txt);}catch{throw new Error('List response not JSON');} }
+    files=normalize(payload);
+    for (const name of [...selectedFiles]) { if (!files.some(f=>f.name===name)) selectedFiles.delete(name); }
+    render(); renderFilterRow(); updateSortHeaders();
+  }
+
+  function extractCsrf(html) {
+    const patterns=[
+      /name=["']CSRFToken["'][^>]*value=["']([^"']{10,})["']/i,
+      /value=["']([^"']{10,})["'][^>]*name=["']CSRFToken["']/i,
+      /"CSRFToken"\s*:\s*"([^"]{10,})"/i,
+      /(?:var\s+|let\s+|const\s+|window\.)?CSRFToken\s*=\s*["']([a-f0-9]{10,})["']/i,
+      /CSRFToken["'\s:=><]+([a-f0-9]{32,})/i
+    ];
+    for (const p of patterns){const m=html.match(p);if(m?.[1])return m[1];}
+    return null;
+  }
+
+  async function getCsrfToken(force=false) {
+    if (csrfToken&&!force) return csrfToken;
+    for (const page of CSRF_SOURCE_PAGES) {
+      try {
+        const res=await fetch(page,{credentials:'include'});
+        const html=await res.text();
+        const t=extractCsrf(html);
+        if(t){csrfToken=t;return t;}
+      } catch(err){ console.log('[FM] CSRF source failed:', page, err.message); }
+    }
+    throw new Error('Could not obtain CSRF token.');
+  }
+
+  function getProxyIframe() {
+    return new Promise((resolve,reject) => {
+      if (_proxyIframeReady){resolve(_proxyIframe);return;}
+      if (_proxyIframe){_proxyReadyCallbacks.push({resolve,reject});return;}
+      const iframe=document.createElement('iframe');
+      iframe.style.cssText='position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;border:0;';
+      iframe.src=ADMIN_PROXY_PAGE;
+      document.body.appendChild(iframe);
+      _proxyIframe=iframe;
+      _proxyReadyCallbacks.push({resolve,reject});
+      const timeout=setTimeout(()=>reject(new Error('Proxy iframe timed out.')),15000);
+      iframe.addEventListener('load',()=>{
+        clearTimeout(timeout);
+        try {
+          iframe.contentWindow.eval(`
+            (function(){
+              if(window.__leafProxyReady)return;
+              window.__leafProxyReady=true;
+              window.addEventListener('message',async function(e){
+                if(e.data&&e.data.__leafProxy==='delete'){
+                  const{id,url,csrfToken}=e.data;
+                  try{
+                    const res=await fetch(url,{method:'DELETE',credentials:'include',
+                      headers:{'X-Requested-With':'XMLHttpRequest',
+                               'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+                               Accept:'*/*'},
+                      body:'CSRFToken='+encodeURIComponent(csrfToken)});
+                    const text=await res.text().catch(()=>'');
+                    e.source.postMessage({__leafProxyResult:'delete',id,ok:res.ok,status:res.status,text},e.origin);
+                  }catch(err){
+                    e.source.postMessage({__leafProxyResult:'delete',id,ok:false,status:0,text:err.message},e.origin);
+                  }
+                }
+              });
+              window.parent.postMessage({__leafProxyReady:true},'*');
+            })();
+          `);
+        }catch(err){
+          _proxyReadyCallbacks.forEach(cb=>cb.reject(new Error('Proxy eval failed: '+err.message)));
+          _proxyReadyCallbacks=[];
+        }
+      });
+      window.addEventListener('message',function(e){
+        if(e.data?.__leafProxyReady){
+          _proxyIframeReady=true;
+          _proxyReadyCallbacks.forEach(cb=>cb.resolve(_proxyIframe));
+          _proxyReadyCallbacks=[];
+        }
+      });
+    });
+  }
+
+  function deleteViaProxy(fileName,token) {
+    return new Promise(async(resolve,reject)=>{
+      let iframe;
+      try{iframe=await getProxyIframe();}catch(err){reject(err);return;}
+      const id=`del_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+      const url=`${DELETE_API_ABS}?file=${encodeURIComponent(fileName)}`;
+      const timeout=setTimeout(()=>{window.removeEventListener('message',onMsg);reject(new Error(`Delete timed out for "${fileName}"`));},10000);
+      function onMsg(e){
+        if(e.data?.__leafProxyResult==='delete'&&e.data.id===id){
+          clearTimeout(timeout);window.removeEventListener('message',onMsg);
+          const{ok,status,text}=e.data;
+          if(!ok&&status!==200){reject(new Error(`Delete failed (${status}): ${text.slice(0,180)}`));return;}
+          if(/invalid token|csrf|forbidden|not allowed|mismatched/i.test(text)){csrfToken=null;reject(new Error(`Server rejected delete: ${text.slice(0,180)}`));return;}
+          resolve();
+        }
+      }
+      window.addEventListener('message',onMsg);
+      iframe.contentWindow.postMessage({__leafProxy:'delete',id,url,csrfToken:token},window.location.origin);
+    });
+  }
+
+  async function uploadOne(file,barEl,badgeEl) {
+    const token=await getCsrfToken(true);
+    const fd=new FormData();
+    fd.append(FILE_FIELD_NAME,file,file.name);
+    fd.append('CSRFToken',token);
+    let prog=0;
+    const iv=setInterval(()=>{prog=Math.min(prog+Math.random()*18,85);barEl.style.width=prog+'%';},200);
+    const res=await fetch(UPLOAD_ENDPOINT,{method:'POST',credentials:'include',headers:{'X-Requested-With':'XMLHttpRequest'},redirect:'manual',body:fd});
+    clearInterval(iv);
+    if(res.type==='opaqueredirect'||res.status===302||res.redirected){/* accepted */}
+    else if(res.ok){const txt=await res.text().catch(()=>'');if(/invalid token|csrf|forbidden|error/i.test(txt))throw new Error(`Server rejected: ${txt.slice(0,200)}`);}
+    else{const txt=await res.text().catch(()=>'');throw new Error(`HTTP ${res.status}: ${txt.slice(0,200)}`);}
+    barEl.style.width='100%';
+    await sleep(1200);await loadFiles();
+    if(!files.some(f=>f.name===file.name)){await sleep(2000);await loadFiles();}
+    return files.some(f=>f.name===file.name);
+  }
+
+  function buildQueueItem(file) {
+    const id=`qi-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    const isDup = files.some(f => f.name.toLowerCase() === file.name.toLowerCase());
+    const div=document.createElement('div');
+    div.className='queue-item'+(isDup?' fm-duplicate':'');
+    div.id=id;
+    const dupBadge = isDup ? `<span class="qi-badge duplicate" title="A file with this name already exists and will be overwritten">⚠ exists</span>` : '';
+    div.innerHTML=`<span class="qi-name" title="${esc(file.name)}">${esc(file.name)}</span>${dupBadge}<span class="qi-size">${fmtBytes(file.size)}</span><div class="progress-wrap"><div class="progress-bar" id="bar-${id}"></div></div><span class="qi-badge pending" id="badge-${id}">pending</span>`;
+    uploadQueueEl.appendChild(div);
+    return{file,id,isDup,barEl:document.getElementById(`bar-${id}`),badgeEl:document.getElementById(`badge-${id}`)};
+  }
+
+  function addFilesToQueue(fileList) {
+    let dupCount = 0;
+    [...fileList].forEach(f=>{
+      if(f.name===META_FILENAME)return;
+      if(uploadQueue.some(q=>q.file.name===f.name))return;
+      const item=buildQueueItem(f);item.status='pending';uploadQueue.push(item);
+      if (item.isDup) dupCount++;
+    });
+    updateQueueControls();
+    if (dupCount) {
+      toast(`${dupCount} file${dupCount>1?'s':''} in the queue will overwrite an existing file of the same name`,'warn',6000);
+    }
+  }
+
+  function updateQueueControls() {
+    const p=uploadQueue.filter(q=>q.status==='pending').length;
+    uploadBtn.disabled=p===0;
+    clearQueueBtn.style.display=uploadQueue.length?'':'none';
+    queueCountEl.textContent=uploadQueue.length?`${uploadQueue.length} file${uploadQueue.length>1?'s':''} queued`:'';
+  }
+
+  function clearQueue(){uploadQueue=[];uploadQueueEl.innerHTML='';updateQueueControls();}
+
+  async function runUploadQueue() {
+    uploadBtn.disabled=true;clearQueueBtn.disabled=true;
+    const pending=uploadQueue.filter(q=>q.status==='pending');
+    let doneCount=0,errCount=0;
+    for(const item of pending){
+      item.status='uploading';item.badgeEl.className='qi-badge uploading';item.badgeEl.textContent='uploading…';item.barEl.className='progress-bar';
+      try{
+        const ok=await uploadOne(item.file,item.barEl,item.badgeEl);
+        item.status=ok?'done':'warn';item.barEl.className='progress-bar done';
+        item.badgeEl.className=`qi-badge ${ok?'done':'error'}`;item.badgeEl.textContent=ok?'done':'unverified';doneCount++;
+      }catch(err){
+        item.status='error';item.barEl.className='progress-bar error';item.barEl.style.width='100%';
+        item.badgeEl.className='qi-badge error';item.badgeEl.textContent='error';
+        errCount++;
+      }
+    }
+    clearQueueBtn.disabled=false;
+    if(!errCount)toast(`Uploaded ${doneCount} file${doneCount>1?'s':''} successfully`,'ok');
+    else toast(`${doneCount} uploaded, ${errCount} failed`,'warn',5000);
+    updateQueueControls();
+  }
+
+  async function deleteFile(name){const token=await getCsrfToken();await deleteViaProxy(name,token);removeFileFromMeta(name);}
+
+  // Browsers can silently drop rapid-fire downloads triggered in the same tick,
+  // so each file is staggered slightly and downloaded via a temporary <a>.
+  async function bulkDownload(){
+    const names=[...selectedFiles];
+    if(!names.length)return;
+    for(const name of names){
+      const a=document.createElement('a');
+      a.href=FILES_BASE_URL+encodeURIComponent(name);
+      a.download=name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      await sleep(300);
+    }
+    toast(`Downloading ${names.length} file${names.length>1?'s':''}`,'ok');
+  }
+
+  async function bulkDelete(){    const names=[...selectedFiles];
+    if(!names.length)return;
+    if(!confirm(`Delete ${names.length} file${names.length>1?'s':''}?\nThis cannot be undone.`))return;
+    try{await getProxyIframe();}catch(err){toast('Could not init delete proxy: '+err.message,'err',7000);return;}
+    let ok=0,fail=0;
+    for(const name of names){
+      try{await deleteFile(name);selectedFiles.delete(name);ok++;}
+      catch(err){toast(`Failed to delete "${name}": ${err.message}`,'err',6000);fail++;}
+    }
+    await loadFiles();
+    if(ok)  toast(`Deleted ${ok} file${ok>1?'s':''}`,'ok');
+    if(fail)toast(`${fail} deletion${fail>1?'s':''} failed`,'err',5000);
+  }
+
+  async function renameFile(oldName,newName){
+    if(!newName||newName===oldName)return;
+    const fetchRes=await fetch(FILES_BASE_URL+encodeURIComponent(oldName),{credentials:'include'});
+    if(!fetchRes.ok)throw new Error(`Could not fetch original file (${fetchRes.status})`);
+    const blob=await fetchRes.blob();
+    const file=new File([blob],newName,{type:blob.type});
+    const token=await getCsrfToken(true);
+    const fd=new FormData();fd.append(FILE_FIELD_NAME,file,newName);fd.append('CSRFToken',token);
+    const upRes=await fetch(UPLOAD_ENDPOINT,{method:'POST',credentials:'include',headers:{'X-Requested-With':'XMLHttpRequest'},redirect:'manual',body:fd});
+    if(upRes.type!=='opaqueredirect'&&upRes.status!==302&&!upRes.redirected&&!upRes.ok)throw new Error(`Re-upload failed (${upRes.status})`);
+    await deleteViaProxy(oldName,token);
+    renameFileInMeta(oldName,newName);
+  }
+
+  let _renamePending=null;
+  function openRenameModal(name){
+    _renamePending=name;
+    const parts=name.split('.');const ext_=parts.length>1?'.'+parts.pop():'';const base=parts.join('.');
+    $('renameInput').value=name;$('renameHint').textContent=ext_?`Extension: ${ext_}`:'';
+    openModal($('renameModal'), $('renameInput'));
+    requestAnimationFrame(()=>{$('renameInput').setSelectionRange(0,base.length);});
+  }
+  function closeRenameModal(){closeModalEl($('renameModal'));_renamePending=null;}
+  async function confirmRename(){
+    const oldName=_renamePending;const newName=$('renameInput').value.trim();
+    if(!newName||newName===oldName){closeRenameModal();return;}
+    closeRenameModal();setStatus(`Renaming "${oldName}" → "${newName}"…`);
+    try{await renameFile(oldName,newName);await loadFiles();toast(`Renamed to "${newName}"`,'ok');}
+    catch(err){toast(`Rename failed: ${err.message}`,'err',6000);}
+  }
+
+  let _tagPendingFile=null;
+  function openTagModal(name){_tagPendingFile=name;$('tagModalFileName').textContent=name;renderTagModalCurrent();$('tagModalInput').value='';renderTagSuggestions();openModal($('tagModal'), $('tagModalInput'));}
+  function closeTagModal(){closeModalEl($('tagModal'));_tagPendingFile=null;render();renderFilterRow();}
+  function renderTagModalCurrent(){
+    const tags=getFileTags(_tagPendingFile);const el=$('tagModalCurrent');el.innerHTML='';
+    tags.forEach(tag=>{
+      const chip=document.createElement('span');chip.className='tag-chip';
+      chip.innerHTML=`${esc(tag)} <button class="tag-remove" type="button">×</button>`;
+      chip.querySelector('.tag-remove').addEventListener('click',()=>{setFileTags(_tagPendingFile,getFileTags(_tagPendingFile).filter(t=>t!==tag));renderTagModalCurrent();renderTagSuggestions();});
+      el.appendChild(chip);
+    });
+    if(!tags.length)el.innerHTML='<span style="color:#94a3b8;font-size:12px;">No tags yet</span>';
+  }
+  function renderTagSuggestions(){
+    const existing=getFileTags(_tagPendingFile);
+    const all=allKnownTags().filter(t=>!existing.includes(t));
+    const el=$('tagSuggestions');el.innerHTML='';
+    all.slice(0,8).forEach(tag=>{
+      const btn=document.createElement('button');btn.type='button';btn.className='filter-chip';btn.textContent=tag;btn.style.fontSize='11px';
+      btn.addEventListener('click',()=>{setFileTags(_tagPendingFile,[...getFileTags(_tagPendingFile),tag]);renderTagModalCurrent();renderTagSuggestions();$('tagModalInput').focus();});
+      el.appendChild(btn);
+    });
+    if(!all.length)el.textContent='(none)';
+  }
+  function addTagFromInput(){
+    const raw=$('tagModalInput').value.trim().toLowerCase().replace(/[^a-z0-9\-_ ]/g,'');
+    console.log('[FM] addTagFromInput raw input value:', JSON.stringify($('tagModalInput').value), '-> normalized:', JSON.stringify(raw), 'for file:', _tagPendingFile);
+    if(!raw){ console.log('[FM] addTagFromInput: normalized value empty, aborting'); return; }
+    const tags=raw.split(/[\s,]+/).filter(Boolean);
+    console.log('[FM] addTagFromInput split tags:', tags);
+    setFileTags(_tagPendingFile,[...getFileTags(_tagPendingFile),...tags]);
+    $('tagModalInput').value='';renderTagModalCurrent();renderTagSuggestions();
+  }
+
+  function openBulkTagModal(){
+    const count = selectedFiles.size;
+    if (!count) return;
+    _bulkTagPending = new Set();
+    $('bulkTagModalCount').textContent = `${count} file${count>1?'s':''}`;
+    $('bulkTagModalInput').value='';
+    renderBulkTagPending();
+    renderBulkTagSuggestions();
+    openModal($('bulkTagModal'), $('bulkTagModalInput'));
+  }
+  function closeBulkTagModal(){ closeModalEl($('bulkTagModal')); _bulkTagPending = new Set(); }
+  function renderBulkTagPending(){
+    const el = $('bulkTagModalPending'); el.innerHTML='';
+    if (!_bulkTagPending.size) { el.innerHTML='<span style="color:#94a3b8;font-size:12px;">No tags added yet</span>'; return; }
+    [..._bulkTagPending].sort().forEach(tag=>{
+      const chip=document.createElement('span');chip.className='tag-chip';
+      chip.innerHTML=`${esc(tag)} <button class="tag-remove" type="button">×</button>`;
+      chip.querySelector('.tag-remove').addEventListener('click',()=>{_bulkTagPending.delete(tag);renderBulkTagPending();renderBulkTagSuggestions();});
+      el.appendChild(chip);
+    });
+  }
+  function renderBulkTagSuggestions(){
+    const all=allKnownTags().filter(t=>!_bulkTagPending.has(t));
+    const el=$('bulkTagSuggestions');el.innerHTML='';
+    all.slice(0,8).forEach(tag=>{
+      const btn=document.createElement('button');btn.type='button';btn.className='filter-chip';btn.textContent=tag;btn.style.fontSize='11px';
+      btn.addEventListener('click',()=>{_bulkTagPending.add(tag);renderBulkTagPending();renderBulkTagSuggestions();$('bulkTagModalInput').focus();});
+      el.appendChild(btn);
+    });
+    if(!all.length)el.textContent='(none)';
+  }
+  function addBulkTagFromInput(){
+    const raw=$('bulkTagModalInput').value.trim().toLowerCase().replace(/[^a-z0-9\-_ ]/g,'');
+    if(!raw)return;
+    raw.split(/[\s,]+/).filter(Boolean).forEach(t=>_bulkTagPending.add(t));
+    $('bulkTagModalInput').value='';renderBulkTagPending();renderBulkTagSuggestions();
+  }
+  function applyBulkTags(){
+    if (!_bulkTagPending.size) { closeBulkTagModal(); return; }
+    const tagsToAdd = [..._bulkTagPending];
+    const names = [...selectedFiles];
+    names.forEach(name=>{
+      setFileTags(name, [...getFileTags(name), ...tagsToAdd]);
+    });
+    closeBulkTagModal();
+    render(); renderFilterRow();
+    toast(`Added ${tagsToAdd.length} tag${tagsToAdd.length>1?'s':''} to ${names.length} file${names.length>1?'s':''}`,'ok');
+  }
+
+  // ── Bulk untag modal ──────────────────────────────────────────────────────────
+  let _bulkUntagChecked = new Set();
+  function openBulkUntagModal(){
+    const names = [...selectedFiles];
+    if (!names.length) return;
+    const combinedTags = [...new Set(names.flatMap(n => getFileTags(n)))].sort();
+    _bulkUntagChecked = new Set();
+    $('bulkUntagModalCount').textContent = `${names.length} file${names.length>1?'s':''}`;
+    const el = $('bulkUntagModalList'); el.innerHTML = '';
+    if (!combinedTags.length) {
+      el.innerHTML = '<span style="color:#94a3b8;font-size:13px;">Selected files have no tags.</span>';
+    } else {
+      combinedTags.forEach(tag => {
+        const id = 'bulkuntag_' + tag.replace(/[^a-zA-Z0-9_-]/g,'_');
+        const row = document.createElement('div');
+        row.className = 'fm-untag-row';
+        row.innerHTML = `<input type="checkbox" id="${id}" /><label for="${id}">${esc(tag)}</label>`;
+        row.querySelector('input').addEventListener('change', e=>{
+          e.target.checked ? _bulkUntagChecked.add(tag) : _bulkUntagChecked.delete(tag);
+        });
+        el.appendChild(row);
+      });
+    }
+    openModal($('bulkUntagModal'), combinedTags.length ? el.querySelector('input') : $('bulkUntagCancelBtn'));
+  }
+  function closeBulkUntagModal(){ closeModalEl($('bulkUntagModal')); _bulkUntagChecked = new Set(); }
+  function applyBulkUntag(){
+    if (!_bulkUntagChecked.size) { closeBulkUntagModal(); return; }
+    const names = [...selectedFiles];
+    const tags = [..._bulkUntagChecked];
+    removeTagsFromFiles(names, tags);
+    closeBulkUntagModal();
+    render(); renderFilterRow();
+    toast(`Removed ${tags.length} tag${tags.length>1?'s':''} from ${names.length} file${names.length>1?'s':''}`,'ok');
+  }
+
+  // ── Manage tags modal ─────────────────────────────────────────────────────────
+  function openManageTagsModal(){
+    renderManageTagsList();
+    openModal($('manageTagsModal'), $('manageTagsCloseBtn'));
+  }
+  function closeManageTagsModal(){ closeModalEl($('manageTagsModal')); }
+  function renderManageTagsList(){
+    const tags = allKnownTags();
+    const el = $('manageTagsList'); el.innerHTML = '';
+    if (!tags.length) {
+      el.innerHTML = '<span style="color:#94a3b8;font-size:13px;">No tags exist yet.</span>';
+      return;
+    }
+    tags.forEach(tag => {
+      const count = tagUsageCount(tag);
+      const row = document.createElement('div');
+      row.className = 'fm-tag-row';
+      row.innerHTML = `
+        <span class="fm-tag-name">${esc(tag)}</span>
+        <span class="fm-tag-count">${count} file${count!==1?'s':''}</span>
+        <button type="button" class="btn btn-secondary btn-sm" data-tag-act="rename">Rename</button>
+        <button type="button" class="btn btn-danger btn-sm" data-tag-act="delete">Delete</button>
+      `;
+      row.querySelector('[data-tag-act="rename"]').addEventListener('click', () => startInlineTagRename(row, tag));
+      row.querySelector('[data-tag-act="delete"]').addEventListener('click', () => confirmDeleteTagGlobally(tag, count));
+      el.appendChild(row);
+    });
+  }
+  function startInlineTagRename(row, oldTag){
+    row.innerHTML = `
+      <input type="text" value="${esc(oldTag)}" aria-label="New name for tag ${esc(oldTag)}" />
+      <button type="button" class="btn btn-primary btn-sm" data-tag-act="save">Save</button>
+      <button type="button" class="btn btn-secondary btn-sm" data-tag-act="cancel">Cancel</button>
+    `;
+    const input = row.querySelector('input');
+    input.focus();
+    input.setSelectionRange(0, input.value.length);
+    function save(){
+      try {
+        const rawValue = input.value;
+        console.log('[FM] tag rename save() called. oldTag:', oldTag, 'raw input:', JSON.stringify(rawValue));
+        const newTag = rawValue.trim().toLowerCase().replace(/[^a-z0-9\-_ ]/g,'').trim();
+        console.log('[FM] normalized newTag:', JSON.stringify(newTag));
+        if (!newTag) {
+          toast('Tag name cannot be empty after removing invalid characters.','err',4000);
+          return;
+        }
+        if (newTag === oldTag) {
+          const caseOnlyChange = rawValue.trim() !== oldTag && rawValue.trim().toLowerCase() === oldTag;
+          if (caseOnlyChange) {
+            toast(`Tags are stored in lowercase, so "${rawValue.trim()}" is the same as "${oldTag}" — no change made.`,'warn',5000);
+          } else {
+            console.log('[FM] newTag equals oldTag, no-op');
+          }
+          renderManageTagsList();
+          return;
+        }
+        const changed = renameTagGlobally(oldTag, newTag);
+        console.log('[FM] renameTagGlobally changed count:', changed, 'allKnownTags now:', allKnownTags());
+        if (!changed) {
+          toast(`No files were updated — "${oldTag}" may no longer exist.`,'warn',4000);
+        } else {
+          toast(`Renamed "${oldTag}" to "${newTag}" on ${changed} file${changed!==1?'s':''}`,'ok');
+        }
+        renderManageTagsList(); render(); renderFilterRow();
+      } catch (err) {
+        toast('Rename failed: '+err.message,'err',6000);
+        console.error('[FM] Tag rename error:', err);
+      }
+    }
+    row.querySelector('[data-tag-act="save"]').addEventListener('click', save);
+    row.querySelector('[data-tag-act="cancel"]').addEventListener('click', renderManageTagsList);
+    input.addEventListener('keydown', e=>{
+      if (e.key==='Enter'){ e.preventDefault(); save(); }
+      if (e.key==='Escape'){ e.preventDefault(); renderManageTagsList(); }
+    });
+  }
+  function confirmDeleteTagGlobally(tag, count){
+    if (!confirm(`Delete tag "${tag}" from ${count} file${count!==1?'s':''}? This cannot be undone.`)) return;
+    try {
+      const changed = deleteTagGlobally(tag);
+      renderManageTagsList(); render(); renderFilterRow();
+      toast(`Deleted tag "${tag}" from ${changed} file${changed!==1?'s':''}`,'ok');
+    } catch (err) {
+      toast('Delete failed: '+err.message,'err',6000);
+      console.error('[FM] Tag delete error:', err);
+    }
+  }
+
+  function openPreviewModal(name){
+    const fileUrl=FILES_BASE_URL+encodeURIComponent(name);
+    $('previewName').textContent=name;$('previewDownloadBtn').href=fileUrl;$('previewDownloadBtn').download=name;
+    const body=$('previewBody');body.innerHTML='';
+    if(isImg(name)){const img=document.createElement('img');img.alt=name;img.src=fileUrl;img.onerror=()=>{body.innerHTML=`<div class="preview-placeholder">🖼️</div><div style="text-align:center;color:var(--fm-danger-border);font-size:13px;">Could not load image</div>`;};body.appendChild(img);}
+    else{body.innerHTML=`<div class="preview-placeholder">${iconOf(name)}</div>`;}
+    const f=files.find(x=>x.name===name);
+    $('previewMeta').textContent=f?`${fmtBytes(f.size)} · Modified ${fmtDate(f.modified)}`:'';
+    _previewCurrentName = name;
+    openModal($('previewModal'), $('previewDownloadBtn'));
+  }
+  function closePreviewModal(){closeModalEl($('previewModal'));_previewCurrentName=null;}
+  let _previewCurrentName = null;
+  function previewStep(delta){
+    const list = visibleFiles();
+    if (!list.length) return;
+    const idx = list.findIndex(f => f.name === _previewCurrentName);
+    if (idx === -1) return;
+    const nextIdx = (idx + delta + list.length) % list.length;
+    openPreviewModal(list[nextIdx].name);
+  }
+
+  async function copyFilename(name, btnEl){
+    const relPath = '../files/' + name;
+    let ok = false;
+    try {
+      await navigator.clipboard.writeText(relPath);
+      ok = true;
+    } catch {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = relPath;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        ok = document.execCommand('copy');
+        ta.remove();
+      } catch { ok = false; }
+    }
+    if (ok) {
+      toast(`Copied "${relPath}"`,'ok',2000);
+      if (btnEl) {
+        const original = btnEl.innerHTML;
+        btnEl.classList.add('fm-copied');
+        btnEl.innerHTML = '<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+        setTimeout(()=>{ btnEl.classList.remove('fm-copied'); btnEl.innerHTML = original; }, 1200);
+      }
+    } else {
+      toast('Could not copy filename','err',3000);
+    }
+  }
+
+  function bind(){
+    dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('dragover');});
+    dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('dragover');addFilesToQueue(e.dataTransfer.files);});
+    fileInput.addEventListener('change',()=>{if(fileInput.files?.length)addFilesToQueue(fileInput.files);fileInput.value='';});
+    fileInput.addEventListener('focus',()=>dropZone.classList.add('fm-input-focused'));
+    fileInput.addEventListener('blur',()=>dropZone.classList.remove('fm-input-focused'));
+    uploadBtn.addEventListener('click',runUploadQueue);
+    clearQueueBtn.addEventListener('click',clearQueue);
+    searchInput.addEventListener('input',render);
+    searchInput.addEventListener('keydown',e=>{
+      if (e.key==='Escape' && searchInput.value) { e.preventDefault(); searchInput.value=''; render(); }
+    });
+    $('clearSearchSortBtn').addEventListener('click',()=>{
+      searchInput.value='';
+      sortCol='name'; sortDir='asc';
+      selectedFiles.clear();
+      updateSortHeaders(); render();
+      searchInput.focus();
+    });
+    $('refreshBtn').addEventListener('click',()=>loadFiles().catch(e=>toast(e.message,'err')));
+    $('syncNowBtn').addEventListener('click',()=>pushRemoteMeta());
+    $('syncDismissBtn').addEventListener('click',()=>syncBar.classList.add('hidden'));
+    filterClearBtn.addEventListener('click',()=>{
+      activeTypeFilters.clear(); activeTagFilters.clear();
+      renderFilterRow(); render();
+    });
+    document.querySelectorAll('#filesTable th[data-col]').forEach(th=>{
+      th.addEventListener('click',()=>{
+        const col=th.dataset.col;
+        if(sortCol===col)sortDir=sortDir==='asc'?'desc':'asc';else{sortCol=col;sortDir='asc';}
+        updateSortHeaders();render();
+      });
+    });
+    selectAllCb.addEventListener('change',()=>{
+      const list=visibleFiles();
+      if(selectAllCb.checked)list.forEach(f=>selectedFiles.add(f.name));else list.forEach(f=>selectedFiles.delete(f.name));
+      render();
+    });
+    tbody.addEventListener('change',e=>{
+      const cb=e.target.closest('input.row-cb');if(!cb)return;
+      const name=decodeURIComponent(cb.dataset.file);
+      cb.checked?selectedFiles.add(name):selectedFiles.delete(name);
+      cb.closest('tr').classList.toggle('selected',cb.checked);updateBulkBar();
+      const vis=visibleFiles();
+      const allC=vis.length>0&&vis.every(f=>selectedFiles.has(f.name));
+      selectAllCb.checked=allC;selectAllCb.indeterminate=!allC&&vis.some(f=>selectedFiles.has(f.name));
+    });
+    bulkDeleteBtn.addEventListener('click',()=>bulkDelete().catch(e=>toast(e.message,'err')));
+    $('bulkDownloadBtn').addEventListener('click',()=>bulkDownload());
+    $('bulkTagBtn').addEventListener('click',openBulkTagModal);
+    $('bulkTagCancelBtn').addEventListener('click',closeBulkTagModal);
+    $('bulkTagApplyBtn').addEventListener('click',applyBulkTags);
+    $('bulkTagModalAddBtn').addEventListener('click',addBulkTagFromInput);
+    $('bulkTagModalInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addBulkTagFromInput();}});
+    $('bulkTagModal').addEventListener('click',e=>{if(e.target===$('bulkTagModal'))closeBulkTagModal();});
+    $('bulkUntagBtn').addEventListener('click',openBulkUntagModal);
+    $('bulkUntagCancelBtn').addEventListener('click',closeBulkUntagModal);
+    $('bulkUntagApplyBtn').addEventListener('click',applyBulkUntag);
+    $('bulkUntagModal').addEventListener('click',e=>{if(e.target===$('bulkUntagModal'))closeBulkUntagModal();});
+    $('manageTagsBtn').addEventListener('click',openManageTagsModal);
+    $('manageTagsCloseBtn').addEventListener('click',closeManageTagsModal);
+    $('manageTagsModal').addEventListener('click',e=>{if(e.target===$('manageTagsModal'))closeManageTagsModal();});
+    tbody.addEventListener('click',async e=>{
+      const btn=e.target.closest('button[data-act]');if(!btn)return;
+      const act=btn.dataset.act;const file=decodeURIComponent(btn.dataset.file||'');if(!file)return;
+      if(act==='delete'){
+        if(!confirm(`Delete "${file}"?`))return;
+        try{await deleteFile(file);selectedFiles.delete(file);await loadFiles();toast(`Deleted: ${file}`,'ok');}
+        catch(err){toast(err.message,'err',6000);}
+      }else if(act==='rename'){openRenameModal(file);}
+      else if(act==='copyname'){copyFilename(file, btn);}
+      else if(act==='edittags'){openTagModal(file);}
+      else if(act==='preview'){openPreviewModal(file);}
+      else if(act==='download'){const a=document.createElement('a');a.href=FILES_BASE_URL+encodeURIComponent(file);a.download=file;a.click();}
+    });
+    $('renameCancelBtn').addEventListener('click',closeRenameModal);
+    $('renameConfirmBtn').addEventListener('click',confirmRename);
+    $('renameInput').addEventListener('keydown',e=>{if(e.key==='Enter')confirmRename();});
+    $('renameModal').addEventListener('click',e=>{if(e.target===$('renameModal'))closeRenameModal();});
+    $('tagCancelBtn').addEventListener('click',closeTagModal);
+    $('tagModalAddBtn').addEventListener('click',addTagFromInput);
+    $('tagModalInput').addEventListener('keydown',e=>{
+      console.log('[FM] tagModalInput keydown:', e.key);
+      if(e.key==='Enter'){e.preventDefault();addTagFromInput();}
+    });    $('tagModal').addEventListener('click',e=>{if(e.target===$('tagModal'))closeTagModal();});
+    $('previewCloseBtn').addEventListener('click',closePreviewModal);
+    $('previewModal').addEventListener('click',e=>{if(e.target===$('previewModal'))closePreviewModal();});
+    $('previewPrevBtn').addEventListener('click',()=>previewStep(-1));
+    $('previewNextBtn').addEventListener('click',()=>previewStep(1));
+    $('previewModal').addEventListener('keydown',e=>{
+      if (e.key==='ArrowLeft'){ e.preventDefault(); previewStep(-1); }
+      if (e.key==='ArrowRight'){ e.preventDefault(); previewStep(1); }
+    });
+
+    // Focus search on "/" unless already typing in a field.
+    document.addEventListener('keydown',e=>{
+      if (e.key !== '/') return;
+      const tag = document.activeElement?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement?.isContentEditable) return;
+      e.preventDefault();
+      searchInput.focus();
+    });
+
+    const backToTopBtn = $('backToTopBtn');
+    const SHOW_AFTER_PX = 400;
+    function updateBackToTop() {
+      const scrolled = window.scrollY || document.documentElement.scrollTop || 0;
+      backToTopBtn.classList.toggle('is-visible', scrolled > SHOW_AFTER_PX);
+    }
+    window.addEventListener('scroll', updateBackToTop, { passive: true });
+    updateBackToTop();
+    backToTopBtn.addEventListener('click', () => {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    });
+  }
+
+  async function init(){
+    bind();
+    getProxyIframe().catch(()=>{});
+    updateSyncBar();
+    await pullRemoteMeta();
+    await loadFiles().catch(err=>{console.error(err);setStatus('Load failed: '+(err.message||err));});
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
