@@ -1,0 +1,2725 @@
+<style>
+    /* ==========================================================
+       Local design tokens — mirrors smarty_styles.css values so this
+       tool looks consistent with the rest of the Smarty-styled tools
+       even if the host page shell doesn't apply body.smarty/.lp-scope.
+       If the host page DOES apply those classes, these can be swapped
+       for the shared vars directly.
+       ========================================================== */
+    .import-tool {
+        --it-font-body: 1rem;
+        --it-font-hint: 0.9rem;
+        --it-font-small: 0.9rem;
+
+        --it-bg: #f4f6f9;
+        --it-surface: #ffffff;
+        --it-surface-alt: #f8fafc;
+        --it-border: #dbe1e8;
+        --it-text: #1f2933;
+        --it-muted: #3f4a57;
+        --it-accent: #2563eb;
+        --it-accent-strong: #1d4ed8;
+        --it-accent-weak: #dbeafe;
+        --it-focus: #0b5cab;
+        --it-danger: #b50909;
+        --it-danger-bg: #fdecea;
+        --it-danger-border: #b00000;
+        --it-success: #166534;
+        --it-success-bg: #dcfce7;
+        --it-success-border: #86efac;
+        --it-radius-sm: 10px;
+        --it-radius-md: 12px;
+        --it-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.08);
+        --it-shadow-md: 0 6px 16px rgba(15, 23, 42, 0.12);
+        --it-space-1: 4px;
+        --it-space-2: 8px;
+        --it-space-3: 12px;
+        --it-space-4: 16px;
+        --it-space-6: 32px;
+
+        font-family: 'Source Sans 3', 'Source Sans Pro', sans-serif;
+        font-size: var(--it-font-body);
+        color: var(--it-text);
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: var(--it-space-4);
+    }
+
+    .import-tool, .import-tool input, .import-tool select, .import-tool button, .import-tool label {
+        font-family: inherit;
+    }
+
+    .import-tool .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    .import-tool * { box-sizing: border-box; }
+
+    .import-tool h1 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin: 0 0 var(--it-space-1);
+    }
+    .import-tool .it-subtitle {
+        color: var(--it-muted);
+        margin: 0 0 var(--it-space-4);
+        font-size: 0.95rem;
+    }
+    .import-tool h2 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0;
+    }
+    .import-tool h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0 0 var(--it-space-2);
+    }
+
+    /* focus visibility across the whole tool */
+    .import-tool a:focus,
+    .import-tool button:focus,
+    .import-tool input:focus,
+    .import-tool select:focus,
+    .import-tool [tabindex]:focus {
+        outline: 3px solid var(--it-focus);
+        outline-offset: 2px;
+    }
+
+    /* ---------- step progress indicator ---------- */
+    .it-steps {
+        display: flex;
+        list-style: none;
+        margin: 0 0 var(--it-space-6);
+        padding: 0;
+        counter-reset: step;
+        gap: 4px;
+    }
+    .it-steps li {
+        flex: 1;
+        text-align: center;
+        position: relative;
+        font-size: var(--it-font-small);
+        color: var(--it-muted);
+    }
+    .it-steps .it-step-dot {
+        counter-increment: step;
+        width: 30px;
+        height: 30px;
+        border-radius: 999px;
+        background: var(--it-surface);
+        border: 2px solid var(--it-border);
+        color: var(--it-muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: var(--it-font-body);
+        margin: 0 auto 6px;
+        transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+    .it-steps .it-step-dot::before {
+        content: counter(step);
+    }
+    .it-steps li::after {
+        content: "";
+        position: absolute;
+        top: 15px;
+        left: calc(50% + 20px);
+        right: calc(-50% + 20px);
+        height: 2px;
+        background: var(--it-border);
+        z-index: 0;
+    }
+    .it-steps li:last-child::after { display: none; }
+    .it-steps li.is-complete .it-step-dot {
+        background: var(--it-accent);
+        border-color: var(--it-accent);
+        color: #fff;
+    }
+    .it-steps li.is-complete .it-step-dot::before { content: "✓"; }
+    .it-steps li.is-complete::after { background: var(--it-accent); }
+    .it-steps li.is-active .it-step-dot {
+        border-color: var(--it-accent);
+        color: var(--it-accent);
+        box-shadow: 0 0 0 4px var(--it-accent-weak);
+    }
+    .it-steps li.is-active { color: var(--it-text); font-weight: 700; }
+    .it-steps li.is-disabled { color: #b7c0cc; }
+
+    @media (max-width: 640px) {
+        .it-steps { display: none; }
+    }
+
+    /* ---------- page-level status banner ---------- */
+    #status {
+        display: none;
+        border-radius: var(--it-radius-sm);
+        padding: var(--it-space-3) var(--it-space-4);
+        margin-bottom: var(--it-space-4);
+        font-weight: 600;
+        font-size: var(--it-font-body);
+    }
+    #status.is-visible { display: block; }
+    #status.is-info {
+        background: var(--it-accent-weak);
+        color: #1e3a8a;
+        border: 1px solid #93c5fd;
+    }
+    #status.is-success {
+        background: var(--it-success-bg);
+        color: var(--it-success);
+        border: 1px solid var(--it-success-border);
+    }
+    #status.is-error {
+        background: var(--it-danger-bg);
+        color: #611a15;
+        border: 1px solid var(--it-danger-border);
+    }
+
+    /* ---------- error summary ---------- */
+    #error_summary {
+        display: none;
+        border: 1px solid var(--it-danger-border);
+        border-left-width: 4px;
+        background: var(--it-danger-bg);
+        color: #611a15;
+        border-radius: var(--it-radius-sm);
+        padding: var(--it-space-3) var(--it-space-4);
+        margin-bottom: var(--it-space-4);
+    }
+    #error_summary h2 {
+        font-size: 1rem;
+        color: var(--it-danger-border);
+        margin-bottom: var(--it-space-2);
+    }
+    #error_summary ul { margin: 0; padding-left: 1.25em; }
+    #error_summary a { color: var(--it-danger-border); text-decoration: underline; cursor: pointer; }
+
+    /* ---------- step cards ---------- */
+    .it-card {
+        background: var(--it-surface);
+        border: 1px solid var(--it-border);
+        border-radius: var(--it-radius-md);
+        box-shadow: var(--it-shadow-sm);
+        margin-bottom: var(--it-space-6);
+        overflow: hidden;
+    }
+    .it-card[hidden] { display: none !important; margin: 0 !important; }
+    .it-card-header {
+        display: flex;
+        align-items: center;
+        gap: var(--it-space-2);
+        padding: var(--it-space-3) var(--it-space-4);
+        background: var(--it-accent-weak);
+        border-bottom: 1px solid var(--it-border);
+    }
+    .it-card-header h2 {
+        color: #1e3a8a;
+    }
+    .it-card-header .it-card-num {
+        width: 24px;
+        height: 24px;
+        border-radius: 999px;
+        background: #1e3a8a;
+        color: #fff;
+        font-size: 0.8rem;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .it-card-body {
+        padding: var(--it-space-4);
+    }
+
+    /* ---------- fields ---------- */
+    .it-field {
+        margin-bottom: var(--it-space-4);
+        max-width: 640px;
+    }
+    .it-field:last-child { margin-bottom: 0; }
+    .it-field label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: var(--it-space-1);
+        font-size: var(--it-font-body);
+    }
+    .it-hint {
+        display: block;
+        font-weight: normal;
+        color: var(--it-muted);
+        font-size: var(--it-font-hint);
+        margin-top: 2px;
+    }
+    .it-field input[type="text"],
+    .it-field select {
+        width: 100%;
+        max-width: 420px;
+        font-size: var(--it-font-body);
+        padding: 8px 10px;
+        border: 1px solid var(--it-border);
+        border-radius: var(--it-radius-sm);
+        background: #fff;
+        color: var(--it-text);
+        font-family: inherit;
+    }
+    .it-field input[type="text"]:focus,
+    .it-field select:focus {
+        border-color: var(--it-accent);
+    }
+    .it-checkbox-row {
+        display: flex;
+        align-items: center;
+        gap: var(--it-space-2);
+        margin-bottom: var(--it-space-4);
+        font-size: var(--it-font-body);
+    }
+    .it-checkbox-row label { font-weight: normal; margin: 0; font-size: inherit; }
+
+    .field-error-msg {
+        display: none;
+        color: var(--it-danger-border);
+        font-size: var(--it-font-hint);
+        margin-top: 4px;
+        font-weight: 600;
+    }
+    .field-invalid { border-color: var(--it-danger-border) !important; }
+
+    /* upload dropzone-style control */
+    .it-upload-box {
+        border: 2px dashed var(--it-border);
+        border-radius: var(--it-radius-md);
+        padding: var(--it-space-6) var(--it-space-4);
+        text-align: center;
+        background: var(--it-surface-alt);
+    }
+    .it-upload-box input[type="file"] {
+        margin-top: var(--it-space-2);
+        font-size: var(--it-font-hint);
+    }
+
+    .it-upload-confirm {
+        display: none;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--it-space-3);
+        margin-top: var(--it-space-3);
+        padding: var(--it-space-3);
+        background: var(--it-success-bg);
+        border: 1px solid var(--it-success-border);
+        border-radius: var(--it-radius-sm);
+        color: var(--it-success);
+        font-size: var(--it-font-hint);
+        text-align: left;
+    }
+    .it-upload-confirm[hidden] { display: none !important; }
+    .it-upload-confirm.is-visible:not([hidden]) { display: flex; flex-wrap: wrap; }
+    .it-upload-confirm .it-upload-confirm-text {
+        font-weight: 600;
+    }
+    .it-upload-confirm .btn {
+        padding: 6px 14px;
+        font-size: var(--it-font-hint);
+        flex-shrink: 0;
+    }
+
+    /* fieldset used for radio/checkbox groups */
+    .import-tool fieldset {
+        border: 1px solid var(--it-border);
+        border-radius: var(--it-radius-md);
+        padding: var(--it-space-3) var(--it-space-4);
+        margin: 0 0 var(--it-space-4);
+    }
+    .import-tool legend {
+        font-weight: 700;
+        padding: 0 6px;
+        font-size: 0.95rem;
+    }
+    .it-radio-row {
+        display: flex;
+        align-items: center;
+        gap: var(--it-space-2);
+        padding: 6px 0;
+        font-size: var(--it-font-body);
+    }
+    .it-radio-row label { font-weight: normal; margin: 0; font-size: inherit; }
+
+    /* ---------- title-source toggle (radio pair) ---------- */
+    .it-title-source-group {
+        display: flex;
+        flex-direction: column;
+        gap: var(--it-space-2);
+        margin-bottom: var(--it-space-3);
+    }
+    .it-title-source-option {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--it-space-2);
+    }
+    .it-title-source-option input[type="radio"] {
+        margin-top: 4px;
+        flex-shrink: 0;
+    }
+    .it-title-source-option label {
+        font-weight: 600;
+        font-size: var(--it-font-body);
+        margin: 0;
+        cursor: pointer;
+    }
+    .it-title-source-input {
+        margin-left: 26px;
+        margin-top: 6px;
+    }
+    .it-title-source-input[hidden] { display: none; }
+
+    /* ---------- buttons ---------- */
+    .import-tool .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        border-radius: var(--it-radius-sm);
+        border: 1px solid var(--it-border);
+        padding: 10px 18px;
+        font-size: var(--it-font-body);
+        font-weight: 700;
+        cursor: pointer;
+        background: var(--it-surface);
+        color: var(--it-text);
+        font-family: inherit;
+        transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+    }
+    .import-tool .btn:hover { box-shadow: var(--it-shadow-md); }
+    .import-tool .btn:active { transform: translateY(1px); }
+    .import-tool .btn-primary {
+        background: var(--it-accent);
+        border-color: var(--it-accent-strong);
+        color: #fff;
+    }
+    .import-tool .btn-primary:hover { background: var(--it-accent-strong); }
+    .import-tool .btn[aria-disabled="true"] {
+        opacity: 0.55;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    .it-final-step {
+        border-top: 1px solid var(--it-border);
+        margin-top: var(--it-space-4);
+        padding-top: var(--it-space-4);
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: var(--it-space-3);
+    }
+    .it-final-step .it-final-summary {
+        margin-right: auto;
+        color: var(--it-muted);
+        font-size: var(--it-font-hint);
+    }
+
+    /* ---------- tables ---------- */
+    .import-tool table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: var(--it-font-body);
+    }
+    .import-tool th, .import-tool td {
+        border: 1px solid var(--it-border);
+        padding: 8px 10px;
+        text-align: left;
+        vertical-align: middle;
+    }
+    .import-tool thead th {
+        background: var(--it-surface-alt);
+        font-weight: 700;
+    }
+    .import-tool .it-table-wrap {
+        overflow-x: auto;
+        border-radius: var(--it-radius-sm);
+        border: 1px solid var(--it-border);
+    }
+    .import-tool .it-table-wrap table {
+        border: none;
+        margin: 0;
+    }
+    .import-tool .it-table-wrap th,
+    .import-tool .it-table-wrap td {
+        border-left: none;
+        border-right: none;
+        border-top: none;
+    }
+
+    /* ---------- unpublished-form warning ---------- */
+    #fvm_inline_warning {
+        display: none;
+        margin: var(--it-space-3) 0;
+        padding: var(--it-space-3) var(--it-space-4);
+        border: 1px solid var(--it-danger-border);
+        border-left-width: 4px;
+        background: var(--it-danger-bg);
+        color: #611a15;
+        border-radius: var(--it-radius-sm);
+    }
+    #fvm_inline_warning h3 { color: var(--it-danger-border); margin: 0 0 6px 0; }
+    #fvm_inline_warning table { background: #fff; margin-top: var(--it-space-2); }
+    #fvm_inline_warning .fvm_saved_indicator {
+        font-size: var(--it-font-hint);
+        color: var(--it-success);
+        white-space: nowrap;
+    }
+    #fvm_inline_warning .fvm_saved_indicator.fvm_saved_error { color: var(--it-danger-border); }
+    #fvm_inline_warning .fvm_publish_btn { cursor: pointer; }
+
+    /* ---------- always-available per-form visibility control ---------- */
+    .it-internal-form-row {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--it-space-2);
+        margin: 4px 0;
+        padding: 6px 0;
+    }
+    .it-visibility-status {
+        font-size: var(--it-font-hint);
+        color: var(--it-muted);
+        border: 1px solid var(--it-border);
+        border-radius: 999px;
+        padding: 2px 10px;
+        background: var(--it-surface-alt);
+    }
+    .it-visibility-status.is-unpublished {
+        color: var(--it-danger-border);
+        border-color: var(--it-danger-border);
+        background: var(--it-danger-bg);
+        font-weight: 600;
+    }
+    .it-visibility-change-link {
+        background: none;
+        border: none;
+        color: var(--it-accent);
+        text-decoration: underline;
+        cursor: pointer;
+        font-size: var(--it-font-hint);
+        padding: 0;
+        font-family: inherit;
+    }
+    .it-visibility-controls {
+        display: none;
+        align-items: center;
+        gap: var(--it-space-2);
+    }
+    .it-visibility-controls.is-open { display: flex; flex-wrap: wrap; }
+    .it-visibility-controls select {
+        font-size: var(--it-font-hint);
+        padding: 4px 6px;
+        border: 1px solid var(--it-border);
+        border-radius: var(--it-radius-sm);
+    }
+    .it-visibility-saved {
+        font-size: var(--it-font-hint);
+        color: var(--it-success);
+        white-space: nowrap;
+    }
+    .it-visibility-saved.is-error { color: var(--it-danger-border); }
+
+    /* ---------- modal background (jQuery UI dialog) ---------- */
+    .modalBackground {
+        width: 100%;
+        height: 100vh;
+        z-index: 5;
+        position: fixed;
+        top: 0; left: 0;
+        background-color: rgba(15, 23, 42, 0.5);
+    }
+
+    #request_status {
+        padding: var(--it-space-3) 0;
+        font-size: var(--it-font-hint);
+        color: var(--it-muted);
+    }
+</style>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/SheetJS/js-xlsx@1eb1ec/dist/xlsx.full.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/SheetJS/js-xlsx@64798fd/shim.js"></script>
+<script type="text/javascript" src="js/lz-string/lz-string.min.js"></script>
+<script src="<!--{$app_js_path}-->/LEAF/intervalQueue.js"></script>
+
+<script src="<!--{$app_js_path}-->/jquery/jquery-ui.custom.min.js"></script>
+<script src="<!--{$app_js_path}-->/promise-pollyfill/polyfill.min.js"></script>
+
+<div class="import-tool">
+
+    <h1>Import Spreadsheet</h1>
+    <p class="it-subtitle">Upload a spreadsheet and turn each row into a request.</p>
+
+    <!-- Step progress indicator -->
+    <ol class="it-steps" id="it_step_indicator" aria-hidden="true">
+        <li class="is-active" data-step="1"><span class="it-step-dot"></span>Upload</li>
+        <li class="is-disabled" data-step="2"><span class="it-step-dot"></span>Import Type</li>
+        <li class="is-disabled" data-step="3"><span class="it-step-dot"></span>Configure</li>
+        <li class="is-disabled" data-step="4"><span class="it-step-dot"></span>Map Columns</li>
+        <li class="is-disabled" data-step="5"><span class="it-step-dot"></span>Import</li>
+    </ol>
+
+    <!-- Page-level live region: announces high-level state changes -->
+    <div id="status" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Error summary: populated + focused on failed validation -->
+    <div id="error_summary" role="alert" tabindex="-1" aria-labelledby="error_summary_heading">
+        <h2 id="error_summary_heading">Please fix the following before importing:</h2>
+        <ul id="error_summary_list"></ul>
+    </div>
+
+    <!-- ============ STEP 1: UPLOAD ============ -->
+    <section class="it-card" id="step_upload" aria-labelledby="upload_heading">
+        <div class="it-card-header">
+            <span class="it-card-num">1</span>
+            <h2 id="upload_heading">Choose a Spreadsheet</h2>
+        </div>
+        <div class="it-card-body">
+            <div class="it-upload-box">
+                <label for="sheet_upload">Choose a Spreadsheet</label>
+                <span class="it-hint" id="sheet_upload_hint">
+                    Accepted formats: .xlsx, .xls, .csv. The first row of the file must contain column headers.
+                </span>
+                <br/>
+                <input id="sheet_upload" type="file" accept=".xlsx,.xls,.csv" aria-describedby="sheet_upload_hint" />
+
+                <div class="it-upload-confirm" id="upload_confirm" role="status" aria-live="polite" hidden>
+                    <span class="it-upload-confirm-text" id="upload_confirm_text"></span>
+                    <button type="button" class="btn" id="clear_upload_btn">Clear / Choose a Different File</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ STEP 2: IMPORT TYPE ============ -->
+    <section class="it-card" id="toggler" hidden aria-labelledby="import_type_heading">
+        <div class="it-card-header">
+            <span class="it-card-num">2</span>
+            <h2 id="import_type_heading">Choose Import Type</h2>
+        </div>
+        <div class="it-card-body">
+            <fieldset>
+                <legend>Import Type</legend>
+                <!--{if $empMembership['groupID'][1]}-->
+                <div class="it-radio-row">
+                    <input id="newFormToggler" name="toggle" onclick="toggleImport(event)" type="radio" />
+                    <label for="newFormToggler">New Form — build a custom form from the spreadsheet columns</label>
+                </div>
+                <!--{/if}-->
+                <div class="it-radio-row">
+                    <input id="existingFormToggler" name="toggle" onclick="toggleImport(event)" type="radio" />
+                    <label for="existingFormToggler">Existing Form — map columns to an already-built form</label>
+                </div>
+            </fieldset>
+        </div>
+    </section>
+
+    <!-- ============ STEP 3 (NEW FORM PATH): CONFIGURE ============ -->
+    <section class="it-card" id="import_data_new_form" hidden aria-labelledby="new_form_heading">
+        <div class="it-card-header">
+            <span class="it-card-num">3</span>
+            <h2 id="new_form_heading">Configure New Form</h2>
+        </div>
+        <div class="it-card-body">
+
+            <div class="it-checkbox-row">
+                <input id="preserve_new" type="checkbox" name="preserve_new"/>
+                <label for="preserve_new">Preserve Row Order?</label>
+            </div>
+
+            <div class="it-checkbox-row" style="align-items:flex-start;">
+                <input id="submit_new" type="checkbox" name="submit_new" style="margin-top:3px;"/>
+                <div>
+                    <label for="submit_new">Submit Requests After Import?</label>
+                    <span class="it-hint" id="submit_new_hint" style="display:block; margin-top:2px;">
+                        If checked, each request is submitted into its workflow immediately after creation.
+                        Otherwise, imported requests remain as drafts (Not Submitted) until submitted manually.
+                    </span>
+                </div>
+            </div>
+
+            <div class="it-field">
+                <label for="formTitleInput">Title of Form</label>
+                <span class="it-hint" id="formTitleInput_hint">This will be the title for the custom form.</span>
+                <input type="text" id="formTitleInput" aria-describedby="formTitleInput_hint" />
+                <span class="field-error-msg" id="formTitleInput_error" role="alert"></span>
+            </div>
+
+            <div class="it-field">
+                <label for="formDescription">Description of Form</label>
+                <span class="it-hint" id="formDescription_hint">Enter a short description.</span>
+                <input type="text" id="formDescription" aria-describedby="formDescription_hint" />
+            </div>
+
+            <div class="it-field" id="formWorkflowSelect"></div>
+
+            <div class="it-field">
+                <span id="title_source_new_legend" style="font-weight:700; font-size: 1rem; display:block; margin-bottom: var(--it-space-2);">Title of Requests</span>
+                <div class="it-title-source-group" role="radiogroup" aria-labelledby="title_source_new_legend">
+                    <div class="it-title-source-option">
+                        <input type="radio" id="title_source_new_manual" name="title_source_new" value="manual" checked />
+                        <div>
+                            <label for="title_source_new_manual">Use one title for all requests</label>
+                            <div class="it-title-source-input" id="title_source_new_manual_wrap">
+                                <input type="text" id="title_input_new" aria-describedby="title_input_new_hint" />
+                                <span class="it-hint" id="title_input_new_hint">Each row's request title will be this text followed by a row number.</span>
+                                <span class="field-error-msg" id="title_input_new_error" role="alert"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="it-title-source-option">
+                        <input type="radio" id="title_source_new_column" name="title_source_new" value="column" />
+                        <div>
+                            <label for="title_source_new_column">Use a spreadsheet column for each row's title</label>
+                            <div class="it-title-source-input" id="title_source_new_column_wrap" hidden>
+                                <select id="title_column_new" aria-describedby="title_column_new_hint"></select>
+                                <span class="it-hint" id="title_column_new_hint">The value in this column will be used as the title for each row's request.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ============ STEP 4 (NEW FORM PATH): MAP COLUMNS ============ -->
+    <section class="it-card" id="new_form_map_step" hidden aria-labelledby="new_form_map_heading">
+        <div class="it-card-header">
+            <span class="it-card-num">4</span>
+            <h2 id="new_form_map_heading">Map Question Formats</h2>
+        </div>
+        <div class="it-card-body">
+            <p class="it-hint" style="margin-bottom: var(--it-space-3);">
+                Choose a question type for each spreadsheet column. This determines the field type on the new form.
+            </p>
+            <div class="it-table-wrap" id="new_form_indicators_wrap"></div>
+
+            <div class="it-final-step">
+                <span class="it-final-summary" id="new_form_summary"></span>
+                <button id="import_btn_new" type="button" class="btn btn-primary">Import</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ STEP 3 (EXISTING FORM PATH): CONFIGURE ============ -->
+    <section class="it-card" id="import_data_existing_form" hidden aria-labelledby="existing_form_heading">
+        <div class="it-card-header">
+            <span class="it-card-num">3</span>
+            <h2 id="existing_form_heading">Configure Import</h2>
+        </div>
+        <div class="it-card-body">
+
+            <div class="it-field">
+                <label for="category_select">Select a Form</label>
+                <select id="category_select" aria-describedby="category_select_error"></select>
+                <span class="field-error-msg" id="category_select_error" role="alert"></span>
+            </div>
+
+            <div id="internal_form_select_wrapper" hidden>
+                <fieldset>
+                    <legend>Include Internal Forms</legend>
+                    <div id="internal_form_checkboxes"></div>
+                </fieldset>
+            </div>
+
+            <div id="fvm_inline_warning" role="alert" aria-live="assertive">
+                <h3>Some selected forms are Unpublished</h3>
+                <p>
+                    The form(s) below have a visibility status of <strong>Unpublished</strong>, which blocks record creation
+                    for <strong>every</strong> form in this import (main + internal), not just the unpublished one.
+                    Internal forms are typically fine set to <strong>Hidden</strong> since they're never opened directly.
+                </p>
+                <table>
+                    <caption class="sr-only">Unpublished forms requiring a visibility change before import</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Form</th>
+                            <th scope="col">Category ID</th>
+                            <th scope="col">New Status</th>
+                            <th scope="col">Action</th>
+                            <th scope="col">Save Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fvm_inline_warning_body"></tbody>
+                </table>
+            </div>
+
+            <div class="it-checkbox-row">
+                <input id="preserve_existing" type="checkbox" name="preserve_existing"/>
+                <label for="preserve_existing">Preserve Row Order?</label>
+            </div>
+
+            <div class="it-checkbox-row" style="align-items:flex-start;">
+                <input id="submit_existing" type="checkbox" name="submit_existing" style="margin-top:3px;"/>
+                <div>
+                    <label for="submit_existing">Submit Requests After Import?</label>
+                    <span class="it-hint" id="submit_existing_hint" style="display:block; margin-top:2px;">
+                        If checked, each request is submitted into its workflow immediately after creation.
+                        Otherwise, imported requests remain as drafts (Not Submitted) until submitted manually.
+                    </span>
+                </div>
+            </div>
+
+            <div class="it-field">
+                <span id="title_source_existing_legend" style="font-weight:700; font-size: 1rem; display:block; margin-bottom: var(--it-space-2);">Title of Requests</span>
+                <div class="it-title-source-group" role="radiogroup" aria-labelledby="title_source_existing_legend">
+                    <div class="it-title-source-option">
+                        <input type="radio" id="title_source_existing_manual" name="title_source_existing" value="manual" checked />
+                        <div>
+                            <label for="title_source_existing_manual">Use one title for all requests</label>
+                            <div class="it-title-source-input" id="title_source_existing_manual_wrap">
+                                <input type="text" id="title_input_existing" aria-describedby="title_input_existing_hint title_input_existing_error" />
+                                <span class="it-hint" id="title_input_existing_hint">Each row's request title will be this text followed by a row number.</span>
+                                <span class="field-error-msg" id="title_input_existing_error" role="alert"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="it-title-source-option">
+                        <input type="radio" id="title_source_existing_column" name="title_source_existing" value="column" />
+                        <div>
+                            <label for="title_source_existing_column">Use a spreadsheet column for each row's title</label>
+                            <div class="it-title-source-input" id="title_source_existing_column_wrap" hidden>
+                                <select id="title_column_existing" aria-describedby="title_column_existing_hint"></select>
+                                <span class="it-hint" id="title_column_existing_hint">The value in this column will be used as the title for each row's request.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="it-field">
+                <label for="initiator_column_select_existing">Initiator Email Column (optional)</label>
+                <span class="it-hint" id="initiator_column_existing_hint">
+                    If set, the value in this column (must be a valid email address) will be used to look up and set
+                    the Initiator of each created request. Leave blank/unset per row to keep the default initiator
+                    (whoever runs this import). Requires an administrator account to take effect.
+                </span>
+                <select id="initiator_column_select_existing" aria-describedby="initiator_column_existing_hint"></select>
+            </div>
+
+        </div>
+    </section>
+    <!-- END Configure Import card — Map Columns is a separate .it-card below, not nested here -->
+
+    <!-- ============ STEP 4 (EXISTING FORM PATH): MAP COLUMNS ============ -->
+    <section class="it-card" id="existing_form_map_step" hidden aria-labelledby="existing_form_map_heading">
+        <div class="it-card-header">
+            <span class="it-card-num">4</span>
+            <h2 id="existing_form_map_heading">Map Columns to Form Questions</h2>
+        </div>
+        <div class="it-card-body">
+            <p class="it-hint" style="margin-bottom: var(--it-space-3);">
+                Match each form question to the spreadsheet column that contains its data.
+            </p>
+            <div class="it-table-wrap">
+                <table id="category_indicators">
+                    <caption class="sr-only">Mapping of form questions to spreadsheet columns</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Format</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Sheet Column</th>
+                            <th scope="col">Form</th>
+                            <th scope="col">Required</th>
+                            <th scope="col">Sensitive</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="it-final-step">
+                <span class="it-final-summary" id="existing_form_summary"></span>
+                <button id="import_btn_existing" type="button" class="btn btn-primary">Import</button>
+            </div>
+        </div>
+    </section>
+
+    <div id="request_status" role="status" aria-live="polite"></div>
+
+    <!--{include file="site_elements/generic_confirm_xhrDialog.tpl"}-->
+
+    <div id="dialog" title="Import Status" role="dialog" aria-modal="true" aria-labelledby="dialog_title_text" style="z-index:100;">
+        <p id="dialog_title_text" class="sr-only">Import in progress</p>
+        <div class="progress-label" id="progress_label" role="status" aria-live="polite">Starting import...</div>
+        <div id="progressbar" aria-label="Form import progress"></div>
+    </div>
+
+    <div id="modal-background"></div>
+
+</div>
+
+<script>
+    var CSRFToken = '<!--{$CSRFToken}-->';
+    var orgChartPath = '<!--{$orgchartPath}-->';
+
+    var nexusAPI = LEAFNexusAPI();
+    nexusAPI.setBaseURL(orgChartPath + '/api/?a=');
+    nexusAPI.setCSRFToken(CSRFToken);
+
+    var portalAPI = LEAFRequestPortalAPI();
+    portalAPI.setBaseURL('./api/?a=');
+    portalAPI.setCSRFToken(CSRFToken);
+
+    var categorySelect = $('#category_select');
+    var categoryIndicators = $('#category_indicators tbody');
+    var internalFormSelectWrapper = $('#internal_form_select_wrapper');
+    var internalFormCheckboxes = $('#internal_form_checkboxes');
+    var fvmInlineWarning = $('#fvm_inline_warning');
+    var fvmInlineWarningBody = $('#fvm_inline_warning_body');
+    var isAdmin = <!--{if $empMembership['groupID'][1]}-->true<!--{else}-->false<!--{/if}-->;
+    var fileSelect = $('#file_select');
+    var importBtnExisting = $('#import_btn_existing');
+    var importBtnNew = $('#import_btn_new');
+    var titleInputExisting = $('#title_input_existing');
+    var titleColumnExisting = $('#title_column_existing');
+    var initiatorColumnSelectExisting = $('#initiator_column_select_existing');
+    var titleInputNew = $('#title_input_new');
+    var titleColumnNew = $('#title_column_new');
+    var formTitle = $('#formTitleInput');
+    var formDescription = $('#formDescription');
+    var newForm = $('#import_data_new_form');
+    var existingForm = $('#import_data_existing_form');
+    var toggler = $('#toggler');
+    var requestStatus = $('#request_status');
+    var statusRegion = $('#status');
+    var sheetUpload = $('#sheet_upload');
+    var uploadConfirm = $('#upload_confirm');
+    var uploadConfirmText = $('#upload_confirm_text');
+    var clearUploadBtn = $('#clear_upload_btn');
+    var errorSummary = $('#error_summary');
+    var errorSummaryList = $('#error_summary_list');
+    var nameOfSheet = '';
+    var placeInOrder;
+    var lastFocusedBeforeDialog = null;
+
+    var totalRecords;
+
+    var totalImported = 0;
+    var createdRequests = 0;
+    var failedRequests = [];
+    var failedInitiators = [];
+    var failedSubmits = [];
+    var currentIndicators = [];
+    var indicatorArray = [];
+    var blankIndicators = [];
+    var sheet_data = {};
+    var allCategoriesWithStaples = [];
+    var lastImportUsedTitleColumn = false;
+    var lastImportCategoryID = null;
+    var dialog_confirm = new dialogController(
+        'confirm_xhrDialog',
+        'confirm_xhr',
+        'confirm_loadIndicator',
+        'confirm_button_save',
+        'confirm_button_cancelchange'
+    );
+
+    /* ---------------------------------------------------------------
+       STEP INDICATOR
+       Purely visual (aria-hidden) progress display. Screen reader users
+       get the same information via headings + live region status text,
+       so this element is decorative rather than a duplicate announcement.
+       --------------------------------------------------------------- */
+    function setStep(stepNum) {
+        $('#it_step_indicator > li').each(function () {
+            var n = parseInt($(this).data('step'), 10);
+            $(this).removeClass('is-active is-complete is-disabled');
+            if (n < stepNum) {
+                $(this).addClass('is-complete');
+            } else if (n === stepNum) {
+                $(this).addClass('is-active');
+            } else {
+                $(this).addClass('is-disabled');
+            }
+        });
+    }
+
+    /* ---------------------------------------------------------------
+       STATUS BANNER
+       Replaces the old permanent black bar. Hidden by default; only
+       takes up visual space (and a color) when there is something to say.
+       Still announced via aria-live regardless of visual state.
+       --------------------------------------------------------------- */
+    function setStatus(message, kind) {
+        statusRegion.removeClass('is-info is-success is-error');
+        if (!message) {
+            statusRegion.removeClass('is-visible').html('');
+            return;
+        }
+        statusRegion.addClass('is-visible').addClass('is-' + (kind || 'info')).html(message);
+    }
+
+    /* ---------------------------------------------------------------
+       ACCESSIBLE VALIDATION HELPERS
+       Renders a focus-managed error summary (WCAG 3.3.1 / G83+G85) and
+       ties each message to its field via aria-describedby + aria-invalid,
+       replacing blocking alert() calls for known validation cases.
+       --------------------------------------------------------------- */
+    function clearErrors(fieldIds) {
+        errorSummary.css('display', 'none');
+        errorSummaryList.html('');
+        fieldIds.forEach(function (id) {
+            $('#' + id).removeClass('field-invalid').removeAttr('aria-invalid');
+            $('#' + id + '_error').text('').css('display', 'none');
+        });
+    }
+
+    function showErrors(errors) {
+        errorSummaryList.html('');
+        errors.forEach(function (err) {
+            var li = $(document.createElement('li'));
+            var link = $(document.createElement('a'))
+                .attr('href', '#' + err.fieldId)
+                .text(err.message)
+                .on('click', function (e) {
+                    e.preventDefault();
+                    $('#' + err.fieldId).trigger('focus');
+                });
+            li.append(link);
+            errorSummaryList.append(li);
+
+            var field = $('#' + err.fieldId);
+            field.addClass('field-invalid').attr('aria-invalid', 'true');
+            var msgEl = $('#' + err.fieldId + '_error');
+            if (msgEl.length) {
+                msgEl.text(err.message).css('display', 'block');
+            }
+        });
+
+        errorSummary.css('display', 'block');
+        errorSummary.trigger('focus');
+    }
+
+    function toggleImport(e) {
+        if(e.target.id === "newFormToggler") {
+            newForm.removeAttr('hidden');
+            $('#new_form_map_step').removeAttr('hidden');
+            existingForm.attr('hidden', 'hidden');
+            $('#existing_form_map_step').attr('hidden', 'hidden');
+            setStep(3);
+        } else if (e.target.id === "existingFormToggler") {
+            newForm.attr('hidden', 'hidden');
+            $('#new_form_map_step').attr('hidden', 'hidden');
+            existingForm.removeAttr('hidden');
+            setStep(3);
+        }
+    }
+
+    /* ---------------------------------------------------------------
+       TITLE SOURCE TOGGLE
+       "Title of Requests" and "spreadsheet column for Title" are mutually
+       exclusive - only one is ever actually used (see answerQuestions()
+       in importNew/importExisting). Presenting both as always-visible
+       fields implied they could combine, which they can't. These radio
+       pairs make the exclusivity explicit and hide the unused input.
+       --------------------------------------------------------------- */
+    function wireTitleSourceToggle(prefix) {
+        var manualRadio = $('#title_source_' + prefix + '_manual');
+        var columnRadio = $('#title_source_' + prefix + '_column');
+        var manualWrap = $('#title_source_' + prefix + '_manual_wrap');
+        var columnWrap = $('#title_source_' + prefix + '_column_wrap');
+
+        function sync() {
+            if (columnRadio.is(':checked')) {
+                manualWrap.attr('hidden', 'hidden');
+                columnWrap.removeAttr('hidden');
+            } else {
+                columnWrap.attr('hidden', 'hidden');
+                manualWrap.removeAttr('hidden');
+            }
+        }
+
+        manualRadio.on('change', sync);
+        columnRadio.on('change', sync);
+        sync();
+    }
+
+    function checkFormatNew(e, column) {
+        if ($(e.target).val() === 'orgchart_employee') {
+            checkFormatExisting(column);
+        }
+    }
+
+    function checkFormatExisting(column) {
+        for (var i = 1; i < sheet_data.cells.length; i++) {
+            var value = typeof (sheet_data.cells[i]) !== "undefined" && typeof (sheet_data.cells[i][column]) !== "undefined" ? sheet_data.cells[i][column].toString() : '';
+            if (value.indexOf('@va.gov') === -1 && value.indexOf(' ') === -1 && value.indexOf(',') === -1 && value.indexOf('VHA') === -1 && value.indexOf('VACO') === -1) {
+                alert('The column for employees should be either an email, username, or "Last name, First Name".');
+                break;
+            }
+        }
+    }
+
+    function buildFormat(spreadSheet) {
+        $('#new_form_indicators').remove();
+        var table =
+            '<table id="new_form_indicators">' +
+            '   <caption class="sr-only">New form question setup: map each spreadsheet column to a question format</caption>' +
+            '   <thead>' +
+            '       <tr>' +
+            '           <th scope="col"> Sheet Column </th>' +
+            '           <th scope="col"> Name </th>' +
+            '           <th scope="col"> Format </th>' +
+            '           <th scope="col"> Required </th>' +
+            '           <th scope="col"> Sensitive </th>' +
+            '       </tr>' +
+            '   <thead>' +
+            '   <tbody>';
+        $.each(spreadSheet.headers, function(key, value) {
+            var safeKey = String(key).replace(/[^a-zA-Z0-9_-]/g, '');
+            var reqId = 'req_' + safeKey;
+            var sensId = 'sens_' + safeKey;
+            var fmtId = 'fmt_' + safeKey;
+            var requiredCheckbox = blankIndicators.indexOf(key) === -1
+                ? '<input type="checkbox" id="' + reqId + '"/><label for="' + reqId + '" class="sr-only">Required: ' + value + '</label>'
+                : '<input type="checkbox" id="' + reqId + '" onclick="return false;" disabled="disabled" aria-describedby="' + reqId + '_desc"/>' +
+                  '<label for="' + reqId + '" class="sr-only">Required: ' + value + ' (unavailable)</label>' +
+                  '<span id="' + reqId + '_desc" class="sr-only">Cannot set as required when a row in this column is blank.</span>';
+            table +=
+                '<tr>' +
+                '   <td>' + key + '</td>' +
+                '   <td>' + value + '</td>' +
+                '   <td>' +
+                '       <label for="' + fmtId + '" class="sr-only">Format for ' + value + '</label>' +
+                '       <select id="' + fmtId + '" onchange="checkFormatNew(event, \'' + key + '\')">' +
+                '           <option value="text">Single line text</option>' +
+                '           <option value="textarea">Multi-line text</option>' +
+                '           <option value="number">Numeric</option>' +
+                '           <option value="currency">Currency</option>' +
+                '           <option value="date">Date</option>' +
+                '           <option value="currency">Currency</option>' +
+                '           <option value="orgchart_group">Orgchart group</option>' +
+                '           <option value="orgchart_position">Orgchart position</option>' +
+                '           <option value="orgchart_employee">Orgchart employee</option>' +
+                '       </select>' +
+                '   </td>' +
+                '   <td style="text-align:center;">' + requiredCheckbox + '</td>' +
+                '   <td style="text-align:center;"><input type="checkbox" id="' + sensId + '"/><label for="' + sensId + '" class="sr-only">Sensitive: ' + value + '</label></td>' +
+                '</tr>';
+        });
+        table += '</tbody></table>';
+        $('#new_form_indicators_wrap').html(table);
+    }
+
+    /* build a generic column-picker select populated from sheet_data.headers,
+       used for the Initiator Email column and reusable for any future
+       record-level (non-indicator) column mappings */
+    function buildGenericColumnSelect(targetSelectEl, sheetData) {
+        targetSelectEl.html('');
+
+        var option = $(document.createElement('option'))
+            .attr('value', '-1')
+            .html('');
+        targetSelectEl.append(option);
+
+        var keys = Object.keys(sheetData.headers);
+        for (var i = 0; i < keys.length; i++) {
+            var opt = $(document.createElement('option'))
+                .attr('value', keys[i])
+                .html(keys[i] + ': ' + sheetData.headers[keys[i]]);
+            targetSelectEl.append(opt);
+        }
+    }
+
+    /* populate a title-column select using the same buildSheetSelect() used for
+       indicator columns, and wire it to the existing searchBlankRow() guard so
+       a column containing blank cells can't silently produce blank-titled requests */
+    function buildTitleColumnSelect(targetSelectEl, sheetData) {
+        var built = buildSheetSelect('__title_column_dummy__', sheetData, "1", 'text');
+        built.removeAttr('id');
+        targetSelectEl.html(built.html());
+        targetSelectEl.attr('onchange', 'searchBlankRow(event);');
+    }
+
+    /* basic client-side email format check - Initiator column is strictly
+       email-only (not the flexible email/username/"Last, First" format
+       accepted by orgchart_employee indicator columns) */
+    function isPlausibleEmail(value) {
+        return typeof value === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+    }
+
+    function alphaToNum(alpha) {
+
+        var i = 0,
+            num = 0,
+            len = alpha.length;
+
+        for (; i < len; i++) {
+            num = num * 26 + alpha.charCodeAt(i) - 0x40;
+        }
+
+        return num - 1;
+    }
+    function numToAlpha(num) {
+
+        var alpha = '';
+
+        for (; num >= 0; num = parseInt(num / 26, 10) - 1) {
+            alpha = String.fromCharCode(num % 26 + 0x41) + alpha;
+        }
+
+        return alpha;
+    }
+    function _buildColumnsArray(range) {
+
+        var i,
+            res = [],
+            rangeNum = range.split(':').map(function (val) {
+                return alphaToNum(val.replace(/[0-9]/g, ''));
+            }),
+            start = rangeNum[0],
+            end = rangeNum[1] + 1;
+
+        for (i = start; i < end; i++) {
+            res.push(numToAlpha(i));
+        }
+
+        return res;
+    }
+
+    function searchBlankRow(e) {
+        if (blankIndicators.indexOf($(e.target).val()) > -1) {
+            $(e.target).val("-1");
+            alert('Column can\'t be selected because it contains blank entries.');
+        }
+    }
+
+    /* build the select input with options for the given indicator
+    the indicatorID corresponds to the select input id.
+    accName is a human-readable accessible name (e.g. the indicator's
+    display name) used to label the select for screen reader users. */
+    function buildSheetSelect(indicatorID, sheetData, required, format, accName) {
+        var selectId = indicatorID + '_sheet_column';
+        var select = $(document.createElement('select'))
+            .attr('id', selectId)
+            .attr('class', 'indicator_column_select')
+            .attr('aria-label', 'Sheet column for ' + (accName || indicatorID));
+
+        if (required === "1") {
+            select.attr('onchange', 'searchBlankRow(event);');
+        }
+
+        /* "blank" option */
+        var option = $(document.createElement('option'))
+            .attr('value', '-1')
+            .html('');
+
+        select.append(option);
+
+        /* the value of each option is the column header, which is the key of the sheetData.headers object */
+        var keys = Object.keys(sheetData.headers);
+        for (var i = 0; i < keys.length; i++) {
+            var option = $(document.createElement('option'))
+                .attr('value', keys[i])
+                .html(keys[i] + ': ' + sheetData.headers[keys[i]]);
+
+            select.append(option);
+        }
+        if (format === "orgchart_employee") {
+            select.attr('onchange', 'checkFormatExisting($("option:selected", this).val());');
+        }
+
+        return select;
+    }
+
+    /* build the table row and data (<tr> and <td>) for the given indicator.
+       Column order: ID / Name / Format / Description / Sheet Column / Form /
+       Required / Sensitive - Sheet Column and Form moved up next to
+       Description since matching a question to its spreadsheet source is
+       the primary task on this screen; Required/Sensitive are reference-only
+       flags and sit at the end. */
+    function buildIndicatorRow(indicator, formLabel) {
+        if (indicator.format === '') {
+            return '';
+        }
+
+        var row = $(document.createElement('tr'));
+
+        var iid = $(document.createElement('td'))
+            .html(indicator.indicatorID)
+            .appendTo(row);
+
+        var indicatorName = $(document.createElement('td'))
+            .html(indicator.name)
+            .appendTo(row);
+
+        var indicatorFormat = $(document.createElement('td'))
+            .html(indicator.format)
+            .appendTo(row);
+
+        var indicatorDesc = $(document.createElement('td'))
+            .html(indicator.description)
+            .appendTo(row);
+
+        var columnSelect = $(document.createElement('td'))
+            .append(buildSheetSelect(indicator.indicatorID, sheet_data, indicator.required, indicator.format, indicator.name))
+            .appendTo(row);
+
+        var indicatorFormLabel = $(document.createElement('td'))
+            .html(typeof (formLabel) !== "undefined" && formLabel !== null ? formLabel : '')
+            .appendTo(row);
+
+        var indicatorRequired = $(document.createElement('td'))
+            .html(indicator.required === "1" ? "YES" : "NO")
+            .appendTo(row);
+
+        var indicatorSensitive = $(document.createElement('td'))
+            .html(indicator.is_sensitive === "1" ? "YES" : "NO")
+            .appendTo(row);
+
+        indicatorArray.push({
+            'indicatorID': indicator.indicatorID,
+            'format': indicator.format
+        });
+
+        return row;
+    }
+
+    function generateReport() {
+        const baseTitleForReport = $('input[name="toggle"]:checked').attr('id') === 'newFormToggler' ?
+            titleInputNew.val() : titleInputExisting.val();
+        urlTitle = "Requests have been generated for each row of the imported spreadsheet";
+
+        if (lastImportUsedTitleColumn) {
+            // No single title substring to search on when each row has its own distinct
+            // title - fall back to scoping the report by the form (categoryID) used for
+            // this import instead of a title LIKE match.
+            urlQueryJSON = '{"terms":[{"id":"categoryID","operator":"=","match":"' + (lastImportCategoryID || '') + '"},{"id":"deleted","operator":"=","match":0}],"joins":["service"],"sort":{}}';
+        } else {
+            urlQueryJSON = '{"terms":[{"id":"title","operator":"LIKE","match":"*' + baseTitleForReport + '*"},{"id":"deleted","operator":"=","match":0}],"joins":["service"],"sort":{}}';
+        }
+        urlIndicatorsJSON = '[{"indicatorID":"","name":"","sort":0},{"indicatorID":"title","name":"","sort":0}]';
+
+        urlTitle = encodeURIComponent(btoa(urlTitle));
+        urlQuery = encodeURIComponent(LZString.compressToBase64(urlQueryJSON));
+        urlIndicators = encodeURIComponent(LZString.compressToBase64(urlIndicatorsJSON));
+
+        setStatus('Data has been imported', 'success');
+        setStep(6);
+        requestStatus.html(
+            'Import Completed! ' + createdRequests + ' requests made, ' + failedRequests.length + ' failures.<br/><br/>' +
+            '<a class="btn" role="button" target="_blank" rel="noopener noreferrer" href="./?a=reports&v=3&title=' + urlTitle + '&query=' + urlQuery + '&indicators=' + urlIndicators + '">View Report (opens in new tab)<\a>'
+        );
+        if (failedRequests.length > 0) {
+            requestStatus.append(
+                '<br/><br/>' +
+                'Failed to import values: <br/>' + failedRequests.join("<br/>"))
+        }
+        if (failedInitiators.length > 0) {
+            requestStatus.append(
+                '<br/><br/>' +
+                'Records created successfully, but failed to set Initiator for: <br/>' + failedInitiators.join("<br/>"))
+        }
+        if (failedSubmits.length > 0) {
+            requestStatus.append(
+                '<br/><br/>' +
+                '<strong>Created but not submitted (remain as drafts):</strong><br/>' + failedSubmits.join("<br/>"))
+        }
+    }
+
+    function updateReportStatus(title) {
+        requestStatus.html(createdRequests + ' out of ' + (sheet_data.cells.length - 1) + ' requests completed, ' + failedRequests.length + ' failures.');
+        if (failedRequests.length === (sheet_data.cells.length - 1)) {
+            requestStatus.html('All requests failed! See the failure list below for details.');
+            requestStatus.append(
+                '<br/><br/>' +
+                'Failed to import values: <br/>' + failedRequests.join("<br/>"));
+            setStatus('Import has failed', 'error');
+            failedRequests = new Array();
+        } else if ((createdRequests + failedRequests.length) === (sheet_data.cells.length - 1)) {
+            generateReport(title);
+        }
+    }
+
+    function logFailure(title, msg = "") {
+        failedRequests.push(msg);
+        updateReportStatus(title);
+    }
+
+    function logInitiatorFailure(title, msg = "") {
+        failedInitiators.push(title + ': ' + msg);
+    }
+
+    function logSubmitFailure(title, msg = "") {
+        failedSubmits.push(title + ': ' + msg);
+    }
+
+    /* Resolves an email address to a username via the same nexusAPI call
+       already used for orgchart_employee indicator columns in this file.
+       Strictly email-format input only (validated by caller). Never rejects -
+       always resolves, with a null username on any failure/ambiguity so the
+       caller can log it without blocking record creation. */
+    function resolveEmailToUsername(email, onResolved) {
+        nexusAPI.Employee.getByEmailNational({
+            'onSuccess': function (user) {
+                var res = Object.keys(user);
+                var emp = user[res[0]];
+                if (typeof (emp) !== "undefined" && emp !== null && res.length === 1) {
+                    onResolved(emp.userName, null);
+                } else if (res.length > 1) {
+                    onResolved(null, 'Multiple employees found for ' + email + '.');
+                } else {
+                    onResolved(null, 'Employee ' + email + ' not found.');
+                }
+            },
+            'onFail': function (err) {
+                onResolved(null, 'Error retrieving employee for ' + email + '.');
+            },
+            'async': true
+        }, email);
+    }
+
+    /* Sets the initiator on an existing record via the setInitiator wrapper
+       (already CSRF-wired in LEAFPortalAPI.js). Verifies the response matches
+       the username sent, per Form.php::setInitiator which echoes back the raw
+       $userID string on success (or returns nothing distinguishable on
+       no-op/failure, e.g. non-admin caller or CSRF mismatch). */
+    function applyInitiatorToRecord(recordID, username, onDone) {
+        portalAPI.Forms.setInitiator(
+            recordID,
+            username,
+            function (result) {
+                var resultStr = typeof result === 'string' ? result.replace(/"/g, '') : result;
+                if (resultStr === username) {
+                    onDone(true, null);
+                } else {
+                    onDone(false, 'setInitiator did not confirm the change (check admin permissions).');
+                }
+            },
+            function (err) {
+                onDone(false, 'setInitiator request failed.');
+            }
+        );
+    }
+
+    /* Submits a created+filled record into its workflow via the same
+       ./api/form/{recordID}/submit endpoint LEAF_mass_action.tpl uses for
+       its "Submit" mass action - identical contract (POST, CSRFToken only).
+       Never rejects - always resolves with a success boolean so the caller
+       can log a failure without blocking the row from being counted as
+       created. A submit failure here does NOT mean the record wasn't made;
+       it just stays in Not Submitted status for manual follow-up. */
+    function submitRecord(recordID, onDone) {
+        $.ajax({
+            method: 'POST',
+            url: './api/form/' + recordID + '/submit',
+            data: { CSRFToken: CSRFToken },
+            dataType: 'text'
+        }).done(function () {
+            onDone(true, null);
+        }).fail(function (err) {
+            onDone(false, 'Could not be submitted - the form may have required fields that were not filled, or another workflow condition was not met.');
+        });
+    }
+
+    function makeRequests(categoryIDs, requestData, preserveOrder, submitOnImport) {
+        const title = requestData['title'];
+        const idsArray = Array.isArray(categoryIDs) ? categoryIDs : [categoryIDs];
+
+        return new Promise((resolve, reject) => {
+            if (typeof requestData['failed'] !== "undefined") {
+                logFailure(title, requestData['failed']);
+                resolve(null);
+
+            } else {
+                const numFields = {};
+                idsArray.forEach(function(id) {
+                    numFields['num' + id] = 1;
+                });
+
+                const newFormPayload = {
+                    CSRFToken: CSRFToken,
+                    ...numFields,
+                    title: title
+                };
+
+                $.ajax({
+                    method: 'POST',
+                    url: './api/form/new',
+                    data: newFormPayload,
+                    dataType: 'json',
+                    async: !preserveOrder,
+                    success(recordID) {
+                        if(recordID > 0) {
+                            delete requestData.title;
+                            requestData['CSRFToken'] = CSRFToken;
+
+                            $.ajax({
+                                method: 'POST',
+                                url: './api/form/' + recordID,
+                                data: requestData,
+                                dataType: 'json',
+                                success(result) {
+                                    if (result > 0) {
+                                        createdRequests++;
+                                        updateReportStatus(title);
+
+                                        if (submitOnImport) {
+                                            submitRecord(recordID, function (success, errMsg) {
+                                                if (!success) {
+                                                    logSubmitFailure(title, errMsg);
+                                                }
+                                                resolve(recordID);
+                                            });
+                                        } else {
+                                            resolve(recordID);
+                                        }
+                                    } else {
+                                        logFailure(title, `error adding data for request ${recordID}`)
+                                        resolve(recordID);
+                                    }
+                                },
+                                error(err) {
+                                    logFailure(title, `error adding data for request ${recordID}`);
+                                    console.log(err);
+                                    resolve(recordID);
+                                }
+                            });
+
+                        } else {
+                            logFailure(title, "error creating new request")
+                            resolve(null);
+                        }
+                    },
+                    error(err) {
+                        logFailure(title, "error creating new request")
+                        console.log(err);
+                        resolve(null);
+                    }
+                });
+            }
+        });
+    }
+
+    // Converts Excel Date into a Short Date String
+    // param excelDate int date in excel formatted integer field
+    // return formattedJSDate MM/DD/YYY formatted string of excel date
+    function convertExcelDateToShortString(excelDate) {
+        var jsDate = new Date((excelDate - (25567 + 1))*86400*1000);
+        var formattedJSDate = (jsDate.getMonth() + 1) + '/' + jsDate.getDate() + '/' + jsDate.getFullYear();
+        return formattedJSDate;
+    }
+
+    /* ---------------------------------------------------------------
+       RESET TO UPLOAD STEP
+       Rewinds the whole tool back to its just-loaded state so a person
+       who picked the wrong file doesn't have to refresh the page. Clears
+       every piece of state that downstream steps depend on, re-hides
+       every section revealed by that state, and clears the file input's
+       value so re-selecting the same filename still fires a change event.
+       --------------------------------------------------------------- */
+    function resetToUpload() {
+        // core data
+        sheet_data = {};
+        nameOfSheet = '';
+        blankIndicators = [];
+        indicatorArray = [];
+        currentIndicators = [];
+
+        // hide downstream sections
+        toggler.attr('hidden', 'hidden');
+        newForm.attr('hidden', 'hidden');
+        existingForm.attr('hidden', 'hidden');
+        $('#new_form_map_step').attr('hidden', 'hidden');
+        $('#existing_form_map_step').attr('hidden', 'hidden');
+        internalFormSelectWrapper.attr('hidden', 'hidden');
+        fvmInlineWarning.css('display', 'none');
+
+        // reset import-type radios
+        $('input[name="toggle"]').prop('checked', false);
+
+        // clear dynamically-built selects
+        categorySelect.val('-1');
+        categoryIndicators.html('');
+        internalFormCheckboxes.html('');
+        initiatorColumnSelectExisting.html('');
+        titleColumnExisting.html('');
+        titleColumnNew.html('');
+        $('#new_form_indicators_wrap').html('');
+
+        // reset title-source toggles back to manual/default
+        $('#title_source_new_manual').prop('checked', true);
+        $('#title_source_existing_manual').prop('checked', true);
+        $('#title_source_new_column, #title_source_existing_column').prop('checked', false);
+        $('#title_source_new_column_wrap, #title_source_existing_column_wrap').attr('hidden', 'hidden');
+        $('#title_source_new_manual_wrap, #title_source_existing_manual_wrap').removeAttr('hidden');
+
+        // clear text inputs and checkboxes
+        titleInputNew.val('');
+        titleInputExisting.val('');
+        formTitle.val('');
+        formDescription.val('');
+        $('#preserve_new, #preserve_existing, #submit_new, #submit_existing').prop('checked', false);
+
+        // clear any validation state left over from a previous attempt
+        clearErrors(['title_input_existing', 'category_select', 'formTitleInput', 'title_input_new']);
+
+        // clear the file input itself so re-selecting the same filename
+        // still triggers a change event next time
+        sheetUpload.val('');
+
+        // hide the confirmation row
+        uploadConfirm.removeClass('is-visible').attr('hidden', 'hidden');
+        uploadConfirmText.text('');
+
+        // reset status + step indicator
+        setStatus(null);
+        setStep(1);
+
+        // return focus to the upload control
+        sheetUpload.trigger('focus');
+    }
+
+    $(function () {
+        document.querySelector('title').innerText = 'Import Spreadsheet - <!--{$title}-->';
+        $("body").prepend($("#modal-background"));
+
+        wireTitleSourceToggle('new');
+        wireTitleSourceToggle('existing');
+
+        clearUploadBtn.on('click', function () {
+            resetToUpload();
+        });
+
+        let progressTimer;
+        let progressbar = $( "#progressbar" );
+        let progressLabel = $( "#progress_label" );
+
+        const dialog = $( "#dialog" ).dialog({
+            autoOpen: false,
+            closeOnEscape: false,
+            resizable: false,
+            open: function() {
+                $("#modal-background").addClass("modalBackground").attr('aria-hidden', 'true');
+                $(".ui-dialog-titlebar-close").hide();
+                progressLabel.text( "Starting Import..." );
+                progressTimer = setTimeout( progress, 2000 );
+
+                lastFocusedBeforeDialog = document.activeElement;
+                $(this).closest('.ui-dialog').attr('role', 'dialog').attr('aria-modal', 'true');
+                progressLabel.trigger('focus');
+            },
+            close: closeImport
+        });
+
+        progressbar.progressbar({
+            value: false,
+            change: function() {
+                var val = progressbar.progressbar( "value" );
+                progressLabel.text( "Current Progress: " + val + "%" );
+                progressbar.attr('aria-valuenow', val);
+            },
+            complete: function() {
+                $(".ui-dialog-titlebar-close").show();
+            }
+        });
+        progressbar.attr({'role': 'progressbar', 'aria-valuemin': 0, 'aria-valuemax': 100, 'aria-valuenow': 0});
+
+        function closeImport() {
+            $("#modal-background").removeClass("modalBackground").removeAttr('aria-hidden');
+            clearTimeout( progressTimer );
+            dialog.dialog( "close" );
+            progressbar.progressbar( "value", false);
+            progressLabel.text( "Starting import..." );
+            createdRequests = 0;
+            failedRequests = new Array();
+            failedInitiators = new Array();
+            failedSubmits = new Array();
+
+            if (lastFocusedBeforeDialog && typeof lastFocusedBeforeDialog.focus === 'function') {
+                lastFocusedBeforeDialog.focus();
+            }
+        }
+
+        function progress() {
+            var val = progressbar.progressbar( "value" ) || 0;
+            progressbar.progressbar( "value", Math.floor( totalImported/totalRecords *100) );
+            if ( val <= 99 ) {
+                progressTimer = setTimeout( progress, 50 );
+            }
+        }
+
+        /*builds select options of workflows */
+        portalAPI.Workflow.getAllWorkflows(
+            function(msg) {
+                if(msg.length > 0) {
+                    var buffer = '<label for="workflowID">Workflow of Form</label><br/><select id="workflowID">';
+                    buffer += '<option value="0">No Workflow</option>';
+                    for(var i in msg) {
+                        buffer += '<option value="'+ msg[i].workflowID +'">'+ msg[i].description +' (ID: #'+ msg[i].workflowID +')</option>';
+                    }
+                    buffer += '</select>';
+                    buffer += '<span class="it-hint">This will be the workflow for the custom form.</span>';
+                    $('#formWorkflowSelect').html(buffer);
+                }
+            },
+            function (err) {
+                console.log(err);
+            }
+        );
+
+        function importNew() {
+            let requestQueue = new intervalQueue();
+            let hasSensitiveField = false; //updated to true in makeIndicator if a question is marked as sensitive
+            setStatus('Processing...', 'info');
+            setStep(5);
+            var newFormIndicators = $('#new_form_indicators');
+            var workflowID = $('#workflowID > option:selected').val();
+            var formName = formTitle.val() === '' ? nameOfSheet : formTitle.val();
+            var formData = {"name": formName, "description": formDescription.val()};
+            var indicators = [];
+            var newCategoryID = '';
+            const preserveOrder = $("#preserve_new").prop("checked");
+            const submitOnImportNew = $("#submit_new").prop("checked");
+            totalImported = 0;
+            requestStatus.html('Making custom form...');
+            dialog.dialog("open");
+
+            /* creates custom form */
+            portalAPI.FormEditor.createCustomForm(
+                formData.name,
+                formData.description,
+                function(categoryID) {
+                    newCategoryID = categoryID.replace(/"/g, "");
+                    if (workflowID > 0) {
+                        portalAPI.FormEditor.assignFormWorkflow(
+                            newCategoryID.replace(/"/g, ""),
+                            workflowID,
+                            function (msg) {
+                                requestStatus.html('Workflow assigned...');
+                            },
+                            function (err) {
+                                console.log(err);
+                            }
+                        );
+                    }
+                    requestStatus.html('Form created, adding questions...');
+                    var formCreationIndex = 0;
+                    var indicatorTableRows = newFormIndicators.children('tbody').find('tr');
+
+                    /* parses user's input and makes an indicator for each row of the indicator table */
+                    function makeIndicator() {
+                        /* Creates indicators synchronously, then moves on to next step of filling out requests */
+                        if (formCreationIndex < indicatorTableRows.length) {
+                            if ($("td:eq(4) > input", indicatorTableRows[formCreationIndex]).is(":checked") === true) {
+                                hasSensitiveField = true;
+                            }
+                            $.ajax({
+                                method: 'POST',
+                                url: './api/formEditor/newIndicator',
+                                dataType: "text",
+                                async: false,
+                                data: {
+                                    name: $("td:eq(1)", indicatorTableRows[formCreationIndex]).html(),
+                                    format: $("td:eq(2) > select > option:selected", indicatorTableRows[formCreationIndex]).val(),
+                                    categoryID: newCategoryID,
+                                    required:  $("td:eq(3) > input", indicatorTableRows[formCreationIndex]).is(":checked") === true ? 1 : 0,
+                                    is_sensitive: $("td:eq(4) > input", indicatorTableRows[formCreationIndex]).is(":checked") === true ? 1 : 0,
+                                    sort: formCreationIndex,
+                                    CSRFToken: CSRFToken
+                                },
+                                success(indicatorID) {
+                                    formCreationIndex++;
+                                    indicators.push(indicatorID.replace(/"/g, ""));
+                                    requestStatus.html(indicators.length.toString() + ' out of ' + indicatorTableRows.length + ' questions added.');
+                                    makeIndicator();
+                                },
+                                error(err) {
+                                    alert("Error creating form. Please try again; if the problem continues, contact support.");
+                                }
+                            });
+
+                        } else {
+                            if (hasSensitiveField === true) {
+                                $.ajax({
+                                    type: 'POST',
+                                    url: `./api/formEditor/formNeedToKnow`,
+                                    data: {
+                                        needToKnow: 1,
+                                        categoryID: newCategoryID,
+                                        CSRFToken: CSRFToken
+                                    },
+                                    success: () => {},
+                                    error: err => console.log('set form need to know post err', err)
+                                });
+                            }
+                            requestStatus.html(indicators.length.toString() + ' out of ' + indicatorTableRows.length + ' questions added.');
+                            requestStatus.html('Filling out form...');
+
+                            var indicatorArray = Object.keys(indicators).map(function(e) {
+                                return indicators[e]
+                            });
+
+                            function selectRowToAnswer(i) {
+                                return new Promise(function(resolve, reject) {
+                                    const titleIndex = i;
+                                    const row = sheet_data.cells[titleIndex];
+                                    let completed = 0;
+                                    let requestData = new Object();
+
+                                    function answerQuestions() {
+                                        return new Promise(function(resolve, reject) {
+                                            if (completed >= indicatorArray.length) {
+                                                var useColumnTitleNew = $('#title_source_new_column').is(':checked');
+                                                var titleColumnValNew = titleColumnNew.val();
+                                                if (useColumnTitleNew && titleColumnValNew && titleColumnValNew !== "-1") {
+                                                    var cellValNew = typeof (row[titleColumnValNew]) !== "undefined" && row[titleColumnValNew] !== null
+                                                        ? row[titleColumnValNew].toString() : '';
+                                                    requestData['title'] = cellValNew;
+                                                } else {
+                                                    requestData['title'] = titleInputNew.val() + '_' + titleIndex;
+                                                }
+                                                makeRequests(newCategoryID, requestData, preserveOrder, submitOnImportNew).then(function(){
+                                                    resolve();
+                                                });
+
+                                            } else if (titleIndex <= sheet_data.cells.length - 1) {
+                                                var currentCol = newFormIndicators.find('tbody > tr:eq(' + completed + ') > td:first').html();
+                                                var currentFormat = newFormIndicators.find('tbody > tr:eq(' + completed + ') > td:eq(2) > select > option:selected').val();
+                                                switch (currentFormat) {
+                                                    case 'orgchart_employee':
+                                                        var sheetEmp = typeof (row[currentCol]) !== "undefined" && row[currentCol] !== null && !$.isNumeric(row[currentCol]) ? row[currentCol].toString() : '';
+                                                        nexusAPI.Employee.getByEmailNational({
+                                                            'onSuccess': function (user) {
+                                                                var res = Object.keys(user);
+                                                                var emp = user[res[0]];
+                                                                if (typeof (emp) !== "undefined" && emp !== null && res.length === 1) {
+                                                                    nexusAPI.Employee.importFromNational({
+                                                                        'onSuccess': function (results) {
+                                                                            if (!isNaN(results)) {
+                                                                                requestData[indicatorArray[completed]] = parseInt(results);
+                                                                            } else {
+                                                                                requestData['failed'] = currentCol + titleIndex + ': Employee ' + sheetEmp + ' not found. Error: '+ results;
+                                                                            }
+                                                                            completed++;
+                                                                            answerQuestions().then(function(){resolve();});
+                                                                        },
+                                                                        'onFail': function (err) {
+                                                                            requestData['failed'] = currentCol + titleIndex + ": Error retrieving employee on sheet row " + titleIndex + " for indicator " + formCreationIndex;
+                                                                            completed++;
+                                                                            answerQuestions().then(function(){resolve();});
+                                                                        },
+                                                                        'async': true
+                                                                    }, emp.userName);
+                                                                } else if (res.length > 1) {
+                                                                    requestData['failed'] = currentCol + titleIndex + ': Multiple employees found for ' + sheetEmp + '.  Make sure it is in the correct format.';
+                                                                    completed++;
+                                                                    answerQuestions().then(function(){resolve();});
+                                                                } else {
+                                                                    requestData['failed'] = currentCol + titleIndex + ': Employee ' + sheetEmp + ' not found.';
+                                                                    completed++;
+                                                                    answerQuestions().then(function(){resolve();});
+                                                                }
+                                                            },
+                                                            'onFail': function (err) {
+                                                                requestData['failed'] = currentCol + titleIndex + ": Error retrieving email for employee on sheet row " + titleIndex + " indicator " + formCreationIndex;
+                                                                completed++;
+                                                                answerQuestions().then(function(){resolve();});
+                                                            },
+                                                            'async': true
+                                                        }, sheetEmp);
+                                                        break;
+                                                    case 'orgchart_group':
+                                                        var sheetGroup = typeof (row[currentCol]) !== "undefined" && row[currentCol] !== null ? row[currentCol].toString() : '';
+                                                        nexusAPI.Groups.searchGroups({
+                                                            'onSuccess': function (groups) {
+                                                                if (groups.length === 1) {
+                                                                    var grp = groups[Object.keys(groups)[0]];
+                                                                    requestData[indicatorArray[completed]] = parseInt(grp.groupID);
+                                                                } else if (groups.length > 1) {
+                                                                    requestData['failed'] = currentCol + titleIndex + ': Multiple groups found for ' + sheetGroup + '.  Make sure that the name is exact.';
+                                                                } else {
+                                                                    requestData['failed'] = currentCol + titleIndex + ': Group ' + sheetGroup + ' not found.';
+                                                                }
+                                                                completed++;
+                                                                answerQuestions().then(function(){resolve();});
+                                                            },
+                                                            'onFail': function (err) {
+                                                                requestData['failed'] = currentCol + titleIndex + ": Error retrieving group on sheet row " + titleIndex + " indicator " + formCreationIndex;
+                                                                completed++;
+                                                                answerQuestions().then(function(){resolve();});
+                                                            },
+                                                            'async': true
+                                                        }, sheetGroup);
+                                                        break;
+                                                    case 'orgchart_position':
+                                                        var sheetPosition = typeof (row[currentCol]) !== "undefined" && row[currentCol] !== null ? row[currentCol].toString() : '';
+                                                        nexusAPI.Positions.searchPositions({
+                                                            'onSuccess': function (positions) {
+                                                                if (positions.length === 1) {
+                                                                    var pos = positions[Object.keys(positions)[0]];
+                                                                    requestData[indicatorArray[completed]] = parseInt(pos.positionID);
+                                                                } else if (positions.length > 1) {
+                                                                    requestData['failed'] = currentCol + titleIndex + ': Multiple positions found for ' + sheetPosition + '.  Make sure that the name is exact.';
+                                                                } else {
+                                                                    requestData['failed'] = currentCol + titleIndex + ': Position ' + sheetPosition + ' not found.';
+                                                                }
+                                                                completed++;
+                                                                answerQuestions().then(function(){resolve();});
+                                                            },
+                                                            'onFail': function (err) {
+                                                                requestData['failed'] = currentCol + titleIndex + ": Error retrieving group on sheet row " + titleIndex + " indicator " + formCreationIndex;
+                                                                completed++;
+                                                                answerQuestions().then(function(){resolve();});
+                                                            },
+                                                            'async': true
+                                                        }, sheetPosition);
+                                                        break;
+                                                    case 'date':
+                                                        var cellDate = typeof (row[currentCol]) !== "undefined" && row[currentCol] !== null ? row[currentCol].toString() : '';
+
+                                                        if (!isNaN(cellDate) && cellDate !== '') {
+                                                            var convertedDate = convertExcelDateToShortString(parseInt(cellDate));
+                                                            requestData[indicatorArray[completed]] = convertedDate;
+                                                        } else {
+                                                            requestData[indicatorArray[completed]] = cellDate;
+                                                        }
+
+                                                        completed++;
+                                                        answerQuestions().then(function(){resolve();});
+                                                        break;
+                                                    default:
+                                                    requestData[indicatorArray[completed]] = row[currentCol];
+                                                    completed++;
+                                                    answerQuestions().then(function(){resolve();});
+                                                    break;
+                                                }
+                                            }
+                                        });
+                                    }
+
+                                    answerQuestions().then(function(res) {
+                                        resolve();
+                                    });
+                                });
+                            }
+
+                            totalRecords = sheet_data.cells.length - 1;
+                            progressbar.progressbar("value", 0);
+                            progressLabel.text( "Current Progress: 0%");
+
+                            for (let i = 1; i <= totalRecords; i++) {
+                                requestQueue.push({
+                                    rowToAnswer: i
+                                });
+                            }
+
+                            requestQueue.setWorker(item => {
+                                return new Promise((resolve, reject) => {
+                                    selectRowToAnswer(item.rowToAnswer).then(() => {
+                                        totalImported++
+                                        resolve();
+                                    });
+                                });
+                            });
+                            const concurrency = preserveOrder ? 0 : 2;
+                            requestQueue.setConcurrency(concurrency);
+                            requestQueue.start().then(res => {
+                                progressbar.progressbar("value", 100);
+                                progressLabel.text( "Import Complete");
+                                setStatus('Data has been imported', 'success');
+                            });
+                        }
+                    }
+                    makeIndicator();
+                },
+                function (err) {
+                    console.log(err)
+                }
+            );
+        }
+
+        function importExisting() {
+            let requestQueue = new intervalQueue();
+
+            totalImported = 0;
+            setStatus('Processing...', 'info');
+            setStep(5);
+            requestStatus.html('Parsing sheet data...');
+            const preserveOrder = $("#preserve_existing").prop("checked");
+            const submitOnImportExisting = $("#submit_existing").prop("checked");
+
+            var selectedFormIDsAtStart = getSelectedFormIDs();
+
+            var unpublished = checkFormVisibility(selectedFormIDsAtStart);
+
+            failedInitiators = [];
+            failedSubmits = [];
+            const initiatorColumnAtStart = initiatorColumnSelectExisting.val();
+
+            let rowsCompleted = 0;
+            function selectRowToAnswer(i) {
+                return new Promise(function(resolve,reject) {
+                    const titleIndex = i;
+                    const row = sheet_data.cells[titleIndex];
+                    let completed = 0;
+                    let requestData = new Object();
+
+                    function answerQuestions() {
+                        return new Promise(function(resolve, reject) {
+                            if (completed === indicatorArray.length) {
+                                var useColumnTitleExisting = $('#title_source_existing_column').is(':checked');
+                                var titleColumnVal = titleColumnExisting.val();
+                                if (useColumnTitleExisting && titleColumnVal && titleColumnVal !== "-1") {
+                                    var cellVal = typeof (row[titleColumnVal]) !== "undefined" && row[titleColumnVal] !== null
+                                        ? row[titleColumnVal].toString() : '';
+                                    requestData['title'] = cellVal;
+                                } else {
+                                    requestData['title'] = titleInputExisting.val() + '_' + titleIndex;
+                                }
+                                const currentSelectedFormIDs = getSelectedFormIDs();
+                                const rowTitle = requestData['title'];
+
+                                const initiatorColumn = initiatorColumnSelectExisting.val();
+                                const initiatorEmailRaw = (initiatorColumn && initiatorColumn !== '-1' &&
+                                    typeof (row[initiatorColumn]) !== "undefined" && row[initiatorColumn] !== null)
+                                    ? row[initiatorColumn].toString().trim() : '';
+
+                                makeRequests(currentSelectedFormIDs, requestData, preserveOrder, submitOnImportExisting).then(function(recordID){
+                                    if (!initiatorEmailRaw) {
+                                        resolve();
+                                        return;
+                                    }
+                                    if (!recordID) {
+                                        resolve();
+                                        return;
+                                    }
+                                    if (!isAdmin) {
+                                        logInitiatorFailure(rowTitle, 'Initiator column is set but this import is not running as an administrator; setInitiator is a no-op for non-admins.');
+                                        resolve();
+                                        return;
+                                    }
+                                    if (!isPlausibleEmail(initiatorEmailRaw)) {
+                                        logInitiatorFailure(rowTitle, '"' + initiatorEmailRaw + '" is not a valid email address.');
+                                        resolve();
+                                        return;
+                                    }
+
+                                    resolveEmailToUsername(initiatorEmailRaw, function (username, resolveErr) {
+                                        if (!username) {
+                                            logInitiatorFailure(rowTitle, resolveErr || ('Could not resolve ' + initiatorEmailRaw + ' to a user.'));
+                                            resolve();
+                                            return;
+                                        }
+                                        applyInitiatorToRecord(recordID, username, function (success, applyErr) {
+                                            if (!success) {
+                                                logInitiatorFailure(rowTitle, applyErr || ('Failed to set initiator for record ' + recordID + '.'));
+                                            }
+                                            resolve();
+                                        });
+                                    });
+                                });
+
+                            } else {
+                                var indicatorColumn = $('#' + indicatorArray[completed].indicatorID + '_sheet_column').val();
+
+                                if (indicatorColumn === "-1" || typeof indicatorColumn === "undefined" || indicatorColumn === null) {
+                                    completed++;
+                                    answerQuestions().then(function(){resolve();});
+
+                                } else {
+                                    var currentIndicator = indicatorArray[completed].indicatorID;
+                                    var currentFormat = indicatorArray[completed].format;
+                                    switch (currentFormat) {
+                                        case 'orgchart_employee':
+                                            var sheetEmp = typeof (row[indicatorColumn]) !== "undefined" && row[indicatorColumn] !== null ? row[indicatorColumn].toString() : '';
+                                            nexusAPI.Employee.getByEmailNational({
+                                                'onSuccess': function (user) {
+                                                    var res = Object.keys(user);
+                                                    var emp = user[res[0]];
+                                                    if (typeof (emp) !== "undefined" && emp !== null && res.length === 1) {
+                                                        nexusAPI.Employee.importFromNational({
+                                                            'onSuccess': function (results) {
+                                                                if (!isNaN(results)) {
+                                                                    requestData[currentIndicator] = parseInt(results);
+                                                                } else {
+                                                                    requestData['failed'] = indicatorColumn + titleIndex + ': Employee ' + sheetEmp + ' not found. Error: '+ results;
+                                                                }
+                                                                completed++;
+                                                                answerQuestions().then(function(){resolve();})
+                                                            },
+                                                            'onFail': function (err) {
+                                                                requestData['failed'] = indicatorColumn + titleIndex + ": Error retrieving employee on sheet row " + titleIndex + " for indicator " + index;
+                                                                completed++;
+                                                                answerQuestions().then(function(){resolve();})
+                                                            },
+                                                            'async': true
+                                                        }, emp.userName);
+                                                    } else if (res.length > 1) {
+                                                        requestData['failed'] = indicatorColumn + titleIndex + ': Multiple employees found for ' + sheetEmp + '.  Make sure it is in the correct format.';
+                                                        completed++;
+                                                        answerQuestions().then(function(){resolve();})
+                                                    } else {
+                                                        requestData['failed'] = indicatorColumn + titleIndex + ': Employee ' + sheetEmp + ' not found.';
+                                                        completed++;
+                                                        answerQuestions().then(function(){resolve();})
+                                                    }
+                                                },
+                                                'onFail': function (err) {
+                                                    requestData['failed'] = indicatorColumn + titleIndex + ": Error retrieving email for employee on sheet row " + titleIndex + " indicator " + index;
+                                                    completed++;
+                                                    answerQuestions().then(function(){resolve();})
+                                                },
+                                                'async': true
+                                            }, sheetEmp);
+                                            break;
+                                        case 'orgchart_group':
+                                            var sheetGroup = typeof (row[indicatorColumn]) !== "undefined" && row[indicatorColumn] !== null ? row[indicatorColumn].toString() : '';
+                                            nexusAPI.Groups.searchGroups({
+                                                'onSuccess': function (groups) {
+                                                    if (groups.length === 1) {
+                                                        var grp = groups[Object.keys(groups)[0]];
+                                                        requestData[currentIndicator] = parseInt(grp.groupID);
+                                                    } else if (groups.length > 1) {
+                                                        requestData['failed'] = indicatorColumn + titleIndex + ': Multiple groups found for ' + sheetGroup + '.  Make sure that the name is exact.';
+                                                    } else {
+                                                        requestData['failed'] = indicatorColumn + titleIndex + ': Group ' + sheetGroup + ' not found.';
+                                                    }
+                                                    completed++;
+                                                    answerQuestions().then(function(){resolve();})
+                                                },
+                                                'onFail': function (err) {
+                                                    requestData['failed'] = indicatorColumn + titleIndex + ": Error retrieving group on sheet row " + titleIndex + " indicator " + index;
+                                                    completed++;
+                                                    answerQuestions().then(function(){resolve();})
+                                                },
+                                                'async': true
+                                            }, sheetGroup);
+                                            break;
+                                        case 'orgchart_position':
+                                            var sheetPosition = typeof (row[indicatorColumn]) !== "undefined" && row[indicatorColumn] !== null ? row[indicatorColumn].toString() : '';
+                                            nexusAPI.Positions.searchPositions({
+                                                'onSuccess': function (positions) {
+                                                    if (positions.length === 1) {
+                                                        var pos = positions[Object.keys(positions)[0]];
+                                                        requestData[currentIndicator] = parseInt(pos.positionID);
+                                                    } else if (positions.length > 1) {
+                                                        requestData['failed'] = indicatorColumn + titleIndex + ': Multiple positions found for ' + sheetPosition + '.  Make sure that the name is exact.';
+                                                    } else {
+                                                        requestData['failed'] = indicatorColumn + titleIndex + ': Position ' + sheetPosition + ' not found.';
+                                                    }
+                                                    completed++;
+                                                    answerQuestions().then(function(){resolve();})
+                                                },
+                                                'onFail': function (err) {
+                                                    requestData['failed'] = indicatorColumn + titleIndex + ": Error retrieving group on sheet row " + titleIndex + " indicator " + index;
+                                                    completed++;
+                                                    answerQuestions().then(function(){resolve();})
+                                                },
+                                                'async': true
+                                            }, sheetPosition);
+                                            break;
+                                        case 'date':
+                                            var cellDate = typeof (row[indicatorColumn]) !== "undefined" && row[indicatorColumn] !== null ? row[indicatorColumn].toString() : '';
+
+                                            if (!isNaN(cellDate) && cellDate !== '') {
+                                                var convertedDate = convertExcelDateToShortString(parseInt(cellDate));
+                                                requestData[currentIndicator] = convertedDate;
+                                            } else {
+                                                requestData[currentIndicator] = cellDate;
+                                            }
+
+                                            completed++;
+                                            answerQuestions().then(function(){resolve();})
+                                            break;
+                                        default:
+                                        requestData[currentIndicator] = row[indicatorColumn];
+                                        completed++;
+                                        answerQuestions().then(function(){resolve();})
+                                        break;
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    answerQuestions().then(function(res) {
+                        resolve();
+                    });
+                });
+            }
+
+            totalRecords = sheet_data.cells.length - 1;
+            dialog.dialog( "open" );
+            progressbar.progressbar("value", 0);
+            progressLabel.text( "Current Progress: 0%");
+
+            for (let i = 1; i <= totalRecords; i++) {
+                requestQueue.push({
+                    rowToAnswer: i
+                });
+            }
+
+            requestQueue.setWorker(item => {
+                return new Promise((resolve, reject) => {
+                    selectRowToAnswer(item.rowToAnswer).then(() => {
+                        totalImported++
+                        resolve();
+                    });
+                });
+            });
+            const concurrency = preserveOrder ? 0 : 2;
+            requestQueue.setConcurrency(concurrency);
+            requestQueue.start().then(res => {
+                progressbar.progressbar("value", 100);
+                progressLabel.text( "Import Complete");
+                setStatus('Data has been imported', 'success');
+            });
+        }
+
+        /* Fetch all categories (main + internal forms) via formStack/categoryList/allWithStaples
+           since portalAPI.Forms.getAllForms cannot distinguish main vs internal forms */
+        $.ajax({
+            method: 'GET',
+            url: './api/?a=formStack/categoryList/allWithStaples',
+            dataType: 'json',
+            cache: false
+        }).done(function (results) {
+            allCategoriesWithStaples = results || [];
+
+            var opt = $(document.createElement('option'))
+                .attr('value', '-1')
+                .html('');
+
+            categorySelect.append(opt);
+
+            for (var i = 0; i < allCategoriesWithStaples.length; i++) {
+                var category = allCategoriesWithStaples[i];
+                if (category.parentID === '') {
+                    var opt = $(document.createElement('option'))
+                        .attr('value', category.categoryID)
+                        .html(category.categoryName + ' : ' + category.categoryDescription);
+
+                    categorySelect.append(opt);
+                }
+            }
+        }).fail(function (error) {
+            console.log(error);
+            setStatus('Unable to load the list of forms. Please refresh the page or contact support if the problem continues.', 'error');
+        });
+
+        function buildRows(indicator, formLabel) {
+            if (typeof (indicator) !== "undefined" && indicator !== null) {
+                categoryIndicators.append(buildIndicatorRow(indicator, formLabel));
+
+                if (typeof (indicator.child) !== "undefined" && indicator.child != null) {
+                    var children = Object.keys(indicator.child);
+                    for (var i = 0; i < children.length; i++) {
+                        var child = indicator.child[children[i]];
+
+                        buildRows(child, formLabel);
+                    }
+                }
+            }
+        }
+
+        function fetchAndAppendIndicators(categoryID, formLabel) {
+            return new Promise(function (resolve, reject) {
+                portalAPI.Forms.getIndicatorsForForm(categoryID,
+                    function (results) {
+                        currentIndicators = results;
+
+                        for (var i = 0; i < results.length; i++) {
+                            var indicator = results[i];
+                            buildRows(indicator, formLabel);
+                        }
+                        resolve();
+                    },
+                    function (error) {
+                        console.log(error);
+                        resolve();
+                    }
+                );
+            });
+        }
+
+        function getSelectedFormIDs() {
+            var ids = [categorySelect.val()];
+            internalFormCheckboxes.find('input[type="checkbox"]:checked').each(function () {
+                ids.push($(this).data('category-id'));
+            });
+            return ids;
+        }
+
+        function rebuildIndicatorTable() {
+            categoryIndicators.html('');
+            indicatorArray = new Array();
+
+            var mainCategoryID = categorySelect.val();
+
+            if (!mainCategoryID || mainCategoryID === '-1') {
+                return Promise.resolve();
+            }
+
+            var mainCategory = allCategoriesWithStaples.find(function (c) {
+                return c.categoryID === mainCategoryID;
+            });
+            var mainLabel = mainCategory ? mainCategory.categoryName : mainCategoryID;
+
+            var promises = [fetchAndAppendIndicators(mainCategoryID, mainLabel)];
+
+            internalFormCheckboxes.find('input[type="checkbox"]:checked').each(function () {
+                var internalCategoryID = $(this).data('category-id');
+                var internalCategory = allCategoriesWithStaples.find(function (c) {
+                    return c.categoryID === internalCategoryID;
+                });
+                var internalLabel = internalCategory ? internalCategory.categoryName : internalCategoryID;
+                promises.push(fetchAndAppendIndicators(internalCategoryID, internalLabel));
+            });
+
+            return Promise.all(promises);
+        }
+
+        function checkFormVisibility(categoryIDs) {
+            var report = categoryIDs.map(function (id) {
+                var cat = allCategoriesWithStaples.find(function (c) { return c.categoryID === id; });
+                return {
+                    categoryID: id,
+                    found: !!cat,
+                    categoryName: cat ? cat.categoryName : id,
+                    visible: cat ? parseInt(cat.visible, 10) : null
+                };
+            });
+
+            var unpublished = report.filter(function (r) { return r.visible === -1; });
+
+            renderFvmInlineWarning(unpublished);
+
+            return unpublished;
+        }
+
+        function renderFvmInlineWarning(unpublishedForms) {
+            if (!isAdmin || !unpublishedForms || unpublishedForms.length === 0) {
+                fvmInlineWarning.css('display', 'none');
+                fvmInlineWarningBody.html('');
+                return;
+            }
+
+            fvmInlineWarningBody.html('');
+
+            unpublishedForms.forEach(function (form) {
+                var row = $(document.createElement('tr'));
+
+                var tdName = $(document.createElement('td')).text(form.categoryName);
+                var tdID = $(document.createElement('td')).text(form.categoryID);
+
+                var selectId = 'fvm_status_' + form.categoryID;
+                var select = $(document.createElement('select')).attr('id', selectId);
+                var selectLabel = $(document.createElement('label'))
+                    .attr('for', selectId)
+                    .addClass('sr-only')
+                    .text('New visibility status for ' + form.categoryName);
+                [[0, 'Hidden (recommended)'], [1, 'Available']].forEach(function (pair) {
+                    var opt = $(document.createElement('option'))
+                        .attr('value', pair[0])
+                        .text(pair[1]);
+                    if (pair[0] === 0) {
+                        opt.attr('selected', 'selected');
+                    }
+                    select.append(opt);
+                });
+                var tdSelect = $(document.createElement('td')).append(selectLabel).append(select);
+
+                var btn = $(document.createElement('button'))
+                    .attr('type', 'button')
+                    .addClass('fvm_publish_btn btn')
+                    .text('Apply')
+                    .attr('aria-label', 'Apply new visibility status for ' + form.categoryName);
+                var tdBtn = $(document.createElement('td')).append(btn);
+
+                var savedIndicator = $(document.createElement('span')).addClass('fvm_saved_indicator').attr('role', 'status');
+                var tdSaved = $(document.createElement('td')).append(savedIndicator);
+
+                btn.on('click', function () {
+                    publishFormVisibility(form.categoryID, parseInt(select.val(), 10), btn, select, savedIndicator);
+                });
+
+                row.append(tdName, tdID, tdSelect, tdBtn, tdSaved);
+                fvmInlineWarningBody.append(row);
+            });
+
+            fvmInlineWarning.css('display', 'block');
+        }
+
+        function publishFormVisibility(categoryID, newValue, btnEl, selectEl, savedIndicatorEl) {
+            btnEl.prop('disabled', true).attr('aria-disabled', 'true');
+            selectEl.prop('disabled', true);
+            savedIndicatorEl.removeClass('fvm_saved_error').text('Saving...');
+
+            $.ajax({
+                method: 'POST',
+                url: './api/?a=formEditor/formVisible',
+                dataType: 'text',
+                data: {
+                    categoryID: categoryID,
+                    visible: newValue,
+                    CSRFToken: CSRFToken
+                }
+            }).done(function () {
+                var match = allCategoriesWithStaples.find(function (c) { return c.categoryID === categoryID; });
+                if (match) {
+                    match.visible = String(newValue);
+                }
+
+                btnEl.prop('disabled', false).removeAttr('aria-disabled');
+                selectEl.prop('disabled', false);
+                savedIndicatorEl.removeClass('fvm_saved_error').text('Saved ' + new Date().toLocaleTimeString());
+
+                checkFormVisibility(getSelectedFormIDs());
+                refreshAllVisibilityStatusLabels();
+            }).fail(function (err) {
+                btnEl.prop('disabled', false).removeAttr('aria-disabled');
+                selectEl.prop('disabled', false);
+                savedIndicatorEl.addClass('fvm_saved_error').text('Error saving. Please try again.');
+            });
+        }
+
+        /* ---------------------------------------------------------------
+           ALWAYS-AVAILABLE PER-FORM VISIBILITY CONTROL
+           The red #fvm_inline_warning box only ever shows a form while it's
+           actively Unpublished and blocking the import - once changed, the
+           row disappears with no way back in short of re-breaking it. This
+           control sits next to every internal form checkbox at all times so
+           visibility can be checked or changed regardless of whether it's
+           currently blocking anything. Both controls call the same
+           publishFormVisibility() so there is one source of truth; changing
+           status here also re-runs checkFormVisibility() so the red warning
+           clears automatically if this was the form causing it.
+           --------------------------------------------------------------- */
+        function visibilityLabel(visibleValue) {
+            if (visibleValue === -1) return { text: 'Unpublished', cls: 'is-unpublished' };
+            if (visibleValue === 0) return { text: 'Hidden', cls: '' };
+            return { text: 'Available', cls: '' };
+        }
+
+        function buildVisibilityControl(categoryID) {
+            var container = $(document.createElement('span'));
+            var cat = allCategoriesWithStaples.find(function (c) { return c.categoryID === categoryID; });
+            var currentVisible = cat ? parseInt(cat.visible, 10) : 1;
+            var info = visibilityLabel(currentVisible);
+
+            var statusEl = $(document.createElement('span'))
+                .addClass('it-visibility-status')
+                .addClass(info.cls)
+                .addClass('it-visibility-status-' + categoryID)
+                .text(info.text);
+
+            var changeLink = $(document.createElement('button'))
+                .attr('type', 'button')
+                .addClass('it-visibility-change-link')
+                .text('Change');
+
+            var controls = $(document.createElement('span'))
+                .addClass('it-visibility-controls')
+                .addClass('it-visibility-controls-' + categoryID);
+
+            var selectId = 'visibility_select_' + categoryID;
+            var select = $(document.createElement('select')).attr('id', selectId);
+            var selectLabel = $(document.createElement('label'))
+                .attr('for', selectId)
+                .addClass('sr-only')
+                .text('New visibility status');
+            [[-1, 'Unpublished'], [0, 'Hidden'], [1, 'Available']].forEach(function (pair) {
+                var opt = $(document.createElement('option')).attr('value', pair[0]).text(pair[1]);
+                if (pair[0] === currentVisible) opt.attr('selected', 'selected');
+                select.append(opt);
+            });
+
+            var applyBtn = $(document.createElement('button'))
+                .attr('type', 'button')
+                .addClass('btn')
+                .text('Apply');
+
+            var savedIndicator = $(document.createElement('span'))
+                .addClass('it-visibility-saved')
+                .attr('role', 'status');
+
+            changeLink.on('click', function () {
+                controls.addClass('is-open');
+                statusEl.hide();
+                changeLink.hide();
+                select.trigger('focus');
+            });
+
+            applyBtn.on('click', function () {
+                var newValue = parseInt(select.val(), 10);
+                applyBtn.prop('disabled', true).attr('aria-disabled', 'true');
+                select.prop('disabled', true);
+                savedIndicator.removeClass('is-error').text('Saving...');
+
+                $.ajax({
+                    method: 'POST',
+                    url: './api/?a=formEditor/formVisible',
+                    dataType: 'text',
+                    data: { categoryID: categoryID, visible: newValue, CSRFToken: CSRFToken }
+                }).done(function () {
+                    var match = allCategoriesWithStaples.find(function (c) { return c.categoryID === categoryID; });
+                    if (match) match.visible = String(newValue);
+
+                    applyBtn.prop('disabled', false).removeAttr('aria-disabled');
+                    select.prop('disabled', false);
+                    savedIndicator.removeClass('is-error').text('Saved ' + new Date().toLocaleTimeString());
+
+                    var newInfo = visibilityLabel(newValue);
+                    statusEl.removeClass('is-unpublished').addClass(newInfo.cls).text(newInfo.text).show();
+                    controls.removeClass('is-open');
+                    changeLink.show();
+
+                    checkFormVisibility(getSelectedFormIDs());
+                }).fail(function () {
+                    applyBtn.prop('disabled', false).removeAttr('aria-disabled');
+                    select.prop('disabled', false);
+                    savedIndicator.addClass('is-error').text('Error saving. Please try again.');
+                });
+            });
+
+            controls.append(selectLabel).append(select).append(applyBtn).append(savedIndicator);
+            container.append(statusEl).append(' ').append(changeLink).append(controls);
+            return container;
+        }
+
+        /* keeps the always-visible status labels in sync after a change made
+           via the red warning box's own Apply button (publishFormVisibility) */
+        function refreshAllVisibilityStatusLabels() {
+            allCategoriesWithStaples.forEach(function (cat) {
+                var el = $('.it-visibility-status-' + cat.categoryID);
+                if (el.length) {
+                    var info = visibilityLabel(parseInt(cat.visible, 10));
+                    el.removeClass('is-unpublished').addClass(info.cls).text(info.text);
+                }
+            });
+        }
+
+        importBtnExisting.on('click', function () {
+            var fieldIds = ['title_input_existing', 'category_select'];
+            clearErrors(fieldIds);
+
+            var errors = [];
+            var hasTitleColumnExisting = $('#title_source_existing_column').is(':checked') && titleColumnExisting.val() && titleColumnExisting.val() !== "-1";
+            if (!hasTitleColumnExisting && titleInputExisting.val() === '') {
+                errors.push({ fieldId: 'title_input_existing', message: 'Request title or a Title column is required.' });
+            }
+            if (categorySelect.val() === '-1' || !categorySelect.val()) {
+                errors.push({ fieldId: 'category_select', message: 'Please select a form to import into.' });
+            }
+            if (!sheet_data || !sheet_data.cells) {
+                setStatus('Please choose a spreadsheet before importing.', 'error');
+                sheetUpload.trigger('focus');
+                return;
+            }
+
+            if (errors.length > 0) {
+                showErrors(errors);
+                return;
+            }
+
+            var unpublishedAtClick = checkFormVisibility(getSelectedFormIDs());
+            if (unpublishedAtClick.length > 0) {
+                showErrors([{ fieldId: 'category_select', message: 'One or more selected forms are Unpublished. Use the fix panel below to publish or hide them before importing.' }]);
+                fvmInlineWarning.trigger('focus');
+                return;
+            }
+
+            dialog_confirm.setContent('Are you sure you want to submit ' + (sheet_data.cells.length - 1) + ' requests?');
+            dialog_confirm.setSaveHandler(function () {
+                dialog_confirm.hide();
+                lastImportUsedTitleColumn = hasTitleColumnExisting;
+                lastImportCategoryID = categorySelect.val();
+                importExisting();
+            });
+            dialog_confirm.show();
+        });
+
+        importBtnNew.on('click', function () {
+            var fieldIds = ['formTitleInput', 'title_input_new'];
+            clearErrors(fieldIds);
+
+            var errors = [];
+            var hasTitleColumnNew = $('#title_source_new_column').is(':checked') && titleColumnNew.val() && titleColumnNew.val() !== "-1";
+            if (nameOfSheet === 'Sheet1' && formTitle.val() === '') {
+                errors.push({ fieldId: 'formTitleInput', message: 'Form title is required for this type of sheet.' });
+            }
+            if (!hasTitleColumnNew && titleInputNew.val() === '') {
+                errors.push({ fieldId: 'title_input_new', message: 'Request title or a Title column is required.' });
+            }
+
+            if (errors.length > 0) {
+                showErrors(errors);
+                return;
+            }
+
+            dialog_confirm.setContent('Are you sure you want to submit ' + (sheet_data.cells.length - 1) + ' requests?');
+            dialog_confirm.setSaveHandler(function () {
+                dialog_confirm.hide();
+                lastImportUsedTitleColumn = hasTitleColumnNew;
+                importNew();
+            });
+            dialog_confirm.show();
+        });
+
+        categorySelect.on('change', function () {
+            categoryIndicators.html('');
+            indicatorArray = new Array();
+
+            var mainCategoryID = categorySelect.val();
+
+            internalFormCheckboxes.html('');
+
+            if (!mainCategoryID || mainCategoryID === '-1') {
+                internalFormSelectWrapper.attr('hidden', 'hidden');
+                fvmInlineWarning.css('display', 'none');
+                return;
+            }
+
+            var internalForms = allCategoriesWithStaples.filter(function (c) {
+                return c.parentID === mainCategoryID;
+            });
+
+            if (internalForms.length > 0) {
+                internalForms.forEach(function (internalForm) {
+                    var checkboxId = 'internal_form_' + internalForm.categoryID;
+                    var wrapper = $(document.createElement('div'))
+                        .addClass('it-internal-form-row');
+
+                    var checkbox = $(document.createElement('input'))
+                        .attr('type', 'checkbox')
+                        .attr('id', checkboxId)
+                        .attr('data-category-id', internalForm.categoryID)
+                        .data('category-id', internalForm.categoryID);
+
+                    var label = $(document.createElement('label'))
+                        .attr('for', checkboxId)
+                        .css({'font-weight': 'normal'})
+                        .text(internalForm.categoryName);
+
+                    wrapper.append(checkbox).append(label);
+                    wrapper.append(buildVisibilityControl(internalForm.categoryID));
+                    internalFormCheckboxes.append(wrapper);
+                });
+                internalFormSelectWrapper.removeAttr('hidden');
+            } else {
+                internalFormSelectWrapper.attr('hidden', 'hidden');
+            }
+
+            var mainCategory = allCategoriesWithStaples.find(function (c) {
+                return c.categoryID === mainCategoryID;
+            });
+            var mainLabel = mainCategory ? mainCategory.categoryName : mainCategoryID;
+
+            fetchAndAppendIndicators(mainCategoryID, mainLabel);
+            checkFormVisibility(getSelectedFormIDs());
+            $('#existing_form_map_step').removeAttr('hidden');
+            setStep(4);
+        });
+
+        internalFormCheckboxes.on('change', 'input[type="checkbox"]', function () {
+            rebuildIndicatorTable();
+            checkFormVisibility(getSelectedFormIDs());
+        });
+
+        sheetUpload.on('change', function (e) {
+            categorySelect.val("-1");
+            categoryIndicators.html('');
+            internalFormCheckboxes.html('');
+            internalFormSelectWrapper.attr('hidden', 'hidden');
+            initiatorColumnSelectExisting.html('');
+            titleColumnExisting.html('');
+            titleColumnNew.html('');
+            uploadConfirm.removeClass('is-visible').attr('hidden', 'hidden');
+            uploadConfirmText.text('');
+            var files = e.target.files,file;
+            if (!files || files.length === 0) return;
+            file = files[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function (e) {
+                var cells = [];
+                var data = new Uint8Array(e.target.result);
+
+                try {
+                    var returnedJSON = XLSX.read(data, {type: 'array'});
+                }
+                catch (err) {
+                    toggler.attr('hidden', 'hidden');
+                    existingForm.attr('hidden', 'hidden');
+                    newForm.attr('hidden', 'hidden');
+                    uploadConfirm.removeClass('is-visible').attr('hidden', 'hidden');
+                    uploadConfirmText.text('');
+                    setStatus('Unsupported file: could not read the file. Please check the format and try again.', 'error');
+                    sheetUpload.trigger('focus');
+                    return;
+                }
+                nameOfSheet = returnedJSON.SheetNames[0];
+
+                var rawSheet = returnedJSON.Sheets[nameOfSheet];
+
+                if(typeof (rawSheet) === "undefined"){
+                    toggler.attr('hidden', 'hidden');
+                    existingForm.attr('hidden', 'hidden');
+                    newForm.attr('hidden', 'hidden');
+                    uploadConfirm.removeClass('is-visible').attr('hidden', 'hidden');
+                    uploadConfirmText.text('');
+                    setStatus('Unsupported file: file requires a sheet name. Please check the file and try again.', 'error');
+                    sheetUpload.trigger('focus');
+                    return;
+                }
+
+                var columnNames = _buildColumnsArray(rawSheet['!ref']);
+                var rows = parseInt(rawSheet['!ref'].substring(rawSheet['!ref'].indexOf(':'), rawSheet['!ref'].length).replace(/:[A-Z]+/g, '')) - 1;
+                var headers = new Object();
+
+                for(var i = 0; i <= rows; i++) {
+                    if(i !== 0){
+                        cells[i.toString()] = {};
+                    }
+                    for (var j = 0; j < columnNames.length; j++) {
+                        if (i === 0){
+                            if (typeof (rawSheet[columnNames[j] + (i + 1).toString()]) === "undefined") {
+                            } else {
+                                headers[columnNames[j]] = rawSheet[columnNames[j] + (i + 1).toString()].v;
+                            }
+                        } else if (typeof (rawSheet[columnNames[j] + (i + 1).toString()]) === "undefined") {
+                            cells[i.toString()][columnNames[j]] = '';
+                            blankIndicators.push(columnNames[j]);
+                        } else {
+                            cells[i.toString()][columnNames[j]] = rawSheet[columnNames[j] + (i + 1).toString()].v;
+                        }
+                    }
+                }
+                sheet_data = {};
+                sheet_data.headers = headers;
+                sheet_data.cells = cells;
+                if (cells.length > 0) {
+                    buildFormat(sheet_data);
+                    buildGenericColumnSelect(initiatorColumnSelectExisting, sheet_data);
+                    buildTitleColumnSelect(titleColumnExisting, sheet_data);
+                    buildTitleColumnSelect(titleColumnNew, sheet_data);
+                    toggler.removeAttr('hidden');
+                    setStep(2);
+
+                    uploadConfirmText.text('Loaded "' + file.name + '" — ' + (cells.length - 1) + ' row' + ((cells.length - 1) === 1 ? '' : 's') + ' found. Choose an import type below.');
+                    uploadConfirm.addClass('is-visible').removeAttr('hidden');
+                } else {
+                    setStatus('This spreadsheet has no data.', 'error');
+                    sheetUpload.trigger('focus');
+                }
+            };
+            fileReader.readAsArrayBuffer(file);
+        });
+
+    });
+</script>
