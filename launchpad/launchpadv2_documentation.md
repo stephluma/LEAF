@@ -394,7 +394,7 @@ Searchable resource library (videos/tutorials/FAQs) with category browsing, "Sta
 
 ## 7. Changelog
 
-_Logged once the build is finished — not tracked turn-by-turn during drafting._
+_No updates._
 
 ---
 
