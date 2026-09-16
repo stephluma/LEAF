@@ -1,0 +1,1403 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team Hub — LEAF Launchpad</title>
+
+    <link rel="stylesheet" href="./files/launchpad.css" />
+
+    <style>
+      /* Local LEAF fonts (self-hosted) — same source as leaf_header.css,
+       declared here since this page can load standalone. Only the
+       weights actually used on this page are included. */
+      @font-face {
+        font-family: "PublicSans-Bold";
+        src:
+          url("/app/libs/css/fonts/public-sans/PublicSans-Bold.woff2")
+            format("woff2"),
+          url("/app/libs/css/fonts/public-sans/PublicSans-Bold.woff")
+            format("woff");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Source Sans Pro Web";
+        src:
+          url("/app/libs/css/fonts/source-sans-pro/sourcesanspro-regular-webfont.woff2")
+            format("woff2"),
+          url("/app/libs/css/fonts/source-sans-pro/sourcesanspro-regular-webfont.woff")
+            format("woff");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Source Sans Pro Web-Bold";
+        src:
+          url("/app/libs/css/fonts/source-sans-pro/sourcesanspro-bold-webfont.woff2")
+            format("woff2"),
+          url("/app/libs/css/fonts/source-sans-pro/sourcesanspro-bold-webfont.woff")
+            format("woff");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      /* Icons render as inline SVG (see ICON_SVG below), matching
+       leaf_header.js — no Material Symbols web font dependency. */
+      .material-symbols-outlined {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .material-symbols-outlined svg {
+        width: 1em;
+        height: 1em;
+        display: block;
+      }
+
+      /* ── Page shell ── */
+      .thb-page {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem 5rem;
+      }
+
+      /* ── Header ── */
+      .thb-header {
+        margin-bottom: 1.5rem;
+      }
+      .thb-kicker {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--lp-accent);
+        margin: 0 0 0.5rem;
+      }
+      .thb-title {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: clamp(1.6rem, 3vw, 2.15rem);
+        font-weight: 800;
+        color: var(--lp-hl);
+        margin: 0 0 0.4rem;
+        line-height: 1.15;
+      }
+      .thb-sub {
+        font-family: "Source Sans Pro Web", sans-serif;
+        font-size: 1.05rem;
+        color: var(--c-muted);
+        margin: 0;
+      }
+
+      /* ── Search / filter ── */
+      .thb-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin: 1.75rem 0 2rem;
+        flex-wrap: wrap;
+      }
+      .thb-search {
+        position: relative;
+        flex: 1 1 340px;
+        max-width: 460px;
+      }
+      .thb-search .material-symbols-outlined {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--c-muted);
+        font-size: 1.25rem !important;
+        pointer-events: none;
+      }
+      .thb-search input {
+        width: 100%;
+        height: 44px;
+        padding: 0 2.5rem 0 2.4rem;
+        border: 1px solid var(--c-blue20);
+        border-radius: 999px;
+        font-family: "Source Sans Pro Web", sans-serif;
+        font-size: 0.95rem;
+        background: #fff;
+        color: var(--c-text);
+        outline: none;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+      }
+      .thb-search input:focus {
+        border-color: var(--lp-accent);
+        box-shadow: 0 0 0 3px rgba(0, 94, 162, 0.15);
+      }
+      .thb-search .thb-clear {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        color: var(--c-muted);
+        width: 30px;
+        height: 30px;
+        border-radius: 999px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+      }
+      .thb-search .thb-clear:hover {
+        background: var(--c-blue10);
+      }
+      .thb-search .thb-clear.vis {
+        display: inline-flex;
+      }
+      .thb-search .thb-clear .material-symbols-outlined {
+        position: static;
+        transform: none;
+        font-size: 1.15rem !important;
+      }
+      .thb-filters {
+        display: inline-flex;
+        gap: 6px;
+      }
+      .thb-filter {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-weight: 700;
+        font-size: 0.82rem;
+        border: 1px solid var(--c-blue20);
+        background: #fff;
+        color: var(--c-muted);
+        padding: 8px 14px;
+        border-radius: 999px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition:
+          background 0.12s,
+          color 0.12s,
+          border-color 0.12s;
+      }
+      .thb-filter .material-symbols-outlined {
+        font-size: 1rem !important;
+      }
+      .thb-filter:hover {
+        background: var(--c-blue5);
+      }
+      .thb-filter.active {
+        background: var(--lp-accent);
+        color: #fff;
+        border-color: var(--lp-accent);
+      }
+      .thb-result-count {
+        font-family: "Source Sans Pro Web", sans-serif;
+        font-size: 0.85rem;
+        color: var(--c-muted);
+        margin-left: auto;
+        white-space: nowrap;
+      }
+      .thb-result-count:empty {
+        display: none;
+      }
+
+      /* ── Admin banner ── */
+      .thb-admin {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.1rem 1.35rem;
+        margin-bottom: 1.75rem;
+        background: linear-gradient(
+          135deg,
+          var(--lp-accent-strong, #004a82),
+          var(--lp-accent)
+        );
+        color: #fff;
+        border-radius: var(--r-lg);
+      }
+      .thb-admin-left {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+      .thb-admin-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        flex-shrink: 0;
+        background: rgba(255, 255, 255, 0.18);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .thb-admin-icon .material-symbols-outlined {
+        font-size: 1.5rem !important;
+        color: #fff;
+      }
+      .thb-admin h2 {
+        font-family: "PublicSans-Bold", sans-serif;
+        margin: 0;
+        font-size: 1.1rem;
+      }
+      .thb-admin p {
+        margin: 0.1rem 0 0;
+        font-size: 0.85rem;
+        opacity: 0.85;
+      }
+      .thb-admin a,
+      .thb-admin-btn {
+        background: #fff;
+        color: var(--lp-accent-strong, #004a82);
+        text-decoration: none;
+        font-family: "PublicSans-Bold", sans-serif;
+        font-weight: 700;
+        font-size: 0.88rem;
+        padding: 9px 18px;
+        border-radius: 8px;
+        white-space: nowrap;
+        border: 0;
+        cursor: pointer;
+        transition: background 0.12s;
+      }
+      .thb-admin a:hover,
+      .thb-admin-btn:hover {
+        background: var(--c-blue10);
+      }
+      .thb-admin a:focus-visible,
+      .thb-admin-btn:focus-visible {
+        outline: 3px solid #fff;
+        outline-offset: 2px;
+      }
+
+      /* ── Sections ── */
+      .thb-sec {
+        margin-bottom: 1.5rem;
+        background: #fff;
+        border: 1px solid var(--c-blue10);
+        border-radius: var(--r-lg);
+        overflow: hidden;
+      }
+      .thb-sec-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        width: 100%;
+        padding: 1rem 1.25rem;
+        background: var(--c-blue5);
+        border: 0;
+        border-bottom: 1px solid var(--c-blue10);
+        cursor: pointer;
+        font: inherit;
+        text-align: left;
+      }
+      .thb-sec-head:focus-visible {
+        outline: 3px solid var(--lp-accent);
+        outline-offset: -3px;
+      }
+      .thb-sec-head-left {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+      }
+      .thb-sec-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        flex-shrink: 0;
+        background: #fff;
+        border: 1px solid var(--c-blue10);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .thb-sec-icon .material-symbols-outlined {
+        font-size: 1.35rem !important;
+      }
+      .thb-sec-title {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin: 0;
+        color: var(--lp-hl);
+      }
+      .thb-sec-count {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: var(--c-muted);
+        background: #fff;
+        border: 1px solid var(--c-blue10);
+        padding: 2px 10px;
+        border-radius: 999px;
+      }
+      .thb-chev {
+        color: var(--c-muted);
+        transition: transform 0.2s;
+      }
+      .thb-sec.collapsed .thb-sec-body {
+        display: none;
+      }
+      .thb-sec.collapsed .thb-chev {
+        transform: rotate(-90deg);
+      }
+      .thb-sec-body {
+        padding: 1.15rem 1.25rem;
+      }
+
+      /* ── Access restricted state ── */
+      .lp-gate {
+        max-width: 460px;
+        margin: 4rem auto;
+        padding: 2.5rem 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        text-align: center;
+        background: #fff;
+        border: 1px solid var(--c-blue20);
+        border-radius: var(--r-lg);
+      }
+      .lp-gate-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--c-blue5);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .lp-gate-icon .material-symbols-outlined {
+        font-size: 1.75rem !important;
+        color: var(--lp-accent);
+      }
+      .lp-gate h1 {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: var(--lp-hl);
+        margin: 0;
+      }
+      .lp-gate p {
+        font-family: "Source Sans Pro Web", sans-serif;
+        font-size: 0.95rem;
+        color: var(--c-muted);
+        margin: 0;
+      }
+      .lp-gate a {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: #fff;
+        background: var(--lp-accent);
+        text-decoration: none;
+        padding: 0.6rem 1.3rem;
+        border-radius: 8px;
+      }
+      .lp-gate a:hover {
+        background: var(--lp-accent-strong, #004a82);
+      }
+      .lp-gate a:focus-visible {
+        outline: 3px solid var(--lp-accent);
+        outline-offset: 2px;
+      }
+
+      /* accent variants */
+      .thb-sec--submit .thb-sec-icon {
+        border-color: #b6e0c2;
+        background: #eafaf0;
+      }
+      .thb-sec--submit .thb-sec-icon .material-symbols-outlined {
+        color: #1f8a4c;
+      }
+      .thb-sec--view .thb-sec-icon {
+        border-color: var(--c-blue20);
+        background: var(--c-blue5);
+      }
+      .thb-sec--view .thb-sec-icon .material-symbols-outlined {
+        color: var(--lp-accent);
+      }
+
+      /* ── Link grid ── */
+      .thb-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.7rem;
+        align-items: stretch;
+      }
+      @media (max-width: 900px) {
+        .thb-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 560px) {
+        .thb-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .thb-tile {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        min-height: 58px;
+        padding: 0.6rem 0.85rem;
+        background: #fff;
+        border: 1px solid var(--c-blue10);
+        border-left-width: 3px;
+        border-radius: var(--r);
+        text-decoration: none;
+        color: var(--lp-hl);
+        font-family: "Source Sans Pro Web-Bold", sans-serif;
+        font-size: 0.92rem;
+        font-weight: 700;
+        line-height: 1.25;
+        transition:
+          border-color 0.12s,
+          box-shadow 0.12s,
+          transform 0.12s;
+      }
+      .thb-tile:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transform: translateY(-1px);
+      }
+      .thb-tile:focus-visible {
+        outline: 3px solid var(--lp-accent);
+        outline-offset: 2px;
+      }
+      .thb-tile .material-symbols-outlined {
+        font-size: 1.15rem !important;
+        flex-shrink: 0;
+      }
+      .thb-tile .thb-tile-label {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      /* submit tiles = green accent, view tiles = blue accent */
+      .thb-tile--submit {
+        border-left-color: #1f8a4c;
+      }
+      .thb-tile--submit .material-symbols-outlined {
+        color: #1f8a4c;
+      }
+      .thb-tile--submit:hover {
+        border-color: #b6e0c2;
+        border-left-color: #1f8a4c;
+      }
+      .thb-tile--view {
+        border-left-color: var(--lp-accent);
+      }
+      .thb-tile--view .material-symbols-outlined {
+        color: var(--lp-accent);
+      }
+      .thb-tile--view:hover {
+        border-color: var(--c-blue20);
+        border-left-color: var(--lp-accent);
+      }
+
+      .thb-tile[hidden] {
+        display: none;
+      }
+
+      /* ── View sub-groups ── */
+      .thb-subgroup {
+        margin-bottom: 1.25rem;
+      }
+      .thb-subgroup:last-child {
+        margin-bottom: 0;
+      }
+      .thb-subgroup-label {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--c-muted);
+        margin: 0 0 0.6rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .thb-subgroup-label .thb-subgroup-count {
+        color: var(--c-blue20);
+        font-weight: 700;
+      }
+      .thb-subgroup[hidden] {
+        display: none;
+      }
+
+      /* empty state */
+      .thb-empty {
+        font-family: "Source Sans Pro Web", sans-serif;
+        font-size: 0.9rem;
+        color: var(--c-muted);
+        padding: 0.4rem 0;
+        display: none;
+      }
+      .thb-sec.no-matches .thb-sec-body .thb-grid {
+        display: none;
+      }
+      .thb-sec.no-matches .thb-empty {
+        display: block;
+      }
+
+      /* whole section hidden by filter */
+      .thb-sec[hidden],
+      .thb-admin[hidden] {
+        display: none;
+      }
+
+      /* ── Footer ── */
+      .thb-footer {
+        margin-top: 2.5rem;
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--c-blue10);
+        font-family: "Source Sans Pro Web", sans-serif;
+        font-size: 0.85rem;
+        color: var(--c-muted);
+      }
+
+      /* ── Admin modal ── */
+      /* Global header (launchpad.css) is fixed with a high z-index and paints
+       over centered overlays. We push the dialog down below the header via
+       --thb-header-offset instead of relying on z-index alone. */
+      .thb-modal {
+        --thb-header-offset: 120px;
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: flex-start;
+        justify-content: center;
+        padding: var(--thb-header-offset) 20px 24px;
+        z-index: 2147483000;
+      }
+      .thb-modal.is-open {
+        display: flex;
+      }
+      .thb-modal__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.78);
+      }
+      .thb-modal__dialog {
+        position: relative;
+        width: min(1100px, 92vw);
+        height: calc(100vh - var(--thb-header-offset) - 24px);
+        background: #fff;
+        border-radius: var(--r-lg);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+      }
+      .thb-modal__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 1rem;
+        background: var(--c-blue5);
+        border-bottom: 1px solid var(--c-blue20);
+        flex-shrink: 0;
+        position: relative;
+        z-index: 2;
+      }
+      .thb-modal__title {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--lp-hl);
+        margin: 0;
+      }
+      .thb-modal__close {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border: 1px solid var(--c-blue20);
+        background: #fff;
+        color: var(--c-text);
+        border-radius: var(--r);
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: background 0.15s;
+        flex-shrink: 0;
+      }
+      .thb-modal__close:hover {
+        background: var(--lp-accent);
+        color: #fff;
+        border-color: var(--lp-accent);
+      }
+      .thb-modal__close:focus-visible {
+        outline: 3px solid var(--lp-accent);
+        outline-offset: 2px;
+      }
+      .thb-modal__body {
+        flex: 1;
+        min-height: 0;
+        position: relative;
+        z-index: 1;
+      }
+      .thb-modal__frame {
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+
+      @media (max-width: 600px) {
+        .thb-page {
+          padding: 2rem 1rem 4rem;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .thb-tile,
+        .thb-chev {
+          transition: none;
+        }
+        .thb-tile:hover {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!--{if $empMembership['groupID'][1]}-->
+    <div class="lp" id="lp-root">
+      <main id="lp-main" tabindex="-1">
+        <div class="thb-page">
+          <header class="thb-header">
+            <p class="thb-kicker">LEAF Team</p>
+            <h1 class="thb-title">Team Hub</h1>
+            <p class="thb-sub">Your hub for internal team links and inbox.</p>
+          </header>
+
+          <!-- Search / filter -->
+          <div class="thb-toolbar">
+            <div class="thb-search">
+              <span class="material-symbols-outlined" aria-hidden="true"
+                ><svg viewBox="0 -960 960 960" fill="currentColor">
+                  <path
+                    d="M796-121 533-384q-30 26-70 40.5T378-329q-108 0-183-75t-75-181q0-106 75-181t182-75q106 0 180.5 75T632-585q0 43-14 83t-42 75l264 262-44 44ZM377-389q81 0 138-57.5T572-585q0-81-57-138.5T377-781q-82 0-139.5 57.5T180-585q0 81 57.5 138.5T377-389Z"
+                  /></svg
+              ></span>
+              <input
+                type="text"
+                id="thbSearch"
+                placeholder="Search reports…"
+                aria-label="Search reports"
+                autocomplete="off"
+              />
+              <button
+                class="thb-clear"
+                id="thbClear"
+                type="button"
+                aria-label="Clear search"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  ><svg viewBox="0 -960 960 960" fill="currentColor">
+                    <path
+                      d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+                    /></svg
+                ></span>
+              </button>
+            </div>
+            <div class="thb-filters" role="group" aria-label="Filter by type">
+              <button
+                class="thb-filter active"
+                data-filter="all"
+                type="button"
+                aria-pressed="true"
+              >
+                All
+              </button>
+              <button
+                class="thb-filter"
+                data-filter="submit"
+                type="button"
+                aria-pressed="false"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  ><svg viewBox="0 -960 960 960" fill="currentColor">
+                    <path
+                      d="M220-80q-24 0-42-18t-18-42v-680q0-24 18-42t42-18h340l240 240v142q-17 3-33 11.5T738-465L500-228v148H220Zm340 0v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T902-300L683-80H560Zm263-224 37-39-37-37-38 38 38 38ZM520-600h220L520-820l220 220-220-220v220Z"
+                    /></svg></span
+                >Submit Reports
+              </button>
+              <button
+                class="thb-filter"
+                data-filter="view"
+                type="button"
+                aria-pressed="false"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  ><svg viewBox="0 -960 960 960" fill="currentColor">
+                    <path
+                      d="M120-120v-76l60-60v136h-60Zm165 0v-236l60-60v296h-60Zm165 0v-296l60 61v235h-60Zm165 0v-235l60-60v295h-60Zm165 0v-396l60-60v456h-60ZM120-356v-85l280-278 160 160 280-281v85L560-474 400-634 120-356Z"
+                    /></svg></span
+                >View Reports
+              </button>
+            </div>
+            <span
+              class="thb-result-count"
+              id="thbResultCount"
+              aria-live="polite"
+            ></span>
+          </div>
+
+          <!-- Admin inbox -->
+          <div
+            class="thb-admin"
+            id="thbAdmin"
+            data-type="admin"
+            role="region"
+            aria-label="Admin inbox"
+          >
+            <div class="thb-admin-left">
+              <span class="thb-admin-icon"
+                ><span class="material-symbols-outlined" aria-hidden="true"
+                  ><svg viewBox="0 -960 960 960" fill="currentColor">
+                    <path
+                      d="M180-120q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h600q24 0 42 18t18 42v600q0 24-18 42t-42 18H180Zm374-196.5q33-23.5 56-59.5h170v-404H180v404h170q23 36 56 59.5t74 23.5q41 0 74-23.5Z"
+                    /></svg></span
+              ></span>
+              <div>
+                <h2>Admin Inbox</h2>
+                <p>Requests, approvals, and queue management</p>
+              </div>
+            </div>
+            <button
+              class="thb-admin-btn"
+              type="button"
+              id="thbAdminOpen"
+              data-report-title="Admin Inbox"
+              data-report-src="https://leaf.va.gov/platform/service_requests_launchpad/report.php?a=LEAF_Inbox&organizeByRole&iframe=1"
+            >
+              Open Inbox
+            </button>
+          </div>
+
+          <!-- Submit Reports -->
+          <section
+            class="thb-sec thb-sec--submit"
+            id="secSubmit"
+            data-type="submit"
+          >
+            <button
+              class="thb-sec-head"
+              type="button"
+              aria-expanded="true"
+              aria-controls="bodySubmit"
+              onclick="thbToggle('secSubmit', this)"
+            >
+              <span class="thb-sec-head-left">
+                <span class="thb-sec-icon"
+                  ><span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor">
+                      <path
+                        d="M452-202h60v-201l82 82 42-42-156-152-154 154 42 42 84-84v201ZM220-80q-24 0-42-18t-18-42v-680q0-24 18-42t42-18h361l219 219v521q0 24-18 42t-42 18H220Zm331-554h189L551-820v186Z"
+                      /></svg></span
+                ></span>
+                <span class="thb-sec-title">Submit Reports</span>
+                <span class="thb-sec-count" data-count>8 forms</span>
+              </span>
+              <span
+                class="material-symbols-outlined thb-chev"
+                aria-hidden="true"
+                ><svg viewBox="0 -960 960 960" fill="currentColor">
+                  <path
+                    d="M480-344 240-584l43-43 197 197 197-197 43 43-240 240Z"
+                  /></svg
+              ></span>
+            </button>
+            <div class="thb-sec-body" id="bodySubmit">
+              <div class="thb-grid" id="gridSubmit"></div>
+              <p class="thb-empty" aria-live="polite">
+                No submit forms match your search.
+              </p>
+            </div>
+          </section>
+
+          <!-- View Reports -->
+          <section class="thb-sec thb-sec--view" id="secView" data-type="view">
+            <button
+              class="thb-sec-head"
+              type="button"
+              aria-expanded="true"
+              aria-controls="bodyView"
+              onclick="thbToggle('secView', this)"
+            >
+              <span class="thb-sec-head-left">
+                <span class="thb-sec-icon"
+                  ><span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor">
+                      <path
+                        d="M640-160v-280h160v280H640Zm-240 0v-640h160v640H400Zm-240 0v-440h160v440H160Z"
+                      /></svg></span
+                ></span>
+                <span class="thb-sec-title">View Reports</span>
+                <span class="thb-sec-count" data-count>15 reports</span>
+              </span>
+              <span
+                class="material-symbols-outlined thb-chev"
+                aria-hidden="true"
+                ><svg viewBox="0 -960 960 960" fill="currentColor">
+                  <path
+                    d="M480-344 240-584l43-43 197 197 197-197 43 43-240 240Z"
+                  /></svg
+              ></span>
+            </button>
+            <div class="thb-sec-body" id="bodyView">
+              <div id="viewGroups"></div>
+              <p class="thb-empty" aria-live="polite">
+                No reports match your search.
+              </p>
+            </div>
+          </section>
+
+          <footer class="thb-footer" role="contentinfo">
+            Internal use only
+          </footer>
+        </div>
+      </main>
+
+      <!-- Admin Inbox Modal -->
+
+      <button
+        class="lp-jump"
+        id="lpJump"
+        type="button"
+        aria-label="Back to top"
+        aria-hidden="true"
+        tabindex="-1"
+      >
+        <span class="material-symbols-outlined" aria-hidden="true"
+          ><svg viewBox="0 -960 960 960" fill="currentColor">
+            <path
+              d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"
+            /></svg
+        ></span>
+      </button>
+    </div>
+
+    <script>
+      (() => {
+        "use strict";
+        const init = () => {
+          const $id = (id) => document.getElementById(id);
+
+          /* Inline SVGs (viewBox 0 -960 960 960, fill=currentColor) — same
+         pattern as leaf_header.js, no external icon font. Material
+         Symbols (Filled): search, close, edit_document, inbox,
+         upload_file, monitoring (used for "insights"), keyboard_arrow_down
+         (used for "expand_more"), arrow_upward, lock, bug_report, school,
+         schedule, flag, build, trending_up, trophy (used for
+         "emoji_events"), lightbulb, payments, analytics, ac_unit,
+         support_agent, sensors, rate_review, monitor_heart, timer,
+         medical_services, savings, menu_book, design_services. */
+          const ICON_SVG = {
+            search:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M796-121 533-384q-30 26-70 40.5T378-329q-108 0-183-75t-75-181q0-106 75-181t182-75q106 0 180.5 75T632-585q0 43-14 83t-42 75l264 262-44 44ZM377-389q81 0 138-57.5T572-585q0-81-57-138.5T377-781q-82 0-139.5 57.5T180-585q0 81 57.5 138.5T377-389Z"/></svg>',
+            close:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>',
+            edit_document:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M220-80q-24 0-42-18t-18-42v-680q0-24 18-42t42-18h340l240 240v142q-17 3-33 11.5T738-465L500-228v148H220Zm340 0v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T902-300L683-80H560Zm263-224 37-39-37-37-38 38 38 38ZM520-600h220L520-820l220 220-220-220v220Z"/></svg>',
+            inbox:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M180-120q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h600q24 0 42 18t18 42v600q0 24-18 42t-42 18H180Zm374-196.5q33-23.5 56-59.5h170v-404H180v404h170q23 36 56 59.5t74 23.5q41 0 74-23.5Z"/></svg>',
+            upload_file:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M452-202h60v-201l82 82 42-42-156-152-154 154 42 42 84-84v201ZM220-80q-24 0-42-18t-18-42v-680q0-24 18-42t42-18h361l219 219v521q0 24-18 42t-42 18H220Zm331-554h189L551-820v186Z"/></svg>',
+            expand_more:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M480-344 240-584l43-43 197 197 197-197 43 43-240 240Z"/></svg>',
+            insights:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M120-120v-76l60-60v136h-60Zm165 0v-236l60-60v296h-60Zm165 0v-296l60 61v235h-60Zm165 0v-235l60-60v295h-60Zm165 0v-396l60-60v456h-60ZM120-356v-85l280-278 160 160 280-281v85L560-474 400-634 120-356Z"/></svg>',
+            arrow_upward:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"/></svg>',
+            lock: '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm240-200q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80Z"/></svg>',
+            bug_report:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M480-120q-65 0-120.5-32T272-240H160v-80h84q-3-20-3.5-40t-.5-40h-80v-80h80q0-20 .5-40t3.5-40h-84v-80h112q14-23 31.5-43t40.5-35l-64-66 56-56 86 86q28-9 57-9t57 9l88-86 56 56-66 66q23 15 41.5 34.5T688-640h112v80h-84q3 20 3.5 40t.5 40h80v80h-80q0 20-.5 40t-3.5 40h84v80H688q-32 56-87.5 88T480-120Zm-80-200h160v-80H400v80Zm0-160h160v-80H400v80Z"/></svg>',
+            school:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M840-280v-276L480-360 40-600l440-240 440 240v320h-80ZM480-120 200-272v-200l280 152 280-152v200L480-120Z"/></svg>',
+            schedule:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="m627-287 45-45-159-160v-201h-60v225l174 181ZM480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-82 31.5-155t86-127.5Q252-817 325-848.5T480-880q82 0 155 31.5t127.5 86Q817-708 848.5-635T880-480q0 82-31.5 155t-86 127.5Q708-143 635-111.5T480-80Z"/></svg>',
+            flag: '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M200-120v-680h343l19 86h238v370H544l-19-85H260v309h-60Z"/></svg>',
+            build:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M705-128 447-388q-23 8-46 13t-47 5q-97 0-165-67.5T121-602q0-31 8-60.5t23-55.5l145 145 92-86-149-149q26-15 55-23.5t59-8.5q99 0 168.5 69.5T592-602q0 24-5 47t-13 46l259 258q11 11 11 26.5T833-198l-76 70q-11 11-26 11t-26-11Z"/></svg>',
+            trending_up:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="m123-240-43-43 292-291 167 167 241-241H653v-60h227v227h-59v-123L538-321 371-488 123-240Z"/></svg>',
+            emoji_events:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M298-120v-60h152v-148q-54-11-96-46.5T296-463q-74-8-125-60t-51-125v-44q0-25 17.5-42.5T180-752h104v-88h392v88h104q25 0 42.5 17.5T840-692v44q0 73-51 125t-125 60q-16 53-58 88.5T510-328v148h152v60H298Zm-14-406v-166H180v44q0 45 29.5 78.5T284-526Zm392 0q45-10 74.5-43.5T780-648v-44H676v166Z"/></svg>',
+            lightbulb:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M480-80q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-200v-80h320v80H320Zm10-120q-69-41-109.5-110T180-580q0-125 87.5-212.5T480-880q125 0 212.5 87.5T780-580q0 81-40.5 150T630-320H330Z"/></svg>',
+            payments:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M100-160q-24.75 0-42.37-17.63Q40-195.25 40-220v-460h60v460h700v60H100Zm120-120q-24.75 0-42.37-17.63Q160-315.25 160-340v-400q0-24.75 17.63-42.38Q195.25-800 220-800h640q24.75 0 42.38 17.62Q920-764.75 920-740v400q0 24.75-17.62 42.37Q884.75-280 860-280H220Zm100-60q0-42-29-71t-71-29v100h100Zm440 0h100v-100q-42 0-71 29t-29 71Zm-220-80q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM220-640q42 0 71-29t29-71H220v100Zm640 0v-100H760q0 42 29 71t71 29Z"/></svg>',
+            analytics:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M284-277h60v-205h-60v205Zm332 0h60v-420h-60v420Zm-166 0h60v-118h-60v118Zm0-205h60v-60h-60v60ZM180-120q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h600q24 0 42 18t18 42v600q0 24-18 42t-42 18H180Z"/></svg>',
+            ac_unit:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M450-80v-195L301-126l-43-42 192-192v-90h-90L172-262l-44-41 147-147H80v-60h195L125-660l43-43 192 193h90v-91L262-789l42-44 146 147v-194h60v194l150-150 42 43-192 192v91h91l189-189 43 42-147 147h194v60H686l148 149-41 43-192-192h-91v90l192 193-41 43-151-151v195h-60Z"/></svg>',
+            support_agent:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M440-120v-60h340v-304q0-123.69-87.32-209.84Q605.36-780 480-780q-125.36 0-212.68 86.16Q180-607.69 180-484v244h-20q-33 0-56.5-23.5T80-320v-80q0-21 10.5-39.5T120-469l3-53q8-68 39.5-126t79-101q47.5-43 109-67T480-840q68 0 129 24t109 66.5Q766-707 797-649t40 126l3 52q19 9 29.5 27t10.5 38v92q0 20-10.5 38T840-249v69q0 24.75-17.62 42.37Q804.75-120 780-120H440ZM338.5-418.68q-8.5-8.67-8.5-21.5 0-12.82 8.68-21.32 8.67-8.5 21.5-8.5 12.82 0 21.32 8.68 8.5 8.67 8.5 21.5 0 12.82-8.68 21.32-8.67 8.5-21.5 8.5-12.82 0-21.32-8.68Zm240 0q-8.5-8.67-8.5-21.5 0-12.82 8.68-21.32 8.67-8.5 21.5-8.5 12.82 0 21.32 8.68 8.5 8.67 8.5 21.5 0 12.82-8.68 21.32-8.67 8.5-21.5 8.5-12.82 0-21.32-8.68ZM241-462q-7-106 64-182t177-76q87 0 151 57.5T711-519q-89-1-162.5-50T434.72-698Q419-618 367.5-555.5T241-462Z"/></svg>',
+            sensors:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M197-197q-54-54-85.5-126.5T80-480q0-84 31.5-156.5T197-763l42 43q-46 46-72.5 107.5T140-480q0 71 26.5 132.5T240-239l-43 42Zm113-113q-32-32-51-75.5T240-480q0-51 19-94.5t51-75.5l42 43q-24 24-38 56.5T300-480q0 38 14 70.5t39 57.5l-43 42Zm113.5-113.5Q400-447 400-480t23.5-56.5Q447-560 480-560t56.5 23.5Q560-513 560-480t-23.5 56.5Q513-400 480-400t-56.5-23.5ZM650-310l-42-43q24-24 38-56.5t14-70.5q0-38-14-70.5T607-608l43-42q32 32 51 75.5t19 94.5q0 50-19 93.5T650-310Zm113 113-42-43q46-46 72.5-107.5T820-480q0-71-26.5-132.5T720-721l43-42q54 55 85.5 127.5T880-480q0 83-31.5 155.5T763-197Z"/></svg>',
+            rate_review:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M240-400h123l199-200q9-9 13.5-20.5T580-643q0-11-4-22t-13-20l-37-37q-9-9-20-13.5t-23-4.5q-11 0-22 4t-20 13L240-523v123Zm280-243-37 39-38-38 38-38 37 37Zm-85 243h285v-60H495l-60 60ZM80-80v-740q0-24 18-42t42-18h680q24 0 42 18t18 42v520q0 24-18 42t-42 18H240L80-80Z"/></svg>',
+            monitor_heart:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M140-160q-24 0-42-18t-18-42v-230h221l72 144q4 8 11.5 12t15.5 4q8 0 15.5-4t11.5-12l133-266 53 106q4 8 11.5 12t15.5 4h240v230q0 24-18 42t-42 18H140ZM80-510v-230q0-24 18-42t42-18h680q24 0 42 18t18 42v230H659l-72-143q-4-8-11.5-11.5T560-668q-8 0-15.5 3.5T533-653L400-388l-53-106q-4-8-11.5-12t-15.5-4H80Z"/></svg>',
+            timer:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M360-860v-60h240v60H360Zm90 447h60v-230h-60v230ZM340.5-109.5Q275-138 226-187t-77.5-114.5Q120-367 120-441t28.5-139.5Q177-646 226-695t114.5-77.5Q406-801 480-801q67 0 125.5 22T710-717l51-51 43 43-51 51q36 40 61.5 97T840-441q0 74-28.5 139.5T734-187q-49 49-114.5 77.5T480-81q-74 0-139.5-28.5Z"/></svg>',
+            medical_services:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M140-80q-24 0-42-18t-18-42v-520q0-24 18-42t42-18h180v-100q0-24 18-42t42-18h200q24 0 42 18t18 42v100h180q24 0 42 18t18 42v520q0 24-18 42t-42 18H140Zm240-640h200v-100H380v100Zm70 350v120h60v-120h120v-60H510v-120h-60v120H330v60h120Z"/></svg>',
+            savings:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M668.5-531.5Q680-543 680-560t-11.5-28.5Q657-600 640-600t-28.5 11.5Q600-577 600-560t11.5 28.5Q623-520 640-520t28.5-11.5ZM320-620h200v-60H320v60ZM180-120q-34-114-67-227.5T80-580q0-92 64-156t156-64h200q29-38 70.5-59t89.5-21q25 0 42.5 17.5T720-820q0 5-5 23-4 11-7.5 22.5T702-751l91 91h87v279l-113 37-67 224H480v-80h-80v80H180Z"/></svg>',
+            menu_book:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="M560-564v-68q33-14 67.5-21t72.5-7q26 0 51 4t49 10v64q-24-9-48.5-13.5T700-600q-38 0-73 9.5T560-564Zm0 220v-68q33-14 67.5-21t72.5-7q26 0 51 4t49 10v64q-24-9-48.5-13.5T700-380q-38 0-73 9t-67 27Zm0-110v-68q33-14 67.5-21t72.5-7q26 0 51 4t49 10v64q-24-9-48.5-13.5T700-490q-38 0-73 9.5T560-454Zm-40 176q44-21 88.5-31.5T700-320q36 0 70.5 6t69.5 18v-396q-33-14-68.5-21t-71.5-7q-47 0-93 12t-87 36v394Zm-40 118q-48-38-104-59t-116-21q-42 0-82.5 11T100-198q-21 11-40.5-1T40-234v-482q0-11 5.5-21T62-752q47-23 96.5-35.5T260-800q58 0 113.5 15T480-740q51-30 106.5-45T700-800q52 0 101.5 12.5T898-752q11 5 16.5 15t5.5 21v482q0 23-19.5 35t-40.5 1q-37-20-77.5-31T700-240q-60 0-116 21t-104 59Z"/></svg>',
+            design_services:
+              '<svg viewBox="0 -960 960 960" fill="currentColor"><path d="m357-513 90-90-75-75-48 48-42-42 48-48-75-74-90 90 192 191Zm346 348 90-91-75-75-48 48-42-42 48-48-74-74-90 90 191 192Zm-87-520 70 70 94-94-70-70-94 94ZM276-120H120v-156l194-194L80-704l174-176 236 235 178-178q9-9 20-13t22-4q11 0 22 4t20 13l71 71q9 9 13 20t4 22q0 11-4 22t-13 20L645-490l235 235L705-81 471-315 276-120Z"/></svg>',
+          };
+          const icon = (name) => ICON_SVG[name] || "";
+
+          /* ── Link data — replace href with real URLs ──
+         Add/remove items here; counts update automatically. */
+          const submitLinks = [
+            {
+              label: "Report an Issue with LEAF",
+              icon: "bug_report",
+              href: "https://leaf.va.gov/platform/issues/",
+            },
+            {
+              label: "LEAF Training Attendance Report",
+              icon: "school",
+              href: "/platform/service_requests_launchpad/report.php?a=Attendance_Report",
+            },
+            {
+              label: "Open Office Hours Report",
+              icon: "schedule",
+              href: "/platform/service_requests_launchpad/report.php?a=Open_Hours_Attendance",
+            },
+            {
+              label: "New National Project",
+              icon: "flag",
+              href: "/platform/service_requests_launchpad/report.php?a=National_Projects_direct",
+            },
+            {
+              label: "LEAF Maintenance Event",
+              icon: "build",
+              href: "https://leaf.va.gov/platform/service_requests_launchpad/report.php?a=Maintenance_direct",
+            },
+            {
+              label: "End of Year Data Trend",
+              icon: "trending_up",
+              href: "https://leaf.va.gov/platform/service_requests_launchpad/report.php?a=Data_Trend_direct",
+            },
+            {
+              label: "Awards",
+              icon: "emoji_events",
+              href: "https://leaf.va.gov/platform/service_requests_launchpad/report.php?a=Awards",
+            },
+            {
+              label: "Use Case",
+              icon: "lightbulb",
+              href: "https://leaf.va.gov/platform/service_requests_launchpad/report.php?a=LEAF_Start_Request&id=form_efec3",
+            },
+          ];
+          const viewGroups = [
+            {
+              label: "Dashboards",
+              items: [
+                {
+                  label: "Billing Dashboard",
+                  icon: "payments",
+                  href: "https://leaf.va.gov/launchpad/report.php?a=billing_dashboard",
+                },
+                {
+                  label: "PBI Dashboards",
+                  icon: "analytics",
+                  href: "https://app.powerbigov.us/Redirect?action=OpenReport&appId=bc14ee51-602f-4786-842e-f6162f360b9b&reportObjectId=ce960232-c527-4260-82d5-8d32ebe8edbe&ctid=e95f1b23-abaf-45ee-821d-b7ab251ab3bf&reportPage=6da026e5b757fdf526ab&pbi_source=appShareLink&portalSessionId=5aec0ee2-9d87-4b57-a721-ccaf63eb016e",
+                },
+                {
+                  label: "SNOW Dashboard",
+                  icon: "ac_unit",
+                  href: "https://yourit.va.gov/now/platform-analytics-workspace/dashboards/params/edit/false/tab-sys-id/77632d6497916a5050f9fb56f053af34/sys-id/fd06b9c51b5a69105d46cb78624bcb54",
+                },
+                {
+                  label: "Support Dashboard",
+                  icon: "support_agent",
+                  href: "https://dvagov.sharepoint.com/sites/LEAFTO/SitePages/LEAF-Operations-Dashboard.aspx",
+                },
+                {
+                  label: "Telemetry Dashboard",
+                  icon: "sensors",
+                  href: "/platform/service_requests_launchpad/report.php?a=telemetry_dashboard",
+                },
+                {
+                  label: "Help Library Feedback",
+                  icon: "rate_review",
+                  href: "https://leaf.va.gov/platform/votes/report.php?a=dashboard",
+                },
+                {
+                  label: "Idea Portal Dashboard",
+                  icon: "lightbulb",
+                  href: "https://leaf.va.gov/platform/ideas/report.php?a=Ideas_Dashboard",
+                },
+              ],
+            },
+            {
+              label: "Reports",
+              items: [
+                {
+                  label: "Awards",
+                  icon: "emoji_events",
+                  href: "https://leaf.va.gov/platform/service_requests_launchpad/open.php?report=32wnZ",
+                },
+                {
+                  label: "National Projects Report",
+                  icon: "flag",
+                  href: "https://leaf.va.gov/platform/service_requests_launchpad/open.php?report=32wnc",
+                },
+                {
+                  label: "Open Office Hours Report",
+                  icon: "schedule",
+                  href: "https://leaf.va.gov/platform/service_requests_launchpad/open.php?report=32wn7",
+                },
+                {
+                  label: "System Status Report",
+                  icon: "monitor_heart",
+                  href: "https://leaf.va.gov/platform/service_requests_launchpad/open.php?report=32wnJ",
+                },
+                {
+                  label: "Training Attendance Report",
+                  icon: "school",
+                  href: "https://leaf.va.gov/platform/service_requests_launchpad/open.php?report=32wnS",
+                },
+                {
+                  label: "Uptime Stats",
+                  icon: "timer",
+                  href: "https://leaf.va.gov/platform/service_requests_launchpad/report.php?a=Uptime_Stats",
+                },
+                {
+                  label: "Use Case – Access to Care",
+                  icon: "medical_services",
+                  href: "https://leaf.va.gov/platform/service_requests_launchpad/open.php?report=32wna",
+                },
+                {
+                  label: "Use Case – Efficiency and Cost Savings",
+                  icon: "savings",
+                  href: "https://leaf.va.gov/platform/service_requests_launchpad/open.php?report=32wnb",
+                },
+              ],
+            },
+            {
+              label: "Resources",
+              items: [
+                {
+                  label: "Help & SOP Library",
+                  icon: "menu_book",
+                  href: "https://leaf.va.gov/platform/help_library/",
+                },
+                {
+                  label: "UX – Documentation",
+                  icon: "design_services",
+                  href: "https://leaf.va.gov/platform/ux/",
+                },
+              ],
+            },
+          ];
+          const viewCount = viewGroups.reduce((n, g) => n + g.items.length, 0);
+
+          const tileHTML = (item, variant) =>
+            `<a class="thb-tile thb-tile--${variant}" href="${item.href}" target="_blank" rel="noopener noreferrer" data-label="${item.label.toLowerCase()}">
+           <span class="material-symbols-outlined" aria-hidden="true">${icon(item.icon)}</span>
+           <span class="thb-tile-label">${item.label}</span>
+         </a>`;
+
+          $id("gridSubmit").innerHTML = submitLinks
+            .map((i) => tileHTML(i, "submit"))
+            .join("");
+          $id("viewGroups").innerHTML = viewGroups
+            .map(
+              (g) => `
+        <div class="thb-subgroup" data-subgroup>
+          <p class="thb-subgroup-label">${g.label}<span class="thb-subgroup-count" data-sub-count>${g.items.length}</span></p>
+          <div class="thb-grid">${g.items.map((i) => tileHTML(i, "view")).join("")}</div>
+        </div>
+      `,
+            )
+            .join("");
+          $id("secSubmit").querySelector("[data-count]").textContent =
+            `${submitLinks.length} forms`;
+          $id("secView").querySelector("[data-count]").textContent =
+            `${viewCount} reports`;
+
+          /* ── Collapse / expand ── */
+          window.thbToggle = (secId, btn) => {
+            const sec = $id(secId);
+            const collapsed = sec.classList.toggle("collapsed");
+            btn.setAttribute("aria-expanded", String(!collapsed));
+          };
+
+          /* ── Search + type filter ── */
+          const search = $id("thbSearch");
+          const clearBtn = $id("thbClear");
+          const admin = $id("thbAdmin");
+          const resultCount = $id("thbResultCount");
+          let typeFilter = "all";
+
+          const sections = [
+            { el: $id("secSubmit"), type: "submit" },
+            { el: $id("secView"), type: "view" },
+          ];
+
+          const apply = () => {
+            const q = search.value.trim().toLowerCase();
+            clearBtn.classList.toggle("vis", q.length > 0);
+
+            admin.hidden = typeFilter !== "all";
+
+            let shown = 0;
+            let considered = 0;
+
+            sections.forEach(({ el, type }) => {
+              const typeOK = typeFilter === "all" || typeFilter === type;
+              el.hidden = !typeOK;
+              if (!typeOK) return;
+
+              const tiles = el.querySelectorAll(".thb-tile");
+              considered += tiles.length;
+              let matches = 0;
+              tiles.forEach((t) => {
+                const hit = !q || t.getAttribute("data-label").includes(q);
+                t.hidden = !hit;
+                if (hit) matches++;
+              });
+              shown += matches;
+
+              // Hide sub-groups that have no visible tiles; update sub-counts
+              el.querySelectorAll("[data-subgroup]").forEach((g) => {
+                const gTiles = g.querySelectorAll(".thb-tile");
+                const gShown = Array.from(gTiles).filter(
+                  (t) => !t.hidden,
+                ).length;
+                g.hidden = gShown === 0;
+                const c = g.querySelector("[data-sub-count]");
+                if (c) c.textContent = q ? gShown : gTiles.length;
+              });
+
+              el.classList.toggle("no-matches", matches === 0);
+              if (q) {
+                el.classList.remove("collapsed");
+                el.querySelector(".thb-sec-head").setAttribute(
+                  "aria-expanded",
+                  "true",
+                );
+              }
+            });
+
+            // "showing X of Y" badge — only while searching or filtering
+            if (q || typeFilter !== "all") {
+              resultCount.textContent = `Showing ${shown} of ${considered}`;
+            } else {
+              resultCount.textContent = "";
+            }
+          };
+
+          search.addEventListener("input", apply);
+          clearBtn.addEventListener("click", () => {
+            search.value = "";
+            apply();
+            search.focus();
+          });
+
+          document.querySelectorAll(".thb-filter").forEach((btn) => {
+            btn.addEventListener("click", () => {
+              document.querySelectorAll(".thb-filter").forEach((b) => {
+                b.classList.remove("active");
+                b.setAttribute("aria-pressed", "false");
+              });
+              btn.classList.add("active");
+              btn.setAttribute("aria-pressed", "true");
+              typeFilter = btn.getAttribute("data-filter");
+              apply();
+            });
+          });
+
+          /* ── Admin inbox modal ── */
+          (() => {
+            const modal = $id("thbModal");
+            const frame = $id("thbModalFrame");
+            const titleEl = $id("thbModalTitle");
+            const closeBtn = $id("thbModalClose");
+            const backdrop = $id("thbModalBackdrop");
+            const openBtn = $id("thbAdminOpen");
+            if (!modal || !frame || !openBtn) return;
+
+            let lastFocused = null;
+
+            /* Measure the fixed/sticky global header so the dialog always clears it.
+           Falls back to the CSS default (120px) if nothing is found. */
+            const measureHeaderOffset = () => {
+              let bottom = 0;
+              document
+                .querySelectorAll(
+                  'header, nav, [class*="breadcrumb"], [class*="nav"]',
+                )
+                .forEach((el) => {
+                  const cs = getComputedStyle(el);
+                  if (cs.position === "fixed" || cs.position === "sticky") {
+                    const rect = el.getBoundingClientRect();
+                    // Only count bars anchored near the top of the viewport
+                    if (rect.top <= 4 && rect.bottom > bottom)
+                      bottom = rect.bottom;
+                  }
+                });
+              if (bottom > 0) {
+                modal.style.setProperty(
+                  "--thb-header-offset",
+                  `${Math.ceil(bottom) + 16}px`,
+                );
+              }
+            };
+
+            const openModal = () => {
+              lastFocused = document.activeElement;
+              measureHeaderOffset();
+              titleEl.textContent =
+                openBtn.getAttribute("data-report-title") || "Admin Inbox";
+              frame.src = openBtn.getAttribute("data-report-src");
+              modal.classList.add("is-open");
+              modal.setAttribute("aria-hidden", "false");
+              document.body.style.overflow = "hidden";
+              closeBtn.focus();
+            };
+            const closeModal = () => {
+              modal.classList.remove("is-open");
+              modal.setAttribute("aria-hidden", "true");
+              document.body.style.overflow = "";
+              frame.src = "";
+              lastFocused?.focus();
+            };
+
+            openBtn.addEventListener("click", openModal);
+            closeBtn.addEventListener("click", closeModal);
+            backdrop.addEventListener("click", closeModal);
+            document.addEventListener("keydown", (e) => {
+              if (e.key === "Escape" && modal.classList.contains("is-open"))
+                closeModal();
+            });
+            modal.addEventListener("keydown", (e) => {
+              if (e.key !== "Tab" || !modal.classList.contains("is-open"))
+                return;
+              const f = Array.from(
+                modal.querySelectorAll(
+                  'button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+                ),
+              );
+              if (!f.length) return;
+              const first = f[0],
+                last = f[f.length - 1];
+              if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+              } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+              }
+            });
+          })();
+
+          /* ── Jump to top ── */
+          (() => {
+            const btn = $id("lpJump");
+            if (!btn) return;
+            const update = () => {
+              const vis =
+                (window.pageYOffset || document.documentElement.scrollTop) >
+                120;
+              btn.classList.toggle("vis", vis);
+              btn.setAttribute("aria-hidden", String(!vis));
+              btn.tabIndex = vis ? 0 : -1;
+            };
+            btn.addEventListener("click", () =>
+              window.scrollTo({ top: 0, behavior: "smooth" }),
+            );
+            window.addEventListener("scroll", update, { passive: true });
+            window.addEventListener("resize", update);
+            update();
+          })();
+        };
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", init);
+        } else {
+          init();
+        }
+      })();
+    </script>
+
+    <!-- Admin Inbox Modal — at body level so no ancestor stacking context can trap it under the global header -->
+    <div
+      class="thb-modal"
+      id="thbModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="thbModalTitle"
+      aria-hidden="true"
+    >
+      <div class="thb-modal__backdrop" id="thbModalBackdrop"></div>
+      <div class="thb-modal__dialog">
+        <div class="thb-modal__header">
+          <h2 class="thb-modal__title" id="thbModalTitle">Admin Inbox</h2>
+          <button
+            class="thb-modal__close"
+            id="thbModalClose"
+            type="button"
+            aria-label="Close"
+          >
+            <span class="material-symbols-outlined" aria-hidden="true"
+              ><svg viewBox="0 -960 960 960" fill="currentColor">
+                <path
+                  d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+                /></svg
+            ></span>
+          </button>
+        </div>
+        <div class="thb-modal__body">
+          <iframe
+            class="thb-modal__frame"
+            id="thbModalFrame"
+            title="Admin Inbox"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+    <!--{else}-->
+    <div class="lp" id="lp-root">
+      <main id="lp-main" tabindex="-1">
+        <div class="lp-gate">
+          <span class="lp-gate-icon" aria-hidden="true">
+            <span class="material-symbols-outlined" aria-hidden="true"
+              ><svg viewBox="0 -960 960 960" fill="currentColor">
+                <path
+                  d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm240-200q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80Z"
+                /></svg
+            ></span>
+          </span>
+          <h1>Access restricted</h1>
+          <p>
+            The Team Hub is available to LEAF Sysadmins only. Contact your LEAF
+            administrator if you believe you should have access.
+          </p>
+          <a href="#">Return to Launchpad</a>
+        </div>
+      </main>
+    </div>
+    <!--{/if}-->
+  </body>
+</html>

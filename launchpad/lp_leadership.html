@@ -1,0 +1,821 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leadership Hub — LEAF Launchpad</title>
+
+    <link rel="stylesheet" href="./files/launchpad.css" />
+
+    <style>
+      /* Local LEAF fonts (self-hosted, same source as leaf_header.css) —
+       declared here since this page can load standalone. */
+      @font-face {
+        font-family: "PublicSans-Bold";
+        src:
+          url("/app/libs/css/fonts/public-sans/PublicSans-Bold.woff2")
+            format("woff2"),
+          url("/app/libs/css/fonts/public-sans/PublicSans-Bold.woff")
+            format("woff");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Source Sans Pro Web";
+        src:
+          url("/app/libs/css/fonts/source-sans-pro/sourcesanspro-regular-webfont.woff2")
+            format("woff2"),
+          url("/app/libs/css/fonts/source-sans-pro/sourcesanspro-regular-webfont.woff")
+            format("woff");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      /* Icons render as inline SVG, matching leaf_header.js — no Material
+       Symbols web font dependency. */
+      .material-symbols-outlined {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .material-symbols-outlined svg {
+        width: 1em;
+        height: 1em;
+        display: block;
+      }
+
+      .ldh-page {
+        max-width: 1160px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem 5rem;
+      }
+
+      .ldh-header {
+        margin-bottom: 2.25rem;
+      }
+
+      .ldh-kicker {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--lp-accent);
+        margin: 0 0 0.5rem;
+      }
+
+      .ldh-title {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: clamp(1.6rem, 3vw, 2.15rem);
+        font-weight: 800;
+        color: var(--lp-hl);
+        margin: 0 0 0.4rem;
+        line-height: 1.15;
+      }
+
+      .ldh-sub {
+        font-family: "Source Sans Pro Web", sans-serif;
+        font-size: 1.05rem;
+        color: var(--c-muted);
+        margin: 0;
+        max-width: 640px;
+      }
+
+      .ldh-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.25rem;
+      }
+
+      .ldh-card {
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+        border: 1px solid var(--c-blue10);
+        border-radius: var(--r-lg);
+        padding: 1.375rem;
+        text-decoration: none;
+        color: inherit;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        transition:
+          transform 0.15s ease,
+          box-shadow 0.15s ease,
+          border-color 0.15s ease;
+        cursor: pointer;
+        text-align: left;
+        font: inherit;
+        width: 100%;
+        appearance: none;
+        -webkit-appearance: none;
+      }
+
+      .ldh-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.13);
+        border-color: var(--c-blue20);
+      }
+
+      .ldh-card:focus-visible {
+        outline: 3px solid var(--lp-accent);
+        outline-offset: 3px;
+      }
+
+      .ldh-card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.875rem;
+      }
+
+      .ldh-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: var(--r-lg);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--c-blue5);
+        color: var(--lp-hl);
+        flex-shrink: 0;
+      }
+
+      .ldh-icon .material-symbols-outlined {
+        font-size: 1.5rem !important;
+      }
+
+      .ldh-chip {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border-radius: 999px;
+        white-space: nowrap;
+      }
+
+      .ldh-chip--live {
+        background: #dcfce7;
+        color: #166534;
+      }
+      .ldh-chip--report {
+        background: var(--c-blue5);
+        color: var(--lp-hl);
+      }
+
+      .ldh-card-title {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--lp-hl);
+        margin: 0 0 0.375rem;
+      }
+
+      .ldh-card-desc {
+        font-family: "Source Sans Pro Web", sans-serif;
+        font-size: 0.9375rem;
+        color: var(--c-muted);
+        margin: 0 0 1.125rem;
+        flex-grow: 1;
+        line-height: 1.55;
+      }
+
+      .ldh-card-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: var(--lp-accent);
+        margin-top: auto;
+      }
+
+      .ldh-card-action .material-symbols-outlined {
+        font-size: 1.1rem !important;
+        transition: transform 0.15s ease;
+      }
+
+      .ldh-card:hover .ldh-card-action .material-symbols-outlined {
+        transform: translateX(3px);
+      }
+
+      .ldh-footer {
+        margin-top: 2.5rem;
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--c-blue10);
+        font-family: "Source Sans Pro Web", sans-serif;
+        font-size: 0.85rem;
+        color: var(--c-muted);
+      }
+
+      /* The global header (launchpad.css) is fixed with a high z-index and
+       paints over centered overlays, so the dialog is pushed down below it
+       via --ldh-header-offset instead of relying on z-index alone. */
+      .ldh-modal {
+        --ldh-header-offset: 120px;
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: flex-start;
+        justify-content: center;
+        padding: var(--ldh-header-offset) 20px 24px;
+        z-index: 2147483000;
+      }
+
+      .ldh-modal.is-open {
+        display: flex;
+      }
+
+      .ldh-modal__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.78);
+      }
+
+      .ldh-modal__dialog {
+        position: relative;
+        width: min(1300px, 94vw);
+        height: calc(100vh - var(--ldh-header-offset) - 24px);
+        background: #fff;
+        border-radius: var(--r-lg);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+      }
+
+      .ldh-modal__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 1rem;
+        background: var(--c-blue5);
+        border-bottom: 1px solid var(--c-blue20);
+        flex-shrink: 0;
+      }
+
+      .ldh-modal__title {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--lp-hl);
+        margin: 0;
+      }
+
+      .ldh-modal__close {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        border: 1px solid var(--c-blue20);
+        background: #fff;
+        color: var(--c-text);
+        border-radius: var(--r);
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: background 0.15s;
+        flex-shrink: 0;
+      }
+
+      .ldh-modal__close:hover {
+        background: var(--c-blue10);
+      }
+      .ldh-modal__close:focus-visible {
+        outline: 3px solid var(--lp-accent);
+        outline-offset: 2px;
+      }
+
+      .ldh-modal__body {
+        flex: 1;
+        min-height: 0;
+      }
+
+      .ldh-modal__frame {
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+
+      @media (max-width: 900px) {
+        .ldh-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 600px) {
+        .ldh-grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .ldh-page {
+          padding: 2rem 1rem 4rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .ldh-card,
+        .ldh-card-action .material-symbols-outlined {
+          transition: none;
+        }
+        .ldh-card:hover {
+          transform: none;
+        }
+      }
+
+      .lp-gate {
+        max-width: 460px;
+        margin: 4rem auto;
+        padding: 2.5rem 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        text-align: center;
+        background: #fff;
+        border: 1px solid var(--c-blue20);
+        border-radius: var(--r-lg);
+      }
+      .lp-gate-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--c-blue5);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .lp-gate-icon .material-symbols-outlined {
+        font-size: 1.75rem !important;
+        color: var(--lp-accent);
+      }
+      .lp-gate h1 {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: var(--lp-hl);
+        margin: 0;
+      }
+      .lp-gate p {
+        font-family: "Source Sans Pro Web", sans-serif;
+        font-size: 0.95rem;
+        color: var(--c-muted);
+        margin: 0;
+      }
+      .lp-gate a {
+        font-family: "PublicSans-Bold", sans-serif;
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: #fff;
+        background: var(--lp-accent);
+        text-decoration: none;
+        padding: 0.6rem 1.3rem;
+        border-radius: 8px;
+      }
+      .lp-gate a:hover {
+        background: var(--lp-accent-strong, #004a82);
+      }
+      .lp-gate a:focus-visible {
+        outline: 3px solid var(--lp-accent);
+        outline-offset: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <!--{if $empMembership['groupID'][1]}-->
+    <div class="lp" id="lp-root">
+      <main id="lp-main" tabindex="-1">
+        <div class="ldh-page">
+          <header class="ldh-header">
+            <p class="ldh-kicker">LEAF Operations</p>
+            <h1 class="ldh-title">Leadership Hub</h1>
+            <p class="ldh-sub">
+              Internal dashboards, reports, and tools for the LEAF leadership
+              team.
+            </p>
+          </header>
+
+          <!-- Card grid -->
+          <div class="ldh-grid" role="list">
+            <!-- 1. LEAF Command Center -->
+            <a
+              class="ldh-card"
+              href="https://leaf.va.gov/platform/calendar/"
+              target="_blank"
+              rel="noopener noreferrer"
+              role="listitem"
+              aria-label="LEAF Command Center — opens in a new tab"
+            >
+              <div class="ldh-card-top">
+                <span class="ldh-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor">
+                      <path
+                        d="M153-73q-33-33-33-81t33-81q33-33 81-33 14 0 24.5 2.5T280-258l85-106q-19-23-29-52.5t-5-61.5l-121-41q-15 25-39.5 39T114-466q-48 0-81-33T0-580q0-48 33-81t81-33q48 0 81 33t33 81v4l122 42q18-32 43.5-49t56.5-24v-129q-39-11-61.5-43T366-846q0-48 33-81t81-33q48 0 81 33t33 81q0 35-23 67t-61 43v129q31 7 57 24t44 49l121-42v-4q0-48 33-81t81-33q48 0 81 33t33 81q0 48-33 81t-81 33q-32 0-57-14t-39-39l-121 41q5 32-4.5 61.5T595-364l85 106q11-5 21.5-7.5T726-268q48 0 81 33t33 81q0 48-33 81t-81 33q-48 0-81-33t-33-81q0-20 5.5-36t15.5-31l-85-106q-32 17-68.5 17T411-327l-84 107q10 15 15.5 30.5T348-154q0 48-33 81t-81 33Z"
+                      /></svg
+                  ></span>
+                </span>
+                <span class="ldh-chip ldh-chip--live">Live</span>
+              </div>
+              <h2 class="ldh-card-title">LEAF Command Center</h2>
+              <p class="ldh-card-desc">
+                LEAF team meetings, action items, and coverage — organized and
+                always up to date.
+              </p>
+              <span class="ldh-card-action" aria-hidden="true">
+                Open command center
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  ><svg viewBox="0 -960 960 960" fill="currentColor">
+                    <path
+                      d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z"
+                    /></svg
+                ></span>
+              </span>
+            </a>
+
+            <!-- 2. Project Dashboard -->
+            <a
+              class="ldh-card"
+              href="https://leaf.va.gov/platform/projects/"
+              target="_blank"
+              rel="noopener noreferrer"
+              role="listitem"
+              aria-label="Project Dashboard — opens in a new tab"
+            >
+              <div class="ldh-card-top">
+                <span class="ldh-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor">
+                      <path
+                        d="M510-570v-270h330v270H510ZM120-450v-390h330v390H120Zm390 330v-390h330v390H510Zm-390 0v-270h330v270H120Z"
+                      /></svg
+                  ></span>
+                </span>
+                <span class="ldh-chip ldh-chip--live">Live</span>
+              </div>
+              <h2 class="ldh-card-title">Project Dashboard</h2>
+              <p class="ldh-card-desc">
+                Team tracker for projects, tasks, and OKRs across the LEAF team.
+              </p>
+              <span class="ldh-card-action" aria-hidden="true">
+                Open dashboard
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  ><svg viewBox="0 -960 960 960" fill="currentColor">
+                    <path
+                      d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z"
+                    /></svg
+                ></span>
+              </span>
+            </a>
+
+            <!-- 3. Impact Map -->
+            <a
+              class="ldh-card"
+              href="https://leaf.va.gov/launchpad/report.php?a=steph_map"
+              target="_blank"
+              rel="noopener noreferrer"
+              role="listitem"
+              aria-label="Impact Map — opens in a new tab"
+            >
+              <div class="ldh-card-top">
+                <span class="ldh-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor">
+                      <path
+                        d="m612-120-263-93-179 71q-17 9-33.5-1T120-173v-558q0-13 7.5-23t19.5-15l202-71 263 92 178-71q17-8 33.5 1.5T840-788v565q0 11-7.5 19T814-192l-202 72Zm-34-75v-505l-196-66v505l196 66Z"
+                      /></svg
+                  ></span>
+                </span>
+                <span class="ldh-chip ldh-chip--live">Live</span>
+              </div>
+              <h2 class="ldh-card-title">Impact Map</h2>
+              <p class="ldh-card-desc">
+                Search facilities using LEAF and explore national usage,
+                adoption and utilization rates, and top use cases.
+              </p>
+              <span class="ldh-card-action" aria-hidden="true">
+                Open map
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  ><svg viewBox="0 -960 960 960" fill="currentColor">
+                    <path
+                      d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z"
+                    /></svg
+                ></span>
+              </span>
+            </a>
+
+            <!-- 4. Power BI: Support Services -->
+            <button
+              class="ldh-card"
+              type="button"
+              role="listitem"
+              aria-label="Support Services — view Power BI report"
+              data-report-title="LEAF Support Services Dashboard v3"
+              data-report-src="https://app.powerbigov.us/reportEmbed?reportId=4edaaa11-3794-4ceb-bacd-15978d94415d&appId=bc14ee51-602f-4786-842e-f6162f360b9b&autoAuth=true&ctid=e95f1b23-abaf-45ee-821d-b7ab251ab3bf"
+            >
+              <div class="ldh-card-top">
+                <span class="ldh-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor">
+                      <path
+                        d="M440-120v-60h340v-304q0-123.69-87.32-209.84Q605.36-780 480-780q-125.36 0-212.68 86.16Q180-607.69 180-484v244h-20q-33 0-56.5-23.5T80-320v-80q0-21 10.5-39.5T120-469l3-53q8-68 39.5-126t79-101q47.5-43 109-67T480-840q68 0 129 24t109 66.5Q766-707 797-649t40 126l3 52q19 9 29.5 27t10.5 38v92q0 20-10.5 38T840-249v69q0 24.75-17.62 42.37Q804.75-120 780-120H440ZM338.5-418.68q-8.5-8.67-8.5-21.5 0-12.82 8.68-21.32 8.67-8.5 21.5-8.5 12.82 0 21.32 8.68 8.5 8.67 8.5 21.5 0 12.82-8.68 21.32-8.67 8.5-21.5 8.5-12.82 0-21.32-8.68Zm240 0q-8.5-8.67-8.5-21.5 0-12.82 8.68-21.32 8.67-8.5 21.5-8.5 12.82 0 21.32 8.68 8.5 8.67 8.5 21.5 0 12.82-8.68 21.32-8.67 8.5-21.5 8.5-12.82 0-21.32-8.68ZM241-462q-7-106 64-182t177-76q87 0 151 57.5T711-519q-89-1-162.5-50T434.72-698Q419-618 367.5-555.5T241-462Z"
+                      /></svg
+                  ></span>
+                </span>
+                <span class="ldh-chip ldh-chip--report">Power BI</span>
+              </div>
+              <h2 class="ldh-card-title">Support Services</h2>
+              <p class="ldh-card-desc">
+                Service volume, response times, and support performance metrics.
+              </p>
+              <span class="ldh-card-action" aria-hidden="true">
+                View report
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  ><svg viewBox="0 -960 960 960" fill="currentColor">
+                    <path
+                      d="M686-450H160v-60h526L438-758l42-42 320 320-320 320-42-42 248-248Z"
+                    /></svg
+                ></span>
+              </span>
+            </button>
+
+            <!-- 5. Power BI: Customer Feedback -->
+            <button
+              class="ldh-card"
+              type="button"
+              role="listitem"
+              aria-label="Customer Feedback — view Power BI report"
+              data-report-title="LEAF Customer Feedback Dashboard (v2)"
+              data-report-src="https://app.powerbigov.us/reportEmbed?reportId=962c98ea-2211-4403-aa35-076b453a47a1&appId=bc14ee51-602f-4786-842e-f6162f360b9b&autoAuth=true&ctid=e95f1b23-abaf-45ee-821d-b7ab251ab3bf"
+            >
+              <div class="ldh-card-top">
+                <span class="ldh-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor">
+                      <path
+                        d="M80-80v-740q0-24 18-42t42-18h680q24 0 42 18t18 42v520q0 24-18 42t-42 18H240L80-80Zm283-310 117-71 117 71-31-133 104-90-137-11-53-126-53 126-137 11 104 90-31 133Z"
+                      /></svg
+                  ></span>
+                </span>
+                <span class="ldh-chip ldh-chip--report">Power BI</span>
+              </div>
+              <h2 class="ldh-card-title">Customer Feedback</h2>
+              <p class="ldh-card-desc">
+                Satisfaction scores, sentiment, and feedback trends over time.
+              </p>
+              <span class="ldh-card-action" aria-hidden="true">
+                View report
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  ><svg viewBox="0 -960 960 960" fill="currentColor">
+                    <path
+                      d="M686-450H160v-60h526L438-758l42-42 320 320-320 320-42-42 248-248Z"
+                    /></svg
+                ></span>
+              </span>
+            </button>
+
+            <!-- 6. Power BI: Community Ideas -->
+            <button
+              class="ldh-card"
+              type="button"
+              role="listitem"
+              aria-label="Community Ideas — view Power BI report"
+              data-report-title="LEAF Ideas"
+              data-report-src="https://app.powerbigov.us/reportEmbed?reportId=76d43845-3a03-49c0-a8b3-1c121be0c8e7&appId=bc14ee51-602f-4786-842e-f6162f360b9b&autoAuth=true&ctid=e95f1b23-abaf-45ee-821d-b7ab251ab3bf"
+            >
+              <div class="ldh-card-top">
+                <span class="ldh-icon" aria-hidden="true">
+                  <span class="material-symbols-outlined" aria-hidden="true"
+                    ><svg viewBox="0 -960 960 960" fill="currentColor">
+                      <path
+                        d="M480-80q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-200v-80h320v80H320Zm10-120q-69-41-109.5-110T180-580q0-125 87.5-212.5T480-880q125 0 212.5 87.5T780-580q0 81-40.5 150T630-320H330Z"
+                      /></svg
+                  ></span>
+                </span>
+                <span class="ldh-chip ldh-chip--report">Power BI</span>
+              </div>
+              <h2 class="ldh-card-title">Community Ideas</h2>
+              <p class="ldh-card-desc">
+                Submitted ideas from the LEAF Community, voting activity, and
+                status.
+              </p>
+              <span class="ldh-card-action" aria-hidden="true">
+                View report
+                <span class="material-symbols-outlined" aria-hidden="true"
+                  ><svg viewBox="0 -960 960 960" fill="currentColor">
+                    <path
+                      d="M686-450H160v-60h526L438-758l42-42 320 320-320 320-42-42 248-248Z"
+                    /></svg
+                ></span>
+              </span>
+            </button>
+          </div>
+          <!-- /.ldh-grid -->
+
+          <footer class="ldh-footer" role="contentinfo">
+            Internal use only
+          </footer>
+        </div>
+        <!-- /.ldh-page -->
+      </main>
+
+      <div
+        class="ldh-modal"
+        id="ldhModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="ldhModalTitle"
+        aria-hidden="true"
+      >
+        <div class="ldh-modal__backdrop" id="ldhModalBackdrop"></div>
+        <div class="ldh-modal__dialog">
+          <div class="ldh-modal__header">
+            <h2 class="ldh-modal__title" id="ldhModalTitle">Report</h2>
+            <button
+              class="ldh-modal__close"
+              id="ldhModalClose"
+              type="button"
+              aria-label="Close report"
+            >
+              <span class="material-symbols-outlined" aria-hidden="true"
+                ><svg viewBox="0 -960 960 960" fill="currentColor">
+                  <path
+                    d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+                  /></svg
+              ></span>
+            </button>
+          </div>
+          <div class="ldh-modal__body">
+            <iframe
+              class="ldh-modal__frame"
+              id="ldhModalFrame"
+              title="Power BI report"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <button
+        class="lp-jump"
+        id="lpJump"
+        type="button"
+        aria-label="Back to top"
+        aria-hidden="true"
+        tabindex="-1"
+      >
+        <span class="material-symbols-outlined" aria-hidden="true"
+          ><svg viewBox="0 -960 960 960" fill="currentColor">
+            <path
+              d="M440-160v-487L216-423l-56-57 320-320 320 320-56 57-224-224v487h-80Z"
+            /></svg
+        ></span>
+      </button>
+    </div>
+    <!-- /.lp -->
+
+    <script>
+      (() => {
+        "use strict";
+
+        const $id = (id) => document.getElementById(id);
+
+        (() => {
+          const modal = $id("ldhModal");
+          const frame = $id("ldhModalFrame");
+          const titleEl = $id("ldhModalTitle");
+          const closeBtn = $id("ldhModalClose");
+          const backdrop = $id("ldhModalBackdrop");
+          if (!modal || !frame || !closeBtn) return;
+
+          let lastFocused = null;
+
+          /* Measures the fixed/sticky global header so the dialog clears it;
+           falls back to the CSS default (120px) if none is found. */
+          const measureHeaderOffset = () => {
+            let bottom = 0;
+            document
+              .querySelectorAll(
+                'header, nav, [class*="breadcrumb"], [class*="nav"]',
+              )
+              .forEach((el) => {
+                const cs = getComputedStyle(el);
+                if (cs.position === "fixed" || cs.position === "sticky") {
+                  const rect = el.getBoundingClientRect();
+                  if (rect.top <= 4 && rect.bottom > bottom)
+                    bottom = rect.bottom;
+                }
+              });
+            if (bottom > 0) {
+              modal.style.setProperty(
+                "--ldh-header-offset",
+                `${Math.ceil(bottom) + 16}px`,
+              );
+            }
+          };
+
+          const openModal = (src, title) => {
+            lastFocused = document.activeElement;
+            measureHeaderOffset();
+            titleEl.textContent = title || "Report";
+            frame.src = src;
+            modal.classList.add("is-open");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+            closeBtn.focus();
+          };
+
+          const closeModal = () => {
+            modal.classList.remove("is-open");
+            modal.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+            /* Clearing src stops the iframe so audio/video and resources free up */
+            frame.src = "";
+            lastFocused?.focus();
+          };
+
+          document
+            .querySelectorAll(".ldh-card[data-report-src]")
+            .forEach((card) => {
+              card.addEventListener("click", () => {
+                openModal(
+                  card.getAttribute("data-report-src"),
+                  card.getAttribute("data-report-title"),
+                );
+              });
+            });
+
+          closeBtn.addEventListener("click", closeModal);
+          backdrop.addEventListener("click", closeModal);
+
+          document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && modal.classList.contains("is-open"))
+              closeModal();
+          });
+
+          /* Focus trap inside modal */
+          modal.addEventListener("keydown", (e) => {
+            if (e.key !== "Tab" || !modal.classList.contains("is-open")) return;
+            const focusable = Array.from(
+              modal.querySelectorAll(
+                'button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+              ),
+            );
+            if (!focusable.length) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+              e.preventDefault();
+              last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+              e.preventDefault();
+              first.focus();
+            }
+          });
+        })();
+
+        (() => {
+          const btn = $id("lpJump");
+          if (!btn) return;
+          const update = () => {
+            const vis =
+              (window.pageYOffset || document.documentElement.scrollTop) > 120;
+            btn.classList.toggle("vis", vis);
+            btn.setAttribute("aria-hidden", String(!vis));
+            btn.tabIndex = vis ? 0 : -1;
+          };
+          btn.addEventListener("click", () =>
+            window.scrollTo({ top: 0, behavior: "smooth" }),
+          );
+          window.addEventListener("scroll", update, { passive: true });
+          window.addEventListener("resize", update);
+          update();
+        })();
+      })();
+    </script>
+    <!--{else}-->
+    <div class="lp" id="lp-root">
+      <main id="lp-main" tabindex="-1">
+        <div class="lp-gate">
+          <span class="lp-gate-icon" aria-hidden="true">
+            <span class="material-symbols-outlined" aria-hidden="true"
+              ><svg viewBox="0 -960 960 960" fill="currentColor">
+                <path
+                  d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm240-200q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80Z"
+                /></svg
+            ></span>
+          </span>
+          <h1>Access restricted</h1>
+          <p>
+            The Leadership Hub is available to LEAF Sysadmins only. Contact your
+            LEAF administrator if you believe you should have access.
+          </p>
+          <a href="#">Return to Launchpad</a>
+        </div>
+      </main>
+    </div>
+    <!--{/if}-->
+  </body>
+</html>
