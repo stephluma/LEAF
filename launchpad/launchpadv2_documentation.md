@@ -2,6 +2,21 @@
 
 _Last updated: 2026-09-16_
 
+**Contents**
+
+- [1. Purpose](#1-purpose)
+- [2. Architecture](#2-architecture)
+- [3. Shared Components](#3-shared-components)
+- [4. Page-by-Page Status](#4-page-by-page-status)
+- [5. Standards](#5-standards)
+- [6. Open Items](#6-open-items)
+- [Appendix — External Builds](#appendix--external-builds)
+  - [A1. Idea Portal](#a1-idea-portal--leafvagovplatformideas)
+  - [A2. Help Library](#a2-help-library--leafvagovplatformhelp_library)
+- [7. Changelog](#7-changelog)
+
+---
+
 ## 1. Purpose
 
 Architecture, shared components, page status, and standards for the LEAF Launchpad build.
@@ -394,7 +409,7 @@ Searchable resource library (videos/tutorials/FAQs) with category browsing, "Sta
 
 ## 7. Changelog
 
-_No updates._
+_Logged once the build is finished — not tracked turn-by-turn during drafting._
 
 ---
 
