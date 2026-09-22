@@ -1,13 +1,6 @@
-report.php?a=lp_home:2095 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
-ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272  POST https://leaf.va.gov/platform/service_requests_launchpad/api/form/new 401 (Unauthorized)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272
-da @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:276
-apiPost @ report.php?a=lp_home:1527
-subscribe @ report.php?a=lp_home:1555
-(anonymous) @ report.php?a=lp_home:1601
-report.php?a=lp_home:1610 [Newsletter] subscription failed: Error: POST api/form/new -> HTTP 401
-    at apiPost (report.php?a=lp_home:1537:30)
-    at async subscribe (report.php?a=lp_home:1555:29)
-(anonymous) @ report.php?a=lp_home:1610
-Promise.catch
-(anonymous) @ report.php?a=lp_home:1609
+Built by VA. For VA.
+For VA Medical Centers and Program Offices, since LEAF is a VA product, this means signficant cost savings compared to conventional development contracts.
+
+Originally created by VA employees at the Washington D.C. VA Medical Center in 2008, LEAF has been built to seamlessly integrate with existing VA enterprise technology, such as two factor authentication with PIV-cards, and single sign-on.
+
+In 2013, The VA Center for Innovation (VACI) and VHA Innovation Program spearheaded efforts in development, diffusion, and helped the platform mature to better serve the VA enterprise.
