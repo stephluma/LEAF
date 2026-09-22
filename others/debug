@@ -1,7 +1,1 @@
-launchpad/:2047 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
-leaf_header.js:1714 [stripLeafChrome] https://leaf-preprod.va.gov → frame src: https://leaf.va.gov/platform/support/report.php?a=LEAF_Start_Request&id=form_ba7de&title=Consultation+Request+from+Help+Library&iframe=1
-leaf_header.js:1750 [stripLeafChrome] threw: SecurityError Failed to read a named property 'document' from 'Window': Blocked a frame with origin "https://leaf-preprod.va.gov" from accessing a cross-origin frame.
-stripLeafChrome @ leaf_header.js:1750
-leaf_header.js:1714 [stripLeafChrome] https://leaf-preprod.va.gov → frame src: https://leaf.va.gov/platform/support/report.php?a=LEAF_Start_Request&id=form_ba7de&title=Consultation+Request+from+Help+Library&iframe=1
-leaf_header.js:1750 [stripLeafChrome] threw: SecurityError Failed to read a named property 'document' from 'Window': Blocked a frame with origin "https://leaf-preprod.va.gov" from accessing a cross-origin frame.
-stripLeafChrome @ leaf_header.js:1750
+{"471":{"indicatorID":471,"categoryID":"form_41cbd","series":"1","name":"Banner Button (optional)\n\nAdd URL for a button to appear. When the button is pressed, URL is opened in a new tab.","description":"Banner Button","default":"","parentID":469,"html":null,"htmlPrint":null,"conditions":null,"required":0,"is_sensitive":0,"isEmpty":false,"value":"leaf.va.gov","displayedValue":"","timestamp":1790112945,"userID":"oitauslumags","privacyRequestID":null,"isWritable":1,"isMasked":0,"sort":-127,"has_code":"","format":"text","child":null}}
