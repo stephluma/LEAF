@@ -1,2 +1,29 @@
-<div id="lp-login-slot" class="noprint">    Welcome, <b>Stephanie Lumagui</b>! | <a href="?a=logout">Sign out</a>
-</div>
+document.querySelector('script[src*="multigrid.js"]').dataset.isSysadmin
+'1'
+document.querySelectorAll('script[src*="multigrid.js"]').length
+1
+fetch(document.querySelector('script[src*="multigrid.js"]').src).then(r=>r.text()).then(t=>console.log(t.includes('preview; no storage writes'), t.includes('mst-preview-exit')))
+
+Promise {<pending>}
+VM56:1 false false
+
+
+//
+
+['localStorage','sessionStorage'].forEach(s=>console.log(s, Object.keys(window[s]).filter(k=>k.startsWith('lp-mst'))))
+
+VM48:1 localStorage ['lp-mst-returning:oitauslumags']
+VM48:1 sessionStorage []
+undefined
+['localStorage','sessionStorage'].forEach(s=>console.log(s, Object.keys(window[s]).filter(k=>k.startsWith('lp-mst'))))
+
+VM56:1 localStorage (2) ['lp-mst-collapsed:oitauslumags', 'lp-mst-returning:oitauslumags']
+VM56:1 sessionStorage []
+undefined
+fetch(document.querySelector('script[src*="multigrid.js"]').src,{cache:'no-store'}).then(r=>r.text()).then(t=>console.log({sessionStorage:t.includes('sessionStorage'),oldStrip:t.includes('mst-preview-exit'),lastModifiedHeader:null}))
+Promise {<pending>, then: ƒ}
+VM62:1 {sessionStorage: false, oldStrip: true, lastModifiedHeader: null}
+fetch(document.querySelector('script[src*="multigrid.js"]').src,{cache:'no-store'}).then(r=>r.text()).then(t=>console.log({sessionStorage:t.includes('sessionStorage'),oldStrip:t.includes('mst-preview-exit'),lastModifiedHeader:null}))
+Promise {<pending>, then: ƒ}
+VM68:1 {sessionStorage: false, oldStrip: true, lastModifiedHeader: null}
+
