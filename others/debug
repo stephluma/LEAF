@@ -1,8 +1,5 @@
-const q={terms:[{id:"categoryID",operator:"=",match:"form_57e89",gate:"AND"},{id:"deleted",operator:"=",match:0,gate:"AND"}],joins:["categoryNameUnabridged"],sort:{},getData:[]};
-const d=await (await fetch(`./api/form/query/?q=${encodeURIComponent(JSON.stringify(q))}&x-filterData=recordID,categoryNamesUnabridged`,{credentials:"same-origin"})).json();
-const t={}; Object.values(d).forEach(x=>(x.categoryNamesUnabridged||[]).forEach(n=>t[n]=(t[n]||0)+1)); console.table(t);
-const c=await (await fetch("./api/formStack/categoryList/allWithStaples",{credentials:"same-origin"})).json();
-console.table(c.map(f=>({id:f.categoryID,name:f.categoryName,needToKnow:f.needToKnow,staples:(f.stapledFormIDs||[]).join(",")})));
-VM173:3 
-VM173:5 (index)idnameneedToKnowstaples(index)idnameneedToKnowstaples0'form_ae642''Idea Submission'0''1'form_935d1''LEAF Internal Review'1''Array(2)
+const q={terms:[{id:"categoryID",operator:"=",match:"form_ae642",gate:"AND"},{id:"deleted",operator:"=",match:0,gate:"AND"}],joins:["categoryNameUnabridged"],sort:{},getData:[]};
+const d=await (await fetch(`./api/form/query/?q=${encodeURIComponent(JSON.stringify(q))}&x-filterData=recordID,date,categoryNamesUnabridged`,{credentials:"same-origin"})).json();
+console.table(Object.values(d).filter(x=>!(x.categoryNamesUnabridged||[]).includes("LEAF Internal Review")).map(x=>({recordID:x.recordID,date:new Date(x.date*1000).toLocaleDateString()})));
+VM178:3 (index)recordIDdate(index)recordIDdate0636'9/30/2026'1637'9/30/2026'2638'10/1/2026'Array(3)
 undefined
