@@ -1,15 +1,48 @@
-admin output:
-
-ideas_v4.js:2582 [ipdebug] unpaged {header: null, count: 483, recordIDs: Array(483)}
-ideas_v4.js:2598 [ipdebug] page 0 {header: null, count: 100}
-ideas_v4.js:2598 [ipdebug] page 1 {header: null, count: 100}
-ideas_v4.js:2598 [ipdebug] page 2 {header: null, count: 100}
-ideas_v4.js:2598 [ipdebug] page 3 {header: null, count: 100}
-ideas_v4.js:2598 [ipdebug] page 4 {header: null, count: 83}
-ideas_v4.js:2598 [ipdebug] page 5 {header: null, count: 0}
-ideas_v4.js:2605 [ipdebug] paged {count: 483, moreThanUnpaged: false, newRecordIDs: Array(0)}
-ideas_v4.js:2634 (index)formrecordsneedToKnowparent(index)formrecordsneedToKnowparent0'form_935d1'4801'form_ae642'1'form_ae642'4830''Array(2)
-ideas_v4.js:2646 [ipdebug] forms with needToKnow=1 on this site ['form_935d1']
-   await fetch("./api/formEditor/formNeedToKnow", { method: "POST", credentials: "same-origin",
-     body: new URLSearchParams({ categoryID: "form_935d1", needToKnow: "0", CSRFToken: window.leafIdeaPortal.csrfToken }) });
-Response {type: 'basic', url: 'https://leaf.va.gov/platform/ideas/api/formEditor/formNeedToKnow', redirected: false, status: 200, ok: true, …}
+align-itemscenter
+border-collapsecollapse
+box-sizingborder-box
+colorrgb(0, 0, 0)
+column-gap4px
+cursorpointer
+displayflex
+font-familyverdana
+font-feature-settingsnormal
+font-kerningauto
+font-language-overridenormal
+font-optical-sizingauto
+font-size12.48px
+font-size-adjustnone
+font-stretch100%
+font-stylenormal
+font-variant-alternatesnormal
+font-variant-capsnormal
+font-variant-east-asiannormal
+font-variant-emojinormal
+font-variant-ligaturesnormal
+font-variant-numericnormal
+font-variant-positionnormal
+font-variation-settingsnormal
+font-weight400
+height15.3333px
+letter-spacingnormal
+line-heightnormal
+margin-bottom0px
+margin-left0px
+margin-right0px
+margin-top0px
+padding-bottom0px
+padding-left0px
+padding-right0px
+padding-top0px
+row-gap4px
+text-aligncenter
+text-indent0px
+text-renderingauto
+text-shadownone
+text-transformnone
+text-wrap-modenowrap
+white-space-collapsecollapse
+width55.0625px
+word-spacing0px
+-webkit-border-horizontal-spacing2px
+-webkit-border-vertical-spacing2px
