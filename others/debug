@@ -1,35 +1,107 @@
-ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272  GET https://leaf.va.gov/platform/ideas/ajaxIndex.php?a=getindicator&indicatorID=9&series=1&recordID=0 500 (Internal Server Error)
+admin output:
+
+ideas_v4.js:2582 [ipdebug] unpaged {header: null, count: 483, recordIDs: Array(483)}
+ideas_v4.js:2598 [ipdebug] page 0 {header: null, count: 100}
+ideas_v4.js:2598 [ipdebug] page 1 {header: null, count: 100}
+ideas_v4.js:2598 [ipdebug] page 2 {header: null, count: 100}
+ideas_v4.js:2598 [ipdebug] page 3 {header: null, count: 100}
+ideas_v4.js:2598 [ipdebug] page 4 {header: null, count: 83}
+ideas_v4.js:2598 [ipdebug] page 5 {header: null, count: 0}
+ideas_v4.js:2605 [ipdebug] paged {count: 483, moreThanUnpaged: false, newRecordIDs: Array(0)}
+ideas_v4.js:2634 (index)formrecordsneedToKnowparent(index)formrecordsneedToKnowparent0'form_935d1'4801'form_ae642'1'form_ae642'4830''Array(2)
+ideas_v4.js:2646 [ipdebug] forms with needToKnow=1 on this site ['form_935d1']
+
+
+non-admin output:
+
+rruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272  GET https://leaf.va.gov/platform/ideas/ajaxIndex.php?a=getindicator&indicatorID=8&series=1&recordID=0 500 (Internal Server Error)
+
 dtAWF @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272
+
 da @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:276
+
 fetch @ ideas_v4.js:54
-loadImpactOptions @ ideas_v4.js:3483
-initPortal @ ideas_v4.js:4237
-start @ ideas_v4.js:76
-init @ ideas_v4.js:4293
-(anonymous) @ ideas_v4.js:4302
-ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272  GET https://leaf.va.gov/platform/ideas/ajaxIndex.php?a=getindicator&indicatorID=8&series=1&recordID=0 500 (Internal Server Error)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272
-da @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:276
-fetch @ ideas_v4.js:54
+
 loadCategoryOptions @ ideas_v4.js:3452
+
 initPortal @ ideas_v4.js:4236
+
 start @ ideas_v4.js:76
+
 init @ ideas_v4.js:4293
+
 (anonymous) @ ideas_v4.js:4302
+
 ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272  GET https://leaf.va.gov/platform/ideas/ajaxIndex.php?a=getindicator&indicatorID=12&series=1&recordID=0 500 (Internal Server Error)
+
 dtAWF @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272
+
 da @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:276
+
 fetch @ ideas_v4.js:54
+
 loadStatusOptions @ ideas_v4.js:3511
+
 initPortal @ ideas_v4.js:4238
+
 start @ ideas_v4.js:76
+
 init @ ideas_v4.js:4293
+
 (anonymous) @ ideas_v4.js:4302
+
 ideas_v4.js:3524 [IdeaPortal] Could not load live status options for indicator 12: Error: no options
+
     at loadStatusOptions (ideas_v4.js:3518:44)
+
 loadStatusOptions @ ideas_v4.js:3524
+
 await in loadStatusOptions
+
 initPortal @ ideas_v4.js:4238
+
 start @ ideas_v4.js:76
+
 init @ ideas_v4.js:4293
+
 (anonymous) @ ideas_v4.js:4302
+
+ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272  GET https://leaf.va.gov/platform/ideas/ajaxIndex.php?a=getindicator&indicatorID=9&series=1&recordID=0 500 (Internal Server Error)
+
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272
+
+da @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:276
+
+fetch @ ideas_v4.js:54
+
+loadImpactOptions @ ideas_v4.js:3483
+
+initPortal @ ideas_v4.js:4237
+
+start @ ideas_v4.js:76
+
+init @ ideas_v4.js:4293
+
+(anonymous) @ ideas_v4.js:4302
+
+ideas_v4.js:2582 [ipdebug] unpaged {header: 'continue', count: 5, recordIDs: Array(5)}
+
+ideas_v4.js:2598 [ipdebug] page 0 {header: 'continue', count: 0}
+
+ideas_v4.js:2598 [ipdebug] page 1 {header: 'continue', count: 1}
+
+ideas_v4.js:2598 [ipdebug] page 2 {header: 'continue', count: 0}
+
+ideas_v4.js:2598 [ipdebug] page 3 {header: 'continue', count: 0}
+
+ideas_v4.js:2598 [ipdebug] page 4 {header: 'continue', count: 4}
+
+ideas_v4.js:2598 [ipdebug] page 5 {header: null, count: 0}
+
+ideas_v4.js:2605 [ipdebug] paged {count: 5, moreThanUnpaged: false, newRecordIDs: Array(0)}
+
+ideas_v4.js:2634 (index)formrecordsneedToKnowparent(index)formrecordsneedToKnowparent0'form_935d1'21'form_ae642'1'form_ae642'50''Array(2)
+
+ideas_v4.js:2646 [ipdebug] forms with needToKnow=1 on this site ['form_935d1']
+
+ 
