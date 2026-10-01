@@ -1,29 +1,19 @@
-document.querySelector('script[src*="multigrid.js"]').dataset.isSysadmin
-'1'
-document.querySelectorAll('script[src*="multigrid.js"]').length
-1
-fetch(document.querySelector('script[src*="multigrid.js"]').src).then(r=>r.text()).then(t=>console.log(t.includes('preview; no storage writes'), t.includes('mst-preview-exit')))
+subscription:
+launchpad/#home:2261 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
+[Violation] Forced reflow while executing JavaScript took 48ms
+ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272  POST https://leaf.va.gov/platform/service_requests_launchpad/api/form/new 401 (Unauthorized)
+dtAWF @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272
+da @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:276
+apiPost @ launchpad/:1639
+subscribe @ launchpad/:1667
+(anonymous) @ launchpad/:1714
+launchpad/:1723 [Newsletter] subscription failed: Error: POST api/form/new -> HTTP 401
+    at apiPost (launchpad/:1649:30)
+    at async subscribe (launchpad/:1667:29)
+(anonymous) @ launchpad/:1723
+Promise.catch
+(anonymous) @ launchpad/:1722
 
-Promise {<pending>}
-VM56:1 false false
 
-
-//
-
-['localStorage','sessionStorage'].forEach(s=>console.log(s, Object.keys(window[s]).filter(k=>k.startsWith('lp-mst'))))
-
-VM48:1 localStorage ['lp-mst-returning:oitauslumags']
-VM48:1 sessionStorage []
-undefined
-['localStorage','sessionStorage'].forEach(s=>console.log(s, Object.keys(window[s]).filter(k=>k.startsWith('lp-mst'))))
-
-VM56:1 localStorage (2) ['lp-mst-collapsed:oitauslumags', 'lp-mst-returning:oitauslumags']
-VM56:1 sessionStorage []
-undefined
-fetch(document.querySelector('script[src*="multigrid.js"]').src,{cache:'no-store'}).then(r=>r.text()).then(t=>console.log({sessionStorage:t.includes('sessionStorage'),oldStrip:t.includes('mst-preview-exit'),lastModifiedHeader:null}))
-Promise {<pending>, then: ƒ}
-VM62:1 {sessionStorage: false, oldStrip: true, lastModifiedHeader: null}
-fetch(document.querySelector('script[src*="multigrid.js"]').src,{cache:'no-store'}).then(r=>r.text()).then(t=>console.log({sessionStorage:t.includes('sessionStorage'),oldStrip:t.includes('mst-preview-exit'),lastModifiedHeader:null}))
-Promise {<pending>, then: ƒ}
-VM68:1 {sessionStorage: false, oldStrip: true, lastModifiedHeader: null}
-
+feedback modal:
+Feedback can't be submitted right now (missing session token). Please try again later.
