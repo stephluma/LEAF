@@ -1,3 +1,37 @@
-https://leaf.va.gov/platform/service_requests_launchpad/report.php?a=LEAF_Start_Request&id=form_68543&title=UX+Participant+Registration
-
-https://leaf.va.gov/platform/support/report.php?a=LEAF_Start_Request&id=form_ba7de&title=Consultation+Request+from+Launchpad
+launchpad/#home:1250 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
+VM350:496 [TeamHub TEMP] initial: 31 records returned
+VM350:499 Array(31)
+const m = document.getElementById('thbModal');
+const c = document.getElementById('thbModalClose');
+const r = c.getBoundingClientRect();
+const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+console.log('modal copies:', document.querySelectorAll('#thbModal').length);
+console.log('element under close button:', hit, '| is close button:', c.contains(hit));
+const chain = []; let n = m;
+while (n && n !== document.documentElement) {
+  const cs = getComputedStyle(n);
+  chain.push({ tag: n.tagName, id: n.id, inert: n.inert, ariaHidden: n.getAttribute('aria-hidden'), pointerEvents: cs.pointerEvents, position: cs.position, zIndex: cs.zIndex, transform: cs.transform !== 'none' });
+  n = n.parentElement;
+}
+console.table(chain);
+VM400:5 modal copies: 1
+VM400:6 element under close button: <div id=​"bodyarea">​…​</div>​ | is close button: false
+VM400:13 (index)tagidinertariaHiddenpointerEventspositionzIndextransform(index)tagidinertariaHiddenpointerEventspositionzIndextransform0'DIV''thbModal'false'false''auto''fixed''2147483000'false1'DIV''bodyarea'falsenull'auto''static''auto'false2'DIV'''falsenull'auto''static''auto'false3'DIV''lpSwapHost'falsenull'auto''relative''1'false4'DIV''lp-root'truenull'auto''static''auto'false5'DIV''bodyarea'falsenull'auto''static''auto'false6'DIV''content'falsenull'auto''static''auto'false7'MAIN''body'falsenull'auto''static''auto'false8'BODY'''falsenull'auto''static''auto'falseArray(9)
+undefined
+const m = document.getElementById('thbModal');
+const c = document.getElementById('thbModalClose');
+const r = c.getBoundingClientRect();
+const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+console.log('modal copies:', document.querySelectorAll('#thbModal').length);
+console.log('element under close button:', hit, '| is close button:', c.contains(hit));
+const chain = []; let n = m;
+while (n && n !== document.documentElement) {
+  const cs = getComputedStyle(n);
+  chain.push({ tag: n.tagName, id: n.id, inert: n.inert, ariaHidden: n.getAttribute('aria-hidden'), pointerEvents: cs.pointerEvents, position: cs.position, zIndex: cs.zIndex, transform: cs.transform !== 'none' });
+  n = n.parentElement;
+}
+console.table(chain);
+VM465:5 modal copies: 1
+VM465:6 element under close button: <div id=​"bodyarea">​…​</div>​ | is close button: false
+VM465:13 (index)tagidinertariaHiddenpointerEventspositionzIndextransform(index)tagidinertariaHiddenpointerEventspositionzIndextransform0'DIV''thbModal'false'false''auto''fixed''2147483000'false1'DIV''bodyarea'falsenull'auto''static''auto'false2'DIV'''falsenull'auto''static''auto'false3'DIV''lpSwapHost'falsenull'auto''relative''1'false4'DIV''lp-root'truenull'auto''static''auto'false5'DIV''bodyarea'falsenull'auto''static''auto'false6'DIV''content'falsenull'auto''static''auto'false7'MAIN''body'falsenull'auto''static''auto'false8'BODY'''falsenull'auto''static''auto'falseArray(9)
+undefined
