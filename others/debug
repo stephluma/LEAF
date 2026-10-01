@@ -1,8 +1,8 @@
-const q={terms:[{id:"categoryID",operator:"=",match:"form_ae642",gate:"AND"},{id:"deleted",operator:"=",match:0,gate:"AND"}],joins:["categoryNameUnabridged"],sort:{},getData:[]};
+const q={terms:[{id:"categoryID",operator:"=",match:"form_57e89",gate:"AND"},{id:"deleted",operator:"=",match:0,gate:"AND"}],joins:["categoryNameUnabridged"],sort:{},getData:[]};
 const d=await (await fetch(`./api/form/query/?q=${encodeURIComponent(JSON.stringify(q))}&x-filterData=recordID,categoryNamesUnabridged`,{credentials:"same-origin"})).json();
 const t={}; Object.values(d).forEach(x=>(x.categoryNamesUnabridged||[]).forEach(n=>t[n]=(t[n]||0)+1)); console.table(t);
 const c=await (await fetch("./api/formStack/categoryList/allWithStaples",{credentials:"same-origin"})).json();
 console.table(c.map(f=>({id:f.categoryID,name:f.categoryName,needToKnow:f.needToKnow,staples:(f.stapledFormIDs||[]).join(",")})));
-VM137:3 (index)Value(index)ValueLEAF Internal Review480Idea Submission483Object
-VM137:5 (index)idnameneedToKnowstaples(index)idnameneedToKnowstaples0'form_ae642''Idea Submission'0''1'form_935d1''LEAF Internal Review'1''Array(2)
+VM173:3 
+VM173:5 (index)idnameneedToKnowstaples(index)idnameneedToKnowstaples0'form_ae642''Idea Submission'0''1'form_935d1''LEAF Internal Review'1''Array(2)
 undefined
