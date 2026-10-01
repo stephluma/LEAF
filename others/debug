@@ -1,19 +1,10 @@
-subscription:
-launchpad/#home:2261 [Intervention] Images loaded lazily and replaced with placeholders. Load events are deferred. See https://go.microsoft.com/fwlink/?linkid=2048113
-[Violation] Forced reflow while executing JavaScript took 48ms
-ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272  POST https://leaf.va.gov/platform/service_requests_launchpad/api/form/new 401 (Unauthorized)
-dtAWF @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:272
-da @ ruxitagentjs_ICA7NVfhqrux_10343260715123811.js:276
-apiPost @ launchpad/:1639
-subscribe @ launchpad/:1667
-(anonymous) @ launchpad/:1714
-launchpad/:1723 [Newsletter] subscription failed: Error: POST api/form/new -> HTTP 401
-    at apiPost (launchpad/:1649:30)
-    at async subscribe (launchpad/:1667:29)
-(anonymous) @ launchpad/:1723
-Promise.catch
-(anonymous) @ launchpad/:1722
-
-
-feedback modal:
-Feedback can't be submitted right now (missing session token). Please try again later.
+["", "report.php?a=LEAF_Start_Request&id=form_9015b"].forEach(async (p) => {
+  const url = "https://leaf.va.gov/platform/service_requests_launchpad/" + p;
+  const r = await fetch(url, { credentials: "include" });
+  const t = await r.text();
+  const m = t.match(/CSRFToken['"]?\s*[:=]\s*['"]([^'"]+)['"]/i);
+  console.log(url, r.status, m ? m[0].replace(m[1], "<token>") : "NO TOKEN FOUND");
+});
+undefined
+VM640:6 https://leaf.va.gov/platform/service_requests_launchpad/report.php?a=LEAF_Start_Request&id=form_9015b 200 NO TOKEN FOUND
+VM640:6 https://leaf.va.gov/platform/service_requests_launchpad/ 200 NO TOKEN FOUND
