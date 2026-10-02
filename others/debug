@@ -4,41 +4,4 @@ report that we could just point to from an email, that was organized by Primary 
 
 Organize by email, list their sites. 
 
-https://leaf.va.gov/platform/service_requests_launchpad/api/form/query/?q={"terms":[{"id":"categoryID","operator":"=","match":"form_b8d63","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["493","494","498","500","499","501","497","496"]}&x-filterData=recordID,
-
-report.php?a=lp_leadership:763 [LeadershipHub] Record 19711: skipped — Card Name is blank.
-(anonymous) @ report.php?a=lp_leadership:763
-buildCards @ report.php?a=lp_leadership:757
-loadCards @ report.php?a=lp_leadership:1006
-await in loadCards
-init @ report.php?a=lp_leadership:1285
-report.php?a=lp_leadership:763 [LeadershipHub] Record 19712: skipped — Card Name is blank.
-(anonymous) @ report.php?a=lp_leadership:763
-buildCards @ report.php?a=lp_leadership:757
-loadCards @ report.php?a=lp_leadership:1006
-await in loadCards
-init @ report.php?a=lp_leadership:1285
-report.php?a=lp_leadership:763 [LeadershipHub] Record 19713: skipped — Card Name is blank.
-(anonymous) @ report.php?a=lp_leadership:763
-buildCards @ report.php?a=lp_leadership:757
-loadCards @ report.php?a=lp_leadership:1006
-await in loadCards
-init @ report.php?a=lp_leadership:1285
-report.php?a=lp_leadership:763 [LeadershipHub] Record 19714: skipped — Card Name is blank.
-(anonymous) @ report.php?a=lp_leadership:763
-buildCards @ report.php?a=lp_leadership:757
-loadCards @ report.php?a=lp_leadership:1006
-await in loadCards
-init @ report.php?a=lp_leadership:1285
-report.php?a=lp_leadership:763 [LeadershipHub] Record 19715: skipped — Card Name is blank.
-(anonymous) @ report.php?a=lp_leadership:763
-buildCards @ report.php?a=lp_leadership:757
-loadCards @ report.php?a=lp_leadership:1006
-await in loadCards
-init @ report.php?a=lp_leadership:1285
-report.php?a=lp_leadership:763 [LeadershipHub] Record 19716: skipped — Card Name is blank.
-(anonymous) @ report.php?a=lp_leadership:763
-buildCards @ report.php?a=lp_leadership:757
-loadCards @ report.php?a=lp_leadership:1006
-await in loadCards
-init @ report.php?a=lp_leadership:1285
+{"19711":{"recordID":19711,"s1":{"id493":"LEAF Command Center","id494":"https:\/\/leaf.va.gov\/platform\/calendar\/","id498":"LEAF team meetings, action items, and coverage \u2014 organized and always up to date.","id500":"Open command center","id499":"Live","id501":"hub","id497":"1","id496":"No"}},"19712":{"recordID":19712,"s1":{"id493":"Project Dashboard","id494":"https:\/\/leaf.va.gov\/platform\/projects\/","id498":"Team tracker for projects, tasks, and OKRs across the LEAF team.","id500":"Open dashboard","id499":"Live","id501":"dashboard","id497":"2","id496":"No"}},"19713":{"recordID":19713,"s1":{"id493":"Impact Map","id494":"https:\/\/leaf.va.gov\/launchpad\/report.php?a=impact_map","id498":"Search facilities using LEAF and explore national usage, adoption and utilization rates, and top use cases.","id500":"Open map","id499":"Live","id501":"map","id497":"3","id496":"No"}},"19714":{"recordID":19714,"s1":{"id493":"Support Services","id494":"https:\/\/app.powerbigov.us\/reportEmbed?reportId=4edaaa11-3794-4ceb-bacd-15978d94415d&amp;appId=bc14ee51-602f-4786-842e-f6162f360b9b&amp;autoAuth=true&amp;ctid=e95f1b23-abaf-45ee-821d-b7ab251ab3bf","id498":"Service volume, response times, and support performance metrics.","id500":"View report","id499":"Power BI","id501":"support_agent","id497":"4","id496":"Yes"}},"19715":{"recordID":19715,"s1":{"id493":"Customer Feedback","id494":"https:\/\/app.powerbigov.us\/reportEmbed?reportId=962c98ea-2211-4403-aa35-076b453a47a1&amp;appId=bc14ee51-602f-4786-842e-f6162f360b9b&amp;autoAuth=true&amp;ctid=e95f1b23-abaf-45ee-821d-b7ab251ab3bf","id498":"Satisfaction scores, sentiment, and feedback trends over time.","id500":"View report","id499":"Power BI","id501":"reviews","id497":"5","id496":"Yes"}},"19716":{"recordID":19716,"s1":{"id493":"Community Ideas","id494":"https:\/\/app.powerbigov.us\/reportEmbed?reportId=76d43845-3a03-49c0-a8b3-1c121be0c8e7&amp;appId=bc14ee51-602f-4786-842e-f6162f360b9b&amp;autoAuth=true&amp;ctid=e95f1b23-abaf-45ee-821d-b7ab251ab3bf","id498":"Submitted ideas from the LEAF Community, voting activity, and status.","id500":"View report","id499":"Power BI","id501":"lightbulb","id497":"6","id496":"Yes"}}}
