@@ -5,3 +5,40 @@ report that we could just point to from an email, that was organized by Primary 
 Organize by email, list their sites. 
 
 https://leaf.va.gov/platform/service_requests_launchpad/api/form/query/?q={"terms":[{"id":"categoryID","operator":"=","match":"form_b8d63","gate":"AND"},{"id":"deleted","operator":"=","match":0,"gate":"AND"}],"joins":[],"sort":{},"getData":["493","494","498","500","499","501","497","496"]}&x-filterData=recordID,
+
+report.php?a=lp_leadership:763 [LeadershipHub] Record 19711: skipped — Card Name is blank.
+(anonymous) @ report.php?a=lp_leadership:763
+buildCards @ report.php?a=lp_leadership:757
+loadCards @ report.php?a=lp_leadership:1006
+await in loadCards
+init @ report.php?a=lp_leadership:1285
+report.php?a=lp_leadership:763 [LeadershipHub] Record 19712: skipped — Card Name is blank.
+(anonymous) @ report.php?a=lp_leadership:763
+buildCards @ report.php?a=lp_leadership:757
+loadCards @ report.php?a=lp_leadership:1006
+await in loadCards
+init @ report.php?a=lp_leadership:1285
+report.php?a=lp_leadership:763 [LeadershipHub] Record 19713: skipped — Card Name is blank.
+(anonymous) @ report.php?a=lp_leadership:763
+buildCards @ report.php?a=lp_leadership:757
+loadCards @ report.php?a=lp_leadership:1006
+await in loadCards
+init @ report.php?a=lp_leadership:1285
+report.php?a=lp_leadership:763 [LeadershipHub] Record 19714: skipped — Card Name is blank.
+(anonymous) @ report.php?a=lp_leadership:763
+buildCards @ report.php?a=lp_leadership:757
+loadCards @ report.php?a=lp_leadership:1006
+await in loadCards
+init @ report.php?a=lp_leadership:1285
+report.php?a=lp_leadership:763 [LeadershipHub] Record 19715: skipped — Card Name is blank.
+(anonymous) @ report.php?a=lp_leadership:763
+buildCards @ report.php?a=lp_leadership:757
+loadCards @ report.php?a=lp_leadership:1006
+await in loadCards
+init @ report.php?a=lp_leadership:1285
+report.php?a=lp_leadership:763 [LeadershipHub] Record 19716: skipped — Card Name is blank.
+(anonymous) @ report.php?a=lp_leadership:763
+buildCards @ report.php?a=lp_leadership:757
+loadCards @ report.php?a=lp_leadership:1006
+await in loadCards
+init @ report.php?a=lp_leadership:1285
