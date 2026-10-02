@@ -1,0 +1,372 @@
+<script>
+  window.location.replace("/launchpad/#find_site");
+</script>
+
+<script src="../libs/js/LEAF/intervalQueue.js"></script>
+<script src="./files/visnFacilityHelper.js"></script>
+<style>
+p, li {
+    font-size: 1rem;
+    line-height: 1.4rem;
+}
+hr {
+    margin: 2rem;
+}
+</style>
+<script>
+
+function checkActive(siteURL) {
+    let today = new Date();
+	let minDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+	let maxDate = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+    
+    return $.ajax({
+    	type: 'GET',
+        url: siteURL + '/api/telemetry/simple/requests?startTime='+ Math.round(minDate / 1000) +'&endTime=' + Math.round(maxDate / 1000)
+    });
+}
+
+var activeSites = {};
+function loadSites(sites) {
+    $('#progressContainer').slideDown();
+    $('#stationSearch').fadeOut();
+    let queue = new intervalQueue();
+    let allSites = [];
+    for(let i in sites) {
+        queue.push({rootURL: sites[i].s1.id22, siteName: sites[i].s1.id21});
+        allSites.push('/' + sites[i].s1.id22 + '/' + sites[i].s1.id21);
+    }
+    
+    let queueLength = Object.keys(sites).length;
+    $('#progressbar').progressbar();
+    $('#progressbar').progressbar('option', 'max', queueLength);
+    $('#countSitesContainer').css('display', 'inline');
+    $('#numTotalSites').html(queueLength);
+    
+    let processes = {};
+    let siteLabels = {};
+    let sitePrimaryAdmin = {};
+    queue.setWorker(item => {
+        $('#progressbar').progressbar('option', 'value', queue.getLoaded());
+        $('#numLoadedSites').html(queue.getLoaded());
+        
+        let siteURL = '/' + item.rootURL + '/' + item.siteName;
+        return checkActive(siteURL).then(res => {
+        	if(res.length >= 1) { // probably active site // TODO: Need a better marker
+                activeSites[siteURL] = '';
+                return $.ajax({
+                	type: 'GET',
+                    url: siteURL + '/api/formStack/categoryList/all?x-filterData=workflowID,categoryName,visible,disabled'
+                }).then(forms => {
+                	forms.forEach(form => {
+                    	if(form.workflowID != 0
+                          && form.visible == 1
+                          && form.disabled == 0) {
+                            if(processes[siteURL] == undefined) {
+                                processes[siteURL] = {};
+                            }
+                            processes[siteURL][form.categoryName] = 1;
+                        }
+                    });
+                }).then(function() {
+                    return $.ajax({
+                        type: 'GET',
+                        url: siteURL + '/api/system/settings'
+                    }).then(res2 => {
+                        siteLabels[siteURL] = res2.heading == '' ? siteURL : res2.heading;
+                    });
+                });
+            }
+        });
+    });
+    
+    queue.start().then(() => {
+        let buffer = '';
+        
+        let s = Object.entries(siteLabels);
+        s.sort((a, b) => {
+            if(a[1] < b[1]) {
+                return -1;
+            }
+            if(a[1] > b[1]) {
+                return 1;
+            }
+            return 0;
+        });
+
+        let activeCounter = 0;
+        let activeForms = 0;
+        for(let i in s) {
+            activeCounter++;
+            let siteURL = s[i][0];
+            buffer += `<h2>${siteLabels[siteURL]}</h2><ul>`;
+            if(processes[siteURL] != undefined) {
+                let p = Object.keys(processes[siteURL]).sort();
+                for(let j in p) {
+                    buffer += `<li><a href="${siteURL}" target="_blank">${p[j]}</a></li>`;
+                    activeForms++;
+                }
+            }
+            else {
+                buffer += `<li><a href="${siteURL}" target="_blank">${siteURL}</a></li>`;
+            }
+            buffer += '</ul>';
+        }
+        
+        buffer += '<br /><p id="admins"><button onclick="showAdmins()" class="buttonNorm">Show Admins</button></p>';
+        buffer += `<p>${activeCounter} sites, ~${activeForms} forms</p>`;
+        
+        $('#stationSearch').html(buffer);
+        
+        $('#progressContainer').slideUp();
+        $('#stationSearch').fadeIn();
+    });
+}
+
+function showAdmins() {
+    document.querySelector('#admins').innerHTML = 'Loading...';
+    let queue = new intervalQueue();
+    queue.setQueue(Object.keys(activeSites));
+    queue.setWorker(item => {
+    	return fetch(`${item}/api/system/primaryadmin`)
+            .then(res => res.json())
+        	.then(data => {
+                if(data.email != undefined) {
+        			activeSites[item] = data.email;
+                }
+        });
+    });
+    queue.start().then(() => {
+    	let buffer = '<table class="table"><thead><td>Site</td><td>Primary Admin</td></thead><tbody>';
+        for(let i in activeSites) {
+            buffer += `<tr>
+						<td>https://leaf.va.gov${i}</td>
+						<td>${activeSites[i]}</td>
+    				   </tr>`;
+        }
+        buffer += '</tbody></table>';
+        document.querySelector('#admins').innerHTML = buffer;
+    });
+}
+
+function findSite() {
+    if (!$('#stationNumber').val()) {
+        $('#stationSearchContainer').css('display', 'none');
+        $('#notifySearchContainer').css('display', 'block');
+    } else {
+        $('#notifySearchContainer').css('display', 'none');
+        $('#stationSearchContainer').css('display', 'block');
+        let query = new LeafFormQuery();
+        if (!$('#stationNumber').val()) {
+            if ($('#visn').val() && $('#state').val()) {
+                query.addDataTerm('data', 2, '=', `VISN ${$('#visn').val()}`);
+                query.addDataTerm('data', 37, '=', $('#state').val(), 'AND');
+            } else if ($('#visn').val() && !$('#state').val()) {
+                query.addDataTerm('data', 2, '=', `VISN ${$('#visn').val()}`);
+            } else if (!$('#visn').val() && $('#state').val()) {
+                query.addDataTerm('data', 37, '=', $('#state').val());
+            } else {
+                // TODO: Create message to display for notification of selection
+            }
+        } else {
+            query.addDataTerm('data', 26, '=', $('#stationNumber').val());
+            query.addDataTerm('data', 376, '=', $('#stationNumber').val(), 'OR');
+        }
+        query.addTerm('stepID', '=', '64');
+        query.addTerm('deleted', '=', 0);
+        query.addDataTerm('data', 36, '=', 'No'); // Test site
+        query.getData(22); // root dir
+        query.getData(21); // site name
+        query.execute().then(v => loadSites(v));
+    }
+}
+    
+function getVisnFacilities(facilityHelper, staticStates, isState) {
+    let facilityCodes = facilityHelper.getFacilityCodes();
+    let selectedVisn = $('#visn').val();
+    let selectedState = $('#state').val();
+    let buf = '<option value="">Select a facility</option>';
+    let bufState = '<option value="">Select a state or district</option>';
+    let facilities = isState && selectedState ? facilityHelper.searchState(selectedState) : facilityHelper.searchVisn(selectedVisn);
+    facilities = facilities.sort((a, b) => {
+        if(a.name < b.name) {
+            return -1;
+        }
+        if(a.name > b.name) {
+            return 1;
+        }
+        return 0;
+    });
+    let statesPopulated = [];
+    let populatedFacilities = {};
+    facilities.forEach(facility => {
+        if(facility.class == 'VA Medical Center (VAMC)' && !statesPopulated.includes(facility.state)) {
+            statesPopulated.push(facility.state);
+            bufState += `<option value="${facility.state}">${facility.state}</option>`;
+        }
+        if(facility.class == 'VA Medical Center (VAMC)') {
+            populatedFacilities[facility.code] = facility.name;
+            buf += `<option value="${facility.code}">${facility.name} (${facility.code})</option>`;
+        }
+    });
+    if (!isState || !selectedState) {
+        if (!selectedVisn) {
+            $('#state').html(staticStates);
+        } else {
+            $('#state').html(bufState);
+        }
+    }
+    $('#facility').html(buf);
+    
+    if ($('#showVisn').prop('checked')) {
+        getVisnData(selectedState, selectedVisn, isState).then(results => {
+            const longestByStation = {};
+            Object.values(results).forEach(facility => {
+                let stationId = facility.s1.id26;
+                const name = facility.s1.id3;
+                if (facility.s1.id26 == 'Other') {
+                    stationId = facility.s1.id376;
+                }
+                if (!facilityCodes.includes(stationId) && stationId) {
+                    if (!longestByStation[stationId] || name.length > longestByStation[stationId]) {
+                        longestByStation[stationId] = name;
+                    }
+                }
+            });
+            Object.assign(longestByStation, populatedFacilities);
+            buf = '<option value="">Select a facility</option>';
+            Object.entries(longestByStation).sort(([, a], [, b]) => a.localeCompare(b)).forEach(([id, name]) => {
+                buf += `<option value="${id}">${name} (${id})</option>`;
+            });
+            $('#facility').html(buf);
+        }).catch(err => console.log(err));
+    }
+}
+    
+function getVisnData(state, visn, isState) {
+    return new Promise(function(resolve){
+        let query = new LeafFormQuery();
+        query.addTerm('stepID', '=', 'resolved');
+        query.addTerm('deleted', '=', 0);
+        query.addDataTerm('data', 36, '=', 'No'); // Test site
+        if (isState && state) {
+        	query.addDataTerm('data', 37, '=', `${state}`);
+        } else {
+            query.addDataTerm('data', 2, '=', `VISN ${visn}`);
+        }
+        query.getData(3); // Facility/station name
+        query.getData(26); // Station ID
+        query.getData(376); // Other Station ID
+        query.onSuccess(function(res){resolve(res);});
+        query.execute();
+    });
+}
+
+$(function() {
+    document.querySelector('title').innerText = 'Find LEAF Site';
+
+    $('#search').on('click', function() {
+		findSite();
+    });
+    $('#stationNumber').on('keydown', e => {
+    	if(e.key == 'Enter') {
+            e.preventDefault();
+            findSite();
+        }
+    });
+    
+    var facilityHelper = new VAFacilityHelper();
+    let buf = '<option value="">Select a VISN</option>';
+    facilityHelper.getVisns().forEach(visn => {
+    	buf += `<option value="${visn}">${visn}</option>`;
+    });
+    $('#visn').html(buf);
+    
+    let staticStates = '<option value="">Select a state or district</option>';
+    facilityHelper.getStates().forEach(state => {
+    	staticStates += `<option value="${state}">${state}</option>`;
+    });
+    $('#state').html(staticStates);
+    
+    $('#visn').on('change', function() {
+        if ($('#showFacility').css('display') !== 'block') {
+        	$('#showFacility').css('display', 'block');
+        }
+    	getVisnFacilities(facilityHelper, staticStates, false);
+        $('#stationNumber').val($('#facility').val());
+    });
+    
+    $('#state').on('change', function() {
+        if ($('#showFacility').css('display') !== 'block') {
+        	$('#showFacility').css('display', 'block');
+        }
+        let selectedState = $('#state').val();
+        let buf = '<option value="">Select a facility</option>';
+        let facilities = facilityHelper.searchState(selectedState);
+        facilities = facilities.sort((a, b) => {
+            if(a.name < b.name) {
+                return -1;
+            }
+            if(a.name > b.name) {
+                return 1;
+            }
+            return 0;
+        });
+        facilities.forEach(facility => {
+            if(facility.class == 'VA Medical Center (VAMC)') {
+                buf += `<option value="${facility.code}">${facility.name} (${facility.code})</option>`;
+            }
+        });
+        $('#facility').html(buf);
+        if ($('#visn').val() || $('#showVisn').prop('checked')) {
+        	getVisnFacilities(facilityHelper, staticStates, true);
+        }
+        $('#stationNumber').val($('#facility').val());
+    });
+    
+    $('#facility').on('change', function() {
+    	$('#stationNumber').val($('#facility').val());
+    });
+    
+    $('#showVisn').on('change', function() {
+        if ($('#state').val()) {
+        	getVisnFacilities(facilityHelper, staticStates, true);
+        } else {
+            getVisnFacilities(facilityHelper, staticStates, false);
+        }
+        $('#stationNumber').val($('#facility').val());
+    });
+});
+</script>
+
+<div style="width: 60%; margin: auto; background-color: white; border: 1px solid black; padding: 2rem">
+    <h1>Find LEAF Site</h1>
+    <p>To begin your search, please either:</p>
+    <ul>
+        <li>Enter a station number, <strong>or</strong></li>
+        <li>Use the dropdown menus to select a facility.</li>
+    </ul>
+    <p>A list of <span style="text-decoration-line: underline; text-decoration-style: dashed; text-decoration-color: #A3A2A2; cursor: help" title="Sites with new records within the past 30 days are considered active.">active sites</span> will be provided.</p>
+    <p>VISN: <select id="visn"></select></p>
+    <p>State: <select id="state"></select></p>
+    <p id="showFacility" style="display: none;">Facility: <select id="facility"></select> <label><input type="checkbox" id="showVisn" />Show VISN Offices</label></p>
+    <p>Station Number: <input style="width: 6rem" id="stationNumber" /></p>
+    <p><button class="buttonNorm" type="button" id="search">Search</button></p>
+
+	<div id="stationSearchContainer" style="display: none; width: 80%; border: 1px solid black; padding: 1rem; background-color: rgb(255, 253, 205)">
+        <div id="progressContainer" style="width: 50%; border: 1px solid black; background-color: white; margin: auto; padding: 16px">
+            <h1 style="text-align: center">Searching <span id="countSitesContainer" style="display: none"><span id="numLoadedSites">...</span> of <span id="numTotalSites">...</span></span>...</h1>
+            <div id="loadingMessage"></div>
+            <div id="progressbar"></div>
+        </div>
+        <div id="stationSearch"></div>
+	</div>
+    <div id="notifySearchContainer" style="display: none; width: 80%; border: 1px solid black; padding: 1rem; background-color: rgb(255, 253, 205)">
+        <p>It looks like no filters have been selected.
+        <p>To help you find what you're looking for, please either:</p>
+        <ul>
+        	<li>Enter a station number, <strong>or</strong></li>
+            <li>Use the dropdown menus to select a facility.</li>
+        </ul>
+	</div>
+</div>
