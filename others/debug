@@ -1,71 +1,10 @@
-<!-- 1. Support Services
-     old: /platform/service_requests_launchpad
-     new: /launchpad/ -->
-<script>
-  window.location.replace("/launchpad/");
-</script>
-
-
-<!-- 2. Find My Site
-     old: /launchpad/report.php?a=Find_my_site
-     new: /launchpad/#find_site -->
-<script>
-  window.location.replace("/launchpad/#find_site");
-</script>
-
-
-<!-- 3. Form Library
-     old: /launchpad/report.php?a=library
-     new: /launchpad/#form_library -->
-<script>
-  window.location.replace("/launchpad/#form_library");
-</script>
-
-
-<!-- 4. Privacy Resource
-     old: /platform/privacy/report.php?a=resources
-     new: /launchpad/#privacy -->
-<script>
-  window.location.replace("/launchpad/#privacy");
-</script>
-
-
-<!-- 5. CoP
-     old: /platform/CoP
-     new: /launchpad/#cop -->
-<script>
-  window.location.replace("/launchpad/#cop");
-</script>
-
-
-<!-- 6. Help Library (search/landing)
-     old: /platform/help_library/report.php?a=Search_Help_Library
-     new: /launchpad/#help_library -->
-<script>
-  window.location.replace("/launchpad/#help_library");
-</script>
-
-
-<!-- 7. Support
-     old: /platform/support
-     new: /launchpad/ -->
-<script>
-  window.location.replace("/launchpad/");
-</script>
-
-
-<!-- ============================================================
-     old: /platform/help_library/report.php?a=View_Help_Resource#XXX
-     new: /launchpad/#help_library-article-XXX
-     ============================================================ -->
-<script>
-  // window.location.hash includes the leading "#", e.g. "#XXX"
-  var articleId = window.location.hash.substring(1);
-
-  if (articleId) {
-    window.location.replace("/launchpad/#help_library-article-" + articleId);
-  } else {
-    // Fallback if no article ID was present in the URL
-    window.location.replace("/launchpad/#help_library");
-  }
-</script>
+Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
+Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
+Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
+Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
+Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
+Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
+Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
+Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
+Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
+Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
