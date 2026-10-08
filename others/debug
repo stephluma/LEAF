@@ -1,9 +1,14 @@
 (async () => {
-  const url = "/platform/projects/api/form/query?q=" + encodeURIComponent(JSON.stringify({
-    terms: [{ id: "deleted", operator: "=", match: "0", gate: "AND" }],
-    joins: [], sort: {}, getData: [122, 123, 124, 125, 127], limit: 500, limitOffset: 0 })) +
+  const q = {
+    terms: [
+      { id: "125", operator: "!=", match: "", gate: "AND" },
+      { id: "deleted", operator: "=", match: "0", gate: "AND" }
+    ],
+    joins: [], sort: {}, getData: [122, 123, 124, 125, 127], limit: 500, limitOffset: 0
+  };
+  const url = "/platform/projects/api/form/query?q=" + encodeURIComponent(JSON.stringify(q)) +
     "&x-filterData=recordID,categoryID";
-  const rows = Object.values(await fetch(url, { credentials: "same-origin", headers: { Accept: "application/json" } }).then(r => r.json()));
+  const road = Object.values(await fetch(url, { credentials: "same-origin", headers: { Accept: "application/json" } }).then(r => r.json()));
   const val = (row, id) => {
     const k = "id" + id;
     for (const b of [row.s1, ...Object.keys(row).filter(x => /^s\d+$/.test(x) && x !== "s1").map(x => row[x]), row]) {
@@ -11,8 +16,7 @@
     }
     return "";
   };
-  const road = rows.filter(r => val(r, 125));
-  console.log("Rows scanned:", rows.length, "| with a capability (125):", road.length);
+  console.log("Records with a capability (125):", road.length);
   const byForm = {};
   road.forEach(r => { byForm[r.categoryID] = (byForm[r.categoryID] || 0) + 1; });
   console.log("Forms holding them:", byForm);
@@ -24,9 +28,9 @@
   console.log("Description (124) filled:", road.filter(r => val(r, 124)).length);
   console.log("Sample:", road.slice(0, 2).map(r => ({ cap: val(r, 125), theme: val(r, 123), fy: val(r, 122), status: val(r, 127) })));
 })();
-Promise {<pending>}[[Prototype]]: Promise[[PromiseState]]: "fulfilled"[[PromiseResult]]: undefined
-VM189:15 Rows scanned: 500 | with a capability (125): 0
-VM189:18 Forms holding them: {}
-VM189:19 (index)indicatorfilledvalues(index)indicatorfilledvalues01220''11230''21270''Array(3)0: {indicator: 122, filled: 0, values: ''}1: {indicator: 123, filled: 0, values: ''}2: {indicator: 127, filled: 0, values: ''}length: 3[[Prototype]]: Array(0)
-VM189:24 Description (124) filled: 0
-VM189:25 Sample: []
+Promise {<pending>}
+VM248:19 Records with a capability (125): 1
+VM248:22 Forms holding them: {undefined: 1}
+VM248:23 (index)indicatorfilledvalues(index)indicatorfilledvalues01220''11230''21270''Array(3)
+VM248:28 Description (124) filled: 0
+VM248:29 Sample: [{…}]
