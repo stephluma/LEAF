@@ -1,36 +1,19 @@
-(async () => {
-  const q = {
-    terms: [
-      { id: "125", operator: "!=", match: "", gate: "AND" },
-      { id: "deleted", operator: "=", match: "0", gate: "AND" }
-    ],
-    joins: [], sort: {}, getData: [122, 123, 124, 125, 127], limit: 500, limitOffset: 0
-  };
-  const url = "/platform/projects/api/form/query?q=" + encodeURIComponent(JSON.stringify(q)) +
-    "&x-filterData=recordID,categoryID";
-  const road = Object.values(await fetch(url, { credentials: "same-origin", headers: { Accept: "application/json" } }).then(r => r.json()));
-  const val = (row, id) => {
-    const k = "id" + id;
-    for (const b of [row.s1, ...Object.keys(row).filter(x => /^s\d+$/.test(x) && x !== "s1").map(x => row[x]), row]) {
-      if (b && b[k] != null && String(b[k]).trim() !== "") return String(b[k]).trim();
-    }
-    return "";
-  };
-  console.log("Records with a capability (125):", road.length);
-  const byForm = {};
-  road.forEach(r => { byForm[r.categoryID] = (byForm[r.categoryID] || 0) + 1; });
-  console.log("Forms holding them:", byForm);
-  console.table([122, 123, 127].map(id => ({
-    indicator: id,
-    filled: road.filter(r => val(r, id)).length,
-    values: [...new Set(road.map(r => val(r, id)).filter(Boolean))].slice(0, 8).join(" | ")
-  })));
-  console.log("Description (124) filled:", road.filter(r => val(r, 124)).length);
-  console.log("Sample:", road.slice(0, 2).map(r => ({ cap: val(r, 125), theme: val(r, 123), fy: val(r, 122), status: val(r, 127) })));
-})();
-Promise {<pending>}
-VM340:19 Records with a capability (125): 1
-VM340:22 Forms holding them: {undefined: 1}
-VM340:23 (index)indicatorfilledvalues(index)indicatorfilledvalues01220''11230''21270''Array(3)
-VM340:28 Description (124) filled: 0
-VM340:29 Sample: [{…}]
+fetch("/platform/projects/api/form/query?q=" + encodeURIComponent(JSON.stringify({
+  terms: [{ id: "125", operator: "!=", match: "", gate: "AND" },
+          { id: "deleted", operator: "=", match: "0", gate: "AND" }],
+  joins: [], sort: {}, getData: [122, 123, 125, 127], limit: 500, limitOffset: 0 })) +
+  "&x-filterData=recordID,categoryID", { credentials: "same-origin", headers: { Accept: "application/json" } })
+  .then(r => r.json())
+  .then(o => {
+    const rows = Object.values(o);
+    const pick = (r, id) => { const s = r.s1 || r; return s["id" + id] ?? ""; };
+    console.log("ROADMAP CHECK v2 | records with capability:", rows.length);
+    console.log("ROADMAP CHECK v2 | forms:", JSON.stringify(rows.reduce((a, r) => (a[r.categoryID] = (a[r.categoryID] || 0) + 1, a), {})));
+    [122, 123, 127].forEach(id => console.log("ROADMAP CHECK v2 | id" + id + ":", [...new Set(rows.map(r => pick(r, id)))].slice(0, 8).join(" | ")));
+  });
+Promise {<pending>, then: ƒ}
+VM41:10 ROADMAP CHECK v2 | records with capability: 1
+VM41:11 ROADMAP CHECK v2 | forms: {"undefined":1}
+VM41:12 ROADMAP CHECK v2 | id122: 
+VM41:12 ROADMAP CHECK v2 | id123: 
+VM41:12 ROADMAP CHECK v2 | id127: 
