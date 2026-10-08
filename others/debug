@@ -1,10 +1,41 @@
-Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
-Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
-Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
-Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
-Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
-Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
-Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
-Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
-Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
-Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.
+(async () => {
+  const get = (cat, ids) => fetch("/platform/projects/api/form/query?q=" +
+    encodeURIComponent(JSON.stringify({
+      terms: [{ id: "categoryID", operator: "=", match: cat, gate: "AND" },
+              { id: "deleted", operator: "=", match: "0", gate: "AND" }],
+      joins: [], sort: {}, getData: ids, limit: 500, limitOffset: 0 })),
+    { credentials: "same-origin", headers: { Accept: "application/json" } })
+    .then(r => r.json()).then(o => Object.values(o));
+  const val = (row, id) => {
+    const k = "id" + id;
+    for (const b of [row.s1, ...Object.keys(row).filter(x => /^s\d+$/.test(x) && x !== "s1").map(x => row[x]), row]) {
+      if (b && b[k] != null && String(b[k]).trim() !== "") return String(b[k]).trim();
+    }
+    return "";
+  };
+  const KR = [35, 36, 107, 108, 109, 110, 111, 112, 113, 120];
+  const krs = await get("form_6530b", KR);
+  const tasks = await get("form_9b302", [39]);
+  const projs = await get("form_55445", [37]);
+  const objs = await get("form_a2b55", [23, 24, 25, 26, 33]);
+  console.log("Key Results:", krs.length, "| Objectives:", objs.length);
+  console.table(KR.map(id => ({
+    indicator: id,
+    filled: krs.filter(r => val(r, id)).length,
+    sample: [...new Set(krs.map(r => val(r, id)).filter(Boolean))].slice(0, 4).join(" | ")
+  })));
+  const codes = new Set(krs.map(r => val(r, 109)).filter(Boolean));
+  const names = new Set(krs.map(r => val(r, 36)).filter(Boolean));
+  const links = [...tasks.map(r => val(r, 39)), ...projs.map(r => val(r, 37))].filter(Boolean);
+  console.log("Linked tasks/projects:", links.length,
+    "| match a KR code(109):", links.filter(l => codes.has(l)).length,
+    "| match a KR name(36):", links.filter(l => names.has(l)).length,
+    "| sample links:", [...new Set(links)].slice(0, 4));
+  console.log("Objective keys:", objs.slice(0, 3).map(r => val(r, 23)),
+    "| KR parent keys:", [...new Set(krs.map(r => val(r, 35)))].slice(0, 3));
+})();
+Promise {<pending>}
+VM128:21 Key Results: 67 | Objectives: 17
+VM128:22 (index)indicatorfilledsample(index)indicatorfilledsample03564'OKR-22 | OKR-25 | OKR-18 | OKR-19'13664'Improve UX/UI design of 4 Core features (e.g., for…e 100% of legacy dynicons with modern icons by Q4'210764'Metric | Binary | Milestone'310827'( No ) | Yes | No'410964'KR-62 | KR-63 | KR-64 | KR-65'511022'0 | 904 | 157 | 73.7'611115'1 | 10 | 2 | 669'711222'4 | 10 | 100 | 814'811367'( 1 ) | 1'912064'Stephanie Lumagui | Susan Schavee | Sulgeiry Gardner | Panaghis Nerantzinis'Array(10)
+VM128:30 Linked tasks/projects: 82 | match a KR code(109): 5 | match a KR name(36): 72 | sample links: (4) ['Improve UX/UI design of 4 Core features (e.g., form view, form submission, report builder) by Q4', 'Design and implement a Pilot managed services process by Q1', 'Conduct one full usability testing cycle per qtr with focus groups', 'Achieve an overall 85% CSAT across all survey responses by end of Q4']
+VM128:34 Objective keys: (3) ['OKR-18', 'OKR-19', 'OKR-21'] | KR parent keys: (3) ['', 'OKR-22', 'OKR-25']
