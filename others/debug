@@ -29,8 +29,8 @@
   console.log("Sample:", road.slice(0, 2).map(r => ({ cap: val(r, 125), theme: val(r, 123), fy: val(r, 122), status: val(r, 127) })));
 })();
 Promise {<pending>}
-VM248:19 Records with a capability (125): 1
-VM248:22 Forms holding them: {undefined: 1}
-VM248:23 (index)indicatorfilledvalues(index)indicatorfilledvalues01220''11230''21270''Array(3)
-VM248:28 Description (124) filled: 0
-VM248:29 Sample: [{…}]
+VM340:19 Records with a capability (125): 1
+VM340:22 Forms holding them: {undefined: 1}
+VM340:23 (index)indicatorfilledvalues(index)indicatorfilledvalues01220''11230''21270''Array(3)
+VM340:28 Description (124) filled: 0
+VM340:29 Sample: [{…}]
