@@ -1,12 +1,61 @@
+report.php?a=lp_events:952 [Events] Date record 5 skipped — unparseable date or time.
+(anonymous) @ report.php?a=lp_events:952
+toEvents @ report.php?a=lp_events:941
+init @ report.php?a=lp_events:1357
 fetch('/platform/events/api/form/query?q=' + encodeURIComponent(JSON.stringify({
   terms: [
-    { id: 'recordID', operator: '>', match: 0 },
+    { id: 'recordID', operator: '=', match: 5 },
     { id: 'categoryID', operator: '=', match: 'form_84fd4' }
   ],
+  getData: ['7', '8', '9', '10', '11', '12', '14', '15'],
   joins: ['status'],
-  limit: 10
+  limit: 1
 })), { credentials: 'include' })
   .then(r => r.json())
-  .then(d => console.table(Object.values(d).map(r => ({ id: r.recordID, status: r.lastStatus }))));
+  .then(d => console.log(JSON.stringify(d, null, 2)));
 Promise {<pending>, then: ƒ}
-VM42:10 (index)idstatus(index)idstatus05'Submitted'Array(1)0: {id: 5, status: 'Submitted'}length: 1[[Prototype]]: Array(0)
+VM79:11 {
+  "5": {
+    "recordID": 5,
+    "date": 1791920707,
+    "serviceID": 0,
+    "userID": "oitauslumags",
+    "title": "LEAF Demo (November 2026)",
+    "priority": 0,
+    "lastStatus": "Submitted",
+    "submitted": 1791921850,
+    "deleted": 0,
+    "isWritableUser": 0,
+    "isWritableGroup": 1,
+    "userMetadata": {
+      "email": "Stephanie.Lumagui@va.gov",
+      "lastName": "Lumagui",
+      "userName": "oitauslumags",
+      "firstName": "Stephanie",
+      "middleName": "L"
+    },
+    "categoryID": "form_84fd4",
+    "count": 1,
+    "stepID": null,
+    "blockingStepID": null,
+    "stepTitle": null,
+    "stepType": null,
+    "userName": "oitauslumags",
+    "s1": {
+      "id7": "LEAF Demo",
+      "id8": "11/05/2026",
+      "id9": "12:00 PM ET",
+      "id10": "1:00 PM ET",
+      "id11": "",
+      "id12": "no",
+      "id14": null,
+      "id15": null,
+      "id7_timestamp": 1791921847,
+      "id8_timestamp": 1791921847,
+      "id9_timestamp": 1791921847,
+      "id10_timestamp": 1791921847,
+      "id11_timestamp": 1791921847,
+      "id12_timestamp": 1791921847
+    }
+  }
+}
