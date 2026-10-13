@@ -1,1 +1,12 @@
-report.php?a=lp_events:1354 [Events] Not configured — no requests made. Unset: CONFIG.publishedStatus
+fetch('/platform/events/api/form/query?q=' + encodeURIComponent(JSON.stringify({
+  terms: [
+    { id: 'recordID', operator: '>', match: 0 },
+    { id: 'categoryID', operator: '=', match: 'form_84fd4' }
+  ],
+  joins: ['status'],
+  limit: 10
+})), { credentials: 'include' })
+  .then(r => r.json())
+  .then(d => console.table(Object.values(d).map(r => ({ id: r.recordID, status: r.lastStatus }))));
+Promise {<pending>, then: ƒ}
+VM42:10 (index)idstatus(index)idstatus05'Submitted'Array(1)0: {id: 5, status: 'Submitted'}length: 1[[Prototype]]: Array(0)
