@@ -1,6 +1,3 @@
-JSON.stringify({
-  groups: [...document.querySelectorAll('[data-groups]')].map(e => e.getAttribute('data-groups')),
-  modalLinks: document.querySelectorAll('a[data-record]').length,
-  recordLinks: document.querySelectorAll('a[href*="printview"]').length
-})
-'{"groups":["1,12,389,435,2,"],"modalLinks":274,"recordLinks":274}'
+/platform/projects/api/form/1231:1  Failed to load resource: the server responded with a status of 401 (Unauthorized)
+
+{"label":"name","identifier":"jsonIdx","items":[{"name":"Analytics Dashboard Settings","type":"form","jsonIdx":-2,"series":1,"children":[{"name":"1.1: Analytics Dashboard Setting","desc":"Analytics Dashboard Setting","type":"form_4e825","jsonIdx":"129.1","series":1,"format":"","indicatorID":129}]}]}
