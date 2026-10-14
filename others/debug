@@ -1,18 +1,6 @@
-fetch('/platform/events/api/form/query?q=' + encodeURIComponent(JSON.stringify({
-  terms: [
-    { id: 'recordID', operator: '>', match: 0 },
-    { id: 'categoryID', operator: '=', match: 'form_a5f36' }
-  ],
-  getData: ['3', '4', '5', '6'],
-  joins: ['status'],
-  limit: 20
-})), { credentials: 'include' })
-  .then(r => r.json())
-  .then(d => console.table(Object.values(d).map(r => ({
-    id: r.recordID,
-    status: r.lastStatus,
-    name: JSON.stringify(r.s1 && r.s1.id3),
-    action: JSON.stringify(r.s1 && r.s1.id6)
-  }))));
-Promise {<pending>, then: ƒ}
-VM96:11 (index)idstatusnameaction(index)idstatusnameaction01'Submitted''"LEAF Demo"''"Join Meeting"'12'Submitted''"LEAF Academy 101"''"Register for Training"'23'Submitted''"LEAF Academy 102"''"Register for Training"'34'Submitted''"LEAF Lunch &amp; Learn"''"Join Meeting"'Array(4)0: {id: 1, status: 'Submitted', name: '"LEAF Demo"', action: '"Join Meeting"'}1: {id: 2, status: 'Submitted', name: '"LEAF Academy 101"', action: '"Register for Training"'}2: {id: 3, status: 'Submitted', name: '"LEAF Academy 102"', action: '"Register for Training"'}3: {id: 4, status: 'Submitted', name: '"LEAF Lunch &amp; Learn"', action: '"Join Meeting"'}length: 4[[Prototype]]: Array(0)
+JSON.stringify({
+  groups: [...document.querySelectorAll('[data-groups]')].map(e => e.getAttribute('data-groups')),
+  modalLinks: document.querySelectorAll('a[data-record]').length,
+  recordLinks: document.querySelectorAll('a[href*="printview"]').length
+})
+'{"groups":["1,12,389,435,2,"],"modalLinks":274,"recordLinks":274}'
